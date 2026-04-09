@@ -1,7 +1,7 @@
 
 # 🗺️ Amsterdam Adventure Map
 
-**Turn the beautiful streets of Amsterdam into a real-life playground!** Tired of staring at screens while walking past 17th-century canal houses? **Amsterdam Adventure Map** is a "Screen-to-Street" hybrid workstation designed to push young explorers *off* the device and into the physical world. It’s an interactive scavenger hunt, a learning tool, and a digital journal all rolled into one. 
+**Turn the beautiful streets of Amsterdam into a real-life playground!** Tired of staring at screens while walking past 17th-century canal houses? **Amsterdam Adventure Map** is a "Screen-to-Street" app designed to push young explorers *off* the device and into the physical world. It’s an interactive scavenger hunt, a learning tool, and a digital journal all rolled into one. 
 
 No servers. No tracking. Just pure exploration. 🧭
 
