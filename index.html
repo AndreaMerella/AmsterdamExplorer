@@ -5,53 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Amsterdam Adventure Map</title>
 
-    <!--
-    =====================================================================
-    CAPACITOR SETUP GUIDE
-    =====================================================================
-
-    1. Create the project folder and copy this file into www/index.html:
-       mkdir amsterdam-adventure && cd amsterdam-adventure
-       npm init -y
-
-    2. Install Capacitor core + CLI + the Preferences plugin:
-       npm install @capacitor/core @capacitor/cli @capacitor/preferences
-
-    3. Initialise Capacitor (use your own App ID):
-       npx cap init "Amsterdam Adventure Map" com.yourdomain.amsterdamadventure --web-dir www
-
-    4. Create the www folder and copy this file there:
-       mkdir -p www
-       cp /path/to/amsterdam-adventure-map.html www/index.html
-
-    5. Add iOS platform:
-       npx cap add ios
-
-    6. Sync web assets to the native project:
-       npx cap sync ios
-
-    7. Open Xcode to build and run:
-       npx cap open ios
-
-    =====================================================================
-    INFO.PLIST — Add these keys inside the <dict> in ios/App/App/Info.plist
-    =====================================================================
-
-    <key>NSCameraUsageDescription</key>
-    <string>Amsterdam Adventure Map uses your camera so your child can photograph their discoveries during missions. All photos are saved only on this device and are never uploaded, shared, or transmitted anywhere.</string>
-
-    <key>NSPhotoLibraryAddUsageDescription</key>
-    <string>Amsterdam Adventure Map saves mission photos to your photo library so you can keep memories of your child's adventures. Photos remain entirely local on this device and are never uploaded or shared.</string>
-
-    =====================================================================
-    CAPACITOR PREFERENCES NOTE
-    =====================================================================
-    When running inside a real Capacitor build, the Capacitor object is
-    injected by the native runtime. When previewing in a browser, this
-    file falls back to a localStorage shim automatically so you can test
-    immediately by opening this file directly in Safari / Chrome.
-    =====================================================================
-    -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4fc3f7">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/854/854878.png">
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Caveat:wght@700&family=Patrick+Hand&display=swap');
@@ -502,7 +460,7 @@
         }
 
         .lightbox-close {
-            position: fixed; top: max(20px, env(safe-area-inset-top)) ; right: 20px;
+            position: fixed; top: max(20px, env(safe-area-inset-top)); right: 20px;
             background: var(--color-adventure); color: white;
             border: none; width: 44px; height: 44px;
             border-radius: 50%; font-size: 1.4em; cursor: pointer;
@@ -742,7 +700,6 @@
 </head>
 <body>
 
-    <!-- ── Moving clouds ── -->
     <div class="cloud cloud-1"></div>
     <div class="cloud cloud-2"></div>
     <div class="cloud cloud-3"></div>
@@ -750,13 +707,6 @@
     <div class="cloud cloud-5"></div>
     <div class="cloud cloud-6"></div>
 
-    <!-- ── Amsterdam canal-house skyline (SVG, fixed above tab bar) ── -->
-    <!--
-        Pure SVG silhouette of Amsterdam's famous canal houses:
-        stepped gable, neck gable, bell gable, stair gable styles.
-        Colours: warm brick reds / terracottas with dark window details.
-        The SVG tiles across the full viewport width via preserveAspectRatio="xMinYMax slice".
-    -->
     <svg class="amsterdam-skyline" xmlns="http://www.w3.org/2000/svg"
          viewBox="0 0 800 120" preserveAspectRatio="xMidYMax slice">
         <defs>
@@ -766,120 +716,77 @@
             </linearGradient>
         </defs>
 
-        <!-- Water / canal base -->
         <rect x="0" y="108" width="800" height="12" fill="url(#skyRefl)"/>
         <rect x="0" y="112" width="800" height="8" fill="rgba(30,136,229,0.28)"/>
 
-        <!-- ══ HOUSE 1: Stepped gable — tallest, dark red ══ -->
-        <!-- main body -->
         <rect x="0" y="40" width="60" height="70" fill="#b71c1c"/>
-        <!-- step gable -->
         <polygon points="0,40 60,40 55,32 50,26 44,20 38,14 30,8 22,14 16,20 10,26 5,32" fill="#c62828"/>
-        <!-- chimney -->
         <rect x="26" y="2" width="8" height="12" fill="#8d1010"/>
-        <!-- door -->
         <rect x="22" y="85" width="16" height="25" rx="2" fill="#5d4037"/>
-        <!-- windows row 1 -->
         <rect x="8"  y="50" width="12" height="14" rx="1" fill="#1565c0" opacity="0.7"/>
         <rect x="40" y="50" width="12" height="14" rx="1" fill="#1565c0" opacity="0.7"/>
-        <!-- windows row 2 -->
         <rect x="8"  y="70" width="12" height="12" rx="1" fill="#1565c0" opacity="0.5"/>
         <rect x="40" y="70" width="12" height="12" rx="1" fill="#1565c0" opacity="0.5"/>
-        <!-- window shutters -->
         <rect x="6"  y="49" width="4"  height="16" fill="#4e342e" opacity="0.6"/>
         <rect x="22" y="49" width="4"  height="16" fill="#4e342e" opacity="0.6"/>
         <rect x="38" y="49" width="4"  height="16" fill="#4e342e" opacity="0.6"/>
         <rect x="54" y="49" width="4"  height="16" fill="#4e342e" opacity="0.6"/>
 
-        <!-- ══ HOUSE 2: Bell gable — medium, orange-brick ══ -->
         <rect x="62" y="52" width="52" height="58" fill="#e64a19"/>
-        <!-- bell curve gable -->
         <path d="M62,52 Q88,22 114,52 Z" fill="#bf360c"/>
-        <!-- window in gable -->
         <ellipse cx="88" cy="44" rx="7" ry="8" fill="#1565c0" opacity="0.65"/>
-        <!-- door -->
         <rect x="79" y="88" width="14" height="22" rx="2" fill="#4e342e"/>
-        <!-- step at door -->
         <rect x="76" y="106" width="20" height="4" fill="#795548"/>
-        <!-- windows -->
         <rect x="68" y="62" width="11" height="13" rx="1" fill="#1565c0" opacity="0.6"/>
         <rect x="96" y="62" width="11" height="13" rx="1" fill="#1565c0" opacity="0.6"/>
         <rect x="68" y="80" width="11" height="10" rx="1" fill="#1565c0" opacity="0.4"/>
         <rect x="96" y="80" width="11" height="10" rx="1" fill="#1565c0" opacity="0.4"/>
-        <!-- flag / pole -->
         <line x1="88" y1="14" x2="88" y2="24" stroke="#795548" stroke-width="2"/>
         <polygon points="88,14 100,18 88,22" fill="#e53935"/>
 
-        <!-- ══ HOUSE 3: Neck gable — narrow, mustard ══ -->
         <rect x="116" y="58" width="38" height="52" fill="#f57f17"/>
-        <!-- neck (narrow top section) -->
         <rect x="126" y="38" width="18" height="22" fill="#e65100"/>
-        <!-- neck gable triangle -->
         <polygon points="124,38 152,38 135,24" fill="#bf360c"/>
-        <!-- window in neck -->
         <rect x="129" y="42" width="10" height="10" rx="1" fill="#1565c0" opacity="0.6"/>
-        <!-- hook/pulley beam (Amsterdam houses have these for moving furniture) -->
         <rect x="133" y="17" width="4" height="8" fill="#5d4037"/>
         <rect x="131" y="17" width="10" height="3" rx="1" fill="#5d4037"/>
-        <!-- door -->
         <rect x="127" y="88" width="12" height="22" rx="2" fill="#4e342e"/>
-        <!-- windows -->
         <rect x="119" y="66" width="10" height="12" rx="1" fill="#1565c0" opacity="0.55"/>
         <rect x="143" y="66" width="10" height="12" rx="1" fill="#1565c0" opacity="0.55"/>
         <rect x="119" y="82" width="10" height="10" rx="1" fill="#1565c0" opacity="0.4"/>
         <rect x="143" y="82" width="10" height="10" rx="1" fill="#1565c0" opacity="0.4"/>
 
-        <!-- ══ HOUSE 4: Stair gable — wide, terracotta ══ -->
         <rect x="156" y="46" width="68" height="64" fill="#d84315"/>
-        <!-- stair gable left side -->
         <polygon points="156,46 224,46 220,38 216,32 210,26 204,22 196,18 188,22 182,26 176,32 170,38 164,44 160,46" fill="#bf360c"/>
-        <!-- chimney -->
         <rect x="188" y="10" width="8" height="14" fill="#8d1010"/>
-        <!-- door (with arch) -->
         <path d="M182,110 L182,88 Q190,80 198,88 L198,110 Z" fill="#3e2723"/>
-        <!-- step at door -->
         <rect x="178" y="106" width="24" height="4" fill="#795548"/>
-        <!-- windows row 1 -->
         <rect x="162" y="56" width="14" height="16" rx="1" fill="#1565c0" opacity="0.6"/>
         <rect x="204" y="56" width="14" height="16" rx="1" fill="#1565c0" opacity="0.6"/>
-        <!-- window middle -->
         <rect x="183" y="56" width="14" height="16" rx="1" fill="#1565c0" opacity="0.6"/>
-        <!-- windows row 2 -->
         <rect x="162" y="78" width="14" height="13" rx="1" fill="#1565c0" opacity="0.45"/>
         <rect x="204" y="78" width="14" height="13" rx="1" fill="#1565c0" opacity="0.45"/>
-        <!-- shutters -->
         <rect x="160" y="55" width="5" height="18" fill="#4e342e" opacity="0.55"/>
         <rect x="177" y="55" width="5" height="18" fill="#4e342e" opacity="0.55"/>
 
-        <!-- ══ HOUSE 5: Simple gable — short, dark amber ══ -->
         <rect x="226" y="62" width="44" height="48" fill="#f9a825"/>
-        <!-- triangle gable -->
         <polygon points="226,62 270,62 248,44" fill="#f57f17"/>
-        <!-- window in gable -->
         <rect x="241" y="48" width="14" height="12" rx="1" fill="#1565c0" opacity="0.6"/>
-        <!-- door -->
         <rect x="240" y="88" width="14" height="22" rx="2" fill="#4e342e"/>
-        <!-- windows -->
         <rect x="230" y="70" width="12" height="14" rx="1" fill="#1565c0" opacity="0.55"/>
         <rect x="255" y="70" width="12" height="14" rx="1" fill="#1565c0" opacity="0.55"/>
 
-        <!-- ══ HOUSE 6: Stepped gable — medium, deep red ══ -->
         <rect x="272" y="50" width="56" height="60" fill="#b71c1c"/>
-        <!-- stepped gable -->
         <polygon points="272,50 328,50 323,42 317,36 310,30 300,24 290,30 283,36 277,42" fill="#c62828"/>
-        <!-- hook beam -->
         <rect x="298" y="16" width="4" height="10" fill="#5d4037"/>
         <rect x="296" y="16" width="12" height="3" rx="1" fill="#5d4037"/>
-        <!-- door -->
         <rect x="290" y="88" width="14" height="22" rx="2" fill="#3e2723"/>
         <rect x="286" y="107" width="22" height="3" fill="#795548"/>
-        <!-- windows -->
         <rect x="278" y="60" width="12" height="14" rx="1" fill="#1565c0" opacity="0.6"/>
         <rect x="310" y="60" width="12" height="14" rx="1" fill="#1565c0" opacity="0.6"/>
         <rect x="278" y="80" width="12" height="12" rx="1" fill="#1565c0" opacity="0.45"/>
         <rect x="310" y="80" width="12" height="12" rx="1" fill="#1565c0" opacity="0.45"/>
 
-        <!-- ══ HOUSE 7: Bell gable — tall, brick orange ══ -->
         <rect x="330" y="44" width="50" height="66" fill="#e64a19"/>
         <path d="M330,44 Q355,16 380,44 Z" fill="#bf360c"/>
         <ellipse cx="355" cy="36" rx="6" ry="7" fill="#1565c0" opacity="0.6"/>
@@ -889,11 +796,9 @@
         <rect x="364" y="56" width="12" height="14" rx="1" fill="#1565c0" opacity="0.6"/>
         <rect x="334" y="76" width="12" height="12" rx="1" fill="#1565c0" opacity="0.45"/>
         <rect x="364" y="76" width="12" height="12" rx="1" fill="#1565c0" opacity="0.45"/>
-        <!-- flag -->
         <line x1="355" y1="9" x2="355" y2="18" stroke="#795548" stroke-width="2"/>
         <polygon points="355,9 366,13 355,17" fill="#1e88e5"/>
 
-        <!-- ══ HOUSE 8: Neck gable — wide, sandy yellow ══ -->
         <rect x="382" y="54" width="54" height="56" fill="#fdd835"/>
         <rect x="398" y="36" width="22" height="20" fill="#f9a825"/>
         <polygon points="396,36 422,36 409,22" fill="#f57f17"/>
@@ -906,14 +811,12 @@
         <rect x="387" y="80" width="12" height="12" rx="1" fill="#1565c0" opacity="0.4"/>
         <rect x="419" y="80" width="12" height="12" rx="1" fill="#1565c0" opacity="0.4"/>
 
-        <!-- ══ HOUSE 9: Small stepped gable — terracotta ══ -->
         <rect x="438" y="60" width="40" height="50" fill="#d84315"/>
         <polygon points="438,60 478,60 474,52 468,46 458,40 448,46 442,52" fill="#bf360c"/>
         <rect x="452" y="88" width="12" height="22" rx="2" fill="#3e2723"/>
         <rect x="442" y="68" width="11" height="13" rx="1" fill="#1565c0" opacity="0.55"/>
         <rect x="466" y="68" width="11" height="13" rx="1" fill="#1565c0" opacity="0.55"/>
 
-        <!-- ══ HOUSE 10: Big stepped gable — dark brick ══ -->
         <rect x="480" y="42" width="62" height="68" fill="#b71c1c"/>
         <polygon points="480,42 542,42 537,34 531,28 524,22 511,16 498,22 491,28 485,34" fill="#c62828"/>
         <rect x="509" y="8" width="8" height="12" fill="#8d1010"/>
@@ -925,7 +828,6 @@
         <rect x="519" y="73" width="13" height="13" rx="1" fill="#1565c0" opacity="0.45"/>
         <rect x="502" y="52" width="13" height="15" rx="1" fill="#1565c0" opacity="0.6"/>
 
-        <!-- ══ HOUSE 11: Bell gable — slim, orange ══ -->
         <rect x="544" y="56" width="44" height="54" fill="#e64a19"/>
         <path d="M544,56 Q566,30 588,56 Z" fill="#bf360c"/>
         <ellipse cx="566" cy="47" rx="5" ry="6" fill="#1565c0" opacity="0.6"/>
@@ -933,7 +835,6 @@
         <rect x="548" y="66" width="11" height="13" rx="1" fill="#1565c0" opacity="0.6"/>
         <rect x="576" y="66" width="11" height="13" rx="1" fill="#1565c0" opacity="0.6"/>
 
-        <!-- ══ HOUSE 12: Triangle gable — mustard ══ -->
         <rect x="590" y="58" width="46" height="52" fill="#f57f17"/>
         <polygon points="590,58 636,58 613,38" fill="#e65100"/>
         <rect x="607" y="44" width="12" height="12" rx="1" fill="#1565c0" opacity="0.6"/>
@@ -941,7 +842,6 @@
         <rect x="594" y="66" width="12" height="14" rx="1" fill="#1565c0" opacity="0.55"/>
         <rect x="622" y="66" width="12" height="14" rx="1" fill="#1565c0" opacity="0.55"/>
 
-        <!-- ══ HOUSE 13: Stepped gable — deep brown ══ -->
         <rect x="638" y="48" width="58" height="62" fill="#6d4c41"/>
         <polygon points="638,48 696,48 691,40 685,34 678,28 667,22 656,28 649,34 643,40" fill="#5d4037"/>
         <rect x="665" y="14" width="8" height="12" fill="#4e342e"/>
@@ -951,11 +851,9 @@
         <rect x="677" y="58" width="13" height="15" rx="1" fill="#1565c0" opacity="0.6"/>
         <rect x="642" y="78" width="13" height="13" rx="1" fill="#1565c0" opacity="0.45"/>
         <rect x="677" y="78" width="13" height="13" rx="1" fill="#1565c0" opacity="0.45"/>
-        <!-- hook beam -->
         <rect x="667" y="6" width="4" height="10" fill="#795548"/>
         <rect x="665" y="6" width="10" height="3" rx="1" fill="#795548"/>
 
-        <!-- ══ HOUSE 14: Small bell gable — bright red ══ -->
         <rect x="698" y="62" width="40" height="48" fill="#e53935"/>
         <path d="M698,62 Q718,40 738,62 Z" fill="#c62828"/>
         <ellipse cx="718" cy="54" rx="5" ry="6" fill="#1565c0" opacity="0.6"/>
@@ -963,7 +861,6 @@
         <rect x="702" y="70" width="11" height="13" rx="1" fill="#1565c0" opacity="0.55"/>
         <rect x="725" y="70" width="11" height="13" rx="1" fill="#1565c0" opacity="0.55"/>
 
-        <!-- ══ HOUSE 15: Neck gable — closes right edge ══ -->
         <rect x="740" y="55" width="60" height="55" fill="#f9a825"/>
         <rect x="754" y="36" width="24" height="21" fill="#f57f17"/>
         <polygon points="752,36 780,36 766,20" fill="#e65100"/>
@@ -974,16 +871,11 @@
         <rect x="744" y="63" width="12" height="14" rx="1" fill="#1565c0" opacity="0.55"/>
         <rect x="774" y="63" width="12" height="14" rx="1" fill="#1565c0" opacity="0.55"/>
 
-        <!-- Ground / canal bank -->
         <rect x="0" y="108" width="800" height="12" fill="#33691e" opacity="0.25"/>
     </svg>
 
-    <!-- Canal water shimmer strip -->
     <div class="canal-strip"></div>
 
-    <!-- ═══════════════════════════════════════════════════════════
-         ONBOARDING OVERLAY — shown on first launch
-    ═══════════════════════════════════════════════════════════════ -->
     <div class="onboarding-overlay" id="onboardingOverlay">
         <div class="onboarding-card">
             <div style="font-size:4em; margin-bottom:12px;">🗺️</div>
@@ -1001,19 +893,14 @@
         </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════════════════════
-         MAIN APP
-    ═══════════════════════════════════════════════════════════════ -->
     <div class="container" id="mainApp">
 
-        <!-- Header -->
         <div class="header">
             <h1>🗺️ Amsterdam Adventure</h1>
             <div class="subtitle">Ontdek Amsterdam • Discover Amsterdam</div>
             <div id="modeBadge" class="mode-badge" style="display:none;"></div>
         </div>
 
-        <!-- Explorer Profile -->
         <div class="explorer-card">
             <div class="explorer-avatar" id="explorerAvatar">🧭</div>
             <div class="explorer-info">
@@ -1027,7 +914,6 @@
             </div>
         </div>
 
-        <!-- Screen Time Reminder -->
         <div class="gentle-reminder" id="screenReminder" style="display:none;">
             <button class="reminder-dismiss" onclick="dismissReminder()" aria-label="Dismiss">✖</button>
             <div class="reminder-title"><span>⏰</span><span>Time for a real adventure!</span></div>
@@ -1037,7 +923,6 @@
             </div>
         </div>
 
-        <!-- Map Tab -->
         <div id="mapTab" class="tab-content active">
             <div class="map-container">
                 <div class="map-title"><span>🗺️</span><span>Unlock Amsterdam</span></div>
@@ -1045,7 +930,6 @@
             </div>
         </div>
 
-        <!-- Missions Tab -->
         <div id="missionsTab" class="tab-content">
             <div class="map-container">
                 <div class="map-title"><span>🎯</span><span>Your Missions</span></div>
@@ -1053,7 +937,6 @@
             </div>
         </div>
 
-        <!-- Skills Tab -->
         <div id="skillsTab" class="tab-content">
             <div class="map-container">
                 <div class="map-title"><span>🏆</span><span>Your Skills • Jouw Vaardigheden</span></div>
@@ -1061,7 +944,6 @@
             </div>
         </div>
 
-        <!-- Journal Tab -->
         <div id="journalTab" class="tab-content">
             <div class="map-container">
                 <div class="map-title"><span>📸</span><span>Discovery Journal • Dagboek</span></div>
@@ -1076,7 +958,6 @@
             </div>
         </div>
 
-        <!-- Parent Tab -->
         <div id="parentTab" class="tab-content">
             <div class="parent-section">
                 <div class="parent-title">🔒 Parent Controls • Ouder Instellingen</div>
@@ -1158,10 +1039,7 @@
             </div>
         </div>
 
-    </div><!-- /container -->
-
-    <!-- Fixed Bottom Tab Nav (iOS style) -->
-    <nav class="tab-nav">
+    </div><nav class="tab-nav">
         <button class="tab-btn active" id="tabBtn-map" onclick="switchTab('map', this)">
             <span class="tab-icon">🗺️</span>Map
         </button>
@@ -1179,7 +1057,6 @@
         </button>
     </nav>
 
-    <!-- Mission Detail Modal -->
     <div class="modal" id="missionModal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal()">×</button>
@@ -1187,13 +1064,11 @@
         </div>
     </div>
 
-    <!-- Lightbox -->
     <div class="lightbox" id="lightbox">
         <button class="lightbox-close" onclick="closeLightbox()">✕</button>
         <img src="" alt="Photo" class="lightbox-img" id="lightboxImg">
     </div>
 
-    <!-- Celebration Popup -->
     <div class="celebration" id="celebration">
         <div class="celebration-icon" id="celebrationIcon">🎉</div>
         <div class="celebration-title" id="celebrationTitle">Amazing!</div>
@@ -1201,7 +1076,6 @@
         <div class="celebration-reward" id="celebrationReward"></div>
     </div>
 
-    <!-- Hidden canvas used for photo compression -->
     <canvas id="compressCanvas" style="display:none;"></canvas>
 
     <script>
@@ -1309,8 +1183,8 @@
             titleNL: 'Leer 10 woorden over water',
             titleEN: 'Learn 10 water words in Dutch',
             icon: '💧',
-            instructionsNL: 'Leer deze woorden: kanaal, brug, boot, water, rivier, gracht, sluis, haven, eiland, oever. Zeg ze hardop terwijl je langs het water loopt!',
-            instructionsEN: 'Learn these words: kanaal (canal), brug (bridge), boot (boat), water, rivier (river), gracht (canal), sluis (lock), haven (harbour), eiland (island), oever (bank). Say them as you walk by the water!',
+            instructionsNL: 'Leer deze woorden: kanaal, brug, boot, water, rivier, gracht, sluis, haven, eiland, oever. Zeg ze hardop terwijl je loopt!',
+            instructionsEN: 'Learn these words: kanaal (canal), brug (bridge), boot (boat), water, rivier (river), gracht (canal), sluis (lock), haven (harbour), eiland (island), oever (bank). Say them out loud!',
             skills: ['language'], unlocks: 'Language Master point 🗣️'
         },
         {
@@ -1327,7 +1201,7 @@
             titleNL: 'Fotografeer de deur van Ons Lieve Heer op Solder',
             titleEN: 'Photograph the door to the secret attic church',
             icon: '⛪',
-            instructionsNL: 'Ga naar Oudezijds Voorburgwal 40. Van buiten lijkt het een gewoon grachtenhuis, maar erin verberg zich een complete kerk van de 17e eeuw — gebouwd op de zoldervloer! Maak een foto van de gewone voordeur.',
+            instructionsNL: 'Ga naar Oudezijds Voorburgwal 40. Van buiten lijkt het een gewoon grachtenhuis, maar erin verbergt zich een complete kerk van de 17e eeuw — gebouwd op de zoldervloer! Maak een foto van de gewone voordeur.',
             instructionsEN: 'Go to Oudezijds Voorburgwal 40. From the outside it looks like an ordinary canal house, but inside it hides a complete 17th-century church — built on the attic floor! Photograph the ordinary-looking front door.',
             skills: ['explorer', 'language'], unlocks: 'Secret History badge 🕵️'
         },
@@ -1367,7 +1241,7 @@
             titleNL: 'De Geheime Dierentuin',
             titleEN: 'The Secret Zoo',
             icon: '🦒',
-            instructionsNL: 'Dit is het geheime geheim van Amsterdam! Wandel naar het Entrepotdok en kijk over het water naar Artis Zoo. Je kunt giraffen, vlaamse rapen en meer dieren spotten — helemaal GRATIS! Het is zo dichtbij dat je de dieren goed kunt zien. Maak een foto van welk dier je kunt zien!',
+            instructionsNL: 'Dit is het geheime geheim van Amsterdam! Wandel naar het Entrepotdok en kijk over het water naar Artis Zoo. Je kunt giraffen, flamingo\'s en meer dieren spotten — helemaal GRATIS! Het is zo dichtbij dat je de dieren goed kunt zien. Maak een foto van welk dier je kunt zien!',
             instructionsEN: 'This is Amsterdam\'s best-kept secret! Walk to the Entrepotdok canal and look across the water towards Artis Zoo. You can spot giraffes, flamingos and more animals — completely FREE! It\'s so close you can see them clearly. Take a photo of which animal you can spot!',
             skills: ['explorer', 'nature'], unlocks: 'Secret Zoo Scout badge 🦩'
         },
@@ -2093,6 +1967,17 @@
     document.addEventListener('deviceready', () => {
         loadState();
     }, false);
+
+    // ═══════════════════════════════════════════════════════════════
+    //  PWA SERVICE WORKER REGISTRATION
+    // ═══════════════════════════════════════════════════════════════
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw.js')
+                .then(registration => console.log('ServiceWorker registered with scope:', registration.scope))
+                .catch(error => console.error('ServiceWorker registration failed:', error));
+        });
+    }
 
     </script>
 </body>
