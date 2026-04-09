@@ -1,0 +1,2099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Amsterdam Adventure Map</title>
+
+    <!--
+    =====================================================================
+    CAPACITOR SETUP GUIDE
+    =====================================================================
+
+    1. Create the project folder and copy this file into www/index.html:
+       mkdir amsterdam-adventure && cd amsterdam-adventure
+       npm init -y
+
+    2. Install Capacitor core + CLI + the Preferences plugin:
+       npm install @capacitor/core @capacitor/cli @capacitor/preferences
+
+    3. Initialise Capacitor (use your own App ID):
+       npx cap init "Amsterdam Adventure Map" com.yourdomain.amsterdamadventure --web-dir www
+
+    4. Create the www folder and copy this file there:
+       mkdir -p www
+       cp /path/to/amsterdam-adventure-map.html www/index.html
+
+    5. Add iOS platform:
+       npx cap add ios
+
+    6. Sync web assets to the native project:
+       npx cap sync ios
+
+    7. Open Xcode to build and run:
+       npx cap open ios
+
+    =====================================================================
+    INFO.PLIST — Add these keys inside the <dict> in ios/App/App/Info.plist
+    =====================================================================
+
+    <key>NSCameraUsageDescription</key>
+    <string>Amsterdam Adventure Map uses your camera so your child can photograph their discoveries during missions. All photos are saved only on this device and are never uploaded, shared, or transmitted anywhere.</string>
+
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Amsterdam Adventure Map saves mission photos to your photo library so you can keep memories of your child's adventures. Photos remain entirely local on this device and are never uploaded or shared.</string>
+
+    =====================================================================
+    CAPACITOR PREFERENCES NOTE
+    =====================================================================
+    When running inside a real Capacitor build, the Capacitor object is
+    injected by the native runtime. When previewing in a browser, this
+    file falls back to a localStorage shim automatically so you can test
+    immediately by opening this file directly in Safari / Chrome.
+    =====================================================================
+    -->
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Caveat:wght@700&family=Patrick+Hand&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            /* Disable text selection and magnifying glass for iOS native feel */
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            user-select: none;
+        }
+
+        /* Allow text selection inside inputs/textareas */
+        input, textarea {
+            -webkit-user-select: text;
+            user-select: text;
+        }
+
+        :root {
+            --color-water: #3498db;
+            --color-land: #27ae60;
+            --color-adventure: #e74c3c;
+            --color-treasure: #f39c12;
+            --color-magic: #9b59b6;
+            --color-paper: #fef5e7;
+            --color-ink: #2c3e50;
+            --color-unlock: #1abc9c;
+            --tab-height: 70px;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            /* Dutch daytime sky */
+            background: linear-gradient(180deg,
+                #4fc3f7 0%,
+                #81d4fa 35%,
+                #b3e5fc 60%,
+                #c8ece5 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            padding-bottom: calc(var(--tab-height) + env(safe-area-inset-bottom, 0px));
+        }
+
+        /* ── CSS Clouds ── */
+        .cloud {
+            position: fixed;
+            background: rgba(255,255,255,0.82);
+            border-radius: 100px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .cloud::before,
+        .cloud::after {
+            content: '';
+            position: absolute;
+            background: rgba(255,255,255,0.82);
+            border-radius: 50%;
+        }
+
+        /* Cloud 1 — small, fast */
+        .cloud-1 {
+            width: 90px; height: 32px;
+            top: 8%;
+            animation: float-cloud 45s linear infinite;
+        }
+        .cloud-1::before { width: 44px; height: 44px; top: -22px; left: 8px; }
+        .cloud-1::after  { width: 52px; height: 36px; top: -14px; right: 8px; }
+
+        /* Cloud 2 — medium */
+        .cloud-2 {
+            width: 130px; height: 46px;
+            top: 18%;
+            animation: float-cloud 72s linear infinite;
+            animation-delay: -18s;
+        }
+        .cloud-2::before { width: 62px; height: 62px; top: -30px; left: 14px; }
+        .cloud-2::after  { width: 70px; height: 50px; top: -20px; right: 14px; }
+
+        /* Cloud 3 — large, slow */
+        .cloud-3 {
+            width: 180px; height: 60px;
+            top: 6%;
+            animation: float-cloud 95s linear infinite;
+            animation-delay: -40s;
+        }
+        .cloud-3::before { width: 80px; height: 80px; top: -38px; left: 20px; }
+        .cloud-3::after  { width: 90px; height: 64px; top: -26px; right: 20px; }
+
+        /* Cloud 4 — tiny wisp */
+        .cloud-4 {
+            width: 65px; height: 24px;
+            top: 28%;
+            animation: float-cloud 38s linear infinite;
+            animation-delay: -10s;
+        }
+        .cloud-4::before { width: 30px; height: 30px; top: -14px; left: 6px; }
+        .cloud-4::after  { width: 36px; height: 26px; top: -10px; right: 6px; }
+
+        /* Cloud 5 — medium, mid-screen */
+        .cloud-5 {
+            width: 115px; height: 40px;
+            top: 22%;
+            animation: float-cloud 60s linear infinite;
+            animation-delay: -30s;
+        }
+        .cloud-5::before { width: 52px; height: 52px; top: -26px; left: 12px; }
+        .cloud-5::after  { width: 60px; height: 44px; top: -18px; right: 12px; }
+
+        /* Cloud 6 — large background cloud */
+        .cloud-6 {
+            width: 200px; height: 68px;
+            top: 14%;
+            animation: float-cloud 110s linear infinite;
+            animation-delay: -55s;
+            opacity: 0.55;
+        }
+        .cloud-6::before { width: 90px; height: 90px; top: -44px; left: 22px; }
+        .cloud-6::after  { width: 100px; height: 72px; top: -30px; right: 22px; }
+
+        @keyframes float-cloud {
+            from { transform: translateX(-260px); }
+            to   { transform: translateX(calc(100vw + 260px)); }
+        }
+
+        /* ── Amsterdam Canal House Skyline (fixed, bottom) ── */
+        .amsterdam-skyline {
+            position: fixed;
+            bottom: var(--tab-height);
+            left: 0; right: 0;
+            width: 100%;
+            height: 120px;
+            pointer-events: none;
+            z-index: 1;
+            /* Push behind card content but above body */
+        }
+
+        /* Slight canal water reflection strip */
+        .canal-strip {
+            position: fixed;
+            bottom: var(--tab-height);
+            left: 0; right: 0;
+            height: 14px;
+            background: linear-gradient(180deg, rgba(30,136,229,0.55) 0%, rgba(30,136,229,0.25) 100%);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            /* Safe-area top padding (notch guard) */
+            padding: max(20px, env(safe-area-inset-top)) 20px 20px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ── Header ── */
+        .header {
+            background: var(--color-paper);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 4px solid #8b4513;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '🗺️';
+            position: absolute;
+            top: -20px; right: -20px;
+            font-size: 120px;
+            opacity: 0.1;
+            transform: rotate(15deg);
+        }
+
+        .header h1 {
+            font-size: 2em;
+            color: var(--color-adventure);
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-family: 'Patrick Hand', cursive;
+            font-size: 1em;
+            color: var(--color-ink);
+            opacity: 0.8;
+        }
+
+        /* ── Age/Mode badge ── */
+        .mode-badge {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.78em;
+            font-weight: 700;
+            color: white;
+            background: var(--color-magic);
+        }
+        .mode-badge.young { background: var(--color-land); }
+        .mode-badge.teen  { background: var(--color-adventure); }
+
+        /* ── Explorer Profile ── */
+        .explorer-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .explorer-avatar {
+            width: 80px; height: 80px;
+            background: linear-gradient(135deg, var(--color-treasure) 0%, var(--color-adventure) 100%);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.5em;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            flex-shrink: 0;
+        }
+
+        .explorer-info { flex: 1; }
+
+        .explorer-name {
+            font-size: 1.3em; font-weight: 700;
+            color: var(--color-ink); margin-bottom: 5px;
+        }
+
+        .explorer-title {
+            font-size: 0.9em; color: var(--color-magic);
+            font-weight: 600; margin-bottom: 10px;
+        }
+
+        .explorer-stats { display: flex; gap: 15px; flex-wrap: wrap; }
+
+        .stat-badge {
+            background: linear-gradient(135deg, var(--color-unlock) 0%, var(--color-water) 100%);
+            padding: 5px 12px; border-radius: 20px;
+            font-size: 0.75em; color: white; font-weight: 600;
+            display: flex; align-items: center; gap: 5px;
+        }
+
+        /* ── Map ── */
+        .map-container {
+            background: var(--color-paper);
+            border-radius: 20px; padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 4px solid #8b4513;
+        }
+
+        .map-title {
+            font-size: 1.5em; color: var(--color-adventure);
+            margin-bottom: 15px; font-weight: 700;
+            display: flex; align-items: center; gap: 10px;
+        }
+
+        .map-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px; margin-bottom: 20px;
+        }
+
+        .map-region {
+            background: white; border-radius: 15px; padding: 20px;
+            text-align: center; box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            cursor: pointer; transition: all 0.3s ease;
+            border: 3px solid transparent; position: relative; overflow: hidden;
+        }
+
+        .map-region.unlocked { border-color: var(--color-unlock); }
+
+        .map-region.locked {
+            opacity: 0.6;
+            background: linear-gradient(135deg, #ecf0f1 0%, #bdc3c7 100%);
+        }
+
+        .map-region:active:not(.locked) {
+            transform: scale(0.97);
+        }
+
+        .region-icon { font-size: 3em; margin-bottom: 10px; display: block; }
+        .region-icon.locked-icon { filter: grayscale(100%); }
+        .region-name { font-size: 1.1em; font-weight: 700; color: var(--color-ink); margin-bottom: 5px; }
+        .region-name-en { font-size: 0.85em; color: #7f8c8d; margin-bottom: 10px; }
+        .region-progress { font-size: 0.75em; color: var(--color-unlock); font-weight: 600; }
+        .lock-overlay {
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%); font-size: 2em;
+        }
+
+        /* ── Fixed bottom tab navigation (iOS style) ── */
+        .tab-nav {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            height: var(--tab-height);
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+            display: flex;
+            background: white;
+            border-top: 1px solid rgba(0,0,0,0.15);
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+            z-index: 500;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 8px 4px 4px 4px;
+            background: transparent; border: none;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.65em; font-weight: 600;
+            cursor: pointer; transition: all 0.2s ease;
+            color: #7f8c8d;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 2px;
+        }
+
+        .tab-btn .tab-icon { font-size: 1.8em; line-height: 1; }
+
+        .tab-btn.active { color: var(--color-adventure); }
+        .tab-btn.active .tab-icon { transform: translateY(-2px); }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* ── Mission Cards ── */
+        .mission-list { display: flex; flex-direction: column; gap: 15px; }
+
+        .mission-card {
+            background: white; border-radius: 15px; padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 6px solid var(--color-water);
+            cursor: pointer; transition: all 0.3s ease; position: relative;
+        }
+
+        .mission-card:active { transform: scale(0.98); }
+        .mission-card.builder { border-left-color: var(--color-treasure); }
+        .mission-card.outdoor { border-left-color: var(--color-land); }
+        .mission-card.language { border-left-color: var(--color-magic); }
+        .mission-card.culture { border-left-color: #e67e22; }
+        .mission-card.completed {
+            opacity: 0.7;
+            background: linear-gradient(135deg, #d5f4e6 0%, #80ffb3 100%);
+        }
+
+        .mission-header {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .mission-type-badge {
+            display: inline-block; padding: 5px 12px;
+            border-radius: 20px; font-size: 0.7em; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.5px; color: white;
+        }
+
+        .mission-type-badge.builder  { background: var(--color-treasure); }
+        .mission-type-badge.outdoor  { background: var(--color-land); }
+        .mission-type-badge.language { background: var(--color-magic); }
+        .mission-type-badge.culture  { background: #e67e22; }
+
+        .age-badge {
+            display: inline-block; padding: 3px 9px;
+            border-radius: 20px; font-size: 0.65em; font-weight: 700;
+            color: white; margin-left: 6px;
+        }
+        .age-badge.young { background: var(--color-land); }
+        .age-badge.teen  { background: var(--color-adventure); }
+        .age-badge.all   { background: var(--color-water); }
+
+        .mission-icon { font-size: 2em; }
+        .mission-title { font-size: 1.1em; font-weight: 700; color: var(--color-ink); margin-bottom: 5px; }
+        .mission-title-en { font-size: 0.9em; color: #7f8c8d; margin-bottom: 10px; }
+        .mission-reward {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.85em; color: var(--color-unlock);
+            font-weight: 600; margin-top: 10px;
+        }
+
+        /* ── Skills ── */
+        .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+
+        .skill-card {
+            background: white; border-radius: 15px; padding: 20px;
+            text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .skill-icon { font-size: 3em; margin-bottom: 10px; }
+        .skill-name { font-size: 1em; font-weight: 700; color: var(--color-ink); margin-bottom: 8px; }
+        .skill-level { font-size: 0.85em; color: var(--color-magic); font-weight: 600; margin-bottom: 10px; }
+        .skill-progress-bar { height: 8px; background: #ecf0f1; border-radius: 10px; overflow: hidden; }
+        .skill-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-unlock) 0%, var(--color-land) 100%);
+            transition: width 0.5s ease;
+        }
+
+        /* ── Discovery Journal ── */
+        .journal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 12px;
+        }
+
+        .journal-entry {
+            background: white; border-radius: 12px;
+            overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            cursor: pointer; transition: all 0.3s ease;
+        }
+
+        .journal-entry:active { transform: scale(0.96); }
+
+        .journal-photo {
+            width: 100%; aspect-ratio: 1;
+            object-fit: cover; display: block;
+        }
+
+        .journal-caption {
+            padding: 8px; font-size: 0.75em;
+            color: var(--color-ink); text-align: center;
+        }
+
+        /* ── Lightbox ── */
+        .lightbox {
+            display: none; position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.93);
+            z-index: 3000;
+            align-items: center; justify-content: center;
+            padding: 20px;
+        }
+        .lightbox.active { display: flex; }
+
+        .lightbox-img {
+            max-width: 100%; max-height: 90vh;
+            border-radius: 12px;
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: fixed; top: max(20px, env(safe-area-inset-top)) ; right: 20px;
+            background: var(--color-adventure); color: white;
+            border: none; width: 44px; height: 44px;
+            border-radius: 50%; font-size: 1.4em; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+
+        /* ── Mission Modal ── */
+        .modal {
+            display: none; position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000; align-items: center; justify-content: center;
+            padding: 20px; animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active { display: flex; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .modal-content {
+            background: white; border-radius: 20px; padding: 30px;
+            max-width: 500px; width: 100%;
+            max-height: 88vh; overflow-y: auto;
+            position: relative; animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to   { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-close {
+            position: absolute; top: 15px; right: 15px;
+            background: var(--color-adventure); color: white;
+            border: none; width: 40px; height: 40px;
+            border-radius: 50%; font-size: 1.5em; cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* ── Buttons ── */
+        .btn {
+            background: linear-gradient(135deg, var(--color-adventure) 0%, #c0392b 100%);
+            color: white; border: none; padding: 15px 30px;
+            border-radius: 25px; font-size: 1.1em; font-weight: 600;
+            cursor: pointer; transition: all 0.3s ease;
+            font-family: 'Fredoka', sans-serif;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: inline-block; text-align: center;
+        }
+
+        .btn:active { transform: scale(0.97); }
+        .btn-full { width: 100%; margin-top: 15px; }
+        .btn-secondary { background: linear-gradient(135deg, var(--color-unlock) 0%, var(--color-water) 100%); }
+
+        /* ── Camera section ── */
+        .camera-section {
+            margin: 20px 0; padding: 20px;
+            background: var(--color-paper); border-radius: 15px;
+            border: 3px dashed #8b4513;
+        }
+
+        .photo-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px; margin-top: 15px;
+        }
+
+        .photo-item {
+            position: relative; aspect-ratio: 1;
+            border-radius: 10px; overflow: hidden;
+            border: 2px solid #8b4513;
+        }
+
+        .photo-item img {
+            width: 100%; height: 100%;
+            object-fit: cover; display: block;
+        }
+
+        .photo-remove {
+            position: absolute; top: 5px; right: 5px;
+            background: var(--color-adventure); color: white;
+            border: none; width: 28px; height: 28px;
+            border-radius: 50%; font-size: 0.9em; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* ── Celebration ── */
+        .celebration {
+            position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: white; padding: 40px;
+            border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            z-index: 2000; text-align: center;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            max-width: 400px; width: calc(100% - 40px);
+        }
+
+        .celebration.show { transform: translate(-50%, -50%) scale(1); }
+        .celebration-icon { font-size: 5em; margin-bottom: 20px; animation: bounce 0.6s ease infinite; }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(-20px); }
+        }
+
+        .celebration-title { font-size: 1.8em; color: var(--color-adventure); margin-bottom: 15px; font-weight: 700; }
+        .celebration-text  { font-size: 1.1em; color: var(--color-ink); margin-bottom: 10px; }
+        .celebration-reward {
+            background: linear-gradient(135deg, var(--color-treasure) 0%, var(--color-adventure) 100%);
+            color: white; padding: 15px; border-radius: 15px;
+            margin-top: 20px; font-size: 1em; font-weight: 600;
+        }
+
+        /* ── Screen Time Reminder ── */
+        .gentle-reminder {
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe6cc 100%);
+            border-radius: 15px; padding: 20px; margin-bottom: 20px;
+            border-left: 6px solid var(--color-treasure);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .reminder-dismiss {
+            position: absolute; top: 12px; right: 12px;
+            background: var(--color-treasure); color: white;
+            border: none; width: 30px; height: 30px;
+            border-radius: 50%; font-size: 0.85em; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700;
+        }
+
+        .reminder-title {
+            font-size: 1.1em; font-weight: 700; color: var(--color-ink);
+            margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+            padding-right: 30px;
+        }
+
+        .reminder-text { font-size: 0.9em; color: #5d4037; line-height: 1.6; }
+
+        /* ── Empty states ── */
+        .empty-state { text-align: center; padding: 40px 20px; color: #7f8c8d; }
+        .empty-icon  { font-size: 4em; margin-bottom: 15px; opacity: 0.5; }
+
+        /* ── Parent Controls ── */
+        .parent-section {
+            background: white; border-radius: 15px; padding: 20px;
+            margin-bottom: 15px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .parent-title { font-size: 1.2em; font-weight: 700; color: var(--color-ink); margin-bottom: 15px; }
+
+        .parent-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 0; border-bottom: 1px solid #ecf0f1; flex-wrap: wrap; gap: 8px;
+        }
+
+        .parent-row:last-child { border-bottom: none; }
+
+        input[type="text"], input[type="number"], textarea, select {
+            padding: 10px; border: 2px solid #8b4513; border-radius: 10px;
+            font-family: 'Fredoka', sans-serif; font-size: 1em;
+        }
+
+        textarea { width: 100%; min-height: 80px; resize: vertical; }
+
+        /* ── Onboarding Screen ── */
+        .onboarding-overlay {
+            display: none; position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            z-index: 9000; align-items: center; justify-content: center;
+            padding: 30px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .onboarding-overlay.active { display: flex; }
+
+        .onboarding-card {
+            background: var(--color-paper);
+            border-radius: 24px; padding: 36px 28px;
+            max-width: 480px; width: 100%;
+            text-align: center;
+            border: 4px solid #8b4513;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+
+        .onboarding-title {
+            font-size: 2em; color: var(--color-adventure);
+            font-weight: 700; margin-bottom: 8px;
+        }
+
+        .onboarding-sub {
+            font-family: 'Patrick Hand', cursive;
+            font-size: 1.05em; color: var(--color-ink);
+            opacity: 0.8; margin-bottom: 28px;
+        }
+
+        .onboarding-prompt {
+            font-size: 1.15em; font-weight: 700; color: var(--color-ink);
+            margin-bottom: 20px;
+        }
+
+        .profile-btn {
+            display: block; width: 100%; margin: 12px 0;
+            padding: 20px; border-radius: 18px; border: none;
+            font-family: 'Fredoka', sans-serif; font-size: 1.2em;
+            font-weight: 700; cursor: pointer; transition: all 0.2s ease;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        .profile-btn.explorer {
+            background: linear-gradient(135deg, var(--color-land) 0%, var(--color-unlock) 100%);
+            color: white;
+        }
+
+        .profile-btn.agent {
+            background: linear-gradient(135deg, var(--color-adventure) 0%, var(--color-magic) 100%);
+            color: white;
+        }
+
+        .profile-btn:active { transform: scale(0.97); }
+
+        /* ── Responsive ── */
+        @media (max-width: 600px) {
+            .map-grid      { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .skills-grid   { grid-template-columns: 1fr 1fr; }
+            .tab-btn       { font-size: 0.6em; }
+        }
+
+        @media (max-width: 380px) {
+            .map-grid      { grid-template-columns: 1fr; }
+            .skills-grid   { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ── Moving clouds ── -->
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="cloud cloud-3"></div>
+    <div class="cloud cloud-4"></div>
+    <div class="cloud cloud-5"></div>
+    <div class="cloud cloud-6"></div>
+
+    <!-- ── Amsterdam canal-house skyline (SVG, fixed above tab bar) ── -->
+    <!--
+        Pure SVG silhouette of Amsterdam's famous canal houses:
+        stepped gable, neck gable, bell gable, stair gable styles.
+        Colours: warm brick reds / terracottas with dark window details.
+        The SVG tiles across the full viewport width via preserveAspectRatio="xMinYMax slice".
+    -->
+    <svg class="amsterdam-skyline" xmlns="http://www.w3.org/2000/svg"
+         viewBox="0 0 800 120" preserveAspectRatio="xMidYMax slice">
+        <defs>
+            <linearGradient id="skyRefl" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#90caf9" stop-opacity="0.18"/>
+                <stop offset="100%" stop-color="#1e88e5" stop-opacity="0.35"/>
+            </linearGradient>
+        </defs>
+
+        <!-- Water / canal base -->
+        <rect x="0" y="108" width="800" height="12" fill="url(#skyRefl)"/>
+        <rect x="0" y="112" width="800" height="8" fill="rgba(30,136,229,0.28)"/>
+
+        <!-- ══ HOUSE 1: Stepped gable — tallest, dark red ══ -->
+        <!-- main body -->
+        <rect x="0" y="40" width="60" height="70" fill="#b71c1c"/>
+        <!-- step gable -->
+        <polygon points="0,40 60,40 55,32 50,26 44,20 38,14 30,8 22,14 16,20 10,26 5,32" fill="#c62828"/>
+        <!-- chimney -->
+        <rect x="26" y="2" width="8" height="12" fill="#8d1010"/>
+        <!-- door -->
+        <rect x="22" y="85" width="16" height="25" rx="2" fill="#5d4037"/>
+        <!-- windows row 1 -->
+        <rect x="8"  y="50" width="12" height="14" rx="1" fill="#1565c0" opacity="0.7"/>
+        <rect x="40" y="50" width="12" height="14" rx="1" fill="#1565c0" opacity="0.7"/>
+        <!-- windows row 2 -->
+        <rect x="8"  y="70" width="12" height="12" rx="1" fill="#1565c0" opacity="0.5"/>
+        <rect x="40" y="70" width="12" height="12" rx="1" fill="#1565c0" opacity="0.5"/>
+        <!-- window shutters -->
+        <rect x="6"  y="49" width="4"  height="16" fill="#4e342e" opacity="0.6"/>
+        <rect x="22" y="49" width="4"  height="16" fill="#4e342e" opacity="0.6"/>
+        <rect x="38" y="49" width="4"  height="16" fill="#4e342e" opacity="0.6"/>
+        <rect x="54" y="49" width="4"  height="16" fill="#4e342e" opacity="0.6"/>
+
+        <!-- ══ HOUSE 2: Bell gable — medium, orange-brick ══ -->
+        <rect x="62" y="52" width="52" height="58" fill="#e64a19"/>
+        <!-- bell curve gable -->
+        <path d="M62,52 Q88,22 114,52 Z" fill="#bf360c"/>
+        <!-- window in gable -->
+        <ellipse cx="88" cy="44" rx="7" ry="8" fill="#1565c0" opacity="0.65"/>
+        <!-- door -->
+        <rect x="79" y="88" width="14" height="22" rx="2" fill="#4e342e"/>
+        <!-- step at door -->
+        <rect x="76" y="106" width="20" height="4" fill="#795548"/>
+        <!-- windows -->
+        <rect x="68" y="62" width="11" height="13" rx="1" fill="#1565c0" opacity="0.6"/>
+        <rect x="96" y="62" width="11" height="13" rx="1" fill="#1565c0" opacity="0.6"/>
+        <rect x="68" y="80" width="11" height="10" rx="1" fill="#1565c0" opacity="0.4"/>
+        <rect x="96" y="80" width="11" height="10" rx="1" fill="#1565c0" opacity="0.4"/>
+        <!-- flag / pole -->
+        <line x1="88" y1="14" x2="88" y2="24" stroke="#795548" stroke-width="2"/>
+        <polygon points="88,14 100,18 88,22" fill="#e53935"/>
+
+        <!-- ══ HOUSE 3: Neck gable — narrow, mustard ══ -->
+        <rect x="116" y="58" width="38" height="52" fill="#f57f17"/>
+        <!-- neck (narrow top section) -->
+        <rect x="126" y="38" width="18" height="22" fill="#e65100"/>
+        <!-- neck gable triangle -->
+        <polygon points="124,38 152,38 135,24" fill="#bf360c"/>
+        <!-- window in neck -->
+        <rect x="129" y="42" width="10" height="10" rx="1" fill="#1565c0" opacity="0.6"/>
+        <!-- hook/pulley beam (Amsterdam houses have these for moving furniture) -->
+        <rect x="133" y="17" width="4" height="8" fill="#5d4037"/>
+        <rect x="131" y="17" width="10" height="3" rx="1" fill="#5d4037"/>
+        <!-- door -->
+        <rect x="127" y="88" width="12" height="22" rx="2" fill="#4e342e"/>
+        <!-- windows -->
+        <rect x="119" y="66" width="10" height="12" rx="1" fill="#1565c0" opacity="0.55"/>
+        <rect x="143" y="66" width="10" height="12" rx="1" fill="#1565c0" opacity="0.55"/>
+        <rect x="119" y="82" width="10" height="10" rx="1" fill="#1565c0" opacity="0.4"/>
+        <rect x="143" y="82" width="10" height="10" rx="1" fill="#1565c0" opacity="0.4"/>
+
+        <!-- ══ HOUSE 4: Stair gable — wide, terracotta ══ -->
+        <rect x="156" y="46" width="68" height="64" fill="#d84315"/>
+        <!-- stair gable left side -->
+        <polygon points="156,46 224,46 220,38 216,32 210,26 204,22 196,18 188,22 182,26 176,32 170,38 164,44 160,46" fill="#bf360c"/>
+        <!-- chimney -->
+        <rect x="188" y="10" width="8" height="14" fill="#8d1010"/>
+        <!-- door (with arch) -->
+        <path d="M182,110 L182,88 Q190,80 198,88 L198,110 Z" fill="#3e2723"/>
+        <!-- step at door -->
+        <rect x="178" y="106" width="24" height="4" fill="#795548"/>
+        <!-- windows row 1 -->
+        <rect x="162" y="56" width="14" height="16" rx="1" fill="#1565c0" opacity="0.6"/>
+        <rect x="204" y="56" width="14" height="16" rx="1" fill="#1565c0" opacity="0.6"/>
+        <!-- window middle -->
+        <rect x="183" y="56" width="14" height="16" rx="1" fill="#1565c0" opacity="0.6"/>
+        <!-- windows row 2 -->
+        <rect x="162" y="78" width="14" height="13" rx="1" fill="#1565c0" opacity="0.45"/>
+        <rect x="204" y="78" width="14" height="13" rx="1" fill="#1565c0" opacity="0.45"/>
+        <!-- shutters -->
+        <rect x="160" y="55" width="5" height="18" fill="#4e342e" opacity="0.55"/>
+        <rect x="177" y="55" width="5" height="18" fill="#4e342e" opacity="0.55"/>
+
+        <!-- ══ HOUSE 5: Simple gable — short, dark amber ══ -->
+        <rect x="226" y="62" width="44" height="48" fill="#f9a825"/>
+        <!-- triangle gable -->
+        <polygon points="226,62 270,62 248,44" fill="#f57f17"/>
+        <!-- window in gable -->
+        <rect x="241" y="48" width="14" height="12" rx="1" fill="#1565c0" opacity="0.6"/>
+        <!-- door -->
+        <rect x="240" y="88" width="14" height="22" rx="2" fill="#4e342e"/>
+        <!-- windows -->
+        <rect x="230" y="70" width="12" height="14" rx="1" fill="#1565c0" opacity="0.55"/>
+        <rect x="255" y="70" width="12" height="14" rx="1" fill="#1565c0" opacity="0.55"/>
+
+        <!-- ══ HOUSE 6: Stepped gable — medium, deep red ══ -->
+        <rect x="272" y="50" width="56" height="60" fill="#b71c1c"/>
+        <!-- stepped gable -->
+        <polygon points="272,50 328,50 323,42 317,36 310,30 300,24 290,30 283,36 277,42" fill="#c62828"/>
+        <!-- hook beam -->
+        <rect x="298" y="16" width="4" height="10" fill="#5d4037"/>
+        <rect x="296" y="16" width="12" height="3" rx="1" fill="#5d4037"/>
+        <!-- door -->
+        <rect x="290" y="88" width="14" height="22" rx="2" fill="#3e2723"/>
+        <rect x="286" y="107" width="22" height="3" fill="#795548"/>
+        <!-- windows -->
+        <rect x="278" y="60" width="12" height="14" rx="1" fill="#1565c0" opacity="0.6"/>
+        <rect x="310" y="60" width="12" height="14" rx="1" fill="#1565c0" opacity="0.6"/>
+        <rect x="278" y="80" width="12" height="12" rx="1" fill="#1565c0" opacity="0.45"/>
+        <rect x="310" y="80" width="12" height="12" rx="1" fill="#1565c0" opacity="0.45"/>
+
+        <!-- ══ HOUSE 7: Bell gable — tall, brick orange ══ -->
+        <rect x="330" y="44" width="50" height="66" fill="#e64a19"/>
+        <path d="M330,44 Q355,16 380,44 Z" fill="#bf360c"/>
+        <ellipse cx="355" cy="36" rx="6" ry="7" fill="#1565c0" opacity="0.6"/>
+        <rect x="345" y="90" width="14" height="20" rx="2" fill="#4e342e"/>
+        <rect x="342" y="108" width="20" height="4" fill="#795548"/>
+        <rect x="334" y="56" width="12" height="14" rx="1" fill="#1565c0" opacity="0.6"/>
+        <rect x="364" y="56" width="12" height="14" rx="1" fill="#1565c0" opacity="0.6"/>
+        <rect x="334" y="76" width="12" height="12" rx="1" fill="#1565c0" opacity="0.45"/>
+        <rect x="364" y="76" width="12" height="12" rx="1" fill="#1565c0" opacity="0.45"/>
+        <!-- flag -->
+        <line x1="355" y1="9" x2="355" y2="18" stroke="#795548" stroke-width="2"/>
+        <polygon points="355,9 366,13 355,17" fill="#1e88e5"/>
+
+        <!-- ══ HOUSE 8: Neck gable — wide, sandy yellow ══ -->
+        <rect x="382" y="54" width="54" height="56" fill="#fdd835"/>
+        <rect x="398" y="36" width="22" height="20" fill="#f9a825"/>
+        <polygon points="396,36 422,36 409,22" fill="#f57f17"/>
+        <rect x="403" y="40" width="12" height="10" rx="1" fill="#1565c0" opacity="0.65"/>
+        <rect x="402" y="14" width="4" height="10" fill="#5d4037"/>
+        <rect x="400" y="14" width="12" height="3" rx="1" fill="#5d4037"/>
+        <rect x="399" y="88" width="14" height="22" rx="2" fill="#3e2723"/>
+        <rect x="387" y="62" width="12" height="14" rx="1" fill="#1565c0" opacity="0.55"/>
+        <rect x="419" y="62" width="12" height="14" rx="1" fill="#1565c0" opacity="0.55"/>
+        <rect x="387" y="80" width="12" height="12" rx="1" fill="#1565c0" opacity="0.4"/>
+        <rect x="419" y="80" width="12" height="12" rx="1" fill="#1565c0" opacity="0.4"/>
+
+        <!-- ══ HOUSE 9: Small stepped gable — terracotta ══ -->
+        <rect x="438" y="60" width="40" height="50" fill="#d84315"/>
+        <polygon points="438,60 478,60 474,52 468,46 458,40 448,46 442,52" fill="#bf360c"/>
+        <rect x="452" y="88" width="12" height="22" rx="2" fill="#3e2723"/>
+        <rect x="442" y="68" width="11" height="13" rx="1" fill="#1565c0" opacity="0.55"/>
+        <rect x="466" y="68" width="11" height="13" rx="1" fill="#1565c0" opacity="0.55"/>
+
+        <!-- ══ HOUSE 10: Big stepped gable — dark brick ══ -->
+        <rect x="480" y="42" width="62" height="68" fill="#b71c1c"/>
+        <polygon points="480,42 542,42 537,34 531,28 524,22 511,16 498,22 491,28 485,34" fill="#c62828"/>
+        <rect x="509" y="8" width="8" height="12" fill="#8d1010"/>
+        <rect x="508" y="86" width="16" height="24" rx="2" fill="#3e2723"/>
+        <rect x="505" y="106" width="22" height="4" fill="#795548"/>
+        <rect x="485" y="52" width="13" height="15" rx="1" fill="#1565c0" opacity="0.6"/>
+        <rect x="519" y="52" width="13" height="15" rx="1" fill="#1565c0" opacity="0.6"/>
+        <rect x="485" y="73" width="13" height="13" rx="1" fill="#1565c0" opacity="0.45"/>
+        <rect x="519" y="73" width="13" height="13" rx="1" fill="#1565c0" opacity="0.45"/>
+        <rect x="502" y="52" width="13" height="15" rx="1" fill="#1565c0" opacity="0.6"/>
+
+        <!-- ══ HOUSE 11: Bell gable — slim, orange ══ -->
+        <rect x="544" y="56" width="44" height="54" fill="#e64a19"/>
+        <path d="M544,56 Q566,30 588,56 Z" fill="#bf360c"/>
+        <ellipse cx="566" cy="47" rx="5" ry="6" fill="#1565c0" opacity="0.6"/>
+        <rect x="558" y="88" width="12" height="22" rx="2" fill="#4e342e"/>
+        <rect x="548" y="66" width="11" height="13" rx="1" fill="#1565c0" opacity="0.6"/>
+        <rect x="576" y="66" width="11" height="13" rx="1" fill="#1565c0" opacity="0.6"/>
+
+        <!-- ══ HOUSE 12: Triangle gable — mustard ══ -->
+        <rect x="590" y="58" width="46" height="52" fill="#f57f17"/>
+        <polygon points="590,58 636,58 613,38" fill="#e65100"/>
+        <rect x="607" y="44" width="12" height="12" rx="1" fill="#1565c0" opacity="0.6"/>
+        <rect x="601" y="86" width="14" height="24" rx="2" fill="#3e2723"/>
+        <rect x="594" y="66" width="12" height="14" rx="1" fill="#1565c0" opacity="0.55"/>
+        <rect x="622" y="66" width="12" height="14" rx="1" fill="#1565c0" opacity="0.55"/>
+
+        <!-- ══ HOUSE 13: Stepped gable — deep brown ══ -->
+        <rect x="638" y="48" width="58" height="62" fill="#6d4c41"/>
+        <polygon points="638,48 696,48 691,40 685,34 678,28 667,22 656,28 649,34 643,40" fill="#5d4037"/>
+        <rect x="665" y="14" width="8" height="12" fill="#4e342e"/>
+        <rect x="663" y="84" width="16" height="26" rx="2" fill="#3e2723"/>
+        <rect x="660" y="107" width="22" height="3" fill="#795548"/>
+        <rect x="642" y="58" width="13" height="15" rx="1" fill="#1565c0" opacity="0.6"/>
+        <rect x="677" y="58" width="13" height="15" rx="1" fill="#1565c0" opacity="0.6"/>
+        <rect x="642" y="78" width="13" height="13" rx="1" fill="#1565c0" opacity="0.45"/>
+        <rect x="677" y="78" width="13" height="13" rx="1" fill="#1565c0" opacity="0.45"/>
+        <!-- hook beam -->
+        <rect x="667" y="6" width="4" height="10" fill="#795548"/>
+        <rect x="665" y="6" width="10" height="3" rx="1" fill="#795548"/>
+
+        <!-- ══ HOUSE 14: Small bell gable — bright red ══ -->
+        <rect x="698" y="62" width="40" height="48" fill="#e53935"/>
+        <path d="M698,62 Q718,40 738,62 Z" fill="#c62828"/>
+        <ellipse cx="718" cy="54" rx="5" ry="6" fill="#1565c0" opacity="0.6"/>
+        <rect x="711" y="88" width="12" height="22" rx="2" fill="#3e2723"/>
+        <rect x="702" y="70" width="11" height="13" rx="1" fill="#1565c0" opacity="0.55"/>
+        <rect x="725" y="70" width="11" height="13" rx="1" fill="#1565c0" opacity="0.55"/>
+
+        <!-- ══ HOUSE 15: Neck gable — closes right edge ══ -->
+        <rect x="740" y="55" width="60" height="55" fill="#f9a825"/>
+        <rect x="754" y="36" width="24" height="21" fill="#f57f17"/>
+        <polygon points="752,36 780,36 766,20" fill="#e65100"/>
+        <rect x="759" y="40" width="12" height="10" rx="1" fill="#1565c0" opacity="0.65"/>
+        <rect x="763" y="13" width="4" height="8" fill="#5d4037"/>
+        <rect x="761" y="13" width="12" height="3" rx="1" fill="#5d4037"/>
+        <rect x="760" y="88" width="14" height="22" rx="2" fill="#3e2723"/>
+        <rect x="744" y="63" width="12" height="14" rx="1" fill="#1565c0" opacity="0.55"/>
+        <rect x="774" y="63" width="12" height="14" rx="1" fill="#1565c0" opacity="0.55"/>
+
+        <!-- Ground / canal bank -->
+        <rect x="0" y="108" width="800" height="12" fill="#33691e" opacity="0.25"/>
+    </svg>
+
+    <!-- Canal water shimmer strip -->
+    <div class="canal-strip"></div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         ONBOARDING OVERLAY — shown on first launch
+    ═══════════════════════════════════════════════════════════════ -->
+    <div class="onboarding-overlay" id="onboardingOverlay">
+        <div class="onboarding-card">
+            <div style="font-size:4em; margin-bottom:12px;">🗺️</div>
+            <div class="onboarding-title">Amsterdam Adventure!</div>
+            <div class="onboarding-sub">Ontdek Amsterdam • Discover Amsterdam</div>
+            <div class="onboarding-prompt">Who is going on this adventure?</div>
+            <button class="profile-btn explorer" onclick="chooseProfile('young')">
+                🌟 Explorer <br>
+                <span style="font-size:0.75em; opacity:0.9;">Ages 5–9 • Fun missions &amp; discoveries</span>
+            </button>
+            <button class="profile-btn agent" onclick="chooseProfile('teen')">
+                🕵️ Agent <br>
+                <span style="font-size:0.75em; opacity:0.9;">Ages 10–14 • Stealth intel &amp; secret spots</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         MAIN APP
+    ═══════════════════════════════════════════════════════════════ -->
+    <div class="container" id="mainApp">
+
+        <!-- Header -->
+        <div class="header">
+            <h1>🗺️ Amsterdam Adventure</h1>
+            <div class="subtitle">Ontdek Amsterdam • Discover Amsterdam</div>
+            <div id="modeBadge" class="mode-badge" style="display:none;"></div>
+        </div>
+
+        <!-- Explorer Profile -->
+        <div class="explorer-card">
+            <div class="explorer-avatar" id="explorerAvatar">🧭</div>
+            <div class="explorer-info">
+                <div class="explorer-name" id="explorerName">Young Explorer</div>
+                <div class="explorer-title" id="explorerTitle">Beginner Adventurer • Beginnende Avonturier</div>
+                <div class="explorer-stats">
+                    <div class="stat-badge"><span>⭐</span><span id="totalDiscoveries">0</span></div>
+                    <div class="stat-badge"><span>🏆</span><span id="badgeCount">0</span></div>
+                    <div class="stat-badge"><span>📸</span><span id="photoCount">0</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screen Time Reminder -->
+        <div class="gentle-reminder" id="screenReminder" style="display:none;">
+            <button class="reminder-dismiss" onclick="dismissReminder()" aria-label="Dismiss">✖</button>
+            <div class="reminder-title"><span>⏰</span><span>Time for a real adventure!</span></div>
+            <div class="reminder-text">
+                You've been on the app for a while — check your missions below and go discover Amsterdam!<br><br>
+                Je bent al een tijdje op de app — bekijk je missies en ga Amsterdam ontdekken!
+            </div>
+        </div>
+
+        <!-- Map Tab -->
+        <div id="mapTab" class="tab-content active">
+            <div class="map-container">
+                <div class="map-title"><span>🗺️</span><span>Unlock Amsterdam</span></div>
+                <div class="map-grid" id="mapGrid"></div>
+            </div>
+        </div>
+
+        <!-- Missions Tab -->
+        <div id="missionsTab" class="tab-content">
+            <div class="map-container">
+                <div class="map-title"><span>🎯</span><span>Your Missions</span></div>
+                <div class="mission-list" id="missionList"></div>
+            </div>
+        </div>
+
+        <!-- Skills Tab -->
+        <div id="skillsTab" class="tab-content">
+            <div class="map-container">
+                <div class="map-title"><span>🏆</span><span>Your Skills • Jouw Vaardigheden</span></div>
+                <div class="skills-grid" id="skillsGrid"></div>
+            </div>
+        </div>
+
+        <!-- Journal Tab -->
+        <div id="journalTab" class="tab-content">
+            <div class="map-container">
+                <div class="map-title"><span>📸</span><span>Discovery Journal • Dagboek</span></div>
+                <div class="journal-grid" id="journalGrid"></div>
+                <div id="emptyJournal" class="empty-state">
+                    <div class="empty-icon">🎨</div>
+                    <p><strong>Start your adventure!</strong></p>
+                    <p>Complete missions to fill your discovery journal</p>
+                    <p><strong>Begin je avontuur!</strong></p>
+                    <p>Voltooi missies om je dagboek te vullen</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Parent Tab -->
+        <div id="parentTab" class="tab-content">
+            <div class="parent-section">
+                <div class="parent-title">🔒 Parent Controls • Ouder Instellingen</div>
+
+                <div class="parent-row">
+                    <label>Explorer Name:</label>
+                    <input type="text" id="parentExplorerName" placeholder="Young Explorer" style="width:160px;">
+                </div>
+
+                <div class="parent-row">
+                    <label>Age Profile:</label>
+                    <select id="parentDifficulty" style="width:160px;">
+                        <option value="young">🌟 Explorer (Ages 5–9)</option>
+                        <option value="teen">🕵️ Agent (Ages 10–14)</option>
+                    </select>
+                </div>
+
+                <div class="parent-row">
+                    <label>Screen reminder (mins):</label>
+                    <input type="number" id="parentReminderTime" value="30" min="0" max="120" style="width:80px;">
+                </div>
+
+                <div class="parent-row">
+                    <button class="btn btn-secondary" onclick="saveParentSettings()">Save Settings • Opslaan</button>
+                </div>
+            </div>
+
+            <div class="parent-section">
+                <div class="parent-title">➕ Add Custom Mission</div>
+
+                <div style="margin-bottom:15px;">
+                    <label style="display:block;margin-bottom:5px;font-weight:600;">Title (Dutch):</label>
+                    <input type="text" id="customTitleNL" placeholder="Ontdek een brug" style="width:100%;">
+                </div>
+                <div style="margin-bottom:15px;">
+                    <label style="display:block;margin-bottom:5px;font-weight:600;">Title (English):</label>
+                    <input type="text" id="customTitleEN" placeholder="Discover a bridge" style="width:100%;">
+                </div>
+                <div style="margin-bottom:15px;">
+                    <label style="display:block;margin-bottom:5px;font-weight:600;">Instructions (NL):</label>
+                    <textarea id="customInstructionsNL" placeholder="Vind een brug en maak een foto..."></textarea>
+                </div>
+                <div style="margin-bottom:15px;">
+                    <label style="display:block;margin-bottom:5px;font-weight:600;">Instructions (EN):</label>
+                    <textarea id="customInstructionsEN" placeholder="Find a bridge and take a photo..."></textarea>
+                </div>
+                <div style="margin-bottom:15px;">
+                    <label style="display:block;margin-bottom:5px;font-weight:600;">Type:</label>
+                    <select id="customType" style="width:100%;">
+                        <option value="outdoor">🌳 Outdoor</option>
+                        <option value="culture">🏛️ Culture</option>
+                        <option value="language">🗣️ Language</option>
+                        <option value="builder">🔨 Builder</option>
+                    </select>
+                </div>
+                <div style="margin-bottom:15px;">
+                    <label style="display:block;margin-bottom:5px;font-weight:600;">Region:</label>
+                    <select id="customRegion" style="width:100%;">
+                        <option value="centrum">Centrum</option>
+                        <option value="canals">Canals</option>
+                        <option value="jordaan">De Jordaan</option>
+                        <option value="museums">Museums</option>
+                        <option value="parks">Parks</option>
+                        <option value="pijp">De Pijp</option>
+                        <option value="noord">Noord</option>
+                        <option value="bos">Amsterdamse Bos</option>
+                    </select>
+                </div>
+                <button class="btn btn-full" onclick="addCustomMission()">➕ Add Mission</button>
+            </div>
+
+            <div class="parent-section">
+                <div class="parent-title">🗑️ Reset Progress</div>
+                <div class="parent-row">
+                    <span>Clears all discoveries and photos</span>
+                    <button class="btn" style="background:linear-gradient(135deg,#e74c3c 0%,#c0392b 100%);"
+                            onclick="resetProgress()">Reset All</button>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /container -->
+
+    <!-- Fixed Bottom Tab Nav (iOS style) -->
+    <nav class="tab-nav">
+        <button class="tab-btn active" id="tabBtn-map" onclick="switchTab('map', this)">
+            <span class="tab-icon">🗺️</span>Map
+        </button>
+        <button class="tab-btn" id="tabBtn-missions" onclick="switchTab('missions', this)">
+            <span class="tab-icon">🎯</span>Missions
+        </button>
+        <button class="tab-btn" id="tabBtn-skills" onclick="switchTab('skills', this)">
+            <span class="tab-icon">🏆</span>Skills
+        </button>
+        <button class="tab-btn" id="tabBtn-journal" onclick="switchTab('journal', this)">
+            <span class="tab-icon">📸</span>Journal
+        </button>
+        <button class="tab-btn" id="tabBtn-parent" onclick="parentGate()">
+            <span class="tab-icon">👨‍👩‍👦</span>Parent
+        </button>
+    </nav>
+
+    <!-- Mission Detail Modal -->
+    <div class="modal" id="missionModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+        <img src="" alt="Photo" class="lightbox-img" id="lightboxImg">
+    </div>
+
+    <!-- Celebration Popup -->
+    <div class="celebration" id="celebration">
+        <div class="celebration-icon" id="celebrationIcon">🎉</div>
+        <div class="celebration-title" id="celebrationTitle">Amazing!</div>
+        <div class="celebration-text"  id="celebrationText"></div>
+        <div class="celebration-reward" id="celebrationReward"></div>
+    </div>
+
+    <!-- Hidden canvas used for photo compression -->
+    <canvas id="compressCanvas" style="display:none;"></canvas>
+
+    <script>
+    // ═══════════════════════════════════════════════════════════════
+    //  CAPACITOR PREFERENCES SHIM
+    //  When running in a real Capacitor app the native plugin is used.
+    //  When previewing in a browser, falls back to localStorage.
+    // ═══════════════════════════════════════════════════════════════
+    const Preferences = (() => {
+        // Check for real Capacitor Preferences plugin
+        if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Preferences) {
+            return window.Capacitor.Plugins.Preferences;
+        }
+        // Browser shim using localStorage
+        return {
+            async set({ key, value }) {
+                localStorage.setItem(key, value);
+            },
+            async get({ key }) {
+                return { value: localStorage.getItem(key) };
+            },
+            async remove({ key }) {
+                localStorage.removeItem(key);
+            }
+        };
+    })();
+
+    // ═══════════════════════════════════════════════════════════════
+    //  REGIONS — exactly as specified
+    // ═══════════════════════════════════════════════════════════════
+    const regions = [
+        { id: 'centrum',  nameNL: 'Centrum',         nameEN: 'City Centre',     icon: '🏛️', requiredMissions: 0  },
+        { id: 'canals',   nameNL: 'Grachten',         nameEN: 'Canals',          icon: '🌊', requiredMissions: 3  },
+        { id: 'jordaan',  nameNL: 'De Jordaan',       nameEN: 'The Jordaan',     icon: '🏘️', requiredMissions: 5  },
+        { id: 'museums',  nameNL: 'Musea',            nameEN: 'Museums',         icon: '🎨', requiredMissions: 8  },
+        { id: 'parks',    nameNL: 'Parken',           nameEN: 'Parks',           icon: '🌳', requiredMissions: 10 },
+        { id: 'pijp',     nameNL: 'De Pijp',         nameEN: 'De Pijp',         icon: '🧀', requiredMissions: 12 },
+        { id: 'noord',    nameNL: 'Noord',            nameEN: 'Amsterdam Noord', icon: '⛴️', requiredMissions: 14 },
+        { id: 'bos',      nameNL: 'Amsterdamse Bos', nameEN: 'Amsterdam Forest', icon: '🌲', requiredMissions: 16 }
+    ];
+
+    // ═══════════════════════════════════════════════════════════════
+    //  MISSIONS — 25 missions, all with targetAge
+    // ═══════════════════════════════════════════════════════════════
+    const missions = [
+        // ── CENTRUM ──────────────────────────────────────────────
+        {
+            id: 1, region: 'centrum', type: 'outdoor', targetAge: 'all',
+            titleNL: 'Vind 3 verschillende bruggen',
+            titleEN: 'Find 3 different bridges',
+            icon: '🌉',
+            instructionsNL: 'Ga naar buiten en vind 3 verschillende bruggen in Amsterdam. Hoe zijn ze gemaakt? Steen, ijzer of hout?',
+            instructionsEN: 'Go outside and find 3 different bridges in Amsterdam. What are they made of? Stone, iron or wood?',
+            skills: ['explorer'], unlocks: 'Canals region 🌊'
+        },
+        {
+            id: 2, region: 'centrum', type: 'culture', targetAge: 'all',
+            titleNL: 'Luister naar de blauwe tramlel',
+            titleEN: 'Listen for the blue tram bell',
+            icon: '🚋',
+            instructionsNL: 'Ga naar een tramhalte en luister. Hoe vaak hoor je de bel? Tel de bellen en maak een foto van de tram!',
+            instructionsEN: 'Stand at a tram stop and listen. How many times does the bell ring? Count the rings and photograph the tram!',
+            skills: ['explorer', 'language'], unlocks: 'Tram Spotter badge 🔔'
+        },
+        {
+            id: 3, region: 'centrum', type: 'builder', targetAge: 'young',
+            titleNL: 'Bouw een Amsterdams grachtenhuis',
+            titleEN: 'Build an Amsterdam canal house',
+            icon: '🏠',
+            instructionsNL: 'Bouw een smal, hoog huis zoals aan de Amsterdamse grachten. Gebruik dozen, LEGO of wat je hebt! De huizen in Amsterdam zijn heel smal.',
+            instructionsEN: 'Build a narrow, tall house like those along Amsterdam\'s canals. Use boxes, LEGO or whatever you have! Amsterdam houses are very narrow.',
+            skills: ['builder', 'explorer'], unlocks: 'Architect badge 🏗️'
+        },
+        {
+            id: 4, region: 'centrum', type: 'culture', targetAge: 'all',
+            titleNL: 'Vind Hagelslag bij Albert Heijn',
+            titleEN: 'Find Hagelslag at Albert Heijn',
+            icon: '🍫',
+            instructionsNL: 'Ga naar een Albert Heijn supermarkt en vind de Hagelslag (chocoladekruimels). Nederlanders eten dit op brood! Maak een foto van de schappen.',
+            instructionsEN: 'Go to an Albert Heijn supermarket and find the Hagelslag (chocolate sprinkles). Dutch people eat this on bread! Take a photo of the shelf.',
+            skills: ['explorer', 'language'], unlocks: 'Dutch Foodie badge 🧇'
+        },
+        {
+            id: 5, region: 'centrum', type: 'culture', targetAge: 'all',
+            titleNL: 'Zoek een Nijntje (Miffy) pop in een etalage',
+            titleEN: 'Find a Nijntje (Miffy) doll in a shop window',
+            icon: '🐰',
+            instructionsNL: 'Nijntje is een beroemd Nederlands konijntje gemaakt door Dick Bruna in Utrecht. Zoek haar in een etalage of winkel in Amsterdam. Maak een foto!',
+            instructionsEN: 'Nijntje (Miffy) is a famous Dutch bunny created by Dick Bruna from Utrecht. Find her in a shop window or store in Amsterdam. Take a photo!',
+            skills: ['explorer', 'language'], unlocks: 'Miffy Fan badge 🐇'
+        },
+
+        // ── CANALS ───────────────────────────────────────────────
+        {
+            id: 6, region: 'canals', type: 'culture', targetAge: 'all',
+            titleNL: 'Tel bakfietsen langs de gracht',
+            titleEN: 'Count cargo bikes along the canal',
+            icon: '🚲',
+            instructionsNL: 'Een bakfiets is een fiets met een grote bak vooraan. Nederlanders vervoeren er kinderen en boodschappen in! Ga langs een gracht en tel hoeveel bakfietsen je ziet.',
+            instructionsEN: 'A bakfiets is a bike with a big cargo box at the front. Dutch people carry children and shopping in them! Walk along a canal and count how many you spot.',
+            skills: ['explorer', 'language'], unlocks: 'Bakfiets Scout badge 🛒'
+        },
+        {
+            id: 7, region: 'canals', type: 'language', targetAge: 'all',
+            titleNL: 'Leer 10 woorden over water',
+            titleEN: 'Learn 10 water words in Dutch',
+            icon: '💧',
+            instructionsNL: 'Leer deze woorden: kanaal, brug, boot, water, rivier, gracht, sluis, haven, eiland, oever. Zeg ze hardop terwijl je langs het water loopt!',
+            instructionsEN: 'Learn these words: kanaal (canal), brug (bridge), boot (boat), water, rivier (river), gracht (canal), sluis (lock), haven (harbour), eiland (island), oever (bank). Say them as you walk by the water!',
+            skills: ['language'], unlocks: 'Language Master point 🗣️'
+        },
+        {
+            id: 8, region: 'canals', type: 'outdoor', targetAge: 'teen',
+            titleNL: 'Vind het smalste huis: Singel 7',
+            titleEN: 'Find the narrowest house: Singel 7',
+            icon: '🔍',
+            instructionsNL: 'Ga naar Singel 7, vlakbij Centraal Station. Dit is officieel het smalste huis ter wereld — het is maar 1 meter breed! Het is eigenlijk alleen een deur met een dakje. Weet je waarom het is gebouwd?',
+            instructionsEN: 'Head to Singel 7, near Central Station. This is officially one of the narrowest houses in the world — only 1 metre wide! It\'s basically just a door with a small roof. Can you find out why it was built?',
+            skills: ['explorer', 'language'], unlocks: 'Architecture Agent badge 🏛️'
+        },
+        {
+            id: 9, region: 'canals', type: 'culture', targetAge: 'teen',
+            titleNL: 'Fotografeer de deur van Ons Lieve Heer op Solder',
+            titleEN: 'Photograph the door to the secret attic church',
+            icon: '⛪',
+            instructionsNL: 'Ga naar Oudezijds Voorburgwal 40. Van buiten lijkt het een gewoon grachtenhuis, maar erin verberg zich een complete kerk van de 17e eeuw — gebouwd op de zoldervloer! Maak een foto van de gewone voordeur.',
+            instructionsEN: 'Go to Oudezijds Voorburgwal 40. From the outside it looks like an ordinary canal house, but inside it hides a complete 17th-century church — built on the attic floor! Photograph the ordinary-looking front door.',
+            skills: ['explorer', 'language'], unlocks: 'Secret History badge 🕵️'
+        },
+        {
+            id: 10, region: 'canals', type: 'outdoor', targetAge: 'teen',
+            titleNL: 'Vind een drijvend woonboot tuintje',
+            titleEN: 'Find a floating houseboat garden',
+            icon: '🌸',
+            instructionsNL: 'Meer dan 2.500 mensen in Amsterdam wonen op een woonboot! Wandel langs de grachten en zoek een woonboot met een echt tuintje of terrasje. Hoe kunnen ze planten laten groeien op het water?',
+            instructionsEN: 'More than 2,500 people in Amsterdam live on a houseboat! Walk along the canals and find a houseboat with a real little garden or terrace. How do they grow plants on the water?',
+            skills: ['explorer', 'nature'], unlocks: 'Houseboat Detective badge ⚓'
+        },
+
+        // ── DE JORDAAN ───────────────────────────────────────────
+        {
+            id: 11, region: 'jordaan', type: 'outdoor', targetAge: 'all',
+            titleNL: 'Ontdek de Jordaan straatjes',
+            titleEN: 'Discover the Jordaan streets',
+            icon: '🗺️',
+            instructionsNL: 'De Jordaan is de gezelligste wijk van Amsterdam! Vind 3 leuke straatjes. Let op de kleine hofjes (verborgen binnenplaatsen).',
+            instructionsEN: 'The Jordaan is Amsterdam\'s cosiest neighbourhood! Find 3 nice little streets. Look out for the tiny hofjes (hidden courtyards).',
+            skills: ['explorer', 'photographer'], unlocks: 'Jordaan Explorer badge 🏘️'
+        },
+        {
+            id: 12, region: 'jordaan', type: 'culture', targetAge: 'all',
+            titleNL: 'Kijk hoe Poffertjes worden gemaakt',
+            titleEN: 'Watch Poffertjes being made',
+            icon: '🥞',
+            instructionsNL: 'Poffertjes zijn kleine, luchtige pannenkoekjes — een echte Nederlandse lekkernij! Zoek een kraam of restaurant dat ze maakt. Kijk hoe de speciale pan werkt en maak een foto. Ze worden altijd geserveerd met boter en poedersuiker!',
+            instructionsEN: 'Poffertjes are small, fluffy mini pancakes — a true Dutch treat! Find a stall or restaurant making them. Watch how the special pan works and take a photo. They are always served with butter and powdered sugar!',
+            skills: ['explorer', 'language'], unlocks: 'Dutch Chef badge 👨‍🍳'
+        },
+
+        // ── MUSEUMS ──────────────────────────────────────────────
+        {
+            id: 13, region: 'museums', type: 'outdoor', targetAge: 'all',
+            titleNL: 'De Geheime Dierentuin',
+            titleEN: 'The Secret Zoo',
+            icon: '🦒',
+            instructionsNL: 'Dit is het geheime geheim van Amsterdam! Wandel naar het Entrepotdok en kijk over het water naar Artis Zoo. Je kunt giraffen, vlaamse rapen en meer dieren spotten — helemaal GRATIS! Het is zo dichtbij dat je de dieren goed kunt zien. Maak een foto van welk dier je kunt zien!',
+            instructionsEN: 'This is Amsterdam\'s best-kept secret! Walk to the Entrepotdok canal and look across the water towards Artis Zoo. You can spot giraffes, flamingos and more animals — completely FREE! It\'s so close you can see them clearly. Take a photo of which animal you can spot!',
+            skills: ['explorer', 'nature'], unlocks: 'Secret Zoo Scout badge 🦩'
+        },
+        {
+            id: 14, region: 'museums', type: 'culture', targetAge: 'young',
+            titleNL: 'Vind een kunstwerk zo groot als je huis',
+            titleEN: 'Find a painting as big as your house',
+            icon: '🎨',
+            instructionsNL: 'Ga naar het Rijksmuseum of kijk naar de muur buiten. De Nachtwacht van Rembrandt is bijna 4 meter hoog en 4 meter breed! Zoek een groot schilderij en ga er naast staan. Hoe groot ben jij vergeleken met het schilderij?',
+            instructionsEN: 'Go to the Rijksmuseum or look at the outside walls. Rembrandt\'s Night Watch is almost 4 metres high and 4 metres wide! Find a large painting and stand next to it. How tall are you compared to the painting?',
+            skills: ['explorer', 'language'], unlocks: 'Art Adventurer badge 🖼️'
+        },
+
+        // ── PARKS ────────────────────────────────────────────────
+        {
+            id: 15, region: 'parks', type: 'outdoor', targetAge: 'all',
+            titleNL: 'Vind 5 verschillende bomen in het park',
+            titleEN: 'Find 5 different trees in the park',
+            icon: '🌳',
+            instructionsNL: 'Ga naar Vondelpark of een ander park. Vind 5 verschillende boomsoorten. Maak foto\'s van de bladeren en probeer ze te identificeren!',
+            instructionsEN: 'Go to Vondelpark or another park. Find 5 different types of trees. Take photos of the leaves and try to identify them!',
+            skills: ['explorer', 'nature'], unlocks: 'Nature Explorer badge 🌿'
+        },
+        {
+            id: 16, region: 'parks', type: 'outdoor', targetAge: 'young',
+            titleNL: 'Speeltuinuitdaging: klim op 5 dingen',
+            titleEN: 'Playground challenge: climb 5 things',
+            icon: '🧗',
+            instructionsNL: 'Ga naar een speeltuin in het park en klim op 5 verschillende dingen. Klim zo hoog als je veilig kunt. Maak foto\'s!',
+            instructionsEN: 'Go to a playground in the park and climb 5 different things. Climb as high as you safely can. Take photos!',
+            skills: ['active', 'explorer'], unlocks: 'Climber badge 🏔️'
+        },
+
+        // ── DE PIJP ──────────────────────────────────────────────
+        {
+            id: 17, region: 'pijp', type: 'outdoor', targetAge: 'all',
+            titleNL: 'Ontdek de Albert Cuyp Markt',
+            titleEN: 'Explore the Albert Cuyp Market',
+            icon: '🛒',
+            instructionsNL: 'De Albert Cuypmarkt is de grootste dagmarkt van Nederland! Vind 5 verschillende soorten kaas, stroopwafels en typisch Nederlandse producten. Hoe zeggen de marktkooplui hun producten aan?',
+            instructionsEN: 'Albert Cuyp Market is the biggest daily market in the Netherlands! Find 5 different types of Dutch cheese, stroopwafels and typical Dutch products. How do the stallholders call out their products?',
+            skills: ['explorer', 'language'], unlocks: 'Market Master badge 🧀'
+        },
+        {
+            id: 18, region: 'pijp', type: 'culture', targetAge: 'teen',
+            titleNL: 'Fotografeer een straat met meer fietsen dan mensen',
+            titleEN: 'Photograph a street with more bikes than people',
+            icon: '🚲',
+            instructionsNL: 'Amsterdam heeft 881.000 inwoners maar meer dan 1 miljoen fietsen! Vind een straat, parkeerplaats of fietsenstalling waar je meer fietsen dan mensen kunt zien. Maak een foto van dit typische Amsterdam beeld!',
+            instructionsEN: 'Amsterdam has 881,000 residents but more than 1 million bikes! Find a street, parking spot or bike shed where you can see more bikes than people. Photograph this typical Amsterdam scene!',
+            skills: ['explorer', 'photographer'], unlocks: 'Cycling Capital badge 🏙️'
+        },
+
+        // ── NOORD ────────────────────────────────────────────────
+        {
+            id: 19, region: 'noord', type: 'outdoor', targetAge: 'all',
+            titleNL: 'Neem de gratis veerboot naar Noord',
+            titleEN: 'Take the free ferry to Noord',
+            icon: '⛴️',
+            instructionsNL: 'Achter Amsterdam Centraal Station vaar je GRATIS met de veerboot naar Amsterdam Noord! De boten gaan de hele dag en de hele nacht. Stap op, geniet van de overtocht over het IJ en ontdek de andere kant van Amsterdam! Maak een foto terwijl je op het water bent.',
+            instructionsEN: 'Behind Amsterdam Central Station you can take a FREE ferry to Amsterdam Noord! The boats run all day and all night. Hop on, enjoy the crossing over the IJ river and discover the other side of Amsterdam! Take a photo while you\'re on the water.',
+            skills: ['explorer', 'active'], unlocks: 'Noord Navigator badge ⚓'
+        },
+        {
+            id: 20, region: 'noord', type: 'culture', targetAge: 'teen',
+            titleNL: 'Vind straatkunst in NDSM Werf',
+            titleEN: 'Find street art at NDSM Wharf',
+            icon: '🎭',
+            instructionsNL: 'Neem de NDSM-veerboot vanuit Centraal Station naar NDSM Werf. Dit is een oude scheepswerf die nu vol staat met gigantische straatkunstwerken. Vind 3 grote kunstwerken en maak foto\'s. Welke vind je het mooist?',
+            instructionsEN: 'Take the NDSM ferry from Central Station to NDSM Wharf. This old shipyard is now covered in giant street art murals. Find 3 large artworks and photograph them. Which one do you like most?',
+            skills: ['explorer', 'photographer'], unlocks: 'Street Art Agent badge 🎨'
+        },
+
+        // ── AMSTERDAMSE BOS ──────────────────────────────────────
+        {
+            id: 21, region: 'bos', type: 'outdoor', targetAge: 'teen',
+            titleNL: 'Meet de roeibootjes bij de Bosbaan',
+            titleEN: 'Time the rowing boats at the Bosbaan',
+            icon: '🚣',
+            instructionsNL: 'De Bosbaan is een officieel olympisch roeikanaal in het Amsterdamse Bos! Het is precies 2.200 meter lang. Gebruik je telefoon als stopwatch: hoe lang duurt het voor een roeiboot om van begin tot eind te roeien? Wat is de snelheid in kilometers per uur?',
+            instructionsEN: 'The Bosbaan is an official Olympic rowing canal in the Amsterdam Forest! It is exactly 2,200 metres long. Use your phone as a stopwatch: how long does it take a rowing boat to go from start to finish? What is the speed in km per hour?',
+            skills: ['explorer', 'active', 'language'], unlocks: 'Olympic Spotter badge 🥇'
+        },
+        {
+            id: 22, region: 'bos', type: 'outdoor', targetAge: 'all',
+            titleNL: 'Zoek wilde dieren in het bos',
+            titleEN: 'Spot wildlife in the forest',
+            icon: '🦌',
+            instructionsNL: 'Het Amsterdamse Bos heeft reeën, hazen, eekhoorns en tientallen vogelsoorten! Wandel stil op een pad en zie hoeveel wilde dieren je kunt spotten. Maak een lijst van alles wat je ziet.',
+            instructionsEN: 'The Amsterdam Forest has roe deer, hares, squirrels and dozens of bird species! Walk quietly on a path and see how many wild animals you can spot. Make a list of everything you see.',
+            skills: ['explorer', 'nature'], unlocks: 'Forest Ranger badge 🌲'
+        },
+
+        // ── BONUS EXTRA MISSIONS ─────────────────────────────────
+        {
+            id: 23, region: 'centrum', type: 'language', targetAge: 'all',
+            titleNL: 'Zeg hallo in 5 talen',
+            titleEN: 'Say hello in 5 languages',
+            icon: '👋',
+            instructionsNL: 'Amsterdam is een echte wereldstad! Leer "hallo" in 5 talen. Probeer elke groet bij een echte persoon uit (met je ouders erbij). NL: Hallo! EN: Hello! ES: ¡Hola! FR: Bonjour! DE: Hallo!',
+            instructionsEN: 'Amsterdam is a true world city! Learn "hello" in 5 languages. Try each greeting with a real person (with your parents). NL: Hallo! EN: Hello! ES: ¡Hola! FR: Bonjour! DE: Hallo!',
+            skills: ['language', 'explorer'], unlocks: 'World Greeter badge 🌍'
+        },
+        {
+            id: 24, region: 'parks', type: 'outdoor', targetAge: 'young',
+            titleNL: 'Maak een hindernisbaan in het park',
+            titleEN: 'Create an obstacle course in the park',
+            icon: '🏃',
+            instructionsNL: 'Gebruik bankjes, bomen en paden in het park. Maak een hindernisbaan en probeer hem 3 keer. Kun je hem sneller doen?',
+            instructionsEN: 'Use benches, trees and paths in the park. Design an obstacle course and try it 3 times. Can you get faster each time?',
+            skills: ['active', 'builder'], unlocks: 'Park Parkour badge 🌟'
+        },
+        {
+            id: 25, region: 'jordaan', type: 'culture', targetAge: 'all',
+            titleNL: 'Vind een verborgen hofje',
+            titleEN: 'Find a hidden hofje (courtyard)',
+            icon: '🌺',
+            instructionsNL: 'De Jordaan heeft tientallen verborgen hofjes — kleine vredige binnenplaatsen achter gewone voordeuren! Zoek het Begijnhof of Karthuizershof. Zet voorzichtig de deur open, stap in en voel het verschil in sfeer!',
+            instructionsEN: 'The Jordaan has dozens of hidden hofjes — tiny peaceful courtyards behind ordinary front doors! Look for the Begijnhof or Karthuizershof. Gently push open the door, step inside, and feel how quiet it becomes!',
+            skills: ['explorer', 'language'], unlocks: 'Hofje Hunter badge 🌷'
+        }
+    ];
+
+    // ═══════════════════════════════════════════════════════════════
+    //  SKILLS DEFINITION
+    // ═══════════════════════════════════════════════════════════════
+    const skillsDef = [
+        { id: 'builder',    name: 'Builder • Bouwer',          icon: '🔨', max: 10 },
+        { id: 'explorer',   name: 'Explorer • Ontdekker',      icon: '🧭', max: 10 },
+        { id: 'language',   name: 'Language • Taal',           icon: '🗣️', max: 10 },
+        { id: 'active',     name: 'Active • Actief',           icon: '🏃', max: 10 },
+        { id: 'photographer',name: 'Photographer • Fotograaf', icon: '📸', max: 10 },
+        { id: 'nature',     name: 'Nature • Natuur',           icon: '🌿', max: 10 }
+    ];
+
+    // ═══════════════════════════════════════════════════════════════
+    //  APP STATE — single source of truth
+    // ═══════════════════════════════════════════════════════════════
+    let appState = {
+        explorerName: 'Young Explorer',
+        difficultyMode: null,          // 'young' | 'teen'  — null = not yet chosen
+        completedMissions: [],
+        unlockedRegions: ['centrum'],
+        journal: [],
+        skills: skillsDef.map(s => ({ id: s.id, level: 0 })),
+        badges: [],
+        screenTime: 0,
+        reminderTime: 30,
+        customMissions: [],
+        lastActive: Date.now()
+    };
+
+    // ═══════════════════════════════════════════════════════════════
+    //  STORAGE — async, Capacitor-safe
+    // ═══════════════════════════════════════════════════════════════
+    const STORAGE_KEY = 'amsterdamAdventureState_v2';
+
+    async function saveState() {
+        try {
+            await Preferences.set({ key: STORAGE_KEY, value: JSON.stringify(appState) });
+        } catch (e) {
+            console.warn('saveState error:', e);
+        }
+    }
+
+    async function loadState() {
+        try {
+            const { value } = await Preferences.get({ key: STORAGE_KEY });
+            if (value) {
+                const loaded = JSON.parse(value);
+                // Merge carefully so new keys survive a state version bump
+                appState = {
+                    ...appState,
+                    ...loaded,
+                    // Always ensure skills array has all definitions
+                    skills: skillsDef.map(def => {
+                        const saved = (loaded.skills || []).find(s => s.id === def.id);
+                        return { id: def.id, level: saved ? (saved.level || 0) : 0 };
+                    })
+                };
+            }
+        } catch (e) {
+            console.warn('loadState error:', e);
+        }
+
+        if (appState.difficultyMode === null) {
+            showOnboarding();
+        } else {
+            updateUI();
+            startScreenTimeTracker();
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    //  ONBOARDING
+    // ═══════════════════════════════════════════════════════════════
+    function showOnboarding() {
+        document.getElementById('onboardingOverlay').classList.add('active');
+    }
+
+    async function chooseProfile(mode) {
+        appState.difficultyMode = mode;
+        document.getElementById('onboardingOverlay').classList.remove('active');
+        await saveState();
+        updateUI();
+        startScreenTimeTracker();
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    //  PARENT GATE — COPPA math challenge
+    // ═══════════════════════════════════════════════════════════════
+    function parentGate() {
+        const a = Math.floor(Math.random() * 9) + 1;
+        const b = Math.floor(Math.random() * 9) + 1;
+        const answer = window.prompt(`Parent Check: What is ${a} + ${b}?`);
+        if (answer === null) return;                         // cancelled
+        if (parseInt(answer, 10) === a + b) {
+            switchTab('parent', document.getElementById('tabBtn-parent'));
+        } else {
+            alert('Incorrect answer. This section is for parents only.');
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    //  SCREEN TIME
+    // ═══════════════════════════════════════════════════════════════
+    function startScreenTimeTracker() {
+        setInterval(async () => {
+            appState.screenTime += 1;
+            if (appState.screenTime >= appState.reminderTime && appState.screenTime % 5 === 0) {
+                document.getElementById('screenReminder').style.display = 'block';
+            }
+            await saveState();
+        }, 60000);
+    }
+
+    function dismissReminder() {
+        document.getElementById('screenReminder').style.display = 'none';
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    //  RENDER MAP
+    // ═══════════════════════════════════════════════════════════════
+    function renderMap() {
+        const container = document.getElementById('mapGrid');
+        container.innerHTML = '';
+        const completedCount = appState.completedMissions.length;
+
+        regions.forEach(region => {
+            const earned = completedCount >= region.requiredMissions;
+            const isUnlocked = earned || appState.unlockedRegions.includes(region.id);
+
+            if (isUnlocked && !appState.unlockedRegions.includes(region.id)) {
+                appState.unlockedRegions.push(region.id);
+            }
+
+            const allM = [...missions, ...appState.customMissions];
+            const regionMissions = allM.filter(m => m.region === region.id);
+            const done = regionMissions.filter(m => appState.completedMissions.includes(m.id)).length;
+
+            const card = document.createElement('div');
+            card.className = `map-region ${isUnlocked ? 'unlocked' : 'locked'}`;
+            card.innerHTML = `
+                <span class="region-icon ${isUnlocked ? '' : 'locked-icon'}">${region.icon}</span>
+                ${!isUnlocked ? '<div class="lock-overlay">🔒</div>' : ''}
+                <div class="region-name">${region.nameNL}</div>
+                <div class="region-name-en">${region.nameEN}</div>
+                ${isUnlocked
+                    ? `<div class="region-progress">${done}/${regionMissions.length} done ✅</div>`
+                    : `<div class="region-progress">Unlock at ${region.requiredMissions} missions</div>`
+                }
+            `;
+            if (isUnlocked) {
+                card.onclick = () => { switchTab('missions', document.getElementById('tabBtn-missions')); };
+            }
+            container.appendChild(card);
+        });
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    //  RENDER MISSIONS — filtered by age tier
+    // ═══════════════════════════════════════════════════════════════
+    function renderMissions() {
+        const container = document.getElementById('missionList');
+        container.innerHTML = '';
+        const mode = appState.difficultyMode || 'young';
+        const allM = [...missions, ...appState.customMissions];
+
+        const available = allM.filter(m =>
+            appState.unlockedRegions.includes(m.region) &&
+            (m.targetAge === 'all' || m.targetAge === mode)
+        );
+
+        if (available.length === 0) {
+            container.innerHTML = '<div class="empty-state"><div class="empty-icon">🎯</div><p>Complete more missions to unlock new areas!</p></div>';
+            return;
+        }
+
+        available.forEach(mission => {
+            const done = appState.completedMissions.includes(mission.id);
+            const card = document.createElement('div');
+            card.className = `mission-card ${mission.type} ${done ? 'completed' : ''}`;
+            card.onclick = () => openMission(mission);
+
+            const ageLabel = mission.targetAge === 'young' ? '🌟 Ages 5–9'
+                           : mission.targetAge === 'teen'  ? '🕵️ Ages 10–14'
+                           : '⭐ All ages';
+            const ageClass = mission.targetAge;
+
+            const typeLabel = mission.type === 'builder'  ? '🔨 Builder'
+                            : mission.type === 'outdoor'  ? '🌳 Outdoor'
+                            : mission.type === 'language' ? '🗣️ Language'
+                            : '🏛️ Culture';
+
+            card.innerHTML = `
+                <div class="mission-header">
+                    <div>
+                        <span class="mission-type-badge ${mission.type}">${typeLabel}</span>
+                        <span class="age-badge ${ageClass}">${ageLabel}</span>
+                    </div>
+                    <span class="mission-icon">${mission.icon}</span>
+                </div>
+                <div class="mission-title">${mission.titleNL}</div>
+                <div class="mission-title-en">${mission.titleEN}</div>
+                <div class="mission-reward">
+                    ${done ? '✅ Completed • Voltooid' : `✨ Unlocks: ${mission.unlocks}`}
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    //  MISSION MODAL
+    // ═══════════════════════════════════════════════════════════════
+    let currentPhotos = {};
+
+    function openMission(mission) {
+        const modal = document.getElementById('missionModal');
+        const body  = document.getElementById('modalBody');
+        const done  = appState.completedMissions.includes(mission.id);
+
+        body.innerHTML = `
+            <h2 style="color:var(--color-adventure);margin-bottom:15px;font-size:1.9em;">
+                ${mission.icon} ${mission.titleNL}
+            </h2>
+            <h3 style="color:var(--color-water);margin-bottom:20px;font-size:1.15em;">
+                ${mission.titleEN}
+            </h3>
+            <div style="background:var(--color-paper);padding:20px;border-radius:15px;margin-bottom:20px;border:3px solid #8b4513;">
+                <h4 style="margin-bottom:12px;color:var(--color-ink);">📋 Wat te doen • What to do:</h4>
+                <p style="margin-bottom:15px;line-height:1.7;"><strong>🇳🇱</strong> ${mission.instructionsNL}</p>
+                <p style="line-height:1.7;"><strong>🇬🇧</strong> ${mission.instructionsEN}</p>
+            </div>
+            <div style="background:linear-gradient(135deg,var(--color-unlock) 0%,var(--color-water) 100%);padding:20px;border-radius:15px;color:white;margin-bottom:20px;">
+                <div style="font-size:0.95em;font-weight:600;margin-bottom:8px;">✨ What You'll Unlock:</div>
+                <div style="font-size:1.2em;font-weight:700;">${mission.unlocks}</div>
+            </div>
+            ${!done ? `
+                <div class="camera-section">
+                    <h4 style="margin-bottom:12px;color:var(--color-ink);">📸 Capture Your Adventure</h4>
+                    <p style="font-size:0.9em;color:#5d4037;margin-bottom:15px;">
+                        Take a photo to prove your discovery!<br>
+                        Maak een foto als bewijs van je ontdekking!
+                    </p>
+                    <input type="file" accept="image/*" capture="environment"
+                           style="margin-bottom:15px;width:100%;"
+                           onchange="handlePhotoUpload(event, ${mission.id})">
+                    <div id="photoPreview-${mission.id}" class="photo-preview"></div>
+                </div>
+                <button class="btn btn-full" onclick="completeMission(${mission.id})">
+                    🎉 Complete Mission • Voltooi Missie
+                </button>
+            ` : `
+                <div style="text-align:center;padding:30px;background:linear-gradient(135deg,var(--color-land) 0%,var(--color-unlock) 100%);color:white;border-radius:15px;">
+                    <div style="font-size:3em;margin-bottom:10px;">✅</div>
+                    <div style="font-size:1.4em;font-weight:700;">Mission Completed! • Missie Voltooid!</div>
+                </div>
+            `}
+        `;
+        modal.classList.add('active');
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    //  PHOTO UPLOAD — canvas compression to max 800px / JPEG 0.6
+    //  Prevents Base64 memory crash on iPhone
+    // ═══════════════════════════════════════════════════════════════
+    function handlePhotoUpload(event, missionId) {
+        const files = Array.from(event.target.files);
+        if (!currentPhotos[missionId]) currentPhotos[missionId] = [];
+
+        files.forEach(file => {
+            const img = new Image();
+            const objectUrl = URL.createObjectURL(file);
+
+            img.onload = () => {
+                const canvas  = document.getElementById('compressCanvas');
+                const MAX_W   = 800;
+                const scale   = img.width > MAX_W ? MAX_W / img.width : 1;
+                canvas.width  = Math.round(img.width  * scale);
+                canvas.height = Math.round(img.height * scale);
+
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                // Export as compressed JPEG
+                const compressed = canvas.toDataURL('image/jpeg', 0.6);
+                currentPhotos[missionId].push(compressed);
+                updatePhotoPreview(missionId);
+
+                // Release object URL immediately to free memory
+                URL.revokeObjectURL(objectUrl);
+            };
+            img.src = objectUrl;
+        });
+
+        // Reset input so same file can be re-selected
+        event.target.value = '';
+    }
+
+    function updatePhotoPreview(missionId) {
+        const preview = document.getElementById(`photoPreview-${missionId}`);
+        if (!preview) return;
+        preview.innerHTML = '';
+        (currentPhotos[missionId] || []).forEach((photo, index) => {
+            const item = document.createElement('div');
+            item.className = 'photo-item';
+            item.innerHTML = `
+                <img src="${photo}" alt="Photo ${index + 1}" loading="lazy">
+                <button class="photo-remove" onclick="removePhoto(${missionId}, ${index})">×</button>
+            `;
+            preview.appendChild(item);
+        });
+    }
+
+    function removePhoto(missionId, index) {
+        currentPhotos[missionId].splice(index, 1);
+        updatePhotoPreview(missionId);
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    //  COMPLETE MISSION
+    // ═══════════════════════════════════════════════════════════════
+    async function completeMission(missionId) {
+        const allM = [...missions, ...appState.customMissions];
+        const mission = allM.find(m => m.id === missionId);
+        if (!mission || appState.completedMissions.includes(missionId)) return;
+
+        appState.completedMissions.push(missionId);
+
+        if (currentPhotos[missionId] && currentPhotos[missionId].length > 0) {
+            appState.journal.push({
+                missionId,
+                missionTitle:   mission.titleEN,
+                missionTitleNL: mission.titleNL,
+                photos: currentPhotos[missionId],
+                date: new Date().toISOString()
+            });
+            currentPhotos[missionId] = [];
+        }
+
+        mission.skills.forEach(skillId => {
+            const s = appState.skills.find(x => x.id === skillId);
+            const def = skillsDef.find(x => x.id === skillId);
+            if (s && def && s.level < def.max) s.level += 1;
+        });
+
+        const count = appState.completedMissions.length;
+        const badges = { 5: 'explorer-5', 10: 'explorer-10', 15: 'explorer-15', 20: 'explorer-20' };
+        if (badges[count] && !appState.badges.includes(badges[count])) {
+            appState.badges.push(badges[count]);
+        }
+
+        await saveState();
+        updateUI();
+        closeModal();
+        showCelebration(mission);
+
+        document.getElementById('screenReminder').style.display = 'none';
+        appState.screenTime = 0;
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    //  CELEBRATION
+    // ═══════════════════════════════════════════════════════════════
+    function showCelebration(mission) {
+        const popup = document.getElementById('celebration');
+        document.getElementById('celebrationIcon').textContent  = mission.icon;
+        document.getElementById('celebrationTitle').textContent = 'Avontuur Voltooid! 🎉';
+        document.getElementById('celebrationText').innerHTML    = `<strong>${mission.titleNL}</strong><br><em>${mission.titleEN}</em>`;
+        document.getElementById('celebrationReward').textContent = `✨ ${mission.unlocks}`;
+        popup.classList.add('show');
+        setTimeout(() => popup.classList.remove('show'), 4000);
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    //  RENDER SKILLS
+    // ═══════════════════════════════════════════════════════════════
+    function renderSkills() {
+        const container = document.getElementById('skillsGrid');
+        container.innerHTML = '';
+        skillsDef.forEach(def => {
+            const saved = appState.skills.find(s => s.id === def.id) || { level: 0 };
+            const pct   = (saved.level / def.max) * 100;
+            const lvlName = saved.level === 0 ? 'Beginner'
+                          : saved.level < 5   ? 'Apprentice'
+                          : saved.level < 8   ? 'Expert' : 'Master';
+            const card = document.createElement('div');
+            card.className = 'skill-card';
+            card.innerHTML = `
+                <div class="skill-icon">${def.icon}</div>
+                <div class="skill-name">${def.name}</div>
+                <div class="skill-level">Level ${saved.level} • ${lvlName}</div>
+                <div class="skill-progress-bar">
+                    <div class="skill-progress-fill" style="width:${pct}%"></div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    //  RENDER JOURNAL + LIGHTBOX
+    // ═══════════════════════════════════════════════════════════════
+    function renderJournal() {
+        const container = document.getElementById('journalGrid');
+        const empty     = document.getElementById('emptyJournal');
+
+        if (!appState.journal.length) {
+            container.style.display = 'none';
+            empty.style.display = 'block';
+            return;
+        }
+
+        container.style.display = 'grid';
+        empty.style.display = 'none';
+        container.innerHTML = '';
+
+        appState.journal.forEach(entry => {
+            entry.photos.forEach((photo, idx) => {
+                const item = document.createElement('div');
+                item.className = 'journal-entry';
+                item.innerHTML = `
+                    <img src="${photo}" alt="${entry.missionTitle}" class="journal-photo" loading="lazy">
+                    <div class="journal-caption">${entry.missionTitleNL}</div>
+                `;
+                item.onclick = () => openLightbox(photo);
+                container.appendChild(item);
+            });
+        });
+    }
+
+    function openLightbox(src) {
+        document.getElementById('lightboxImg').src = src;
+        document.getElementById('lightbox').classList.add('active');
+    }
+
+    function closeLightbox() {
+        document.getElementById('lightbox').classList.remove('active');
+        document.getElementById('lightboxImg').src = '';
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    //  UPDATE UI
+    // ═══════════════════════════════════════════════════════════════
+    function updateUI() {
+        document.getElementById('explorerName').textContent = appState.explorerName;
+        document.getElementById('totalDiscoveries').textContent = appState.completedMissions.length;
+        document.getElementById('badgeCount').textContent = appState.badges.length;
+        document.getElementById('photoCount').textContent = appState.journal.reduce((s, e) => s + e.photos.length, 0);
+
+        const count = appState.completedMissions.length;
+        let title = 'Beginner Adventurer • Beginnende Avonturier';
+        if (count >= 20)     title = 'Master Explorer • Meester Ontdekker';
+        else if (count >= 15) title = 'Senior Agent • Senior Agent';
+        else if (count >= 10) title = 'Expert Adventurer • Expert Avonturier';
+        else if (count >= 5)  title = 'Experienced Explorer • Ervaren Ontdekker';
+        document.getElementById('explorerTitle').textContent = title;
+
+        const avatars = ['🧭', '🎒', '🗺️', '🏆', '⭐'];
+        document.getElementById('explorerAvatar').textContent = avatars[Math.min(Math.floor(count / 4), avatars.length - 1)];
+
+        // Mode badge
+        const badge = document.getElementById('modeBadge');
+        if (appState.difficultyMode) {
+            badge.style.display = 'inline-block';
+            badge.className = `mode-badge ${appState.difficultyMode}`;
+            badge.textContent = appState.difficultyMode === 'young' ? '🌟 Explorer Mode (Ages 5–9)' : '🕵️ Agent Mode (Ages 10–14)';
+        }
+
+        renderMap();
+        renderMissions();
+        renderSkills();
+        renderJournal();
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    //  TAB SWITCHING
+    // ═══════════════════════════════════════════════════════════════
+    function switchTab(tab, btn) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        if (btn) btn.classList.add('active');
+
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        const map = { map: 'mapTab', missions: 'missionsTab', skills: 'skillsTab', journal: 'journalTab', parent: 'parentTab' };
+        const el = document.getElementById(map[tab]);
+        if (el) el.classList.add('active');
+
+        if (tab === 'parent') loadParentSettings();
+    }
+
+    function closeModal() {
+        document.getElementById('missionModal').classList.remove('active');
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    //  PARENT SETTINGS
+    // ═══════════════════════════════════════════════════════════════
+    function loadParentSettings() {
+        document.getElementById('parentExplorerName').value  = appState.explorerName;
+        document.getElementById('parentReminderTime').value  = appState.reminderTime;
+        document.getElementById('parentDifficulty').value    = appState.difficultyMode || 'young';
+    }
+
+    async function saveParentSettings() {
+        appState.explorerName  = document.getElementById('parentExplorerName').value.trim() || 'Young Explorer';
+        appState.reminderTime  = parseInt(document.getElementById('parentReminderTime').value, 10) || 30;
+        appState.difficultyMode = document.getElementById('parentDifficulty').value;
+        await saveState();
+        updateUI();
+        alert('Settings saved! • Instellingen opgeslagen!');
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    //  ADD CUSTOM MISSION
+    // ═══════════════════════════════════════════════════════════════
+    async function addCustomMission() {
+        const titleNL        = document.getElementById('customTitleNL').value.trim();
+        const titleEN        = document.getElementById('customTitleEN').value.trim();
+        const instructionsNL = document.getElementById('customInstructionsNL').value.trim();
+        const instructionsEN = document.getElementById('customInstructionsEN').value.trim();
+        const type           = document.getElementById('customType').value;
+        const region         = document.getElementById('customRegion').value;
+
+        if (!titleNL || !titleEN || !instructionsNL || !instructionsEN) {
+            alert('Please fill in all fields! • Vul alle velden in!');
+            return;
+        }
+
+        appState.customMissions.push({
+            id: Date.now(),
+            region, type,
+            targetAge: 'all',
+            titleNL, titleEN,
+            icon: type === 'builder' ? '🔨' : type === 'outdoor' ? '🌳' : type === 'culture' ? '🏛️' : '🗣️',
+            instructionsNL, instructionsEN,
+            skills: [type === 'culture' ? 'explorer' : type],
+            unlocks: 'Custom Achievement ⭐',
+            custom: true
+        });
+
+        await saveState();
+        updateUI();
+
+        ['customTitleNL','customTitleEN','customInstructionsNL','customInstructionsEN'].forEach(id => {
+            document.getElementById(id).value = '';
+        });
+        alert('Mission added! • Missie toegevoegd!');
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    //  RESET PROGRESS — guarded by parent gate
+    // ═══════════════════════════════════════════════════════════════
+    async function resetProgress() {
+        // Parent gate before destructive action
+        const a = Math.floor(Math.random() * 9) + 1;
+        const b = Math.floor(Math.random() * 9) + 1;
+        const answer = window.prompt(`Parent Check: What is ${a} + ${b}?`);
+        if (answer === null) return;
+        if (parseInt(answer, 10) !== a + b) {
+            alert('Incorrect answer. Reset cancelled.');
+            return;
+        }
+
+        if (!confirm('Are you sure? This will delete all progress!\nWeet je het zeker? Dit verwijdert alle voortgang!')) return;
+
+        appState = {
+            explorerName:       appState.explorerName,
+            difficultyMode:     appState.difficultyMode,
+            completedMissions:  [],
+            unlockedRegions:    ['centrum'],
+            journal:            [],
+            skills:             skillsDef.map(s => ({ id: s.id, level: 0 })),
+            badges:             [],
+            screenTime:         0,
+            reminderTime:       appState.reminderTime,
+            customMissions:     appState.customMissions,
+            lastActive:         Date.now()
+        };
+        await saveState();
+        updateUI();
+        alert('Progress reset! • Voortgang gereset!');
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    //  KEYBOARD / GESTURE: tap outside modal to close
+    // ═══════════════════════════════════════════════════════════════
+    document.getElementById('missionModal').addEventListener('click', function(e) {
+        if (e.target === this) closeModal();
+    });
+    document.getElementById('lightbox').addEventListener('click', function(e) {
+        if (e.target === this) closeLightbox();
+    });
+
+    // ═══════════════════════════════════════════════════════════════
+    //  INIT
+    // ═══════════════════════════════════════════════════════════════
+    document.addEventListener('DOMContentLoaded', () => {
+        loadState();
+    });
+
+    // Also fire for Capacitor's deviceready if inside a WebView
+    document.addEventListener('deviceready', () => {
+        loadState();
+    }, false);
+
+    </script>
+</body>
+</html>
