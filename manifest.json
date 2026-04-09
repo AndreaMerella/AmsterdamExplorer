@@ -1,0 +1,17 @@
+{
+  "name": "Amsterdam Adventure Map",
+  "short_name": "AMS Adventure",
+  "description": "Discover Amsterdam with fun missions and activities for kids!",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#81d4fa",
+  "theme_color": "#4fc3f7",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/854/854878.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
