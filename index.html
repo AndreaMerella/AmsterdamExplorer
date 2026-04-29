@@ -8,7 +8,7 @@
 <!-- HD Red Bicycle PWA Icon -->
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cdefs%3E%3CradialGradient id='g' cx='50%25' cy='50%25' r='50%25'%3E%3Cstop offset='0%25' stop-color='%23FF5722'/%3E%3Cstop offset='100%25' stop-color='%23B71C1C'/%3E%3C/radialGradient%3E%3Cfilter id='gl'%3E%3CfeGaussianBlur stdDeviation='3' result='b'/%3E%3CfeMerge%3E%3CfeMergeNode in='b'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Crect width='120' height='120' rx='26' fill='url(%23g)'/%3E%3Ccircle cx='38' cy='78' r='18' fill='none' stroke='%23fff' stroke-width='5.5' filter='url(%23gl)'/%3E%3Ccircle cx='82' cy='78' r='18' fill='none' stroke='%23fff' stroke-width='5.5' filter='url(%23gl)'/%3E%3Ccircle cx='38' cy='78' r='3' fill='%23fff'/%3E%3Ccircle cx='82' cy='78' r='3' fill='%23fff'/%3E%3Cpath d='M38 78 L60 42 L82 78' fill='none' stroke='%23fff' stroke-width='5' stroke-linejoin='round' filter='url(%23gl)'/%3E%3Cpath d='M60 42 L60 30' stroke='%23fff' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M50 58 L68 58' stroke='%23fff' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='60' cy='26' r='6' fill='%23F9A825'/%3E%3Cpath d='M54 30 Q48 34 48 40' stroke='%23F9A825' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect width='120' height='120' rx='26' fill='%23D84315'/%3E%3Ccircle cx='38' cy='78' r='18' fill='none' stroke='%23fff' stroke-width='5.5'/%3E%3Ccircle cx='82' cy='78' r='18' fill='none' stroke='%23fff' stroke-width='5.5'/%3E%3Cpath d='M38 78 L60 42 L82 78' fill='none' stroke='%23fff' stroke-width='5' stroke-linejoin='round'/%3E%3Cpath d='M60 42 L60 30 M50 58 L68 58' stroke='%23fff' stroke-width='4.5' stroke-linecap='round'/%3E%3Ccircle cx='60' cy='26' r='5' fill='%23F9A825'/%3E%3C/svg%3E">
-<script type="application/manifest+json">{"name":"Amsterdam Adventure Map","short_name":"AmsAdventure","start_url":"./","display":"standalone","background_color":"#87CEEB","theme_color":"#D84315","description":"A kids adventure map for exploring Amsterdam"}</script>
+<script type="application/manifest+json">{"name":"Amsterdam Adventure Map","short_name":"AmsAdventure","start_url":"./","display":"standalone","background_color":"#1C0A58","theme_color":"#FFD000","description":"A kids adventure map for exploring Amsterdam"}</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Caveat:wght@600&family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
@@ -17,21 +17,31 @@
 /* ── Reset & Root ── */
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 :root{
-  --brick:#D84315;--canal:#1E88E5;--grass:#558B2F;--sun:#F9A825;
-  --tulip:#EC407A;--mill:#5E35B1;--paper:#FFF8DC;--dark:#263238;
-  --card-border:5px solid #8B4513;
+  --bg:#180A48;
+  --panel:#251268;
+  --card:#311880;
+  --gold:#FFD000;
+  --gold-shadow:#8B5C00;
+  --lime:#18E87A;
+  --lime-shadow:#065C2A;
+  --cyan:#00CFFF;
+  --pink:#FF3DB0;
+  --orange:#FF7A00;
+  --white:#FFFFFF;
+  --dim:#A888D8;
+  --card-border:3px solid rgba(255,255,255,0.14);
 }
 html,body{height:100%;overflow:hidden;}
 body{
   font-family:'Fredoka',sans-serif;
-  background:linear-gradient(180deg,#87CEEB 0%,#B0E0FF 60%,#98D8C8 100%);
+  background:linear-gradient(170deg,#1C0A58 0%,#130638 100%);
   display:flex;flex-direction:column;height:100dvh;overflow:hidden;
   -webkit-user-select:none;-webkit-touch-callout:none;user-select:none;
 }
 
 /* ── Clouds ── */
-.cloud{position:fixed;background:rgba(255,255,255,0.78);border-radius:100px;pointer-events:none;z-index:0;}
-.cloud::before,.cloud::after{content:'';position:absolute;background:rgba(255,255,255,0.78);border-radius:100px;}
+.cloud{position:fixed;background:rgba(255,255,255,0.72);border-radius:100px;pointer-events:none;z-index:0;}
+.cloud::before,.cloud::after{content:'';position:absolute;background:rgba(255,255,255,0.72);border-radius:100px;}
 .c1{width:110px;height:42px;top:9%;animation:fc 52s linear infinite;}
 .c1::before{width:55px;height:55px;top:-28px;left:12px;}
 .c1::after{width:65px;height:42px;top:-17px;right:12px;}
@@ -52,31 +62,24 @@ body{
 .c6::after{width:92px;height:62px;top:-26px;right:22px;}
 @keyframes fc{from{transform:translateX(-230px);}to{transform:translateX(calc(100vw + 230px));}}
 
-/* ── Juice: button pop ── */
+/* ── Juice ── */
 .pop{transition:transform 0.1s ease,box-shadow 0.1s ease;}
 .pop:active{transform:scale(0.91)!important;box-shadow:none!important;}
 button:active{transform:scale(0.93);}
 
-/* ── Bounce-in modal ── */
-@keyframes bounceIn{
-  0%{transform:scale(0.5);opacity:0;}
-  70%{transform:scale(1.05);}
-  85%{transform:scale(0.97);}
-  100%{transform:scale(1);opacity:1;}
-}
-@keyframes slideUp{
-  from{transform:translateY(60px);opacity:0;}
-  to{transform:translateY(0);opacity:1;}
-}
+/* ── Keyframes ── */
+@keyframes bounceIn{0%{transform:scale(0.5);opacity:0;}70%{transform:scale(1.05);}85%{transform:scale(0.97);}100%{transform:scale(1);opacity:1;}}
+@keyframes slideUp{from{transform:translateY(60px);opacity:0;}to{transform:translateY(0);opacity:1;}}
 @keyframes spin{to{transform:rotate(360deg);}}
-@keyframes pulse-unlock{0%,100%{box-shadow:0 0 0 0 rgba(85,139,47,0.45);}50%{box-shadow:0 0 0 9px rgba(85,139,47,0);}}
-@keyframes badge-shine{0%,100%{box-shadow:0 0 0 0 rgba(249,168,37,0.6);}50%{box-shadow:0 0 0 8px rgba(249,168,37,0);}}
+@keyframes pulse-unlock{0%,100%{box-shadow:0 0 0 0 rgba(24,232,122,0.55);}50%{box-shadow:0 0 0 10px rgba(24,232,122,0);}}
+@keyframes badge-shine{0%,100%{box-shadow:0 0 0 0 rgba(255,208,0,0.7);}50%{box-shadow:0 0 0 10px rgba(255,208,0,0);}}
 @keyframes pop-badge{0%{transform:scale(0);}70%{transform:scale(1.2);}100%{transform:scale(1);}}
+@keyframes glow-pulse{0%,100%{text-shadow:0 0 8px var(--gold),0 0 20px rgba(255,208,0,0.4);}50%{text-shadow:0 0 16px var(--gold),0 0 40px rgba(255,208,0,0.7);}}
 
 /* ── Screen reminder ── */
 .screen-reminder{
   position:fixed;top:0;left:0;right:0;z-index:1500;
-  background:#F9A825;color:#263238;padding:10px 16px;
+  background:var(--gold);color:#1A0845;padding:10px 16px;
   display:flex;align-items:center;justify-content:space-between;
   font-weight:700;font-size:0.93em;
   transform:translateY(-100%);transition:transform 0.4s ease;
@@ -87,238 +90,286 @@ button:active{transform:scale(0.93);}
 /* ── Onboarding ── */
 .onboarding{
   position:fixed;inset:0;z-index:2000;
-  background:linear-gradient(160deg,#87CEEB 0%,#4FC3F7 60%,#81D4FA 100%);
+  background:linear-gradient(160deg,#2D0E7A 0%,#1A0850 60%,#0F0430 100%);
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   padding:28px;text-align:center;
   transition:opacity 0.5s ease,pointer-events 0.5s;
 }
 .onboarding.hidden{opacity:0;pointer-events:none;}
-.ob-logo{font-size:4.5em;margin-bottom:6px;animation:pop-badge 0.6s ease;}
-.ob-title{font-family:'Bangers',cursive;font-size:2.9em;color:#D84315;letter-spacing:2px;margin-bottom:4px;}
-.ob-sub{font-family:'Caveat',cursive;font-size:1.4em;color:#263238;margin-bottom:22px;}
+.ob-scene{position:absolute;inset:0;overflow:hidden;z-index:0;}
+.ob-form{position:absolute;bottom:0;left:0;right:0;z-index:2;padding:16px 24px 36px;background:linear-gradient(to bottom,transparent,rgba(24,10,72,0.97) 32%);text-align:center;display:flex;flex-direction:column;align-items:center;}
+.ob-top-title{position:absolute;top:18px;left:0;right:0;z-index:3;text-align:center;}
+.ob-logo{font-size:4.5em;margin-bottom:6px;animation:pop-badge 0.6s ease;filter:drop-shadow(0 0 16px rgba(255,208,0,0.8));}
+.ob-title{
+  font-family:'Bangers',cursive;font-size:2.9em;letter-spacing:3px;margin-bottom:4px;
+  color:var(--gold);text-shadow:0 0 20px rgba(255,208,0,0.5);
+  -webkit-text-stroke:1.5px #000;paint-order:stroke fill;
+}
+.ob-sub{font-family:'Caveat',cursive;font-size:1.35em;color:var(--dim);margin-bottom:22px;}
 .ob-input{
   font-family:'Fredoka',sans-serif;font-size:1.15em;padding:11px 18px;
-  border:4px solid #D84315;border-radius:14px;background:#FFF8DC;
-  text-align:center;width:210px;outline:none;margin-bottom:18px;
-  box-shadow:0 4px 0 #8B4513;
+  border:3px solid var(--gold);border-radius:14px;
+  background:rgba(255,255,255,0.1);color:#fff;
+  text-align:center;width:220px;outline:none;margin-bottom:18px;
+  box-shadow:0 4px 0 var(--gold-shadow),0 0 20px rgba(255,208,0,0.2);
 }
-.ob-label{font-family:'Bangers',cursive;font-size:1.25em;color:#263238;letter-spacing:1px;margin-bottom:13px;}
+.ob-input::placeholder{color:rgba(255,255,255,0.45);}
+.ob-label{font-family:'Bangers',cursive;font-size:1.25em;color:var(--dim);letter-spacing:2px;margin-bottom:13px;}
 .age-cards{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;}
 .age-card{
-  background:#FFF8DC;border:5px solid #D84315;border-radius:18px;
+  background:linear-gradient(135deg,#3D1A90,#251268);
+  border:3px solid var(--gold);border-radius:20px;
   padding:20px 26px;cursor:pointer;
   transition:transform 0.12s ease,box-shadow 0.12s ease;
-  box-shadow:0 5px 0 #8B4513;min-width:125px;
+  box-shadow:0 6px 0 var(--gold-shadow),0 0 20px rgba(255,208,0,0.25);
+  min-width:130px;
 }
-.age-card:active{transform:translateY(3px);box-shadow:0 2px 0 #8B4513;}
+.age-card:active{transform:translateY(4px);box-shadow:0 2px 0 var(--gold-shadow);}
 .age-card .ai{font-size:2.6em;display:block;margin-bottom:5px;}
-.age-card .al{font-family:'Bangers',cursive;font-size:1.5em;color:#D84315;letter-spacing:1px;}
-.age-card .ar{font-size:0.83em;color:#666;margin-top:2px;}
+.age-card .al{font-family:'Bangers',cursive;font-size:1.5em;color:var(--gold);letter-spacing:2px;}
+.age-card .ar{font-size:0.83em;color:var(--dim);margin-top:2px;}
 
 /* ── App Header ── */
 .app-header{
-  flex-shrink:0;background:#FFF8DC;border-bottom:4px solid #8B4513;
+  flex-shrink:0;
+  background:linear-gradient(90deg,#1E0A58,#2D1278);
+  border-bottom:2px solid rgba(255,208,0,0.35);
   padding:max(12px,env(safe-area-inset-top)) 14px 10px;
-  z-index:10;box-shadow:0 4px 14px rgba(0,0,0,0.22);position:relative;
+  z-index:10;box-shadow:0 4px 24px rgba(0,0,0,0.5);position:relative;
 }
 .hrow{display:flex;align-items:center;gap:11px;}
 .hav{
-  width:48px;height:48px;background:linear-gradient(135deg,#EC407A,#5E35B1);
+  width:50px;height:50px;
+  background:linear-gradient(135deg,#FF3DB0,#7B2FBE);
   border-radius:50%;display:flex;align-items:center;justify-content:center;
-  font-size:1.65em;border:3px solid #F9A825;flex-shrink:0;
+  font-size:1.7em;border:3px solid var(--gold);flex-shrink:0;
+  box-shadow:0 0 16px rgba(255,208,0,0.5);
 }
 .hinfo{flex:1;min-width:0;}
-.htitle{font-family:'Bangers',cursive;font-size:1.35em;color:#D84315;letter-spacing:1px;line-height:1;}
-.hname{font-family:'Caveat',cursive;font-size:1.02em;color:#263238;}
+.htitle{
+  font-family:'Bangers',cursive;font-size:1.35em;letter-spacing:2px;line-height:1;
+  color:var(--gold);-webkit-text-stroke:0.5px #000;paint-order:stroke fill;
+}
+.hname{font-family:'Caveat',cursive;font-size:1.02em;color:var(--dim);}
 .hbadges{display:flex;gap:5px;flex-wrap:wrap;margin-top:3px;}
-.mb{background:#1E88E5;color:#fff;padding:2px 9px;border-radius:11px;font-size:0.68em;font-weight:700;}
-.mb.g{background:#558B2F;}
-.mb.p{background:#5E35B1;}
+.mb{background:rgba(0,207,255,0.25);color:var(--cyan);padding:2px 9px;border-radius:11px;font-size:0.68em;font-weight:700;border:1px solid rgba(0,207,255,0.4);}
+.mb.g{background:rgba(24,232,122,0.2);color:var(--lime);border-color:rgba(24,232,122,0.4);}
+.mb.p{background:rgba(255,208,0,0.18);color:var(--gold);border-color:rgba(255,208,0,0.4);}
 
 /* ── Content ── */
-.app-content{
-  flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;
-  position:relative;z-index:1;padding:13px 13px 4px;
-}
+.app-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;position:relative;z-index:1;padding:13px 13px 4px;}
 .tab-pane{display:none;}
 .tab-pane.active{display:block;animation:slideUp 0.3s ease;}
 
 /* ── Bottom nav ── */
 .bottom-nav{flex-shrink:0;position:relative;z-index:10;}
-.canal-svg{display:block;width:100%;height:72px;}
+.canal-svg{display:block;width:100%;height:96px;}
 .tab-bar{
-  display:flex;background:rgba(255,252,230,0.96);
-  border-top:3px solid #8B4513;
+  display:flex;
+  background:linear-gradient(90deg,#1A0848,#25106A);
+  border-top:2px solid rgba(255,208,0,0.3);
   padding-bottom:env(safe-area-inset-bottom,0px);
 }
 .tab-btn{
   flex:1;padding:8px 2px 7px;background:none;border:none;
   font-family:'Fredoka',sans-serif;font-size:0.68em;font-weight:600;
-  color:#888;cursor:pointer;display:flex;flex-direction:column;
+  color:rgba(168,136,216,0.7);cursor:pointer;display:flex;flex-direction:column;
   align-items:center;gap:1px;transition:color 0.18s,transform 0.1s;
 }
 .tab-btn .ti{font-size:1.4em;line-height:1;transition:transform 0.18s;}
-.tab-btn.active{color:#D84315;}
-.tab-btn.active .ti{transform:translateY(-3px) scale(1.15);}
+.tab-btn.active{color:var(--gold);}
+.tab-btn.active .ti{transform:translateY(-3px) scale(1.18);filter:drop-shadow(0 0 6px rgba(255,208,0,0.7));}
 .tab-btn:active{transform:scale(0.88);}
 
 /* ── Back button ── */
 #backBtn{
   position:fixed;bottom:calc(env(safe-area-inset-bottom,0px) + 118px);right:13px;
-  z-index:200;background:#D84315;color:#fff;border:none;
+  z-index:200;background:var(--gold);color:#1A0845;border:none;
   width:44px;height:44px;border-radius:50%;font-size:1.25em;cursor:pointer;
-  box-shadow:0 4px 0 #8B4513;display:none;align-items:center;justify-content:center;
-  transition:transform 0.1s;
+  box-shadow:0 4px 0 var(--gold-shadow),0 0 14px rgba(255,208,0,0.5);
+  display:none;align-items:center;justify-content:center;
+  transition:transform 0.1s;font-weight:900;
 }
-#backBtn:active{transform:scale(0.87) translateY(2px);box-shadow:0 2px 0 #8B4513;}
+#backBtn:active{transform:scale(0.87) translateY(2px);box-shadow:0 2px 0 var(--gold-shadow);}
 #backBtn.vis{display:flex;}
 
-/* ── Paper card ── */
+/* ── Game card ── */
 .pcard{
-  background:#FFF8DC;border-radius:18px;padding:16px;
-  box-shadow:0 6px 0 #8B4513,0 8px 20px rgba(0,0,0,0.2);
+  background:linear-gradient(145deg,#2D1270,#1E0A52);
+  border-radius:18px;padding:16px;
+  box-shadow:0 6px 0 rgba(0,0,0,0.5),0 8px 24px rgba(0,0,0,0.4);
   border:var(--card-border);margin-bottom:14px;
+  position:relative;overflow:hidden;
 }
-.ctitle{font-family:'Bangers',cursive;font-size:1.42em;color:#D84315;letter-spacing:1px;margin-bottom:11px;}
+.pcard::before{
+  content:'';position:absolute;inset:0;border-radius:18px;
+  background:linear-gradient(135deg,rgba(255,255,255,0.06) 0%,transparent 60%);
+  pointer-events:none;
+}
+.ctitle{
+  font-family:'Bangers',cursive;font-size:1.5em;letter-spacing:2px;margin-bottom:11px;
+  color:var(--gold);-webkit-text-stroke:0.5px rgba(0,0,0,0.5);paint-order:stroke fill;
+}
 
 /* ── Map ── */
 .map-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
 .mreg{
-  background:#fff;border-radius:13px;padding:13px 9px;text-align:center;
+  background:linear-gradient(135deg,#311880,#1E0A52);
+  border-radius:14px;padding:13px 9px;text-align:center;
   cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;
-  border:3px solid transparent;position:relative;min-height:95px;
+  border:3px solid rgba(255,255,255,0.1);position:relative;min-height:95px;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
+  box-shadow:0 4px 0 rgba(0,0,0,0.4);
 }
 .mreg:active{transform:scale(0.95);}
-.mreg.locked{opacity:0.42;cursor:default;background:#e6e6e6;}
-.mreg.unlocked{border-color:#558B2F;animation:pulse-unlock 2.5s ease infinite;}
-.mreg.completed{border-color:#F9A825;background:linear-gradient(135deg,#FFF9C4,#fff);}
-.ri{font-size:2.1em;margin-bottom:4px;}
-.rn{font-weight:700;color:#263238;font-size:0.92em;}
-.rs{font-size:0.7em;color:#999;margin-top:1px;}
-.rlk{position:absolute;top:6px;right:6px;font-size:0.95em;opacity:0.28;}
+.mreg.locked{opacity:0.35;cursor:default;background:linear-gradient(135deg,#1E0A3A,#130630);}
+.mreg.unlocked{border-color:var(--lime);animation:pulse-unlock 2.5s ease infinite;box-shadow:0 4px 0 rgba(0,0,0,0.4),0 0 16px rgba(24,232,122,0.3);}
+.mreg.completed{border-color:var(--gold);background:linear-gradient(135deg,#3D2A00,#2D1E00,#311880);box-shadow:0 4px 0 rgba(0,0,0,0.4),0 0 16px rgba(255,208,0,0.3);}
+.ri{font-size:2.2em;margin-bottom:4px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5));}
+.rn{font-weight:700;color:#fff;font-size:0.92em;}
+.rs{font-size:0.7em;color:var(--dim);margin-top:1px;}
+.rlk{position:absolute;top:6px;right:6px;font-size:0.95em;opacity:0.3;}
 
 /* ── Missions ── */
 .mlist{display:flex;flex-direction:column;gap:10px;}
-.mempty{text-align:center;padding:34px 14px;font-family:'Caveat',cursive;font-size:1.25em;color:#aaa;}
+.mempty{text-align:center;padding:34px 14px;font-family:'Caveat',cursive;font-size:1.25em;color:var(--dim);}
 .mcard{
-  background:#fff;border-radius:13px;padding:13px 15px;cursor:pointer;
-  border-left:6px solid #1E88E5;box-shadow:0 3px 0 rgba(0,0,0,0.12);
+  background:linear-gradient(135deg,#2D1270,#1E0A52);
+  border-radius:14px;padding:13px 15px;cursor:pointer;
+  border-left:6px solid var(--cyan);
+  box-shadow:0 4px 0 rgba(0,0,0,0.4);
   position:relative;transition:transform 0.12s,box-shadow 0.12s;
 }
-.mcard:active{transform:scale(0.97);box-shadow:0 1px 0 rgba(0,0,0,0.12);}
-.mcard.done{opacity:0.55;border-left-color:#bbb;}
-.mcard.te{border-left-color:#1E88E5;}
-.mcard.ta{border-left-color:#558B2F;}
+.mcard:active{transform:scale(0.97);box-shadow:0 1px 0 rgba(0,0,0,0.4);}
+.mcard.done{opacity:0.45;border-left-color:rgba(255,255,255,0.2);}
+.mcard.te{border-left-color:var(--cyan);}
+.mcard.ta{border-left-color:var(--lime);}
 .mcard.tn{border-left-color:#66BB6A;}
-.mcard.tl{border-left-color:#EC407A;}
-.mcard.tp{border-left-color:#5E35B1;}
-.mcard.td{border-left-color:#FF7043;}
-.mcard.tc{border-left-color:#F9A825;}
-.mcard.ts{border-left-color:#26C6DA;}
+.mcard.tl{border-left-color:var(--pink);}
+.mcard.tp{border-left-color:#C77DFF;}
+.mcard.td{border-left-color:var(--orange);}
+.mcard.tc{border-left-color:var(--gold);}
+.mcard.ts{border-left-color:#00E5FF;}
 .mtop{display:flex;align-items:flex-start;gap:10px;}
 .mico{font-size:1.9em;flex-shrink:0;line-height:1;}
 .mbody{flex:1;}
-.mtit{font-weight:700;font-size:1em;color:#263238;margin-bottom:2px;}
-.mdsc{font-size:0.8em;color:#666;line-height:1.38;}
+.mtit{font-weight:700;font-size:1em;color:#fff;margin-bottom:2px;}
+.mdsc{font-size:0.8em;color:var(--dim);line-height:1.38;}
 .mmeta{display:flex;gap:5px;margin-top:6px;flex-wrap:wrap;}
-.stag{font-size:0.66em;font-weight:700;padding:2px 7px;border-radius:9px;background:#1E88E5;color:#fff;}
-.rtag{font-size:0.66em;padding:2px 7px;border-radius:9px;background:#eee;color:#555;font-weight:600;}
+.stag{font-size:0.66em;font-weight:700;padding:2px 8px;border-radius:10px;background:rgba(0,207,255,0.25);color:var(--cyan);border:1px solid rgba(0,207,255,0.4);}
+.rtag{font-size:0.66em;padding:2px 8px;border-radius:10px;background:rgba(255,255,255,0.08);color:var(--dim);font-weight:600;}
 .dst{position:absolute;top:8px;right:8px;font-size:1.4em;}
 
 /* ── Skills ── */
 .sg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
-.skc{background:#fff;border-radius:13px;padding:12px 8px;text-align:center;border:3px solid #D84315;box-shadow:0 3px 0 #8B4513;}
+.skc{
+  background:linear-gradient(135deg,#311880,#1E0A52);
+  border-radius:14px;padding:12px 8px;text-align:center;
+  border:2px solid rgba(255,208,0,0.35);
+  box-shadow:0 4px 0 rgba(0,0,0,0.4);
+}
 .ski{font-size:1.85em;margin-bottom:4px;}
-.skn{font-weight:700;font-size:0.76em;color:#263238;margin-bottom:2px;}
-.skt{font-family:'Caveat',cursive;font-size:0.8em;color:#EC407A;}
-.skx{font-size:0.7em;color:#aaa;margin-top:2px;}
-.sbw{background:#eee;border-radius:5px;height:7px;margin-top:5px;overflow:hidden;}
-.sb{height:100%;border-radius:5px;background:linear-gradient(90deg,#D84315,#FF8A65);transition:width 0.7s ease;}
+.skn{font-weight:700;font-size:0.76em;color:#fff;margin-bottom:2px;}
+.skt{font-family:'Caveat',cursive;font-size:0.8em;color:var(--pink);}
+.skx{font-size:0.7em;color:var(--dim);margin-top:2px;}
+.sbw{background:rgba(255,255,255,0.1);border-radius:5px;height:7px;margin-top:5px;overflow:hidden;}
+.sb{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--gold),var(--orange));transition:width 0.7s ease;}
 
 /* ── Badges ── */
 .bg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
-.bdg{background:#fff;border-radius:13px;padding:12px 7px;text-align:center;border:3px solid transparent;box-shadow:0 2px 5px rgba(0,0,0,0.08);opacity:0.3;}
-.bdg.earned{border-color:#F9A825;opacity:1;animation:badge-shine 2.2s ease infinite;}
+.bdg{
+  background:linear-gradient(135deg,#1E0A52,#130630);
+  border-radius:14px;padding:12px 7px;text-align:center;
+  border:2px solid rgba(255,255,255,0.08);
+  box-shadow:0 2px 8px rgba(0,0,0,0.4);opacity:0.35;
+}
+.bdg.earned{border-color:var(--gold);opacity:1;animation:badge-shine 2.2s ease infinite;background:linear-gradient(135deg,#3D2800,#1E0A52);}
 .bdg.just-earned{animation:pop-badge 0.5s ease,badge-shine 2.2s ease 0.5s infinite;}
 .bi{font-size:2.1em;margin-bottom:4px;}
-.bn{font-size:0.7em;font-weight:700;color:#263238;}
+.bn{font-size:0.7em;font-weight:700;color:#fff;}
 
 /* ── Journal ── */
-.je{background:#fff;border-radius:13px;padding:13px;margin-bottom:10px;border-left:6px solid #5E35B1;}
-.jmn{font-weight:700;color:#263238;margin-bottom:4px;}
-.jdt{font-size:0.77em;color:#bbb;margin-bottom:6px;}
-.jnt{font-family:'Caveat',cursive;font-size:1.06em;color:#263238;margin-bottom:8px;}
+.je{background:linear-gradient(135deg,#2D1270,#1E0A52);border-radius:14px;padding:13px;margin-bottom:10px;border-left:6px solid #C77DFF;}
+.jmn{font-weight:700;color:#fff;margin-bottom:4px;}
+.jdt{font-size:0.77em;color:var(--dim);margin-bottom:6px;}
+.jnt{font-family:'Caveat',cursive;font-size:1.06em;color:#E0D0FF;margin-bottom:8px;}
 .jph{display:grid;grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:7px;}
-.jpit{aspect-ratio:1;border-radius:8px;overflow:hidden;border:2px solid #D84315;cursor:pointer;}
+.jpit{aspect-ratio:1;border-radius:8px;overflow:hidden;border:2px solid var(--gold);cursor:pointer;}
 .jpit img{width:100%;height:100%;object-fit:cover;display:block;}
-.jempty{text-align:center;padding:34px 14px;font-family:'Caveat',cursive;font-size:1.22em;color:#ccc;}
+.jempty{text-align:center;padding:34px 14px;font-family:'Caveat',cursive;font-size:1.22em;color:var(--dim);}
 
 /* ── Parent ── */
-.ps{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee;font-size:0.9em;}
+.ps{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.08);font-size:0.9em;color:#E0D0FF;}
 .ps:last-child{border:none;}
+.ps strong{color:#fff;}
 
 /* ── Buttons ── */
 .btn{
   display:block;width:100%;padding:13px 16px;border:none;border-radius:14px;
-  background:linear-gradient(135deg,#D84315,#B71C1C);color:#fff;
+  background:linear-gradient(135deg,#FF5C00,#CC2200);color:#fff;
   font-family:'Fredoka',sans-serif;font-size:1em;font-weight:700;
   cursor:pointer;margin-top:10px;text-align:center;
-  box-shadow:0 4px 0 #7A0000;transition:transform 0.1s,box-shadow 0.1s;
+  box-shadow:0 5px 0 #660F00,0 0 0 2px rgba(255,255,255,0.1) inset;
+  transition:transform 0.1s,box-shadow 0.1s;
 }
-.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #7A0000;}
-.btn.sec{background:linear-gradient(135deg,#5E35B1,#311B92);box-shadow:0 4px 0 #1A0070;}
-.btn.sec:active{box-shadow:0 1px 0 #1A0070;}
-.btn.grn{background:linear-gradient(135deg,#558B2F,#1B5E20);box-shadow:0 4px 0 #003300;}
-.btn.grn:active{box-shadow:0 1px 0 #003300;}
-.btn.ylw{background:linear-gradient(135deg,#F9A825,#E65100);box-shadow:0 4px 0 #7A3100;}
-.btn.ylw:active{box-shadow:0 1px 0 #7A3100;}
-.btn:disabled{background:#ccc!important;box-shadow:0 4px 0 #aaa!important;cursor:not-allowed;opacity:0.7;}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 #660F00;}
+.btn.sec{background:linear-gradient(135deg,#7B2FBE,#3D1A6E);box-shadow:0 5px 0 #1A0048,0 0 0 2px rgba(255,255,255,0.1) inset;}
+.btn.sec:active{box-shadow:0 1px 0 #1A0048;}
+.btn.grn{background:linear-gradient(135deg,#12C860,#077A38);box-shadow:0 5px 0 #024A20,0 0 0 2px rgba(255,255,255,0.1) inset;}
+.btn.grn:active{box-shadow:0 1px 0 #024A20;}
+.btn.ylw{background:linear-gradient(135deg,#FFD000,#FF8C00);color:#1A0845;box-shadow:0 5px 0 var(--gold-shadow),0 0 0 2px rgba(255,255,255,0.2) inset;font-weight:800;}
+.btn.ylw:active{box-shadow:0 1px 0 var(--gold-shadow);}
+.btn:disabled{background:rgba(255,255,255,0.1)!important;box-shadow:none!important;cursor:not-allowed;opacity:0.5;}
 
 /* ── Modals ── */
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.86);z-index:1000;align-items:flex-end;justify-content:center;padding:0;}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:1000;align-items:flex-end;justify-content:center;padding:0;}
 .modal.active{display:flex;}
 .mc{
-  background:#FFF8DC;border-radius:22px 22px 0 0;padding:22px;
+  background:linear-gradient(160deg,#2D1278,#1A0850);
+  border-radius:22px 22px 0 0;padding:22px;
   width:100%;max-width:600px;max-height:92vh;overflow-y:auto;
-  position:relative;border-top:5px solid #8B4513;border-left:5px solid #8B4513;border-right:5px solid #8B4513;
+  position:relative;
+  border-top:3px solid rgba(255,208,0,0.5);
+  border-left:3px solid rgba(255,208,0,0.2);
+  border-right:3px solid rgba(255,208,0,0.2);
   animation:bounceIn 0.38s cubic-bezier(0.34,1.56,0.64,1);
 }
-.mc.center{border-radius:22px;margin:20px;width:calc(100% - 40px);animation:bounceIn 0.38s cubic-bezier(0.34,1.56,0.64,1);}
-.mcls{position:absolute;top:11px;right:11px;background:#D84315;color:#fff;border:none;width:35px;height:35px;border-radius:50%;font-size:1.2em;cursor:pointer;font-weight:700;box-shadow:0 3px 0 #7A0000;transition:transform 0.1s;}
+.mc.center{border-radius:22px;margin:20px;width:calc(100% - 40px);}
+.mcls{
+  position:absolute;top:11px;right:11px;
+  background:linear-gradient(135deg,#FF3DB0,#C0007A);color:#fff;border:none;
+  width:36px;height:36px;border-radius:50%;font-size:1.2em;cursor:pointer;font-weight:700;
+  box-shadow:0 3px 0 #700040;transition:transform 0.1s;
+}
 .mcls:active{transform:scale(0.88);}
-.mtitle{font-family:'Bangers',cursive;font-size:1.7em;color:#D84315;margin-bottom:2px;letter-spacing:1px;}
-.mdesc{font-size:0.91em;color:#263238;line-height:1.6;margin-bottom:13px;}
-.cbox{background:#fff;border-radius:11px;padding:12px;border-left:5px solid #1E88E5;margin-bottom:12px;}
-.cbox h4{font-family:'Bangers',cursive;color:#1E88E5;font-size:1.12em;margin-bottom:4px;}
-.cbox p{font-size:0.87em;color:#555;line-height:1.5;}
-.psec label{display:flex;align-items:center;gap:8px;background:#5E35B1;color:#fff;padding:10px 15px;border-radius:11px;cursor:pointer;font-weight:700;font-size:0.9em;box-shadow:0 3px 0 #1A0070;}
-.psec label:active{transform:translateY(2px);box-shadow:0 1px 0 #1A0070;}
+.mtitle{font-family:'Bangers',cursive;font-size:1.7em;color:var(--gold);margin-bottom:2px;letter-spacing:2px;}
+.mdesc{font-size:0.91em;color:#D0C0F0;line-height:1.6;margin-bottom:13px;}
+.cbox{background:rgba(0,207,255,0.08);border-radius:12px;padding:12px;border-left:5px solid var(--cyan);margin-bottom:12px;}
+.cbox h4{font-family:'Bangers',cursive;color:var(--cyan);font-size:1.12em;margin-bottom:4px;letter-spacing:1px;}
+.cbox p{font-size:0.87em;color:#C0B0E0;line-height:1.5;}
+.psec label{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,#7B2FBE,#3D1A6E);color:#fff;padding:10px 15px;border-radius:12px;cursor:pointer;font-weight:700;font-size:0.9em;box-shadow:0 4px 0 #1A0048;}
+.psec label:active{transform:translateY(2px);box-shadow:0 1px 0 #1A0048;}
 .psec input[type=file]{display:none;}
 .pp{display:grid;grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:7px;margin-top:8px;}
-.pit{aspect-ratio:1;border-radius:8px;overflow:hidden;border:2px solid #D84315;cursor:pointer;}
+.pit{aspect-ratio:1;border-radius:8px;overflow:hidden;border:2px solid var(--gold);cursor:pointer;}
 .pit img{width:100%;height:100%;object-fit:cover;display:block;}
-.narea{width:100%;padding:10px;border:3px solid #D84315;border-radius:11px;font-family:'Caveat',cursive;font-size:1.1em;background:#FFF8DC;resize:none;min-height:70px;outline:none;margin-bottom:10px;}
+.narea{width:100%;padding:10px;border:2px solid rgba(255,208,0,0.4);border-radius:12px;font-family:'Caveat',cursive;font-size:1.1em;background:rgba(255,255,255,0.06);color:#fff;resize:none;min-height:70px;outline:none;margin-bottom:10px;}
+.narea::placeholder{color:rgba(255,255,255,0.35);}
 .saw{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
-.sawd{background:#558B2F;color:#fff;padding:4px 10px;border-radius:10px;font-size:0.77em;font-weight:700;}
-.donebox{text-align:center;font-family:'Bangers',cursive;font-size:1.6em;color:#558B2F;padding:8px 0;}
-.photo-gate-msg{text-align:center;font-size:0.85em;color:#FF7043;font-weight:700;margin-top:6px;padding:8px;background:#FFF3E0;border-radius:8px;}
+.sawd{background:rgba(24,232,122,0.2);color:var(--lime);padding:4px 10px;border-radius:10px;font-size:0.77em;font-weight:700;border:1px solid rgba(24,232,122,0.4);}
+.donebox{text-align:center;font-family:'Bangers',cursive;font-size:1.6em;color:var(--lime);padding:8px 0;text-shadow:0 0 12px rgba(24,232,122,0.6);}
+.photo-gate-msg{text-align:center;font-size:0.85em;color:var(--orange);font-weight:700;margin-top:6px;padding:8px;background:rgba(255,122,0,0.1);border-radius:8px;border:1px solid rgba(255,122,0,0.3);}
 
 /* ── Mini-game modal ── */
-#gameModal .mc{background:#1a1a2e;border-color:#F9A825;padding:0;overflow:hidden;border-radius:16px 16px 0 0;}
+#gameModal .mc{background:#0D0520;border-color:var(--gold);border-left-color:var(--gold);border-right-color:var(--gold);padding:0;overflow:hidden;border-radius:16px 16px 0 0;}
 #gameCanvas{width:100%;display:block;touch-action:none;cursor:pointer;}
 .game-ui{padding:14px;}
-.game-title{font-family:'Bangers',cursive;font-size:1.6em;color:#F9A825;text-align:center;letter-spacing:2px;}
-.game-sub{font-family:'Fredoka',sans-serif;font-size:0.9em;color:#aaa;text-align:center;margin-bottom:10px;}
-.game-over-overlay{
-  display:none;position:absolute;inset:0;
-  background:rgba(0,0,0,0.75);
-  flex-direction:column;align-items:center;justify-content:center;
-  padding:20px;
-}
+.game-title{font-family:'Bangers',cursive;font-size:1.6em;color:var(--gold);text-align:center;letter-spacing:2px;}
+.game-sub{font-family:'Fredoka',sans-serif;font-size:0.9em;color:var(--dim);text-align:center;margin-bottom:10px;}
+.game-over-overlay{display:none;position:absolute;inset:0;background:rgba(0,0,0,0.82);flex-direction:column;align-items:center;justify-content:center;padding:20px;}
 .game-over-overlay.vis{display:flex;}
 .go-title{font-family:'Bangers',cursive;font-size:2.5em;letter-spacing:2px;margin-bottom:10px;}
-.go-title.win{color:#F9A825;}
+.go-title.win{color:var(--gold);}
 .go-title.lose{color:#EF5350;}
 
 /* ── Lightbox ── */
@@ -329,6 +380,25 @@ button:active{transform:scale(0.93);}
   .sg,.bg{grid-template-columns:repeat(2,1fr);}
   .map-grid{grid-template-columns:1fr;}
 }
+
+/* ── Celebration Overlay ── */
+#celebrationOverlay {
+  display: none; position: fixed; inset: 0; z-index: 3000;
+  background: rgba(0,0,0,0.92); flex-direction: column;
+  align-items: center; justify-content: center; text-align: center;
+  overflow-y: auto; padding: 24px 16px;
+}
+#celebrationOverlay.active { display: flex; }
+#confettiCanvas { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+#celebStep1, #celebStep2, #celebStep3 { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 380px; }
+.win-icon { font-size: 6em; animation: pop-badge 1s infinite alternate; }
+.win-title { font-family: 'Bangers', cursive; font-size: 3em; color: #F9A825; margin: 10px 0; }
+.win-msg { color: #fff; font-size: 1.1em; margin-bottom: 18px; padding: 0 16px; line-height: 1.5; }
+.prize-photo-thumb img { width: 64px; height: 64px; object-fit: cover; border-radius: 10px; border: 3px solid transparent; cursor: pointer; transition: border-color 0.15s, transform 0.1s; display: block; }
+.prize-photo-thumb img.selected { border-color: #F9A825; transform: scale(1.1); }
+.prize-input { font-family: 'Fredoka', sans-serif; font-size: 1em; padding: 10px 14px; border-radius: 12px; border: none; width: 100%; margin-bottom: 8px; background: rgba(255,255,255,0.12); color: #fff; }
+.prize-input::placeholder { color: rgba(255,255,255,0.5); }
+.prize-status { margin-top: 10px; font-size: 0.9em; color: #F9A825; min-height: 20px; }
 </style>
 </head>
 <body>
@@ -344,20 +414,349 @@ button:active{transform:scale(0.93);}
 </div>
 
 <!-- Onboarding -->
-<div id="ob" class="onboarding">
-  <div class="ob-logo">🗺️</div>
-  <div class="ob-title">AMSTERDAM ADVENTURE</div>
-  <div class="ob-sub">Ontdek de stad • Discover the city</div>
-  <input type="text" id="nameIn" class="ob-input" placeholder="Your explorer name…" maxlength="20" autocomplete="off">
-  <div class="ob-label">HOW OLD ARE YOU?</div>
-  <div class="age-cards">
-    <div class="age-card pop" onclick="selectAge('young')">
-      <span class="ai">🌟</span><div class="al">JUNIOR</div><div class="ar">Ages 5–8</div>
-    </div>
-    <div class="age-card pop" onclick="selectAge('teen')">
-      <span class="ai">🔬</span><div class="al">EXPLORER</div><div class="ar">Ages 9–14</div>
+<div id="ob" class="onboarding" style="padding:0;">
+  <!-- Full-screen Amsterdam cityscape -->
+  <div class="ob-scene">
+    <svg viewBox="0 0 800 560" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;">
+      <defs>
+        <linearGradient id="obSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1E90FF"/><stop offset="70%" stop-color="#63B8FF"/><stop offset="100%" stop-color="#A8D8FF"/></linearGradient>
+        <linearGradient id="obWater" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1565C0"/><stop offset="100%" stop-color="#1976D2"/></linearGradient>
+      </defs>
+      <!-- Sky -->
+      <rect width="800" height="560" fill="url(#obSky)"/>
+      <!-- Clouds -->
+      <ellipse cx="115" cy="52" rx="50" ry="20" fill="white" opacity="0.95"/>
+      <ellipse cx="88" cy="54" rx="34" ry="24" fill="white" opacity="0.95"/>
+      <ellipse cx="148" cy="50" rx="38" ry="18" fill="white" opacity="0.95"/>
+      <ellipse cx="390" cy="38" rx="44" ry="17" fill="white" opacity="0.9"/>
+      <ellipse cx="360" cy="40" rx="30" ry="21" fill="white" opacity="0.9"/>
+      <ellipse cx="426" cy="37" rx="32" ry="16" fill="white" opacity="0.9"/>
+      <ellipse cx="640" cy="48" rx="55" ry="21" fill="white" opacity="0.88"/>
+      <ellipse cx="610" cy="50" rx="38" ry="25" fill="white" opacity="0.88"/>
+      <ellipse cx="678" cy="46" rx="42" ry="19" fill="white" opacity="0.88"/>
+      <ellipse cx="750" cy="80" rx="38" ry="16" fill="white" opacity="0.8"/>
+      <ellipse cx="725" cy="82" rx="26" ry="19" fill="white" opacity="0.8"/>
+
+      <!-- ===== BACKGROUND: Westerkerk tower (centre-left) ===== -->
+      <!-- Base large section -->
+      <rect x="170" y="220" width="52" height="140" fill="#9C8265" stroke="#2A1A0A" stroke-width="2.5"/>
+      <!-- Brickwork hints -->
+      <line x1="170" y1="235" x2="222" y2="235" stroke="#8A7055" stroke-width="1" opacity="0.5"/>
+      <line x1="170" y1="255" x2="222" y2="255" stroke="#8A7055" stroke-width="1" opacity="0.5"/>
+      <line x1="170" y1="275" x2="222" y2="275" stroke="#8A7055" stroke-width="1" opacity="0.5"/>
+      <line x1="170" y1="295" x2="222" y2="295" stroke="#8A7055" stroke-width="1" opacity="0.5"/>
+      <line x1="170" y1="315" x2="222" y2="315" stroke="#8A7055" stroke-width="1" opacity="0.5"/>
+      <!-- Tower mid section -->
+      <rect x="177" y="175" width="38" height="50" fill="#B09878" stroke="#2A1A0A" stroke-width="2"/>
+      <!-- Tower upper section -->
+      <rect x="183" y="140" width="26" height="40" fill="#C0A880" stroke="#2A1A0A" stroke-width="2"/>
+      <!-- Belfry -->
+      <rect x="187" y="110" width="18" height="35" fill="#B09070" stroke="#2A1A0A" stroke-width="1.5"/>
+      <!-- Octagonal drum -->
+      <polygon points="192,105 196,110 196,110 186,110 186,110 190,105" fill="#C8A870" stroke="#2A1A0A" stroke-width="1"/>
+      <rect x="188" y="85" width="16" height="22" fill="#C0A068" stroke="#2A1A0A" stroke-width="1.5"/>
+      <!-- Onion dome -->
+      <ellipse cx="196" cy="80" rx="13" ry="10" fill="#C8A428" stroke="#2A1A0A" stroke-width="1.5"/>
+      <polygon points="196,55 190,80 202,80" fill="#D4B030" stroke="#2A1A0A" stroke-width="1.5"/>
+      <!-- Cross -->
+      <line x1="196" y1="44" x2="196" y2="55" stroke="#2A1A0A" stroke-width="2.5"/>
+      <line x1="190" y1="49" x2="202" y2="49" stroke="#2A1A0A" stroke-width="2.5"/>
+      <!-- Clock face -->
+      <circle cx="196" cy="152" r="10" fill="#F8F0D8" stroke="#2A1A0A" stroke-width="2"/>
+      <circle cx="196" cy="152" r="7" fill="none" stroke="#9B7820" stroke-width="1.5"/>
+      <line x1="196" y1="152" x2="196" y2="147" stroke="#2A1A0A" stroke-width="1.5"/>
+      <line x1="196" y1="152" x2="200" y2="152" stroke="#2A1A0A" stroke-width="1.5"/>
+      <!-- Tower windows -->
+      <rect x="180" y="230" width="10" height="14" rx="1" fill="#1A1530" stroke="#3A2A0A" stroke-width="1"/>
+      <rect x="198" y="230" width="10" height="14" rx="1" fill="#1A1530" stroke="#3A2A0A" stroke-width="1"/>
+      <rect x="180" y="254" width="10" height="14" rx="1" fill="#1A1530" stroke="#3A2A0A" stroke-width="1"/>
+      <rect x="198" y="254" width="10" height="14" rx="1" fill="#1A1530" stroke="#3A2A0A" stroke-width="1"/>
+      <rect x="180" y="278" width="10" height="14" rx="1" fill="#1A1530" stroke="#3A2A0A" stroke-width="1"/>
+      <rect x="198" y="278" width="10" height="14" rx="1" fill="#1A1530" stroke="#3A2A0A" stroke-width="1"/>
+      <rect x="180" y="302" width="10" height="14" rx="1" fill="#1A1530" stroke="#3A2A0A" stroke-width="1"/>
+      <rect x="198" y="302" width="10" height="14" rx="1" fill="#1A1530" stroke="#3A2A0A" stroke-width="1"/>
+
+      <!-- ===== BACKGROUND: Large domed church (centre-right) ===== -->
+      <rect x="430" y="230" width="145" height="130" fill="#7A6248" stroke="#2A1A0A" stroke-width="2"/>
+      <!-- Sub-towers either side -->
+      <rect x="418" y="195" width="22" height="60" fill="#8A7258" stroke="#2A1A0A" stroke-width="2"/>
+      <polygon points="418,196 429,175 440,196" fill="#9A8268" stroke="#2A1A0A" stroke-width="2"/>
+      <rect x="565" y="195" width="22" height="60" fill="#8A7258" stroke="#2A1A0A" stroke-width="2"/>
+      <polygon points="565,196 576,175 587,196" fill="#9A8268" stroke="#2A1A0A" stroke-width="2"/>
+      <!-- Dome base drum -->
+      <rect x="452" y="190" width="101" height="45" fill="#8A7858" stroke="#2A1A0A" stroke-width="2"/>
+      <!-- Main dome -->
+      <ellipse cx="502" cy="178" rx="62" ry="46" fill="#9A9898" stroke="#2A1A0A" stroke-width="2.5"/>
+      <ellipse cx="502" cy="174" rx="48" ry="35" fill="#B8B0B0" stroke="#2A1A0A" stroke-width="1.5"/>
+      <!-- Dome lantern -->
+      <rect x="494" y="142" width="16" height="25" fill="#C8C0C0" stroke="#2A1A0A" stroke-width="1.5"/>
+      <polygon points="502,125 493,142 511,142" fill="#D0C8C8" stroke="#2A1A0A" stroke-width="1.5"/>
+      <!-- Cross -->
+      <line x1="502" y1="112" x2="502" y2="125" stroke="#2A1A0A" stroke-width="2.5"/>
+      <line x1="496" y1="117" x2="508" y2="117" stroke="#2A1A0A" stroke-width="2.5"/>
+      <!-- Church windows -->
+      <rect x="444" y="248" width="20" height="28" rx="2" fill="#1A1530" stroke="#3A2A0A" stroke-width="1"/>
+      <rect x="472" y="248" width="20" height="28" rx="2" fill="#1A1530" stroke="#3A2A0A" stroke-width="1"/>
+      <rect x="513" y="248" width="20" height="28" rx="2" fill="#1A1530" stroke="#3A2A0A" stroke-width="1"/>
+      <rect x="541" y="248" width="20" height="28" rx="2" fill="#1A1530" stroke="#3A2A0A" stroke-width="1"/>
+
+      <!-- ===== TREES ===== -->
+      <ellipse cx="138" cy="278" rx="24" ry="30" fill="#2E7D32" stroke="#1B5E20" stroke-width="2"/>
+      <rect x="135" y="300" width="7" height="20" fill="#5D4037"/>
+      <ellipse cx="162" cy="285" rx="18" ry="22" fill="#388E3C" stroke="#1B5E20" stroke-width="2"/>
+      <ellipse cx="330" cy="285" rx="20" ry="26" fill="#2E7D32" stroke="#1B5E20" stroke-width="2"/>
+      <rect x="327" y="305" width="7" height="18" fill="#5D4037"/>
+      <ellipse cx="630" cy="272" rx="26" ry="32" fill="#2E7D32" stroke="#1B5E20" stroke-width="2"/>
+      <rect x="627" y="295" width="7" height="22" fill="#5D4037"/>
+      <ellipse cx="660" cy="280" rx="20" ry="24" fill="#388E3C" stroke="#1B5E20" stroke-width="2"/>
+
+      <!-- ===== CANAL HOUSES — stepped gable style ===== -->
+      <!-- Each house: body rect + stepped polygon gable + white trim lines + dark windows -->
+
+      <!-- HOUSE 1: Dark charcoal, x=0–90 -->
+      <rect x="0" y="240" width="90" height="120" fill="#2C2E42" stroke="#111" stroke-width="2.5"/>
+      <polygon points="0,240 0,218 14,218 14,198 28,198 28,180 45,163 62,180 62,198 76,198 76,218 90,218 90,240" fill="#1E2032" stroke="#111" stroke-width="2.5"/>
+      <polyline points="0,240 0,218 14,218 14,198 28,198 28,180 45,163" stroke="#E8E0C8" stroke-width="2" fill="none"/>
+      <polyline points="90,240 90,218 76,218 76,198 62,198 62,180 45,163" stroke="#E8E0C8" stroke-width="2" fill="none"/>
+      <!-- H1 windows -->
+      <rect x="7" y="250" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="30" y="250" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="53" y="250" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="72" y="250" width="14" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="7" y="278" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="30" y="278" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="53" y="278" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="72" y="278" width="14" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="7" y="306" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="30" y="306" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="53" y="306" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="72" y="306" width="14" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <!-- H1 door -->
+      <rect x="34" y="330" width="22" height="30" rx="2" fill="#111" stroke="#555" stroke-width="1"/>
+
+      <!-- HOUSE 2: Orange-brown, x=88–182 -->
+      <rect x="88" y="222" width="94" height="138" fill="#C85818" stroke="#111" stroke-width="2.5"/>
+      <polygon points="88,222 88,200 102,200 102,180 116,180 116,162 135,143 154,162 154,180 168,180 168,200 182,200 182,222" fill="#A84608" stroke="#111" stroke-width="2.5"/>
+      <polyline points="88,222 88,200 102,200 102,180 116,180 116,162 135,143" stroke="#F5E8D0" stroke-width="2.5" fill="none"/>
+      <polyline points="182,222 182,200 168,200 168,180 154,180 154,162 135,143" stroke="#F5E8D0" stroke-width="2.5" fill="none"/>
+      <rect x="96" y="233" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="118" y="233" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="140" y="233" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="162" y="233" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="96" y="260" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="118" y="260" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="140" y="260" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="162" y="260" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="96" y="287" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="118" y="287" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="140" y="287" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="162" y="287" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="96" y="314" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="118" y="314" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="140" y="314" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="162" y="314" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="119" y="334" width="24" height="26" rx="2" fill="#111" stroke="#333" stroke-width="1"/>
+
+      <!-- HOUSE 3: Cream/beige, x=180–268 -->
+      <rect x="180" y="228" width="88" height="132" fill="#E8DDB8" stroke="#111" stroke-width="2.5"/>
+      <polygon points="180,228 180,207 193,207 193,188 206,188 206,170 224,152 242,170 242,188 255,188 255,207 268,207 268,228" fill="#D8CDA8" stroke="#111" stroke-width="2.5"/>
+      <polyline points="180,228 180,207 193,207 193,188 206,188 206,170 224,152" stroke="#9A8A60" stroke-width="2.5" fill="none"/>
+      <polyline points="268,228 268,207 255,207 255,188 242,188 242,170 224,152" stroke="#9A8A60" stroke-width="2.5" fill="none"/>
+      <rect x="188" y="238" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="210" y="238" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="233" y="238" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="250" y="238" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="188" y="265" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="210" y="265" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="233" y="265" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="250" y="265" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="188" y="292" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="210" y="292" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="233" y="292" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="250" y="292" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="188" y="319" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="210" y="319" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="233" y="319" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="250" y="319" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="208" y="336" width="24" height="24" rx="2" fill="#111" stroke="#888" stroke-width="1"/>
+
+      <!-- HOUSE 4: Brick red, x=266–358 -->
+      <rect x="266" y="218" width="92" height="142" fill="#C02818" stroke="#111" stroke-width="2.5"/>
+      <!-- Brick texture lines -->
+      <line x1="266" y1="235" x2="358" y2="235" stroke="#A01808" stroke-width="1" opacity="0.5"/>
+      <line x1="266" y1="252" x2="358" y2="252" stroke="#A01808" stroke-width="1" opacity="0.5"/>
+      <line x1="266" y1="269" x2="358" y2="269" stroke="#A01808" stroke-width="1" opacity="0.5"/>
+      <polygon points="266,218 266,196 280,196 280,177 294,177 294,158 312,140 330,158 330,177 344,177 344,196 358,196 358,218" fill="#A02010" stroke="#111" stroke-width="2.5"/>
+      <polyline points="266,218 266,196 280,196 280,177 294,177 294,158 312,140" stroke="#F5C8B8" stroke-width="2.5" fill="none"/>
+      <polyline points="358,218 358,196 344,196 344,177 330,177 330,158 312,140" stroke="#F5C8B8" stroke-width="2.5" fill="none"/>
+      <rect x="274" y="227" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="297" y="227" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="320" y="227" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="340" y="227" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="274" y="254" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="297" y="254" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="320" y="254" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="340" y="254" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="274" y="281" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="297" y="281" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="320" y="281" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="340" y="281" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="274" y="308" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="297" y="308" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="320" y="308" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="340" y="308" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="296" y="330" width="24" height="30" rx="2" fill="#111" stroke="#555" stroke-width="1"/>
+
+      <!-- HOUSE 5: Dark brown, x=356–444 -->
+      <rect x="356" y="225" width="88" height="135" fill="#6B4226" stroke="#111" stroke-width="2.5"/>
+      <polygon points="356,225 356,204 369,204 369,185 382,185 382,167 400,149 418,167 418,185 431,185 431,204 444,204 444,225" fill="#5A3418" stroke="#111" stroke-width="2.5"/>
+      <polyline points="356,225 356,204 369,204 369,185 382,185 382,167 400,149" stroke="#C8A060" stroke-width="2.5" fill="none"/>
+      <polyline points="444,225 444,204 431,204 431,185 418,185 418,167 400,149" stroke="#C8A060" stroke-width="2.5" fill="none"/>
+      <rect x="363" y="235" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="384" y="235" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="406" y="235" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="426" y="235" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="363" y="262" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="384" y="262" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="406" y="262" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="426" y="262" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="363" y="289" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="384" y="289" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="406" y="289" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="426" y="289" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="363" y="316" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="384" y="316" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="406" y="316" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="426" y="316" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="384" y="334" width="24" height="26" rx="2" fill="#111" stroke="#555" stroke-width="1"/>
+
+      <!-- HOUSE 6: Purple/mauve, x=560–648 -->
+      <rect x="558" y="232" width="88" height="128" fill="#7A4E8E" stroke="#111" stroke-width="2.5"/>
+      <polygon points="558,232 558,211 571,211 571,192 584,192 584,174 602,156 620,174 620,192 633,192 633,211 646,211 646,232" fill="#6A3A7E" stroke="#111" stroke-width="2.5"/>
+      <polyline points="558,232 558,211 571,211 571,192 584,192 584,174 602,156" stroke="#D8B8F0" stroke-width="2.5" fill="none"/>
+      <polyline points="646,232 646,211 633,211 633,192 620,192 620,174 602,156" stroke="#D8B8F0" stroke-width="2.5" fill="none"/>
+      <rect x="565" y="242" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="586" y="242" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="608" y="242" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="628" y="242" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="565" y="268" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="586" y="268" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="608" y="268" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="628" y="268" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="565" y="294" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="586" y="294" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="608" y="294" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="628" y="294" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="565" y="320" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="586" y="320" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="608" y="320" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="628" y="320" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="585" y="334" width="24" height="26" rx="2" fill="#111" stroke="#555" stroke-width="1"/>
+
+      <!-- ===== QUAY / EMBANKMENT ===== -->
+      <rect x="0" y="358" width="800" height="22" fill="#9A8860" stroke="#6A5830" stroke-width="1.5"/>
+      <line x1="0" y1="368" x2="800" y2="368" stroke="#7A6840" stroke-width="1" opacity="0.5"/>
+      <!-- Mooring bollards -->
+      <rect x="52" y="349" width="7" height="20" rx="2" fill="#3A2A10"/><ellipse cx="55" cy="348" rx="6" ry="5" fill="#4A3820"/>
+      <rect x="248" y="349" width="7" height="20" rx="2" fill="#3A2A10"/><ellipse cx="251" cy="348" rx="6" ry="5" fill="#4A3820"/>
+      <rect x="460" y="349" width="7" height="20" rx="2" fill="#3A2A10"/><ellipse cx="463" cy="348" rx="6" ry="5" fill="#4A3820"/>
+
+      <!-- ===== CANAL WATER ===== -->
+      <rect x="0" y="378" width="800" height="182" fill="url(#obWater)"/>
+      <rect x="0" y="378" width="800" height="7" fill="#42A5F5" opacity="0.5"/>
+      <!-- Ripples -->
+      <line x1="40" y1="405" x2="160" y2="405" stroke="#1565C0" stroke-width="1.2" opacity="0.5"/>
+      <line x1="200" y1="418" x2="360" y2="418" stroke="#1565C0" stroke-width="1.2" opacity="0.45"/>
+      <line x1="400" y1="400" x2="540" y2="400" stroke="#1565C0" stroke-width="1.2" opacity="0.5"/>
+      <line x1="80" y1="435" x2="220" y2="435" stroke="#1565C0" stroke-width="1" opacity="0.4"/>
+      <line x1="480" y1="430" x2="620" y2="430" stroke="#1565C0" stroke-width="1" opacity="0.4"/>
+
+      <!-- ===== BOATS ===== -->
+      <!-- Orange tour boat -->
+      <rect x="240" y="382" width="188" height="26" rx="5" fill="#CC4400" stroke="#111" stroke-width="2"/>
+      <rect x="255" y="360" width="158" height="23" rx="4" fill="#FF6B00" stroke="#111" stroke-width="2"/>
+      <rect x="278" y="345" width="65" height="17" rx="3" fill="#FF8C00" stroke="#111" stroke-width="1.5"/>
+      <rect x="263" y="362" width="12" height="10" rx="1" fill="#87CEEB" stroke="#111" stroke-width="1"/>
+      <rect x="281" y="362" width="12" height="10" rx="1" fill="#87CEEB" stroke="#111" stroke-width="1"/>
+      <rect x="299" y="362" width="12" height="10" rx="1" fill="#87CEEB" stroke="#111" stroke-width="1"/>
+      <rect x="317" y="362" width="12" height="10" rx="1" fill="#87CEEB" stroke="#111" stroke-width="1"/>
+      <rect x="335" y="362" width="12" height="10" rx="1" fill="#87CEEB" stroke="#111" stroke-width="1"/>
+      <rect x="353" y="362" width="12" height="10" rx="1" fill="#87CEEB" stroke="#111" stroke-width="1"/>
+      <rect x="371" y="362" width="12" height="10" rx="1" fill="#87CEEB" stroke="#111" stroke-width="1"/>
+      <!-- White smaller boat -->
+      <rect x="480" y="387" width="115" height="20" rx="4" fill="#E8E8D8" stroke="#111" stroke-width="1.5"/>
+      <rect x="492" y="371" width="88" height="17" rx="3" fill="#FFFFFF" stroke="#111" stroke-width="1.5"/>
+      <rect x="500" y="373" width="10" height="8" rx="1" fill="#87CEEB" stroke="#aaa" stroke-width="0.8"/>
+      <rect x="516" y="373" width="10" height="8" rx="1" fill="#87CEEB" stroke="#aaa" stroke-width="0.8"/>
+      <rect x="532" y="373" width="10" height="8" rx="1" fill="#87CEEB" stroke="#aaa" stroke-width="0.8"/>
+      <rect x="548" y="373" width="10" height="8" rx="1" fill="#87CEEB" stroke="#aaa" stroke-width="0.8"/>
+      <rect x="564" y="373" width="10" height="8" rx="1" fill="#87CEEB" stroke="#aaa" stroke-width="0.8"/>
+
+      <!-- ===== STONE BRIDGE (right) ===== -->
+      <rect x="648" y="342" width="152" height="22" fill="#A89868" stroke="#5A4830" stroke-width="2"/>
+      <rect x="648" y="326" width="152" height="18" fill="#B8A878" stroke="#5A4830" stroke-width="1.5"/>
+      <path d="M648,364 Q668,338 688,364" fill="#9A8858" stroke="#5A4830" stroke-width="2"/>
+      <path d="M688,364 Q708,338 728,364" fill="#9A8858" stroke="#5A4830" stroke-width="2"/>
+      <path d="M728,364 Q748,338 768,364" fill="#9A8858" stroke="#5A4830" stroke-width="2"/>
+      <path d="M768,364 Q788,338 808,364" fill="#9A8858" stroke="#5A4830" stroke-width="2"/>
+      <line x1="648" y1="325" x2="800" y2="325" stroke="#5A4830" stroke-width="1.5"/>
+
+      <!-- ===== WINDMILL (far right) ===== -->
+      <polygon points="704,360 720,360 717,255 707,255" fill="#8D6E63" stroke="#3A1A0A" stroke-width="2.5"/>
+      <rect x="708" y="270" width="7" height="10" rx="1" fill="#FFCC66"/>
+      <rect x="708" y="290" width="7" height="10" rx="1" fill="#FFCC66"/>
+      <rect x="708" y="310" width="7" height="10" rx="1" fill="#FFCC66"/>
+      <circle cx="712" cy="258" r="9" fill="#6D4C41" stroke="#3A1A0A" stroke-width="2"/>
+      <!-- Sails cross -->
+      <line x1="712" y1="210" x2="712" y2="258" stroke="#6D4C41" stroke-width="4"/>
+      <line x1="665" y1="258" x2="759" y2="258" stroke="#6D4C41" stroke-width="4"/>
+      <!-- Sail blades -->
+      <polygon points="712,258 709,210 718,218" fill="#FF8C00" stroke="#3A1A0A" stroke-width="1.5"/>
+      <polygon points="712,258 759,255 751,264" fill="#FF8C00" stroke="#3A1A0A" stroke-width="1.5"/>
+      <polygon points="712,258 709,306 718,298" fill="#FF8C00" stroke="#3A1A0A" stroke-width="1.5"/>
+      <polygon points="712,258 665,255 673,264" fill="#FF8C00" stroke="#3A1A0A" stroke-width="1.5"/>
+
+      <!-- ===== STREET LAMP (left) ===== -->
+      <rect x="29" y="278" width="6" height="82" fill="#1A2A18" stroke="#0A1A08" stroke-width="1"/>
+      <path d="M32,278 Q32,255 50,255" stroke="#1A2A18" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <polygon points="46,255 56,255 58,267 44,267" fill="#1A2A18" stroke="#0A1A08" stroke-width="1"/>
+      <rect x="46" y="257" width="10" height="8" rx="1" fill="#FFE066"/>
+      <rect x="24" y="358" width="16" height="7" rx="2" fill="#1A2A18"/>
+      <circle cx="32" cy="275" r="5" fill="#1A2A18"/>
+
+      <!-- ===== BOTTOM GRADIENT (form readability) ===== -->
+      <rect x="0" y="410" width="800" height="150" fill="#180A48" opacity="0.75"/>
+    </svg>
+  </div>
+
+  <!-- Title at top -->
+  <div class="ob-top-title">
+    <div class="ob-title" style="font-size:3.2em;text-shadow:0 4px 0 #000,0 0 30px rgba(255,208,0,0.6);">AMSTERDAM</div>
+    <div class="ob-title" style="font-size:1.9em;color:#fff;margin-top:-8px;">ADVENTURE</div>
+  </div>
+
+  <!-- Form anchored at bottom -->
+  <div class="ob-form">
+    <input type="text" id="nameIn" class="ob-input" placeholder="Your explorer name…" maxlength="20" autocomplete="off">
+    <div class="ob-label">HOW OLD ARE YOU?</div>
+    <div class="age-cards">
+      <div class="age-card pop" onclick="selectAge('young')">
+        <span class="ai">🌟</span><div class="al">JUNIOR</div><div class="ar">Ages 5–8</div>
+      </div>
+      <div class="age-card pop" onclick="selectAge('teen')">
+        <span class="ai">🔬</span><div class="al">EXPLORER</div><div class="ar">Ages 9–14</div>
+      </div>
     </div>
   </div>
+</div>
+
+<!-- Character reveal screen -->
+<div id="charReveal" class="onboarding" style="display:none;z-index:2100;">
+  <div id="charRevealIcon" style="font-size:5em;animation:pop-badge 0.6s ease;filter:drop-shadow(0 0 20px rgba(255,208,0,0.8));margin-bottom:8px;"></div>
+  <div class="ob-title" style="font-size:2.2em;">YOU ARE…</div>
+  <div id="charRevealName" style="font-family:'Bangers',cursive;font-size:3.5em;color:var(--gold);-webkit-text-stroke:1px #000;letter-spacing:3px;margin:4px 0;"></div>
+  <div id="charRevealTitle" style="font-family:'Caveat',cursive;font-size:1.4em;color:var(--dim);margin-bottom:28px;"></div>
+  <button class="btn ylw pop" style="max-width:260px;" onclick="confirmCharacter()">🚲 Let's Explore!</button>
 </div>
 
 <!-- Header -->
@@ -409,7 +808,7 @@ button:active{transform:scale(0.93);}
       <button class="btn sec pop" onclick="parentGate(changeProfile)">🔄 Change Age Profile</button>
       <button class="btn pop" style="margin-top:8px;" onclick="parentGate(secureReset)">🗑️ Reset All Progress</button>
     </div>
-    <div class="pcard" style="font-size:0.87em;color:#555;line-height:1.62;">
+    <div class="pcard" style="font-size:0.87em;color:var(--dim);line-height:1.62;">
       <div class="ctitle" style="font-size:1.05em;">📋 ABOUT</div>
       <p>All data is stored locally on this device. No personal data is sent anywhere. COPPA compliant — no accounts, no tracking.</p>
       <p style="margin-top:7px;">Junior missions (5–8): sensory discovery. Explorer missions (9–14): science, urban history &amp; logic.</p>
@@ -420,214 +819,79 @@ button:active{transform:scale(0.93);}
 
 <!-- Bottom nav with Amsterdam skyline SVG -->
 <nav class="bottom-nav">
-<svg class="canal-svg" viewBox="0 0 800 72" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-<defs>
-  <!-- Arched window symbol -->
-  <symbol id="w" viewBox="0 0 13 19">
-    <path d="M0.5,6.5 a6,6 0 0,1 12,0 V18.5 H0.5 Z" fill="#EDE0CC"/>
-    <path d="M2,6.5 a4.5,4.5 0 0,1 9,0 V17.5 H2 Z" fill="#90CAF9" opacity="0.85"/>
-    <line x1="6.5" y1="5.5" x2="6.5" y2="17.5" stroke="#C8A070" stroke-width="0.8"/>
-    <line x1="2" y1="11.5" x2="11" y2="11.5" stroke="#C8A070" stroke-width="0.8"/>
-  </symbol>
-  <!-- Small window symbol -->
-  <symbol id="ws" viewBox="0 0 10 15">
-    <path d="M0.5,5 a4.5,4.5 0 0,1 9,0 V14.5 H0.5 Z" fill="#EDE0CC"/>
-    <path d="M1.5,5 a3.5,3.5 0 0,1 7,0 V13.5 H1.5 Z" fill="#90CAF9" opacity="0.85"/>
-    <line x1="5" y1="4.5" x2="5" y2="13.5" stroke="#C8A070" stroke-width="0.7"/>
-    <line x1="1.5" y1="9" x2="8.5" y2="9" stroke="#C8A070" stroke-width="0.7"/>
-  </symbol>
-</defs>
-<!-- House 1: Stepped gable (trapgevel) – dark red -->
-<rect x="0" y="25" width="82" height="47" fill="#C1440E"/>
-<!-- Stepped gable -->
-<polygon points="0,25 8,25 8,18 16,18 16,12 24,12 24,6 41,6 41,12 58,12 58,18 66,18 66,25 82,25" fill="#A03010"/>
-<!-- Hoisting hook -->
-<line x1="41" y1="6" x2="41" y2="-2" stroke="#7A3000" stroke-width="3"/>
-<line x1="41" y1="-2" x2="52" y2="-6" stroke="#7A3000" stroke-width="2.5" stroke-linecap="round"/>
-<!-- Windows row 1 -->
-<use href="#w" x="4" y="28" width="13" height="19"/>
-<use href="#w" x="22" y="28" width="13" height="19"/>
-<use href="#w" x="40" y="28" width="13" height="19"/>
-<use href="#w" x="58" y="28" width="13" height="19"/>
-<!-- Windows row 2 -->
-<use href="#w" x="4" y="48" width="13" height="19"/>
-<use href="#w" x="22" y="48" width="13" height="19"/>
-<use href="#w" x="40" y="48" width="13" height="19"/>
-<use href="#w" x="58" y="48" width="13" height="19"/>
-<!-- Door -->
-<rect x="33" y="57" width="14" height="15" rx="2" fill="#5D4037"/>
-<!-- Gable window -->
-<use href="#ws" x="36" y="10" width="10" height="15"/>
-
-<!-- House 2: Bell gable (klokgevel) – warm brown -->
-<rect x="87" y="19" width="70" height="53" fill="#9C4A1A"/>
-<!-- Bell gable curve -->
-<path d="M87,19 C87,5 122,1 122,1 C122,1 157,5 157,19 Z" fill="#7A3500"/>
-<rect x="115" y="4" width="14" height="5" fill="#C47A3A"/>
-<!-- Hoisting hook -->
-<line x1="122" y1="4" x2="122" y2="-3" stroke="#6A2800" stroke-width="2.5"/>
-<line x1="122" y1="-3" x2="133" y2="-7" stroke="#6A2800" stroke-width="2" stroke-linecap="round"/>
-<!-- Windows -->
-<use href="#w" x="91" y="22" width="13" height="19"/>
-<use href="#w" x="110" y="22" width="13" height="19"/>
-<use href="#w" x="129" y="22" width="13" height="19"/>
-<use href="#w" x="91" y="43" width="13" height="19"/>
-<use href="#w" x="110" y="43" width="13" height="19"/>
-<use href="#w" x="129" y="43" width="13" height="19"/>
-<!-- Door -->
-<rect x="112" y="57" width="13" height="15" rx="2" fill="#2E7D32"/>
-
-<!-- House 3: Neck gable (halsgevel) – dark brick -->
-<rect x="162" y="28" width="58" height="44" fill="#8B3A0F"/>
-<!-- Neck section -->
-<rect x="176" y="13" width="28" height="20" fill="#7A2F00"/>
-<!-- Volutes (scroll decorations) -->
-<path d="M176,14 Q171,10 172,6 Q173,2 176,3 Q179,4 178,8 Q177,12 176,14 Z" fill="#6A2000"/>
-<path d="M204,14 Q209,10 208,6 Q207,2 204,3 Q201,4 202,8 Q203,12 204,14 Z" fill="#6A2000"/>
-<!-- Pointed top -->
-<polygon points="176,13 190,2 204,13" fill="#6A2000"/>
-<!-- Hoisting hook -->
-<line x1="190" y1="2" x2="190" y2="-5" stroke="#5A1800" stroke-width="2.5"/>
-<line x1="190" y1="-5" x2="200" y2="-9" stroke="#5A1800" stroke-width="2" stroke-linecap="round"/>
-<!-- Windows -->
-<use href="#w" x="165" y="31" width="13" height="19"/>
-<use href="#w" x="183" y="31" width="13" height="19"/>
-<use href="#w" x="165" y="51" width="13" height="19"/>
-<use href="#w" x="183" y="51" width="13" height="19"/>
-<use href="#ws" x="183" y="14" width="10" height="15"/>
-<!-- Door -->
-<rect x="179" y="57" width="12" height="15" rx="2" fill="#E53935"/>
-
-<!-- House 4: Wide stepped gable – medium brick -->
-<rect x="225" y="20" width="92" height="52" fill="#B5461C"/>
-<!-- Stepped gable wide -->
-<polygon points="225,20 232,20 232,13 242,13 242,8 252,8 252,4 271,4 271,8 281,8 281,13 291,13 291,20 317,20 317,13 317,20" fill="#9A3814"/>
-<polygon points="225,20 234,20 234,14 244,14 244,9 261,9 261,4 271,4" fill="#9A3814"/>
-<polygon points="317,20 308,20 308,14 298,14 298,9 281,9 281,4 271,4" fill="#9A3814"/>
-<!-- Hook -->
-<line x1="271" y1="4" x2="271" y2="-3" stroke="#7A2800" stroke-width="2.5"/>
-<line x1="271" y1="-3" x2="281" y2="-7" stroke="#7A2800" stroke-width="2" stroke-linecap="round"/>
-<!-- Windows row 1 -->
-<use href="#w" x="228" y="23" width="13" height="19"/>
-<use href="#w" x="246" y="23" width="13" height="19"/>
-<use href="#w" x="264" y="23" width="13" height="19"/>
-<use href="#w" x="282" y="23" width="13" height="19"/>
-<use href="#w" x="300" y="23" width="13" height="19"/>
-<!-- Windows row 2 -->
-<use href="#w" x="228" y="44" width="13" height="19"/>
-<use href="#w" x="246" y="44" width="13" height="19"/>
-<use href="#w" x="264" y="44" width="13" height="19"/>
-<use href="#w" x="282" y="44" width="13" height="19"/>
-<use href="#w" x="300" y="44" width="13" height="19"/>
-<!-- Door -->
-<rect x="262" y="57" width="15" height="15" rx="2" fill="#1565C0"/>
-<!-- Gable window -->
-<use href="#ws" x="266" y="7" width="10" height="14"/>
-
-<!-- House 5: Tall pointed (spout gabel) – deep red -->
-<rect x="322" y="16" width="60" height="56" fill="#A03010"/>
-<!-- Pointed triangle gable -->
-<polygon points="322,16 352,0 382,16" fill="#882000"/>
-<!-- Hook at tip -->
-<line x1="352" y1="0" x2="352" y2="-6" stroke="#6A1800" stroke-width="2.5"/>
-<line x1="352" y1="-6" x2="364" y2="-9" stroke="#6A1800" stroke-width="2" stroke-linecap="round"/>
-<!-- Windows -->
-<use href="#w" x="326" y="19" width="13" height="19"/>
-<use href="#w" x="344" y="19" width="13" height="19"/>
-<use href="#w" x="362" y="19" width="13" height="19"/>
-<use href="#w" x="326" y="40" width="13" height="19"/>
-<use href="#w" x="344" y="40" width="13" height="19"/>
-<use href="#w" x="362" y="40" width="13" height="19"/>
-<!-- Door -->
-<rect x="343" y="57" width="13" height="15" rx="2" fill="#F9A825"/>
-<!-- Gable window -->
-<use href="#ws" x="347" y="4" width="10" height="14"/>
-
-<!-- House 6: Bell gable – tall wide -->
-<rect x="388" y="17" width="85" height="55" fill="#9C3A12"/>
-<path d="M388,17 C388,2 430.5,-3 430.5,-3 C430.5,-3 473,2 473,17 Z" fill="#7A2800"/>
-<line x1="430" y1="-3" x2="430" y2="-9" stroke="#5A1800" stroke-width="2.5"/>
-<line x1="430" y1="-9" x2="442" y2="-13" stroke="#5A1800" stroke-width="2" stroke-linecap="round"/>
-<!-- Decorative bell detail -->
-<rect x="424" y="-1" width="13" height="5" fill="#C47A3A"/>
-<!-- Windows -->
-<use href="#w" x="392" y="20" width="13" height="19"/>
-<use href="#w" x="410" y="20" width="13" height="19"/>
-<use href="#w" x="428" y="20" width="13" height="19"/>
-<use href="#w" x="446" y="20" width="13" height="19"/>
-<use href="#w" x="392" y="41" width="13" height="19"/>
-<use href="#w" x="410" y="41" width="13" height="19"/>
-<use href="#w" x="428" y="41" width="13" height="19"/>
-<use href="#w" x="446" y="41" width="13" height="19"/>
-<!-- Door -->
-<rect x="421" y="57" width="14" height="15" rx="2" fill="#D84315"/>
-
-<!-- House 7: Neck gable – narrow tall -->
-<rect x="479" y="24" width="54" height="48" fill="#A0522D"/>
-<rect x="493" y="10" width="24" height="20" fill="#8B4513"/>
-<path d="M493,11 Q488,7 489,3 Q490,-1 493,0 Q496,1 495,5 Q494,9 493,11 Z" fill="#7A3A00"/>
-<path d="M517,11 Q522,7 521,3 Q520,-1 517,0 Q514,1 515,5 Q516,9 517,11 Z" fill="#7A3A00"/>
-<polygon points="493,10 505,0 517,10" fill="#7A3A00"/>
-<line x1="505" y1="0" x2="505" y2="-6" stroke="#5A2800" stroke-width="2.5"/>
-<line x1="505" y1="-6" x2="515" y2="-10" stroke="#5A2800" stroke-width="2" stroke-linecap="round"/>
-<!-- Windows -->
-<use href="#w" x="482" y="27" width="13" height="19"/>
-<use href="#w" x="500" y="27" width="13" height="19"/>
-<use href="#w" x="482" y="48" width="13" height="19"/>
-<use href="#w" x="500" y="48" width="13" height="19"/>
-<use href="#ws" x="499" y="11" width="10" height="15"/>
-<!-- Door -->
-<rect x="496" y="57" width="12" height="15" rx="2" fill="#2E7D32"/>
-
-<!-- House 8: Stepped – medium width -->
-<rect x="538" y="22" width="74" height="50" fill="#C64A1E"/>
-<polygon points="538,22 545,22 545,15 553,15 553,10 562,10 562,5 575,5 575,10 584,10 584,15 592,15 592,22 612,22" fill="#AA3A10"/>
-<line x1="575" y1="5" x2="575" y2="-2" stroke="#8A2800" stroke-width="2.5"/>
-<line x1="575" y1="-2" x2="586" y2="-6" stroke="#8A2800" stroke-width="2" stroke-linecap="round"/>
-<use href="#w" x="541" y="25" width="13" height="19"/>
-<use href="#w" x="559" y="25" width="13" height="19"/>
-<use href="#w" x="577" y="25" width="13" height="19"/>
-<use href="#w" x="595" y="25" width="13" height="19"/>
-<use href="#w" x="541" y="46" width="13" height="19"/>
-<use href="#w" x="559" y="46" width="13" height="19"/>
-<use href="#w" x="577" y="46" width="13" height="19"/>
-<use href="#w" x="595" y="46" width="13" height="19"/>
-<rect x="566" y="57" width="14" height="15" rx="2" fill="#1565C0"/>
-<use href="#ws" x="570" y="8" width="10" height="14"/>
-
-<!-- House 9: Bell gable narrow – ends section -->
-<rect x="617" y="21" width="62" height="51" fill="#9C4A1A"/>
-<path d="M617,21 C617,7 648,2 648,2 C648,2 679,7 679,21 Z" fill="#7A3500"/>
-<line x1="648" y1="2" x2="648" y2="-4" stroke="#5A2800" stroke-width="2.5"/>
-<line x1="648" y1="-4" x2="659" y2="-8" stroke="#5A2800" stroke-width="2" stroke-linecap="round"/>
-<use href="#w" x="620" y="24" width="13" height="19"/>
-<use href="#w" x="638" y="24" width="13" height="19"/>
-<use href="#w" x="656" y="24" width="13" height="19"/>
-<use href="#w" x="620" y="45" width="13" height="19"/>
-<use href="#w" x="638" y="45" width="13" height="19"/>
-<use href="#w" x="656" y="45" width="13" height="19"/>
-<rect x="639" y="57" width="13" height="15" rx="2" fill="#E53935"/>
-
-<!-- House 10: Final stepped gable – fills right edge -->
-<rect x="684" y="23" width="116" height="49" fill="#B5461C"/>
-<polygon points="684,23 692,23 692,16 700,16 700,10 710,10 710,5 725,5 725,10 735,10 735,16 743,16 743,23 800,23" fill="#9A3814"/>
-<line x1="725" y1="5" x2="725" y2="-2" stroke="#7A2800" stroke-width="2.5"/>
-<line x1="725" y1="-2" x2="736" y2="-6" stroke="#7A2800" stroke-width="2" stroke-linecap="round"/>
-<use href="#w" x="687" y="26" width="13" height="19"/>
-<use href="#w" x="705" y="26" width="13" height="19"/>
-<use href="#w" x="723" y="26" width="13" height="19"/>
-<use href="#w" x="741" y="26" width="13" height="19"/>
-<use href="#w" x="759" y="26" width="13" height="19"/>
-<use href="#w" x="777" y="26" width="13" height="19"/>
-<use href="#w" x="687" y="47" width="13" height="19"/>
-<use href="#w" x="705" y="47" width="13" height="19"/>
-<use href="#w" x="723" y="47" width="13" height="19"/>
-<use href="#w" x="741" y="47" width="13" height="19"/>
-<use href="#w" x="759" y="47" width="13" height="19"/>
-<use href="#w" x="777" y="47" width="13" height="19"/>
-<rect x="715" y="57" width="15" height="15" rx="2" fill="#5D4037"/>
-<!-- Canal water line -->
-<rect x="0" y="70" width="800" height="2" fill="#1E88E5" opacity="0.4"/>
+<svg class="canal-svg" viewBox="0 0 800 96" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+<!-- H1 Orange x=0 -->
+<rect x="0" y="30" width="80" height="66" fill="#FF7A00" stroke="#1A0048" stroke-width="1.5"/>
+<path d="M0,31 C0,10 40,4 40,4 C40,4 80,10 80,31 Z" fill="#CC5200" stroke="#1A0048" stroke-width="1.5"/>
+<rect x="32" y="1" width="16" height="5" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1"/>
+<rect x="4" y="35" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="22" y="35" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="43" y="35" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="61" y="35" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/>
+<rect x="4" y="50" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="22" y="50" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="43" y="50" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="61" y="50" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/>
+<rect x="32" y="65" width="16" height="31" rx="3" fill="#1A0048"/>
+<!-- H2 Purple x=80 -->
+<rect x="80" y="28" width="80" height="68" fill="#8B30FF" stroke="#1A0048" stroke-width="1.5"/>
+<path d="M80,29 C80,8 120,2 120,2 C120,2 160,8 160,29 Z" fill="#5A00CC" stroke="#1A0048" stroke-width="1.5"/>
+<circle cx="107" cy="4" r="3" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><circle cx="133" cy="4" r="3" fill="#FFD000" stroke="#1A0048" stroke-width="1"/>
+<rect x="84" y="33" width="13" height="11" rx="2" fill="#00CFFF" stroke="#1A0048" stroke-width="1.2"/><rect x="102" y="33" width="13" height="11" rx="2" fill="#00CFFF" stroke="#1A0048" stroke-width="1.2"/><rect x="124" y="33" width="13" height="11" rx="2" fill="#00CFFF" stroke="#1A0048" stroke-width="1.2"/><rect x="142" y="33" width="13" height="11" rx="2" fill="#00CFFF" stroke="#1A0048" stroke-width="1.2"/>
+<rect x="84" y="48" width="13" height="11" rx="2" fill="#00CFFF" stroke="#1A0048" stroke-width="1.2"/><rect x="102" y="48" width="13" height="11" rx="2" fill="#00CFFF" stroke="#1A0048" stroke-width="1.2"/><rect x="124" y="48" width="13" height="11" rx="2" fill="#00CFFF" stroke="#1A0048" stroke-width="1.2"/><rect x="142" y="48" width="13" height="11" rx="2" fill="#00CFFF" stroke="#1A0048" stroke-width="1.2"/>
+<rect x="112" y="63" width="16" height="33" rx="3" fill="#1A0048"/>
+<!-- H3 Magenta x=160 -->
+<rect x="160" y="32" width="80" height="64" fill="#FF1493" stroke="#1A0048" stroke-width="1.5"/>
+<path d="M160,33 C160,12 200,5 200,5 C200,5 240,12 240,33 Z" fill="#CC0070" stroke="#1A0048" stroke-width="1.5"/>
+<circle cx="200" cy="3" r="3.5" fill="#FFD000" stroke="#1A0048" stroke-width="1"/>
+<rect x="164" y="37" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="182" y="37" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="203" y="37" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="221" y="37" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/>
+<rect x="164" y="52" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="182" y="52" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="203" y="52" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="221" y="52" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/>
+<rect x="192" y="67" width="16" height="29" rx="3" fill="#1A0048"/>
+<!-- H4 Green x=240 -->
+<rect x="240" y="26" width="80" height="70" fill="#12C040" stroke="#1A0048" stroke-width="1.5"/>
+<path d="M240,27 C240,6 280,1 280,1 C280,1 320,6 320,27 Z" fill="#009028" stroke="#1A0048" stroke-width="1.5"/>
+<circle cx="263" cy="5" r="2.5" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><circle cx="297" cy="5" r="2.5" fill="#FFD000" stroke="#1A0048" stroke-width="1"/>
+<rect x="244" y="31" width="13" height="11" rx="2" fill="#00CFFF" stroke="#1A0048" stroke-width="1.2"/><rect x="262" y="31" width="13" height="11" rx="2" fill="#00CFFF" stroke="#1A0048" stroke-width="1.2"/><rect x="283" y="31" width="13" height="11" rx="2" fill="#00CFFF" stroke="#1A0048" stroke-width="1.2"/><rect x="301" y="31" width="13" height="11" rx="2" fill="#00CFFF" stroke="#1A0048" stroke-width="1.2"/>
+<rect x="244" y="46" width="13" height="11" rx="2" fill="#00CFFF" stroke="#1A0048" stroke-width="1.2"/><rect x="262" y="46" width="13" height="11" rx="2" fill="#00CFFF" stroke="#1A0048" stroke-width="1.2"/><rect x="283" y="46" width="13" height="11" rx="2" fill="#00CFFF" stroke="#1A0048" stroke-width="1.2"/><rect x="301" y="46" width="13" height="11" rx="2" fill="#00CFFF" stroke="#1A0048" stroke-width="1.2"/>
+<rect x="272" y="61" width="16" height="35" rx="3" fill="#1A0048"/>
+<!-- H5 Yellow x=320 -->
+<rect x="320" y="29" width="80" height="67" fill="#FFD000" stroke="#1A0048" stroke-width="1.5"/>
+<path d="M320,30 C320,9 360,3 360,3 C360,3 400,9 400,30 Z" fill="#CC9A00" stroke="#1A0048" stroke-width="1.5"/>
+<rect x="352" y="0" width="16" height="5" rx="2" fill="#FF7A00" stroke="#1A0048" stroke-width="1"/>
+<rect x="324" y="34" width="13" height="11" rx="2" fill="#FF7A00" stroke="#1A0048" stroke-width="1.2"/><rect x="342" y="34" width="13" height="11" rx="2" fill="#FF7A00" stroke="#1A0048" stroke-width="1.2"/><rect x="363" y="34" width="13" height="11" rx="2" fill="#FF7A00" stroke="#1A0048" stroke-width="1.2"/><rect x="381" y="34" width="13" height="11" rx="2" fill="#FF7A00" stroke="#1A0048" stroke-width="1.2"/>
+<rect x="324" y="49" width="13" height="11" rx="2" fill="#FF7A00" stroke="#1A0048" stroke-width="1.2"/><rect x="342" y="49" width="13" height="11" rx="2" fill="#FF7A00" stroke="#1A0048" stroke-width="1.2"/><rect x="363" y="49" width="13" height="11" rx="2" fill="#FF7A00" stroke="#1A0048" stroke-width="1.2"/><rect x="381" y="49" width="13" height="11" rx="2" fill="#FF7A00" stroke="#1A0048" stroke-width="1.2"/>
+<rect x="352" y="64" width="16" height="32" rx="3" fill="#1A0048"/>
+<!-- H6 Red x=400 -->
+<rect x="400" y="28" width="80" height="68" fill="#E62020" stroke="#1A0048" stroke-width="1.5"/>
+<path d="M400,29 C400,8 440,2 440,2 C440,2 480,8 480,29 Z" fill="#AA0000" stroke="#1A0048" stroke-width="1.5"/>
+<circle cx="440" cy="1" r="3.5" fill="#FFD000" stroke="#1A0048" stroke-width="1"/>
+<rect x="404" y="33" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="422" y="33" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="443" y="33" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="461" y="33" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/>
+<rect x="404" y="48" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="422" y="48" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="443" y="48" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="461" y="48" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/>
+<rect x="432" y="63" width="16" height="33" rx="3" fill="#1A0048"/>
+<!-- H7 Teal x=480 -->
+<rect x="480" y="31" width="80" height="65" fill="#00B4CC" stroke="#1A0048" stroke-width="1.5"/>
+<path d="M480,32 C480,11 520,4 520,4 C520,4 560,11 560,32 Z" fill="#007A8A" stroke="#1A0048" stroke-width="1.5"/>
+<circle cx="520" cy="2" r="3" fill="#FFD000" stroke="#1A0048" stroke-width="1"/>
+<rect x="484" y="36" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="502" y="36" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="523" y="36" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="541" y="36" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/>
+<rect x="484" y="51" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="502" y="51" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="523" y="51" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="541" y="51" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/>
+<rect x="512" y="66" width="16" height="30" rx="3" fill="#1A0048"/>
+<!-- H8 Lavender x=560 -->
+<rect x="560" y="29" width="80" height="67" fill="#C080FF" stroke="#1A0048" stroke-width="1.5"/>
+<path d="M560,30 C560,9 600,3 600,3 C600,3 640,9 640,30 Z" fill="#8040CC" stroke="#1A0048" stroke-width="1.5"/>
+<circle cx="585" cy="5" r="2.5" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><circle cx="615" cy="5" r="2.5" fill="#FFD000" stroke="#1A0048" stroke-width="1"/>
+<rect x="564" y="34" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="582" y="34" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="603" y="34" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="621" y="34" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/>
+<rect x="564" y="49" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="582" y="49" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="603" y="49" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="621" y="49" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/>
+<rect x="592" y="64" width="16" height="32" rx="3" fill="#1A0048"/>
+<!-- H9 Blue x=640 -->
+<rect x="640" y="27" width="80" height="69" fill="#1878FF" stroke="#1A0048" stroke-width="1.5"/>
+<path d="M640,28 C640,7 680,1 680,1 C680,1 720,7 720,28 Z" fill="#0040CC" stroke="#1A0048" stroke-width="1.5"/>
+<rect x="672" y="0" width="16" height="5" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1"/>
+<rect x="644" y="32" width="13" height="11" rx="2" fill="#00CFFF" stroke="#1A0048" stroke-width="1.2"/><rect x="662" y="32" width="13" height="11" rx="2" fill="#00CFFF" stroke="#1A0048" stroke-width="1.2"/><rect x="683" y="32" width="13" height="11" rx="2" fill="#00CFFF" stroke="#1A0048" stroke-width="1.2"/><rect x="701" y="32" width="13" height="11" rx="2" fill="#00CFFF" stroke="#1A0048" stroke-width="1.2"/>
+<rect x="644" y="47" width="13" height="11" rx="2" fill="#00CFFF" stroke="#1A0048" stroke-width="1.2"/><rect x="662" y="47" width="13" height="11" rx="2" fill="#00CFFF" stroke="#1A0048" stroke-width="1.2"/><rect x="683" y="47" width="13" height="11" rx="2" fill="#00CFFF" stroke="#1A0048" stroke-width="1.2"/><rect x="701" y="47" width="13" height="11" rx="2" fill="#00CFFF" stroke="#1A0048" stroke-width="1.2"/>
+<rect x="672" y="62" width="16" height="34" rx="3" fill="#1A0048"/>
+<!-- H10 Red-Orange x=720 -->
+<rect x="720" y="30" width="80" height="66" fill="#FF4520" stroke="#1A0048" stroke-width="1.5"/>
+<path d="M720,31 C720,10 760,4 760,4 C760,4 800,10 800,31 Z" fill="#CC2A00" stroke="#1A0048" stroke-width="1.5"/>
+<circle cx="760" cy="2" r="3.5" fill="#FFD000" stroke="#1A0048" stroke-width="1"/>
+<rect x="724" y="35" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="742" y="35" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="763" y="35" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="781" y="35" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/>
+<rect x="724" y="50" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="742" y="50" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="763" y="50" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/><rect x="781" y="50" width="13" height="11" rx="2" fill="#FFD000" stroke="#1A0048" stroke-width="1.2"/>
+<rect x="752" y="65" width="16" height="31" rx="3" fill="#1A0048"/>
+<!-- Canal water -->
+<rect x="0" y="93" width="800" height="3" fill="#4A00D0" opacity="0.8"/>
 </svg>
 <div class="tab-bar">
   <button class="tab-btn active" id="tb0" onclick="switchTab('missions',this)"><span class="ti">🎯</span>Missions</button>
@@ -675,6 +939,23 @@ button:active{transform:scale(0.93);}
 // CAPACITOR BRIDGE
 // ═══════════════════════════════════════════════════════════════════
 const isNative = !!(window.Capacitor?.isNative);
+
+// ── Prize config – fill these in after signing up (both are free) ──
+// ImgBB:     imgbb.com → sign up → API → generate key
+// Formspree: formspree.io → New Form → copy the form ID from the URL
+// ── 4 original Amsterdam Explorer characters ──
+const CHARACTERS = [
+  { id:'zoe',  name:'Zoë',  title:'Tulip Explorer',    emoji:'🌷', color:'#FF3DB0', bg:'#4A0060', hair:'#9B30FF' },
+  { id:'max',  name:'Max',  title:'Canal Captain',     emoji:'⚓', color:'#00CFFF', bg:'#00204A', hair:'#1A1A2E' },
+  { id:'luna', name:'Luna', title:'Windmill Mechanic', emoji:'⚙️', color:'#18E87A', bg:'#003A20', hair:'#E62020' },
+  { id:'finn', name:'Finn', title:'Cheese Chaser',     emoji:'🧀', color:'#FFD000', bg:'#3A2000', hair:'#FF7A00' },
+];
+window.CHARACTERS = CHARACTERS;
+
+const PRIZE_CONFIG = {
+  imgbbKey:     'YOUR_IMGBB_API_KEY',
+  formspreeUrl: 'https://formspree.io/f/YOUR_FORM_ID'
+};
 
 const Prefs = (() => {
   if (isNative && window.Capacitor?.Plugins?.Preferences) return window.Capacitor.Plugins.Preferences;
@@ -958,7 +1239,7 @@ const DEF = {
   name:'', mode:null,
   done:[], unlocked:['centrum'],
   xp:{explorer:0,active:0,nature:0,language:0,photographer:0,detective:0,creator:0,masterCrafter:0,urbanHistorian:0},
-  badges:[], journal:[], sessionStart:Date.now()
+  badges:[], journal:[], grandFinale:false, character:null, sessionStart:Date.now()
 };
 let S = {...DEF};
 let tabHistory = [];
@@ -998,8 +1279,27 @@ function selectAge(mode) {
   const n = document.getElementById('nameIn').value.trim();
   S.name = n || (mode==='young' ? 'Junior Explorer' : 'Young Explorer');
   S.mode = mode; S.sessionStart = Date.now();
-  document.getElementById('ob').classList.add('hidden');
+  // Assign character based on name hash
+  const hash = [...S.name].reduce((a,c)=>a+c.charCodeAt(0),0);
+  S.character = CHARACTERS[hash % CHARACTERS.length].id;
   playDing();
+  showCharacterReveal();
+}
+
+function showCharacterReveal() {
+  const ch = CHARACTERS.find(c=>c.id===S.character);
+  document.getElementById('charRevealIcon').textContent = ch.emoji;
+  document.getElementById('charRevealName').textContent = ch.name;
+  document.getElementById('charRevealTitle').textContent = ch.title;
+  document.getElementById('charReveal').style.background =
+    `linear-gradient(160deg,${ch.bg} 0%,#1A0848 100%)`;
+  document.getElementById('charReveal').classList.remove('hidden');
+  document.getElementById('charReveal').style.display = 'flex';
+}
+
+function confirmCharacter() {
+  document.getElementById('charReveal').style.display = 'none';
+  document.getElementById('ob').style.display = 'none';
   saveS(); renderAll();
 }
 
@@ -1069,7 +1369,8 @@ function renderAll() {
 }
 
 function updateHeader() {
-  document.getElementById('hAv').textContent = S.mode==='teen' ? '🔬' : '🌟';
+  const _ch = S.character ? CHARACTERS.find(c=>c.id===S.character) : null;
+  document.getElementById('hAv').textContent = _ch ? _ch.emoji : (S.mode==='teen' ? '🔬' : '🌟');
   document.getElementById('hName').textContent = S.name || 'Explorer';
   document.getElementById('sMis').textContent = S.done.length;
   document.getElementById('sBdg').textContent = BADGES.filter(b=>b.ok(S)).length;
@@ -1240,9 +1541,211 @@ function completeMission(id) {
 }
 
 function checkBadges() {
-  BADGES.forEach(b=>{
-    if (!S.badges.includes(b.id) && b.ok(S)) S.badges.push(b.id);
+  BADGES.forEach(b => {
+    if (!S.badges.includes(b.id) && b.ok(S)) {
+      S.badges.push(b.id);
+      playFanfare();
+    }
   });
+
+  // THE BIG CELEBRATION: Check if total done matches total available
+  const totalAvailable = MISSIONS.filter(m => m.age === S.mode || m.age === 'all').length;
+  if (S.done.length >= totalAvailable && totalAvailable > 0) {
+    triggerGrandFinale();
+  }
+}
+
+function triggerGrandFinale() {
+  if (S.grandFinale) return;          // only fire once
+  S.grandFinale = true;
+  saveS();
+
+  // Reset overlay to step 1
+  showCelebStep1();
+  document.getElementById('celebrationOverlay').classList.add('active');
+
+  // Confetti
+  const canvas = document.getElementById('confettiCanvas');
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+  launchConfetti(canvas);
+
+  playVictoryMusic();
+
+  if (isNative && window.Capacitor?.Plugins?.Haptics) {
+    window.Capacitor.Plugins.Haptics.vibrate();
+  }
+}
+
+function launchConfetti(canvas) {
+  const ctx = canvas.getContext('2d');
+  const colors = ['#F9A825','#E53935','#1E88E5','#43A047','#8E24AA','#00ACC1','#FB8C00','#EC407A'];
+  const particles = Array.from({length: 160}, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height - canvas.height,
+    w: Math.random() * 10 + 5,
+    h: Math.random() * 5 + 3,
+    color: colors[Math.floor(Math.random() * colors.length)],
+    vx: (Math.random() - 0.5) * 3,
+    vy: Math.random() * 3 + 2,
+    angle: Math.random() * Math.PI * 2,
+    spin: (Math.random() - 0.5) * 0.18,
+    circle: Math.random() > 0.6
+  }));
+
+  const start = Date.now();
+  let raf;
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const elapsed = Date.now() - start;
+    const fade = elapsed > 6000 ? Math.max(0, 1 - (elapsed - 6000) / 2000) : 1;
+    ctx.globalAlpha = fade;
+    particles.forEach(p => {
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.angle);
+      ctx.fillStyle = p.color;
+      if (p.circle) {
+        ctx.beginPath(); ctx.arc(0, 0, p.w / 2, 0, Math.PI * 2); ctx.fill();
+      } else {
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      }
+      ctx.restore();
+      p.x += p.vx; p.y += p.vy; p.angle += p.spin; p.vy += 0.06;
+      if (p.y > canvas.height) { p.y = -10; p.x = Math.random() * canvas.width; p.vy = Math.random() * 3 + 2; }
+    });
+    if (elapsed < 8000) {
+      raf = requestAnimationFrame(draw);
+    } else {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  }
+  draw();
+}
+
+function playVictoryMusic() {
+  try {
+    const c = ac();
+    // Victory melody: quick ascending run then a held chord
+    const melody = [
+      [392,0.00,0.10],[440,0.10,0.10],[494,0.20,0.10],[523,0.30,0.10],
+      [587,0.40,0.10],[659,0.50,0.10],[740,0.60,0.10],
+      [784,0.70,0.55],[988,0.72,0.55],[1175,0.74,0.55],
+      [784,1.30,0.30],[988,1.30,0.30],[1175,1.30,0.30]
+    ];
+    melody.forEach(([freq, start, dur]) => {
+      const o = c.createOscillator(), g = c.createGain();
+      o.connect(g); g.connect(c.destination);
+      o.type = 'triangle'; o.frequency.value = freq;
+      const t = c.currentTime + start;
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(0.25, t + 0.02);
+      g.gain.linearRampToValueAtTime(0, t + dur);
+      o.start(t); o.stop(t + dur + 0.05);
+    });
+  } catch(e) {}
+}
+
+// ── Celebration overlay navigation ──
+function dismissCelebration() {
+  document.getElementById('celebrationOverlay').classList.remove('active');
+}
+
+function showCelebStep1() {
+  document.getElementById('celebStep1').style.display = 'flex';
+  document.getElementById('celebStep2').style.display = 'none';
+  document.getElementById('celebStep3').style.display = 'none';
+}
+
+function showPrizeClaim() {
+  document.getElementById('celebStep1').style.display = 'none';
+  document.getElementById('celebStep2').style.display = 'flex';
+  document.getElementById('celebStep3').style.display = 'none';
+  document.getElementById('prizeStatus').textContent = '';
+
+  // Populate photo picker from journal
+  const grid = document.getElementById('prizePhotoGrid');
+  const photos = S.journal.flatMap(j => (j.photos || []).map(p => ({url: p, id: j.id})));
+  if (!photos.length) {
+    grid.innerHTML = '<div style="color:rgba(255,255,255,0.5);font-size:0.85em;">No photos in journal yet — take some on your adventures!</div>';
+  } else {
+    grid.innerHTML = photos.map((p, i) =>
+      `<div class="prize-photo-thumb" onclick="selectPrizePhoto('${i}', this)">
+         <img data-url="${p.url}" src="${p.url}" alt="">
+       </div>`
+    ).join('');
+  }
+  selectedPrizePhoto = null;
+  document.getElementById('selectedPhotoPreview').style.display = 'none';
+}
+
+let selectedPrizePhoto = null;
+
+function selectPrizePhoto(idx, el) {
+  document.querySelectorAll('.prize-photo-thumb img').forEach(img => img.classList.remove('selected'));
+  const img = el.querySelector('img');
+  img.classList.add('selected');
+  selectedPrizePhoto = img.dataset.url;
+  document.getElementById('selectedPhotoImg').src = selectedPrizePhoto;
+  document.getElementById('selectedPhotoPreview').style.display = 'block';
+}
+
+async function submitPrizeRequest() {
+  const parentName  = document.getElementById('prizeParentName').value.trim();
+  const parentEmail = document.getElementById('prizeParentEmail').value.trim();
+  const status      = document.getElementById('prizeStatus');
+
+  if (!parentEmail) { status.textContent = '⚠️ Please enter a parent email!'; return; }
+
+  const btn = document.querySelector('#celebStep2 .btn.ylw');
+  btn.disabled = true;
+  status.textContent = '⏳ Sending your request…';
+
+  try {
+    let photoUrl = selectedPrizePhoto || null;
+
+    // If a photo is selected and ImgBB is configured, host it so the URL is clickable in the email
+    if (selectedPrizePhoto && PRIZE_CONFIG.imgbbKey !== 'YOUR_IMGBB_API_KEY') {
+      const base64 = selectedPrizePhoto.split(',')[1];
+      const fd = new FormData();
+      fd.append('image', base64);
+      const r = await fetch(`https://api.imgbb.com/1/upload?key=${PRIZE_CONFIG.imgbbKey}`, {method:'POST', body:fd});
+      const d = await r.json();
+      photoUrl = d?.data?.url || photoUrl;
+    }
+
+    const payload = {
+      childName:   S.name || 'Explorer',
+      parentName,
+      parentEmail,
+      missions:    `${S.done.length} completed`,
+      mode:        S.mode === 'teen' ? 'Explorer (9-14)' : 'Junior (5-8)',
+      photo:       photoUrl && photoUrl.startsWith('http') ? photoUrl : '(base64 — configure ImgBB key to get a link)',
+      _replyto:    parentEmail,
+      _subject:    `🏆 Prize Request — ${S.name || 'Explorer'} conquered Amsterdam!`
+    };
+
+    if (PRIZE_CONFIG.formspreeUrl.includes('YOUR_FORM_ID')) {
+      // Fallback: open mailto so nothing is silently lost
+      const body = encodeURIComponent(
+        `Child: ${payload.childName}\nProfile: ${payload.mode}\nMissions: ${payload.missions}\nParent: ${parentName}\nReply to: ${parentEmail}\nPhoto: ${photoUrl || 'none'}`
+      );
+      window.location.href = `mailto:?subject=${encodeURIComponent(payload._subject)}&body=${body}`;
+    } else {
+      const r = await fetch(PRIZE_CONFIG.formspreeUrl, {
+        method:'POST',
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body: JSON.stringify(payload)
+      });
+      if (!r.ok) throw new Error('submit failed');
+    }
+
+    document.getElementById('celebStep2').style.display = 'none';
+    document.getElementById('celebStep3').style.display = 'flex';
+  } catch(e) {
+    status.textContent = '❌ Something went wrong — please try again!';
+    btn.disabled = false;
+  }
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -1452,48 +1955,63 @@ function drawObs(ctx, o) {
 
 function drawBike(ctx, bx, by) {
   ctx.save();
+  const charColor = (S.character && window.CHARACTERS) ? (CHARACTERS.find(c=>c.id===S.character)||CHARACTERS[0]).color : '#FF7A00';
+  const wr=13, wx1=bx+14, wx2=bx+38, wy=by+BH-10;
   // Shadow
-  ctx.fillStyle='rgba(0,0,0,0.18)';
-  ctx.beginPath(); ctx.ellipse(bx+BW/2,GND+3,BW/2,5,0,0,Math.PI*2); ctx.fill();
-  // Wheels
-  const rr=12;
-  ctx.strokeStyle='#222'; ctx.lineWidth=3;
-  ctx.beginPath(); ctx.arc(bx+12,by+BH-8,rr,0,Math.PI*2); ctx.stroke();
-  ctx.beginPath(); ctx.arc(bx+38,by+BH-8,rr,0,Math.PI*2); ctx.stroke();
-  // Spokes
-  ctx.lineWidth=1; ctx.strokeStyle='#666';
-  [0,1,2].forEach(i=>{
-    const a=i*Math.PI/1.5;
-    [[bx+12],[bx+38]].forEach(([cx])=>{
-      ctx.beginPath();
-      ctx.moveTo(cx+Math.cos(a)*rr,by+BH-8+Math.sin(a)*rr);
-      ctx.lineTo(cx-Math.cos(a)*rr,by+BH-8-Math.sin(a)*rr);
-      ctx.stroke();
-    });
-  });
-  // Frame
-  ctx.strokeStyle='#D84315'; ctx.lineWidth=4; ctx.lineJoin='round';
+  ctx.fillStyle='rgba(0,0,0,0.2)';
+  ctx.beginPath(); ctx.ellipse(bx+BW/2,GND+3,BW/2-2,4,0,0,Math.PI*2); ctx.fill();
+  // Tyres
+  ctx.strokeStyle='#111'; ctx.lineWidth=3.5;
+  ctx.beginPath(); ctx.arc(wx1,wy,wr,0,Math.PI*2); ctx.stroke();
+  ctx.beginPath(); ctx.arc(wx2,wy,wr,0,Math.PI*2); ctx.stroke();
+  // Rims
+  ctx.strokeStyle='#ddd'; ctx.lineWidth=1.8;
+  ctx.beginPath(); ctx.arc(wx1,wy,wr-3,0,Math.PI*2); ctx.stroke();
+  ctx.beginPath(); ctx.arc(wx2,wy,wr-3,0,Math.PI*2); ctx.stroke();
+  // Spokes x4
+  ctx.strokeStyle='#bbb'; ctx.lineWidth=0.9;
+  for(let i=0;i<4;i++){const a=i*Math.PI/4;[wx1,wx2].forEach(cx=>{ctx.beginPath();ctx.moveTo(cx+Math.cos(a)*(wr-3),wy+Math.sin(a)*(wr-3));ctx.lineTo(cx-Math.cos(a)*(wr-3),wy-Math.sin(a)*(wr-3));ctx.stroke();});}
+  // Hubs
+  ctx.fillStyle='#666'; [wx1,wx2].forEach(cx=>{ctx.beginPath();ctx.arc(cx,wy,2.5,0,Math.PI*2);ctx.fill();});
+  // Frame points
+  const bbx=(wx1+wx2)/2, bby=wy-5;      // bottom bracket
+  const stx=bbx-4,       sty=by+11;     // seat cluster
+  const htx=wx2-4,       hty=wy-22;     // head tube
+  // Frame diamond
+  ctx.strokeStyle=charColor; ctx.lineWidth=3.5; ctx.lineJoin='round'; ctx.lineCap='round';
   ctx.beginPath();
-  ctx.moveTo(bx+12,by+BH-8);
-  ctx.lineTo(bx+20,by+8); // seat tube
-  ctx.lineTo(bx+38,by+BH-8); // fork
-  ctx.moveTo(bx+20,by+8);
-  ctx.lineTo(bx+32,by+BH-8); // chainstay
-  ctx.moveTo(bx+20,by+8); ctx.lineTo(bx+34,by+14); ctx.lineTo(bx+38,by+BH-8); // front fork
+  ctx.moveTo(wx1,wy);   ctx.lineTo(bbx,bby);  // chainstay
+  ctx.lineTo(stx,sty);                         // seat tube
+  ctx.lineTo(htx,hty);                         // top tube
+  ctx.lineTo(bbx,bby);                         // down tube
   ctx.stroke();
-  // Seat
-  ctx.strokeStyle='#5D4037'; ctx.lineWidth=3;
-  ctx.beginPath(); ctx.moveTo(bx+16,by+8); ctx.lineTo(bx+26,by+8); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(stx,sty); ctx.lineTo(wx1,wy);  ctx.stroke(); // seat stay
+  ctx.beginPath(); ctx.moveTo(htx,hty); ctx.lineTo(wx2,wy);  ctx.stroke(); // fork
+  // Saddle
+  ctx.strokeStyle='#333'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(stx,sty); ctx.lineTo(stx,sty-8); ctx.stroke();
+  ctx.fillStyle='#222'; ctx.beginPath(); ctx.ellipse(stx,sty-9,7,2,0,0,Math.PI*2); ctx.fill();
   // Handlebars
-  ctx.beginPath(); ctx.moveTo(bx+34,by+13); ctx.lineTo(bx+41,by+9); ctx.moveTo(bx+34,by+13); ctx.lineTo(bx+41,by+17); ctx.stroke();
-  // Rider head
-  ctx.fillStyle='#FF7043'; ctx.beginPath(); ctx.arc(bx+26,by+2,5,0,Math.PI*2); ctx.fill();
-  // Rider body
-  ctx.strokeStyle='#FF7043'; ctx.lineWidth=3;
-  ctx.beginPath(); ctx.moveTo(bx+26,by+7); ctx.lineTo(bx+23,by+14); ctx.moveTo(bx+19,by+10); ctx.lineTo(bx+30,by+11); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(htx,hty); ctx.lineTo(htx+4,hty-8); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(htx+4,hty-12); ctx.lineTo(htx+4,hty-4); ctx.stroke();
+  // Rider torso (leaning forward)
+  const rsx=stx, rsy=sty-9;
+  ctx.strokeStyle=charColor; ctx.lineWidth=3; ctx.lineCap='round';
+  ctx.beginPath(); ctx.moveTo(rsx,rsy); ctx.lineTo(htx+2,hty-6); ctx.stroke(); // torso
+  ctx.beginPath(); ctx.moveTo((rsx+htx)/2,rsy-5); ctx.lineTo(htx+4,hty-8); ctx.stroke(); // arm
+  // Head + helmet
+  const hx=rsx+5, hy=rsy-12;
+  ctx.fillStyle=charColor; ctx.beginPath(); ctx.arc(hx,hy,5.5,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='rgba(255,255,255,0.9)'; ctx.beginPath(); ctx.arc(hx,hy-1,6,Math.PI,0); ctx.fill();
+  ctx.fillStyle=charColor; ctx.fillRect(hx-6,hy-1,12,3);
+  // Eye
+  ctx.fillStyle='#111'; ctx.beginPath(); ctx.arc(hx+3,hy+1,1.2,0,Math.PI*2); ctx.fill();
+  // Pedals
+  ctx.strokeStyle='#555'; ctx.lineWidth=1.8;
+  ctx.beginPath(); ctx.moveTo(bbx,bby); ctx.lineTo(bbx+7,bby+9); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(bbx,bby); ctx.lineTo(bbx-6,bby-7); ctx.stroke();
   ctx.restore();
 }
-
 function drawFinish(ctx, fx) {
   // Flag pole
   ctx.strokeStyle='#fff'; ctx.lineWidth=3;
@@ -1646,5 +2164,46 @@ function dimissReminder() {
 // ═══════════════════════════════════════════════════════════════════
 initApp();
 </script>
+
+<div id="celebrationOverlay">
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- Step 1: Win screen -->
+  <div id="celebStep1">
+    <div class="win-icon">🏆</div>
+    <div class="win-title">CITY MASTER!</div>
+    <div class="win-msg">You've completed every mission in Amsterdam!<br>The city is officially yours, Explorer.</div>
+    <button class="btn ylw pop" style="max-width:240px;margin-bottom:10px;" onclick="showPrizeClaim()">🎁 Claim Your Prize!</button>
+    <button class="btn sec pop" style="max-width:240px;" onclick="dismissCelebration()">Keep Exploring! 🗺️</button>
+  </div>
+
+  <!-- Step 2: Prize claim form -->
+  <div id="celebStep2" style="display:none;">
+    <div style="font-size:2.5em;margin-bottom:4px;">🎁</div>
+    <div class="win-title" style="font-size:2em;">Your Prize!</div>
+    <div class="win-msg" style="font-size:0.95em;margin-bottom:10px;">Pick your favourite journal photo — we'll turn it into a custom puzzle just for you!</div>
+
+    <div id="prizePhotoGrid" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:10px;max-height:150px;overflow-y:auto;width:100%;"></div>
+
+    <div id="selectedPhotoPreview" style="display:none;margin-bottom:10px;">
+      <div style="color:#F9A825;font-size:0.8em;margin-bottom:4px;">Selected:</div>
+      <img id="selectedPhotoImg" style="width:80px;height:80px;object-fit:cover;border-radius:10px;border:3px solid #F9A825;" alt="">
+    </div>
+
+    <input id="prizeParentName"  class="prize-input" type="text"  placeholder="Parent's name (optional)">
+    <input id="prizeParentEmail" class="prize-input" type="email" placeholder="Parent's email (for prize delivery) *">
+    <button class="btn ylw pop" style="max-width:260px;margin-bottom:8px;" onclick="submitPrizeRequest()">📬 Send Prize Request!</button>
+    <button class="btn sec pop" style="max-width:260px;" onclick="showCelebStep1()">← Back</button>
+    <div id="prizeStatus" class="prize-status"></div>
+  </div>
+
+  <!-- Step 3: Confirmation -->
+  <div id="celebStep3" style="display:none;">
+    <div style="font-size:3em;margin-bottom:8px;">📬</div>
+    <div class="win-title" style="font-size:2em;">Request Sent!</div>
+    <div class="win-msg">We've got it! Your custom puzzle is being prepared.<br>Check your inbox soon.</div>
+    <button class="btn ylw pop" style="max-width:240px;" onclick="dismissCelebration()">Keep Exploring! 🗺️</button>
+  </div>
+</div>
 </body>
 </html>
