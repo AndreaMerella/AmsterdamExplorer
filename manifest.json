@@ -1,0 +1,17 @@
+{
+  "name": "Amsterdam Explorer",
+  "short_name": "AMS Explorer",
+  "description": "Discover Amsterdam with fun missions and activities!",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#F8FAFC",
+  "theme_color": "#FF4B2B",
+  "icons": [
+    {
+      "src": "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='115' fill='%23FF4B2B'/%3E%3Ctext x='50%25' y='54%25' font-size='320' text-anchor='middle' dominant-baseline='middle'%3E🚲%3C/text%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
