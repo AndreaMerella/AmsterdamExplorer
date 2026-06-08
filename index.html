@@ -39,9 +39,18 @@ body{
   -webkit-user-select:none;-webkit-touch-callout:none;user-select:none;
 }
 #app-shell{
-  position:relative;width:100%;max-width:480px;height:100dvh;
+  position:relative;width:100%;height:100dvh;
   background:linear-gradient(170deg,#1C0A58 0%,#130638 100%);
   display:flex;flex-direction:column;overflow:hidden;
+}
+@media(min-width:600px){
+  .pcard{max-width:720px;margin-left:auto;margin-right:auto;}
+  .map-grid{max-width:720px;margin:0 auto;}
+  .mlist{max-width:720px;margin:0 auto;}
+  .sg{max-width:720px;margin:0 auto;}
+  .bg{max-width:720px;margin:0 auto;}
+  #journalE{max-width:720px;margin:0 auto;}
+  .app-header .hrow{max-width:720px;margin:0 auto;}
 }
 
 /* ── Clouds ── */
@@ -254,6 +263,8 @@ button:active{transform:scale(0.93);}
 /* ── Missions ── */
 .mlist{display:flex;flex-direction:column;gap:10px;}
 .mempty{text-align:center;padding:34px 14px;font-family:'Caveat',cursive;font-size:1.25em;color:var(--dim);}
+.reg-filter-bar{display:flex;align-items:center;gap:10px;padding:8px 4px 14px;font-family:'Bangers',cursive;font-size:1.25em;letter-spacing:1px;color:var(--gold);}
+.reg-back-btn{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;border-radius:20px;padding:4px 14px;font-size:0.75em;cursor:pointer;font-family:'Space Grotesk',sans-serif;letter-spacing:0;}
 .mcard{
   background:linear-gradient(135deg,#2D1270,#1E0A52);
   border-radius:14px;padding:13px 15px;cursor:pointer;
@@ -1349,6 +1360,7 @@ let tabHistory = [];
 let tmpPhotos = {};
 let currentMissionId = null;
 let LANG = 'en';
+let selectedRegion = null;
 
 function toggleLang() {
   LANG = LANG === 'en' ? 'nl' : 'en';
@@ -1536,11 +1548,13 @@ function renderMap() {
 }
 
 function goReg(id) {
+  selectedRegion = id;
   switchTab('missions', document.getElementById('tb0'), true);
-  setTimeout(()=>{
-    const el = document.querySelector(`[data-rg="${id}"]`);
-    if (el) el.scrollIntoView({behavior:'smooth',block:'start'});
-  }, 80);
+  document.querySelector('.app-content').scrollTop = 0;
+}
+function clearRegion() {
+  selectedRegion = null;
+  renderMissions();
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -1549,11 +1563,20 @@ function goReg(id) {
 function renderMissions() {
   const list = document.getElementById('mList');
   if (!S.mode) { list.innerHTML='<div class="mempty">Complete onboarding to see missions!</div>'; return; }
-  const vis = MISSIONS.filter(m=>(m.age===S.mode||m.age==='all')&&S.unlocked.includes(m.region));
-  if (!vis.length) { list.innerHTML='<div class="mempty">Unlock more regions to see missions! 🗺️</div>'; return; }
-  list.innerHTML = vis.map(m => {
+
+  let vis = MISSIONS.filter(m=>(m.age===S.mode||m.age==='all')&&S.unlocked.includes(m.region));
+  if (selectedRegion) vis = vis.filter(m=>m.region===selectedRegion);
+
+  const reg = selectedRegion ? REGIONS.find(r=>r.id===selectedRegion) : null;
+  const header = reg
+    ? `<div class="reg-filter-bar"><button class="reg-back-btn" onclick="clearRegion()">← All Regions</button><span>${reg.icon} ${reg.en}</span></div>`
+    : '';
+
+  if (!vis.length) { list.innerHTML=header+'<div class="mempty">No missions here yet — unlock more regions! 🗺️</div>'; return; }
+
+  list.innerHTML = header + vis.map(m => {
     const done = S.done.includes(m.id);
-    const reg = REGIONS.find(r=>r.id===m.region);
+    const mr = REGIONS.find(r=>r.id===m.region);
     const stags = Object.keys(m.xp).map(sk=>{
       const d = SKILLS.find(s=>s.id===sk);
       return `<span class="stag">${d?.icon||''} ${d?.name||sk}</span>`;
@@ -1567,7 +1590,7 @@ function renderMissions() {
         <div class="mbody">
           <div class="mtit">${cardTitle}</div>
           <div class="mdsc">${cardDesc}</div>
-          <div class="mmeta">${stags}<span class="rtag">${reg?.icon||''} ${reg?.en||m.region}</span></div>
+          <div class="mmeta">${stags}${!selectedRegion?`<span class="rtag">${mr?.icon||''} ${mr?.en||m.region}</span>`:''}</div>
         </div>
       </div>
     </div>`;
