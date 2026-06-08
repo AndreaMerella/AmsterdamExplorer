@@ -175,6 +175,7 @@ button:active{transform:scale(0.93);}
 .mb{background:rgba(0,207,255,0.25);color:var(--cyan);padding:2px 9px;border-radius:11px;font-size:0.68em;font-weight:700;border:1px solid rgba(0,207,255,0.4);}
 .mb.g{background:rgba(24,232,122,0.2);color:var(--lime);border-color:rgba(24,232,122,0.4);}
 .mb.p{background:rgba(255,208,0,0.18);color:var(--gold);border-color:rgba(255,208,0,0.4);}
+.lang-btn{background:none;border:none;font-size:1.5em;cursor:pointer;padding:0;margin-left:auto;align-self:center;line-height:1;}
 
 /* ── Content ── */
 .app-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;position:relative;z-index:1;padding:13px 13px 4px;}
@@ -799,6 +800,7 @@ button:active{transform:scale(0.93);}
         <span class="mb p" id="sMod">🌟 Junior</span>
       </div>
     </div>
+    <button class="lang-btn" id="langBtn" onclick="toggleLang()">🇳🇱</button>
   </div>
 </div>
 
@@ -807,7 +809,7 @@ button:active{transform:scale(0.93);}
 
   <div id="missionsTab" class="tab-pane active">
     <div class="pcard">
-      <div class="ctitle">🧭 AMSTERDAM MAP</div>
+      <div class="ctitle">🧭 AMSTERDAM ADVENTURE</div>
       <div class="map-grid" id="mapGrid"></div>
     </div>
     <div class="pcard">
@@ -1097,7 +1099,9 @@ const SKILLS = [
   {id:'detective',     icon:'🔍', name:'Detective',      titles:['Curious','Seeker','Finder','Investigator','Master Detective']},
   {id:'creator',       icon:'✂️', name:'Creator',        titles:['Dreamer','Maker','Builder','Craftsman','Master Maker']},
   {id:'masterCrafter', icon:'🔨', name:'Master Crafter', titles:['Apprentice','Journeyman','Craftsman','Expert','Grand Master']},
-  {id:'urbanHistorian',icon:'🏙️', name:'Urban Historian',titles:['Passer-by','Resident','Archivist','Historian','City Scholar']}
+  {id:'urbanHistorian',icon:'🏙️', name:'Urban Historian',titles:['Passer-by','Resident','Archivist','Historian','City Scholar']},
+  {id:'architect',     icon:'🏛️', name:'Architect',      titles:['Sketcher','Drafter','Designer','Architect','Grand Architect']},
+  {id:'scientist',     icon:'🔬', name:'Scientist',       titles:['Curious','Observer','Experimenter','Researcher','Field Scientist']}
 ];
 
 const BADGES = [
@@ -1112,7 +1116,9 @@ const BADGES = [
   {id:'ferry-rider',   icon:'⛴️', name:'Ferry Rider',     ok:s=>s.done.includes(8)},
   {id:'adventurer',    icon:'🗺️', name:'Adventurer',      ok:s=>s.done.length>=5},
   {id:'grand-explorer',icon:'🏆', name:'Grand Explorer',  ok:s=>s.done.length>=15},
-  {id:'amsterdam-kid', icon:'🌷', name:'Amsterdam Kid',   ok:s=>s.done.length>=25}
+  {id:'amsterdam-kid', icon:'🌷', name:'Amsterdam Kid',   ok:s=>s.done.length>=25},
+  {id:'grand-architect',icon:'🏛️',name:'Grand Architect', ok:s=>(s.xp.architect||0)>=4},
+  {id:'field-scientist',icon:'🔬',name:'Field Scientist',  ok:s=>(s.xp.scientist||0)>=4}
 ];
 
 const MISSIONS = [
@@ -1271,7 +1277,62 @@ const MISSIONS = [
    icon:'🎨', title:'NDSM Street Art Hunt',
    desc:'The NDSM wharf in Noord is a legendary street art destination — an old shipyard turned creative playground. Find and photograph 3 different murals or graffiti artworks there.',
    challenge:'Find 3 artworks at NDSM. For each: what style is it (portrait, abstract, lettering)? Do any reference Amsterdam culture? Can you find an artist signature?',
-   xp:{photographer:2,creator:1,explorer:1}, unlocks:null, needsPhoto:true}
+   xp:{photographer:2,creator:1,explorer:1}, unlocks:null, needsPhoto:true},
+
+  // ── NEW MISSIONS (26-31) ───────────────────────────────────────────
+  {id:26, region:'centrum', age:'all', type:'te',
+   icon:'🏛️', title:'The Great Gable Hunt',
+   nl_title:'De Grote Geveljacht',
+   desc:'Look up at any canal house and you\'ll find a gable — the decorative top of the building. Amsterdam has 7 types: step, bell, neck, spout, elevated, cornice, and bottle. Walk along Herengracht and see how many types you can spot and sketch.',
+   nl_desc:'Kijk omhoog naar elk grachtenpand en je ziet een gevel — de decoratieve top van het gebouw. Amsterdam heeft 7 soorten: trap, klok, hals, tuit, verhoogd, lijst en flesgevel. Wandel langs de Herengracht en zoek er zoveel mogelijk.',
+   challenge:'Find and sketch 6 different gable types. Which is the most common? Which is the fanciest? Why did Amsterdam merchants compete to have the most impressive gable on the block?',
+   nl_challenge:'Vind en teken 6 verschillende geveltypen. Welke komt het meest voor? Welke is het chiquest? Waarom wilden Amsterdamse kooplieden de mooiste gevel van de straat?',
+   xp:{architect:3,urbanHistorian:2}, unlocks:null, needsPhoto:true},
+
+  {id:27, region:'centrum', age:'young', type:'ta',
+   icon:'🚲', title:'Bike Law School',
+   nl_title:'Verkeersschool op de Fiets',
+   desc:'Dutch kids pass a real cycling exam called the Verkeersexamen at age 11–12. Your challenge: stand at a busy cycle path junction for 10 minutes and observe cyclists. Count how many use hand signals, how many run red lights, and how many ride with no hands on the bars.',
+   nl_desc:'Nederlandse kinderen halen op 11–12 jaar het Verkeersexamen. Jouw opdracht: sta 10 minuten bij een drukke fietskruising en observeer: hoeveel fietsers geven een handteken, hoeveel rijden door rood, hoeveel rijden zonder handen aan het stuur?',
+   challenge:'Keep a tally for each behaviour. What are the Dutch traffic rules for cyclists? Based on your count — would most Amsterdam cyclists PASS the verkeersexamen?',
+   nl_challenge:'Maak telstrepen per gedrag. Wat zijn de verkeersregels voor fietsers? Zou de gemiddelde Amsterdamse fietser het verkeersexamen halen op basis van jouw telling?',
+   xp:{active:2,detective:1}, unlocks:null, needsPhoto:false},
+
+  {id:28, region:'parks', age:'young', type:'tn',
+   icon:'🐦', title:'The Great Bird Sit',
+   nl_title:'De Grote Vogelteldag',
+   desc:'Sit completely still in Vondelpark for exactly 5 minutes with a pencil and paper. Every time you see or hear a different bird species, add it to your list with a quick sketch or description. Ornithologists call this a "point count" — it\'s real citizen science!',
+   nl_desc:'Zit 5 minuten doodstil in het Vondelpark met potlood en papier. Elke vogelsoort die je ziet of hoort, schrijf je op met een snelle schets. Vogelaars noemen dit een "punttel" — echte citizen science!',
+   challenge:'List every species you spotted. Which was most common? Did you hear any you couldn\'t see? With a grown-up, upload your count to waarneming.nl — the Dutch nature database used by real scientists.',
+   nl_challenge:'Schrijf elke soort op. Welke vogel zag je het vaakst? Heb je vogels gehoord maar niet gezien? Zet je telresultaten met een volwassene op waarneming.nl — de database die echte biologen gebruiken!',
+   xp:{scientist:2,nature:3}, unlocks:null, needsPhoto:false},
+
+  {id:29, region:'canals', age:'teen', type:'ts',
+   icon:'🔬', title:'Canal Science Lab',
+   nl_title:'Grachtenwaterlab',
+   desc:'Pick two different canals that are far apart. At each one, safely observe the water from the bank: what colour is it? Clear or murky? Any smell? Any plants, algae, or wildlife? Record everything in your journal. Then compare your two canals.',
+   nl_desc:'Kies twee grachten ver van elkaar. Observeer het water veilig vanaf de kant: welke kleur? Helder of troebel? Enige geur? Planten, algen of dieren? Schrijf alles op en vergelijk je twee grachten.',
+   challenge:'Write a comparison table: Canal A vs Canal B across 5 factors. What explains the differences? How might water quality affect the wildlife you saw? What would YOU do to improve Amsterdam\'s canal water?',
+   nl_challenge:'Maak een vergelijkingstabel: Gracht A vs Gracht B voor 5 factoren. Waarom zijn ze anders? Heeft waterkwaliteit invloed op het dierenleven? Wat zou JIJ doen om het grachtwater van Amsterdam te verbeteren?',
+   xp:{scientist:3,nature:2,detective:1}, unlocks:null, needsPhoto:false},
+
+  {id:30, region:'museums', age:'teen', type:'td',
+   icon:'🌰', title:'The Nutmeg Millionaires',
+   nl_title:'De Nootmuskaatmiljonairs',
+   desc:'In 1600, a single bag of nutmeg was worth more than a canal house. The VOC (Dutch East India Company) had a monopoly on spices — and Amsterdam got filthy rich off it. Your mission: a VOC captain returns with 200 kg of nutmeg worth 100 guilders per kg. A canal house costs 8,000 guilders. How many houses could he buy?',
+   nl_desc:'In 1600 was één zak nootmuskaat meer waard dan een grachtenpand. De VOC had een monopolie op specerijen — en Amsterdam werd stinkend rijk. Jouw opdracht: een VOC-kapitein komt terug met 200 kg nootmuskaat à 100 gulden per kg. Een grachtenpand kost 8.000 gulden. Hoeveel panden kon hij kopen?',
+   challenge:'Solve the maths. Then find nutmeg in a supermarket — how much does it cost today per gram? What does that price collapse tell you about trade, supply chains, and globalisation?',
+   nl_challenge:'Los de som op. Zoek daarna nootmuskaat in een supermarkt — hoeveel kost het nu per gram? Wat zegt die prijsdaling over handel, aanvoerketens en globalisering?',
+   xp:{urbanHistorian:3,detective:2}, unlocks:null, needsPhoto:false},
+
+  {id:31, region:'jordaan', age:'all', type:'tc',
+   icon:'✏️', title:'Draw the Jordaan',
+   nl_title:'Teken de Jordaan',
+   desc:'Find a spot on any Jordaan street with a view of at least 3 canal houses. Sit down, get out any paper, and spend 15 minutes drawing exactly what you see — rooftops, gables, windows, bikes, trees, people. No phone photos for this one. Just eyes and a pencil.',
+   nl_desc:'Zoek een plek in de Jordaan met uitzicht op minstens 3 grachtenpanden. Ga zitten, pak papier en teken 15 minuten lang precies wat je ziet — daken, gevels, ramen, fietsen, bomen, mensen. Geen telefoon nu. Gewoon ogen en potlood.',
+   challenge:'Draw the scene, then add one surprising contrast you notice — a satellite dish on a 300-year-old roof, a neon sign, a modern bike rack against ancient brickwork. How old and new Amsterdam live side by side.',
+   nl_challenge:'Teken de scène en voeg daarna één verrassend contrast toe — een schotelantenne op een 300 jaar oud dak, een neonreclame, een modern fietsrek naast oud metselwerk. Zo leven oud en nieuw Amsterdam naast elkaar.',
+   xp:{architect:2,creator:3,explorer:1}, unlocks:null, needsPhoto:true}
 ];
 
 // ═══════════════════════════════════════════════════════════════════
@@ -1280,13 +1341,26 @@ const MISSIONS = [
 const DEF = {
   name:'', mode:null,
   done:[], unlocked:['centrum','canals','jordaan','museums','parks','depijp','noord'],
-  xp:{explorer:0,active:0,nature:0,language:0,photographer:0,detective:0,creator:0,masterCrafter:0,urbanHistorian:0},
+  xp:{explorer:0,active:0,nature:0,language:0,photographer:0,detective:0,creator:0,masterCrafter:0,urbanHistorian:0,architect:0,scientist:0},
   badges:[], journal:[], grandFinale:false, character:null, sessionStart:Date.now()
 };
 let S = {...DEF};
 let tabHistory = [];
 let tmpPhotos = {};
 let currentMissionId = null;
+let LANG = 'en';
+
+function toggleLang() {
+  LANG = LANG === 'en' ? 'nl' : 'en';
+  document.getElementById('langBtn').textContent = LANG === 'en' ? '🇳🇱' : '🇬🇧';
+  renderTab('missions');
+  if (currentMissionId) openMission(currentMissionId);
+}
+
+function t(m, field) {
+  if (LANG === 'nl' && m['nl_'+field]) return m['nl_'+field];
+  return m[field];
+}
 
 // ═══════════════════════════════════════════════════════════════════
 // STORAGE
@@ -1294,7 +1368,12 @@ let currentMissionId = null;
 async function saveS() { await Prefs.set({key:'amsAdv3',value:JSON.stringify(S)}); }
 async function loadS() {
   const {value} = await Prefs.get({key:'amsAdv3'});
-  if (value) { try { S = {...DEF,...JSON.parse(value)}; } catch(e){} }
+  if (value) { try {
+    const saved = JSON.parse(value);
+    S = {...DEF,...saved};
+    // ensure new xp keys are always present (backwards compat)
+    S.xp = {...DEF.xp, ...(saved.xp||{})};
+  } catch(e){} }
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -1479,13 +1558,15 @@ function renderMissions() {
       const d = SKILLS.find(s=>s.id===sk);
       return `<span class="stag">${d?.icon||''} ${d?.name||sk}</span>`;
     }).join('');
+    const cardTitle = t(m,'title');
+    const cardDesc = t(m,'desc').substring(0,80)+'…';
     return `<div class="mcard ${m.type} ${done?'done':''}" onclick="openMission(${m.id})" data-rg="${m.region}">
       ${done?'<div class="dst">✅</div>':''}
       <div class="mtop">
         <div class="mico">${m.icon}</div>
         <div class="mbody">
-          <div class="mtit">${m.title}</div>
-          <div class="mdsc">${m.desc.substring(0,80)}…</div>
+          <div class="mtit">${cardTitle}</div>
+          <div class="mdsc">${cardDesc}</div>
           <div class="mmeta">${stags}<span class="rtag">${reg?.icon||''} ${reg?.en||m.region}</span></div>
         </div>
       </div>
@@ -1532,9 +1613,9 @@ function openMission(id) {
 
   document.getElementById('mBody').innerHTML = `
     <div style="font-size:2.8em;text-align:center;margin-bottom:6px;">${m.icon}</div>
-    <div class="mtitle">${m.title}</div>
-    <p class="mdesc">${m.desc}</p>
-    <div class="cbox"><h4>🎯 Challenge</h4><p>${m.challenge}</p></div>
+    <div class="mtitle">${t(m,'title')}</div>
+    <p class="mdesc">${t(m,'desc')}</p>
+    <div class="cbox"><h4>🎯 ${LANG==='nl'?'Opdracht':'Challenge'}</h4><p>${t(m,'challenge')}</p></div>
     <div class="saw">${sawd}</div>
     ${photoSection}
     <textarea class="narea" id="mn_${id}" placeholder="Write your notes here…" rows="3">${note}</textarea>
