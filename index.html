@@ -1369,8 +1369,90 @@ function toggleLang() {
   if (currentMissionId) openMission(currentMissionId);
 }
 
+const NL = {
+  1:{title:'Baksteentextuur Jacht',
+     desc:'Voel aan 5 verschillende muren van 17e-eeuwse grachtenpanden langs de Herengracht. Is elke baksteen ruw, glad, poederig of kruimelig? Beschrijf elke muur in je dagboek.',
+     challenge:'Vind 5 VERSCHILLENDE baksteentexturen. Teken één patroon — geen twee bakstenen zijn precies hetzelfde!'},
+  2:{title:'Gracht Weerspiegeling Jacht',
+     desc:'Kijk in een willekeurige gracht en zoek reflecties! Vind een wolk ÉN een grachtenpand die samen in het water weerspiegeld worden. Zien weerspiegelingen er precies hetzelfde uit als het echte?',
+     challenge:'Fotografeer een wolk ÉN een grachtenpand als reflectie in één opname. Behoorlijk lastig!'},
+  3:{title:'Vondelpark Blad Zoektocht',
+     desc:'Verzamel 5 VERSCHILLENDE bladvormen van de grond in het Vondelpark (NOOIT van levende bomen plukken!). Leg ze plat op een pagina en teken er nauwkeurig omheen.',
+     challenge:'Vind 5 verschillende vormen. Welk blad is het grootst? Welk heeft de meeste punten? Welk heeft de gladste rand?'},
+  4:{title:'De Hagelslag Detective',
+     desc:'Ga naar een supermarkt en vind het hagelslag-schap! Tel ELK verschillend smaakje — chocolade, wit, fruit, regenboog, anijs. Welke is de meest bijzondere die je vindt?',
+     challenge:'Tel ALLE hagelslag-smaken. Fotografeer de meest bijzondere. Nederlanders eten dit op brood als ONTBIJT!'},
+  5:{title:'Nijntje Spion',
+     desc:'Houd je ogen goed open in de Jordaan. Je moet óf een Nijntje-knuffel in een etalage vinden, óf een echte kat die vanuit een grachtenpandraam de wereld bekijkt.',
+     challenge:'Spot een Nijntje ÓF een kat in een raam. Maak een foto als BEWIJS — niet vals spelen!'},
+  6:{title:'Trambelletjes Teller',
+     desc:'Sta bij een tramhalte in het Centrum en luister goed. Elke keer dat een tram zijn bel laat horen, maak je een streepje in je dagboek. Kun je 10 keer tellen in 10 minuten?',
+     challenge:'Tel trambellen 10 minuten lang. Welke tramlijn belt het vaakst? Schrijf je tellijst op!'},
+  7:{title:'Bakfiets Spotter',
+     desc:'Een bakfiets heeft een grote houten bak vooraan. Amsterdam HOUDT van bakfietsen! Vind en fotografeer 3 VERSCHILLENDE bakfietsen die elk iets anders vervoeren.',
+     challenge:'Vind 3 bakfietsen. Wat vervoert elk exemplaar? Kinderen? Boodschappen? Een hond? Een surfboard? Fotografeer ze allemaal!'},
+  8:{title:'Gratis Pont naar Noord',
+     desc:'Loop achter Centraal Station naar het IJ-waterfront en neem de GRATIS GVB-pont naar Amsterdam-Noord. Hij vaart 24 uur per dag en kost niks! Kijk hoe Amsterdam achter je kleiner wordt.',
+     challenge:'Rij de pont heen én terug. Hoeveel kerktorens kun je vanuit het water zien in de Amsterdamse skyline?'},
+  9:{title:'Het Geheim van Singel 7',
+     desc:'Zoek Singel 7 — waarschijnlijk het smalste huis ter wereld. Het is niet breder dan een voordeur! Ga ervoor staan en spreid je armen. Ben JIJ breder dan het huis?',
+     challenge:'Vind Singel 7. Armen spreiden — ben jij breder? Maak een foto van jezelf ernaast!'},
+  10:{title:'Eendenparade',
+      desc:'Vind een eendenfamilie die langs een gracht zwemt. Tel elk kuikentje! Kijk 2 minuten — kun je mama van papa onderscheiden? Wat eten ze eigenlijk?',
+      challenge:'Tel de kuikentjes. Kijk wat ze eten. Fotografeer de hele familie bij elkaar!'},
+  11:{title:'Stroopwafel Wetenschap',
+      desc:'Koop een verse stroopwafel bij een marktkraam in de Pijp. Houd hem PLAT boven een warm drankje (thee of cacao) gedurende precies 60 seconden. Eet hem dan meteen op. VOEL het verschil!',
+      challenge:'Houd hem precies 60 seconden boven de stoom. Is de karamel zachter? Wat veranderde er chemisch? Waarom verandert stoomwarmte de textuur?'},
+  12:{title:'Bruggen Tellen',
+      desc:'Wandel een uur door het Centrum. Elke keer dat je een brug over een gracht oversteekt, maak je een streepje. Amsterdam heeft meer dan 1.200 bruggen — hoeveel kun jij er oversteken?',
+      challenge:'Wandel 1 uur en tel bruggen. Kun je 10 halen? Schrijf je eindtelling op!'},
+  13:{title:'De XXX-Palen Jacht',
+      desc:'Het wapen van Amsterdam heeft 3 Andreaskruisen (X-vormen). Ze staan op palen, poortjes, bruggen en gebouwen door de hele stad! Vind en fotografeer er 5 in Noord.',
+      challenge:'Vind 5 verschillende XXX-symbolen in Amsterdam-Noord. Waarom drie kruisen? Onderzoek de legende van het Amsterdamse stadswapen!'},
+  14:{title:'De Scheve Toren van de Oude Kerk',
+      desc:'De toren van de Oude Kerk zakt al 700 jaar! Maak een foto vanuit het plein en gebruik een liniaal of notitieboekrand om te meten hoeveel graden hij afwijkt van verticaal.',
+      challenge:'Meet de hellingshoek in graden. Welke kant helt hij op? Waarom gebeurt dit in Amsterdams zachte veengrond?'},
+  15:{title:'De Hijshaak Fysica',
+      desc:'Kijk naar de top van elk grachtenpand — er steekt een hijshaak VOORUIT over de straat. Teken hem nauwkeurig. Leg nu de fysica uit: WAAROM moet hij naar voren hellen?',
+      challenge:'Teken de haakhoek. Schrijf een uitleg: wat gebeurt er met het touw en de meubels als de haak recht omhoog wees in plaats van naar voren?'},
+  16:{title:'NEMO Dakgeometrie',
+      desc:'Sta buiten het NEMO Science Museum (het grote groene scheepsvormige gebouw bij het IJ). Tel elk driehoekig dakruitpaneel op het schuine dak en bereken de totale glasoppervlakte.',
+      challenge:'Tel de driehoeken. Schat elk paneel op ~2m breed en 1,5m hoog. Totale oppervlakte = aantal × (0,5 × basis × hoogte). Toon je berekening!'},
+  17:{title:'Waterpeil Logica bij Sluizen',
+      desc:'Vind een sluis bij de Amstel of Centraal Station. Kijk hoe hij werkt, of teken een gedetailleerde doorsnede die laat zien hoe het waterpeil een boot omhoog of omlaag brengt.',
+      challenge:'Teken een diagram met labels: waterpeil A, peil B, sluiskamer, sluisdeuren. Leg elke stap uit om een boot van laag naar hoog te brengen.'},
+  18:{title:'Spreek als een Amsterdammer',
+      desc:'Gebruik deze 3 Nederlandse zinnen met ECHTE vreemden (geen familie): "Goedemorgen", "Alsjeblieft", "Dank je wel".',
+      challenge:'Elk zinnetje moet in een ECHTE interactie in een winkel of café worden gebruikt. Schrijf elke reactie op. Antwoordden ze in het Nederlands of schakelden ze over naar Engels?'},
+  19:{title:'De Geheime Tuin van het Begijnhof',
+      desc:'Achter een klein houten deurtje op het Gedempte Begijnensloot ligt het Begijnhof — een middeleeuwse binnentuin die al bestaat sinds 1346. Zoek hem, ga naar binnen en zit 2 minuten stil.',
+      challenge:'Ga het Begijnhof binnen. Wat is het oudste gebouw? Zoek de Engelse Kerk. Waarom waren de Begijnen bijzondere vrouwen in de Amsterdamse geschiedenis?'},
+  20:{title:'De Papegaai — Verborgen Kerk',
+      desc:'Op Kalverstraat 58, achter wat eruitziet als een gewone winkel, verbergt zich De Papegaai — een volledige katholieke kerk, geheim gebouwd in een rij grachtenpanden in de jaren 1600. Zoek hem!',
+      challenge:'Vind De Papegaai en ga naar binnen. Waarom was hij verborgen? Welk historisch moment in 1578 dwong katholieken hun kerken in Amsterdam te verbergen?'},
+  21:{title:'De Brug die Opengaat',
+      desc:'Amsterdam heeft tientallen werkende ophaalbrug​gen die opengaan voor grote boten. Vind er een in werking en meet de tijd van de volledige open-sluit cyclus.',
+      challenge:'Meet de cyclus: gesloten → volledig open → boot passeert → weer gesloten. Is het automatisch of bedient een bruggenwachter hem?'},
+  22:{title:'Origami op de Brug',
+      desc:'Vouw 3 origami-dieren — een kraanvogel, een kikker en een vis (zoek vouwuitleggingen op). Zoek dan de mooiste brug in de Jordaan en poseer je dieren op de reling.',
+      challenge:'Vouw 3 dieren ÉN fotografeer ze op een brug met het kanaal op de achtergrond. Welke was het moeilijkst te vouwen?'},
+  23:{title:'Fietsenparkeer Wiskunde',
+      desc:'Vind de grote fietsenstalling bij Centraal Station. Tel alle fietsen in ÉÉN sectie, tel dan het aantal secties en vermenigvuldig om het totaal te schatten.',
+      challenge:'Toon je berekening! Officieel totaal: ~16.000 fietsen bij Centraal. Hoe dicht zat je? Amsterdam heeft in totaal ~900.000 fietsen!'},
+  24:{title:'NDSM Street Art Jacht',
+      desc:'De NDSM-werf in Noord is een legendarische street art-bestemming — een oude scheepswerf omgetoverd tot creatief speelterrein. Vind en fotografeer 3 verschillende muurschilderingen of graffiti-werken.',
+      challenge:'Vind 3 kunstwerken bij NDSM. Wat is de stijl van elk (portret, abstract, letters)? Verwijst er een naar Amsterdamse cultuur? Kun je een handtekening van de kunstenaar vinden?'},
+  25:{title:'Bosbaan Roeier Tijdmeting',
+      desc:'Ga naar de Bosbaan in het Amsterdamse Bos — een rechte roeicompetitiestrook van 2 km. Zoek een roeiboot en meet hoe lang hij erover doet van het ene einde naar het andere.',
+      challenge:'Gebruik seconden of een klok. Wat is sneller — één roeier of een acht? Schrijf je tijden op!'}
+};
+
 function t(m, field) {
-  if (LANG === 'nl' && m['nl_'+field]) return m['nl_'+field];
+  if (LANG === 'nl') {
+    const nl = NL[m.id];
+    if (nl && nl[field]) return nl[field];
+    if (m['nl_'+field]) return m['nl_'+field];
+  }
   return m[field];
 }
 
