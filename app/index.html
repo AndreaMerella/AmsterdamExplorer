@@ -1,0 +1,2588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+<title>Amsterdam Adventure</title>
+
+<!-- HD Red Bicycle PWA Icon -->
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cdefs%3E%3CradialGradient id='g' cx='50%25' cy='50%25' r='50%25'%3E%3Cstop offset='0%25' stop-color='%23FF5722'/%3E%3Cstop offset='100%25' stop-color='%23B71C1C'/%3E%3C/radialGradient%3E%3Cfilter id='gl'%3E%3CfeGaussianBlur stdDeviation='3' result='b'/%3E%3CfeMerge%3E%3CfeMergeNode in='b'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Crect width='120' height='120' rx='26' fill='url(%23g)'/%3E%3Ccircle cx='38' cy='78' r='18' fill='none' stroke='%23fff' stroke-width='5.5' filter='url(%23gl)'/%3E%3Ccircle cx='82' cy='78' r='18' fill='none' stroke='%23fff' stroke-width='5.5' filter='url(%23gl)'/%3E%3Ccircle cx='38' cy='78' r='3' fill='%23fff'/%3E%3Ccircle cx='82' cy='78' r='3' fill='%23fff'/%3E%3Cpath d='M38 78 L60 42 L82 78' fill='none' stroke='%23fff' stroke-width='5' stroke-linejoin='round' filter='url(%23gl)'/%3E%3Cpath d='M60 42 L60 30' stroke='%23fff' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M50 58 L68 58' stroke='%23fff' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='60' cy='26' r='6' fill='%23F9A825'/%3E%3Cpath d='M54 30 Q48 34 48 40' stroke='%23F9A825' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect width='120' height='120' rx='26' fill='%23D84315'/%3E%3Ccircle cx='38' cy='78' r='18' fill='none' stroke='%23fff' stroke-width='5.5'/%3E%3Ccircle cx='82' cy='78' r='18' fill='none' stroke='%23fff' stroke-width='5.5'/%3E%3Cpath d='M38 78 L60 42 L82 78' fill='none' stroke='%23fff' stroke-width='5' stroke-linejoin='round'/%3E%3Cpath d='M60 42 L60 30 M50 58 L68 58' stroke='%23fff' stroke-width='4.5' stroke-linecap='round'/%3E%3Ccircle cx='60' cy='26' r='5' fill='%23F9A825'/%3E%3C/svg%3E">
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#FFD000">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Caveat:wght@600&family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ── Reset & Root ── */
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+:root{
+  --bg:#180A48;
+  --panel:#251268;
+  --card:#311880;
+  --gold:#FFD000;
+  --gold-shadow:#8B5C00;
+  --lime:#18E87A;
+  --lime-shadow:#065C2A;
+  --cyan:#00CFFF;
+  --pink:#FF3DB0;
+  --orange:#FF7A00;
+  --white:#FFFFFF;
+  --dim:#A888D8;
+  --card-border:3px solid rgba(255,255,255,0.14);
+}
+html,body{height:100%;overflow:hidden;}
+body{
+  font-family:'Fredoka',sans-serif;
+  background:#080318;
+  display:flex;flex-direction:column;align-items:center;height:100dvh;overflow:hidden;
+  -webkit-user-select:none;-webkit-touch-callout:none;user-select:none;
+}
+#app-shell{
+  position:relative;width:100%;height:100dvh;
+  background:linear-gradient(170deg,#1C0A58 0%,#130638 100%);
+  display:flex;flex-direction:column;overflow:hidden;
+}
+@media(min-width:600px){
+  .pcard{max-width:720px;margin-left:auto;margin-right:auto;}
+  .map-grid{max-width:720px;margin:0 auto;}
+  .mlist{max-width:720px;margin:0 auto;}
+  .sg{max-width:720px;margin:0 auto;}
+  .bg{max-width:720px;margin:0 auto;}
+  #journalE{max-width:720px;margin:0 auto;}
+  .app-header .hrow{max-width:720px;margin:0 auto;}
+}
+
+/* ── Clouds ── */
+.cloud{position:absolute;background:rgba(255,255,255,0.72);border-radius:100px;pointer-events:none;z-index:0;}
+.cloud::before,.cloud::after{content:'';position:absolute;background:rgba(255,255,255,0.72);border-radius:100px;}
+.c1{width:110px;height:42px;top:9%;animation:fc 52s linear infinite;}
+.c1::before{width:55px;height:55px;top:-28px;left:12px;}
+.c1::after{width:65px;height:42px;top:-17px;right:12px;}
+.c2{width:145px;height:55px;top:19%;animation:fc 76s linear infinite;animation-delay:-22s;}
+.c2::before{width:72px;height:68px;top:-33px;left:16px;}
+.c2::after{width:82px;height:55px;top:-22px;right:16px;}
+.c3{width:80px;height:32px;top:6%;animation:fc 61s linear infinite;animation-delay:-44s;}
+.c3::before{width:40px;height:40px;top:-20px;left:8px;}
+.c3::after{width:50px;height:32px;top:-13px;right:8px;}
+.c4{width:125px;height:48px;top:33%;animation:fc 86s linear infinite;animation-delay:-15s;}
+.c4::before{width:62px;height:60px;top:-30px;left:13px;}
+.c4::after{width:72px;height:48px;top:-20px;right:13px;}
+.c5{width:92px;height:36px;top:14%;animation:fc 67s linear infinite;animation-delay:-58s;}
+.c5::before{width:46px;height:46px;top:-23px;left:10px;}
+.c5::after{width:56px;height:36px;top:-15px;right:10px;}
+.c6{width:165px;height:62px;top:27%;animation:fc 93s linear infinite;animation-delay:-35s;}
+.c6::before{width:82px;height:72px;top:-36px;left:22px;}
+.c6::after{width:92px;height:62px;top:-26px;right:22px;}
+@keyframes fc{from{transform:translateX(-230px);}to{transform:translateX(calc(100vw + 230px));}}
+
+/* ── Juice ── */
+.pop{transition:transform 0.1s ease,box-shadow 0.1s ease;}
+.pop:active{transform:scale(0.91)!important;box-shadow:none!important;}
+button:active{transform:scale(0.93);}
+
+/* ── Keyframes ── */
+@keyframes bounceIn{0%{transform:scale(0.5);opacity:0;}70%{transform:scale(1.05);}85%{transform:scale(0.97);}100%{transform:scale(1);opacity:1;}}
+@keyframes slideUp{from{transform:translateY(60px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes pulse-unlock{0%,100%{box-shadow:0 0 0 0 rgba(24,232,122,0.55);}50%{box-shadow:0 0 0 10px rgba(24,232,122,0);}}
+@keyframes badge-shine{0%,100%{box-shadow:0 0 0 0 rgba(255,208,0,0.7);}50%{box-shadow:0 0 0 10px rgba(255,208,0,0);}}
+@keyframes pop-badge{0%{transform:scale(0);}70%{transform:scale(1.2);}100%{transform:scale(1);}}
+@keyframes glow-pulse{0%,100%{text-shadow:0 0 8px var(--gold),0 0 20px rgba(255,208,0,0.4);}50%{text-shadow:0 0 16px var(--gold),0 0 40px rgba(255,208,0,0.7);}}
+
+/* ── Screen reminder ── */
+.screen-reminder{
+  position:absolute;top:0;left:0;right:0;z-index:1500;
+  background:var(--gold);color:#1A0845;padding:10px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+  font-weight:700;font-size:0.93em;
+  transform:translateY(-100%);transition:transform 0.4s ease;
+}
+.screen-reminder.vis{transform:translateY(0);}
+.screen-reminder button{background:none;border:none;font-size:1.5em;cursor:pointer;}
+
+/* ── Onboarding ── */
+.onboarding{
+  position:fixed;inset:0;z-index:2000;
+  background:linear-gradient(160deg,#2D0E7A 0%,#1A0850 60%,#0F0430 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:28px;text-align:center;
+  transition:opacity 0.5s ease;
+}
+.onboarding.hidden{opacity:0;pointer-events:none;display:none;}
+.ob-scene{position:absolute;inset:0;overflow:hidden;z-index:0;}
+.ob-form{position:absolute;bottom:0;left:0;right:0;z-index:2;padding:16px 24px 36px;background:linear-gradient(to bottom,transparent,rgba(24,10,72,0.97) 32%);text-align:center;display:flex;flex-direction:column;align-items:center;}
+.ob-top-title{position:absolute;top:18px;left:0;right:0;z-index:3;text-align:center;}
+.ob-logo{font-size:4.5em;margin-bottom:6px;animation:pop-badge 0.6s ease;filter:drop-shadow(0 0 16px rgba(255,208,0,0.8));}
+.ob-title{
+  font-family:'Bangers',cursive;font-size:2.9em;letter-spacing:3px;margin-bottom:4px;
+  color:var(--gold);text-shadow:0 0 20px rgba(255,208,0,0.5);
+  -webkit-text-stroke:1.5px #000;paint-order:stroke fill;
+}
+.ob-sub{font-family:'Caveat',cursive;font-size:1.35em;color:var(--dim);margin-bottom:22px;}
+.ob-input{
+  font-family:'Fredoka',sans-serif;font-size:1.15em;padding:11px 18px;
+  border:3px solid var(--gold);border-radius:14px;
+  background:rgba(255,255,255,0.1);color:#fff;
+  text-align:center;width:220px;outline:none;margin-bottom:18px;
+  box-shadow:0 4px 0 var(--gold-shadow),0 0 20px rgba(255,208,0,0.2);
+}
+.ob-input::placeholder{color:rgba(255,255,255,0.45);}
+.ob-label{font-family:'Bangers',cursive;font-size:1.25em;color:var(--dim);letter-spacing:2px;margin-bottom:13px;}
+.age-cards{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;}
+.age-card{
+  background:linear-gradient(135deg,#3D1A90,#251268);
+  border:3px solid var(--gold);border-radius:20px;
+  padding:20px 26px;cursor:pointer;
+  transition:transform 0.12s ease,box-shadow 0.12s ease;
+  box-shadow:0 6px 0 var(--gold-shadow),0 0 20px rgba(255,208,0,0.25);
+  min-width:130px;
+}
+.age-card:active{transform:translateY(4px);box-shadow:0 2px 0 var(--gold-shadow);}
+.age-card .ai{font-size:2.6em;display:block;margin-bottom:5px;}
+.age-card .al{font-family:'Bangers',cursive;font-size:1.5em;color:var(--gold);letter-spacing:2px;}
+.age-card .ar{font-size:0.83em;color:var(--dim);margin-top:2px;}
+
+/* ── Character Select ── */
+.char-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;max-width:420px;padding:4px;}
+.char-card{
+  border-radius:22px;padding:14px 10px 12px;text-align:center;cursor:pointer;
+  transition:transform 0.13s ease,box-shadow 0.13s ease,border-color 0.13s;
+  box-shadow:0 8px 0 rgba(0,0,0,0.5),0 0 0 3px rgba(255,255,255,0.12);
+  position:relative;overflow:hidden;
+}
+.char-card::before{content:'';position:absolute;inset:0;border-radius:22px;
+  background:linear-gradient(135deg,rgba(255,255,255,0.1) 0%,transparent 55%);pointer-events:none;}
+.char-card:active{transform:translateY(6px) scale(0.96);box-shadow:0 2px 0 rgba(0,0,0,0.5);}
+.char-card svg{width:100%;height:auto;display:block;}
+.char-name{font-family:'Bangers',cursive;font-size:1.7em;letter-spacing:2px;margin-top:6px;-webkit-text-stroke:0.5px rgba(0,0,0,0.5);paint-order:stroke fill;}
+.char-role{font-family:'Caveat',cursive;font-size:1em;color:rgba(255,255,255,0.7);margin-top:1px;}
+
+/* ── App Header ── */
+.app-header{
+  flex-shrink:0;
+  background:linear-gradient(90deg,#1E0A58,#2D1278);
+  border-bottom:2px solid rgba(255,208,0,0.35);
+  padding:max(12px,env(safe-area-inset-top)) 14px 10px;
+  z-index:10;box-shadow:0 4px 24px rgba(0,0,0,0.5);position:relative;
+}
+.hrow{display:flex;align-items:center;gap:11px;}
+.hav{
+  width:50px;height:50px;
+  background:linear-gradient(135deg,#FF3DB0,#7B2FBE);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:1.7em;border:3px solid var(--gold);flex-shrink:0;
+  box-shadow:0 0 16px rgba(255,208,0,0.5);
+}
+.hinfo{flex:1;min-width:0;}
+.htitle{
+  font-family:'Bangers',cursive;font-size:1.35em;letter-spacing:2px;line-height:1;
+  color:var(--gold);-webkit-text-stroke:0.5px #000;paint-order:stroke fill;
+}
+.hname{font-family:'Caveat',cursive;font-size:1.02em;color:var(--dim);}
+.hbadges{display:flex;gap:5px;flex-wrap:wrap;margin-top:3px;}
+.mb{background:rgba(0,207,255,0.25);color:var(--cyan);padding:2px 9px;border-radius:11px;font-size:0.68em;font-weight:700;border:1px solid rgba(0,207,255,0.4);}
+.mb.g{background:rgba(24,232,122,0.2);color:var(--lime);border-color:rgba(24,232,122,0.4);}
+.mb.p{background:rgba(255,208,0,0.18);color:var(--gold);border-color:rgba(255,208,0,0.4);}
+.lang-btn{background:none;border:none;font-size:1.5em;cursor:pointer;padding:0;margin-left:auto;align-self:center;line-height:1;}
+
+/* ── Content ── */
+.app-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;position:relative;z-index:1;padding:13px 13px 4px;}
+.tab-pane{display:none;}
+.tab-pane.active{display:block;animation:slideUp 0.3s ease;}
+
+/* ── Bottom nav ── */
+.bottom-nav{flex-shrink:0;position:relative;z-index:10;}
+.canal-svg{display:block;width:100%;height:96px;}
+.tab-bar{
+  display:flex;
+  background:linear-gradient(90deg,#1A0848,#25106A);
+  border-top:2px solid rgba(255,208,0,0.3);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+.tab-btn{
+  flex:1;padding:8px 2px 7px;background:none;border:none;
+  font-family:'Fredoka',sans-serif;font-size:0.68em;font-weight:600;
+  color:rgba(168,136,216,0.7);cursor:pointer;display:flex;flex-direction:column;
+  align-items:center;gap:1px;transition:color 0.18s,transform 0.1s;
+}
+.tab-btn .ti{font-size:1.4em;line-height:1;transition:transform 0.18s;}
+.tab-btn.active{color:var(--gold);}
+.tab-btn.active .ti{transform:translateY(-3px) scale(1.18);filter:drop-shadow(0 0 6px rgba(255,208,0,0.7));}
+.tab-btn:active{transform:scale(0.88);}
+
+/* ── Back button ── */
+#backBtn{
+  position:absolute;bottom:calc(env(safe-area-inset-bottom,0px) + 118px);right:13px;
+  z-index:200;background:var(--gold);color:#1A0845;border:none;
+  width:44px;height:44px;border-radius:50%;font-size:1.25em;cursor:pointer;
+  box-shadow:0 4px 0 var(--gold-shadow),0 0 14px rgba(255,208,0,0.5);
+  display:none;align-items:center;justify-content:center;
+  transition:transform 0.1s;font-weight:900;
+}
+#backBtn:active{transform:scale(0.87) translateY(2px);box-shadow:0 2px 0 var(--gold-shadow);}
+#backBtn.vis{display:flex;}
+
+/* ── Game card ── */
+.pcard{
+  background:linear-gradient(145deg,#2D1270,#1E0A52);
+  border-radius:18px;padding:16px;
+  box-shadow:0 6px 0 rgba(0,0,0,0.5),0 8px 24px rgba(0,0,0,0.4);
+  border:var(--card-border);margin-bottom:14px;
+  position:relative;overflow:hidden;
+}
+.pcard::before{
+  content:'';position:absolute;inset:0;border-radius:18px;
+  background:linear-gradient(135deg,rgba(255,255,255,0.06) 0%,transparent 60%);
+  pointer-events:none;
+}
+.ctitle{
+  font-family:'Bangers',cursive;font-size:1.5em;letter-spacing:2px;margin-bottom:11px;
+  color:var(--gold);-webkit-text-stroke:0.5px rgba(0,0,0,0.5);paint-order:stroke fill;
+}
+
+/* ── Map ── */
+.map-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+.mreg{
+  background:linear-gradient(135deg,#311880,#1E0A52);
+  border-radius:14px;padding:13px 9px;text-align:center;
+  cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;
+  border:3px solid rgba(255,255,255,0.1);position:relative;min-height:95px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  box-shadow:0 4px 0 rgba(0,0,0,0.4);
+}
+.mreg:active{transform:scale(0.95);}
+.mreg.locked{opacity:0.35;cursor:default;background:linear-gradient(135deg,#1E0A3A,#130630);}
+.mreg.unlocked{border-color:var(--lime);animation:pulse-unlock 2.5s ease infinite;box-shadow:0 4px 0 rgba(0,0,0,0.4),0 0 16px rgba(24,232,122,0.3);}
+.mreg.completed{border-color:var(--gold);background:linear-gradient(135deg,#3D2A00,#2D1E00,#311880);box-shadow:0 4px 0 rgba(0,0,0,0.4),0 0 16px rgba(255,208,0,0.3);}
+.ri{font-size:2.2em;margin-bottom:4px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5));}
+.rn{font-weight:700;color:#fff;font-size:0.92em;}
+.rs{font-size:0.7em;color:var(--dim);margin-top:1px;}
+.rlk{position:absolute;top:6px;right:6px;font-size:0.95em;opacity:0.3;}
+
+/* ── Missions ── */
+.mlist{display:flex;flex-direction:column;gap:10px;}
+.mempty{text-align:center;padding:34px 14px;font-family:'Caveat',cursive;font-size:1.25em;color:var(--dim);}
+.reg-filter-bar{display:flex;align-items:center;gap:10px;padding:8px 4px 14px;font-family:'Bangers',cursive;font-size:1.25em;letter-spacing:1px;color:var(--gold);}
+.reg-back-btn{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;border-radius:20px;padding:4px 14px;font-size:0.75em;cursor:pointer;font-family:'Space Grotesk',sans-serif;letter-spacing:0;}
+.mcard{
+  background:linear-gradient(135deg,#2D1270,#1E0A52);
+  border-radius:14px;padding:13px 15px;cursor:pointer;
+  border-left:6px solid var(--cyan);
+  box-shadow:0 4px 0 rgba(0,0,0,0.4);
+  position:relative;transition:transform 0.12s,box-shadow 0.12s;
+}
+.mcard:active{transform:scale(0.97);box-shadow:0 1px 0 rgba(0,0,0,0.4);}
+.mcard.done{opacity:0.45;border-left-color:rgba(255,255,255,0.2);}
+.mcard.te{border-left-color:var(--cyan);}
+.mcard.ta{border-left-color:var(--lime);}
+.mcard.tn{border-left-color:#66BB6A;}
+.mcard.tl{border-left-color:var(--pink);}
+.mcard.tp{border-left-color:#C77DFF;}
+.mcard.td{border-left-color:var(--orange);}
+.mcard.tc{border-left-color:var(--gold);}
+.mcard.ts{border-left-color:#00E5FF;}
+.mtop{display:flex;align-items:flex-start;gap:10px;}
+.mico{font-size:1.9em;flex-shrink:0;line-height:1;}
+.mbody{flex:1;}
+.mtit{font-weight:700;font-size:1em;color:#fff;margin-bottom:2px;}
+.mdsc{font-size:0.8em;color:var(--dim);line-height:1.38;}
+.mmeta{display:flex;gap:5px;margin-top:6px;flex-wrap:wrap;}
+.stag{font-size:0.66em;font-weight:700;padding:2px 8px;border-radius:10px;background:rgba(0,207,255,0.25);color:var(--cyan);border:1px solid rgba(0,207,255,0.4);}
+.rtag{font-size:0.66em;padding:2px 8px;border-radius:10px;background:rgba(255,255,255,0.08);color:var(--dim);font-weight:600;}
+.dst{position:absolute;top:8px;right:8px;font-size:1.4em;}
+
+/* ── Skills ── */
+.sg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.skc{
+  background:linear-gradient(135deg,#311880,#1E0A52);
+  border-radius:14px;padding:12px 8px;text-align:center;
+  border:2px solid rgba(255,208,0,0.35);
+  box-shadow:0 4px 0 rgba(0,0,0,0.4);
+}
+.ski{font-size:1.85em;margin-bottom:4px;}
+.skn{font-weight:700;font-size:0.76em;color:#fff;margin-bottom:2px;}
+.skt{font-family:'Caveat',cursive;font-size:0.8em;color:var(--pink);}
+.skx{font-size:0.7em;color:var(--dim);margin-top:2px;}
+.sbw{background:rgba(255,255,255,0.1);border-radius:5px;height:7px;margin-top:5px;overflow:hidden;}
+.sb{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--gold),var(--orange));transition:width 0.7s ease;}
+
+/* ── Badges ── */
+.bg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.bdg{
+  background:linear-gradient(135deg,#1E0A52,#130630);
+  border-radius:14px;padding:12px 7px;text-align:center;
+  border:2px solid rgba(255,255,255,0.08);
+  box-shadow:0 2px 8px rgba(0,0,0,0.4);opacity:0.35;
+}
+.bdg.earned{border-color:var(--gold);opacity:1;animation:badge-shine 2.2s ease infinite;background:linear-gradient(135deg,#3D2800,#1E0A52);}
+.bdg.just-earned{animation:pop-badge 0.5s ease,badge-shine 2.2s ease 0.5s infinite;}
+.bi{font-size:2.1em;margin-bottom:4px;}
+.bn{font-size:0.7em;font-weight:700;color:#fff;}
+
+/* ── Journal ── */
+.je{background:linear-gradient(135deg,#2D1270,#1E0A52);border-radius:14px;padding:13px;margin-bottom:10px;border-left:6px solid #C77DFF;}
+.jmn{font-weight:700;color:#fff;margin-bottom:4px;}
+.jdt{font-size:0.77em;color:var(--dim);margin-bottom:6px;}
+.jnt{font-family:'Caveat',cursive;font-size:1.06em;color:#E0D0FF;margin-bottom:8px;}
+.jph{display:grid;grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:7px;}
+.jpit{aspect-ratio:1;border-radius:8px;overflow:hidden;border:2px solid var(--gold);cursor:pointer;}
+.jpit img{width:100%;height:100%;object-fit:cover;display:block;}
+.jempty{text-align:center;padding:34px 14px;font-family:'Caveat',cursive;font-size:1.22em;color:var(--dim);}
+
+/* ── Parent ── */
+.ps{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.08);font-size:0.9em;color:#E0D0FF;}
+.ps:last-child{border:none;}
+.ps strong{color:#fff;}
+
+/* ── Buttons ── */
+.btn{
+  display:block;width:100%;padding:13px 16px;border:none;border-radius:14px;
+  background:linear-gradient(135deg,#FF5C00,#CC2200);color:#fff;
+  font-family:'Fredoka',sans-serif;font-size:1em;font-weight:700;
+  cursor:pointer;margin-top:10px;text-align:center;
+  box-shadow:0 5px 0 #660F00,0 0 0 2px rgba(255,255,255,0.1) inset;
+  transition:transform 0.1s,box-shadow 0.1s;
+}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 #660F00;}
+.btn.sec{background:linear-gradient(135deg,#7B2FBE,#3D1A6E);box-shadow:0 5px 0 #1A0048,0 0 0 2px rgba(255,255,255,0.1) inset;}
+.btn.sec:active{box-shadow:0 1px 0 #1A0048;}
+.btn.grn{background:linear-gradient(135deg,#12C860,#077A38);box-shadow:0 5px 0 #024A20,0 0 0 2px rgba(255,255,255,0.1) inset;}
+.btn.grn:active{box-shadow:0 1px 0 #024A20;}
+.btn.ylw{background:linear-gradient(135deg,#FFD000,#FF8C00);color:#1A0845;box-shadow:0 5px 0 var(--gold-shadow),0 0 0 2px rgba(255,255,255,0.2) inset;font-weight:800;}
+.btn.ylw:active{box-shadow:0 1px 0 var(--gold-shadow);}
+.btn:disabled{background:rgba(255,255,255,0.1)!important;box-shadow:none!important;cursor:not-allowed;opacity:0.5;}
+
+/* ── Modals ── */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:1000;align-items:flex-end;justify-content:center;padding:0;}
+.modal.active{display:flex;}
+.mc{
+  background:linear-gradient(160deg,#2D1278,#1A0850);
+  border-radius:22px 22px 0 0;padding:22px;
+  width:100%;max-width:600px;max-height:92vh;overflow-y:auto;
+  position:relative;
+  border-top:3px solid rgba(255,208,0,0.5);
+  border-left:3px solid rgba(255,208,0,0.2);
+  border-right:3px solid rgba(255,208,0,0.2);
+  animation:bounceIn 0.38s cubic-bezier(0.34,1.56,0.64,1);
+}
+.mc.center{border-radius:22px;margin:20px;width:calc(100% - 40px);}
+.mcls{
+  position:absolute;top:11px;right:11px;
+  background:linear-gradient(135deg,#FF3DB0,#C0007A);color:#fff;border:none;
+  width:36px;height:36px;border-radius:50%;font-size:1.2em;cursor:pointer;font-weight:700;
+  box-shadow:0 3px 0 #700040;transition:transform 0.1s;
+}
+.mcls:active{transform:scale(0.88);}
+.mtitle{font-family:'Bangers',cursive;font-size:1.7em;color:var(--gold);margin-bottom:2px;letter-spacing:2px;}
+.mdesc{font-size:0.91em;color:#D0C0F0;line-height:1.6;margin-bottom:13px;}
+.cbox{background:rgba(0,207,255,0.08);border-radius:12px;padding:12px;border-left:5px solid var(--cyan);margin-bottom:12px;}
+.cbox h4{font-family:'Bangers',cursive;color:var(--cyan);font-size:1.12em;margin-bottom:4px;letter-spacing:1px;}
+.cbox p{font-size:0.87em;color:#C0B0E0;line-height:1.5;}
+.psec label{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,#7B2FBE,#3D1A6E);color:#fff;padding:10px 15px;border-radius:12px;cursor:pointer;font-weight:700;font-size:0.9em;box-shadow:0 4px 0 #1A0048;}
+.psec label:active{transform:translateY(2px);box-shadow:0 1px 0 #1A0048;}
+.psec input[type=file]{display:none;}
+.pp{display:grid;grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:7px;margin-top:8px;}
+.pit{aspect-ratio:1;border-radius:8px;overflow:hidden;border:2px solid var(--gold);cursor:pointer;}
+.pit img{width:100%;height:100%;object-fit:cover;display:block;}
+.narea{width:100%;padding:10px;border:2px solid rgba(255,208,0,0.4);border-radius:12px;font-family:'Caveat',cursive;font-size:1.1em;background:rgba(255,255,255,0.06);color:#fff;resize:none;min-height:70px;outline:none;margin-bottom:10px;}
+.narea::placeholder{color:rgba(255,255,255,0.35);}
+.saw{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+.sawd{background:rgba(24,232,122,0.2);color:var(--lime);padding:4px 10px;border-radius:10px;font-size:0.77em;font-weight:700;border:1px solid rgba(24,232,122,0.4);}
+.donebox{text-align:center;font-family:'Bangers',cursive;font-size:1.6em;color:var(--lime);padding:8px 0;text-shadow:0 0 12px rgba(24,232,122,0.6);}
+.photo-gate-msg{text-align:center;font-size:0.85em;color:var(--orange);font-weight:700;margin-top:6px;padding:8px;background:rgba(255,122,0,0.1);border-radius:8px;border:1px solid rgba(255,122,0,0.3);}
+.voice-bubble{display:flex;align-items:flex-start;gap:10px;background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.1);border-radius:14px;padding:10px 13px;margin-bottom:12px;}
+.voice-bubble .vb-ava{font-size:1.5em;flex-shrink:0;line-height:1;}
+.voice-bubble .vb-text{font-family:'Caveat',cursive;font-size:1.05em;color:var(--dim);line-height:1.4;}
+
+/* ── Mini-game modal ── */
+#gameModal .mc{background:#0D0520;border-color:var(--gold);border-left-color:var(--gold);border-right-color:var(--gold);padding:0;overflow:hidden;border-radius:16px 16px 0 0;}
+#gameCanvas{width:100%;display:block;touch-action:none;cursor:pointer;}
+.game-ui{padding:14px;}
+.game-title{font-family:'Bangers',cursive;font-size:1.6em;color:var(--gold);text-align:center;letter-spacing:2px;}
+.game-sub{font-family:'Fredoka',sans-serif;font-size:0.9em;color:var(--dim);text-align:center;margin-bottom:10px;}
+.game-over-overlay{display:none;position:absolute;inset:0;background:rgba(0,0,0,0.82);flex-direction:column;align-items:center;justify-content:center;padding:20px;}
+.game-over-overlay.vis{display:flex;}
+.go-title{font-family:'Bangers',cursive;font-size:2.5em;letter-spacing:2px;margin-bottom:10px;}
+.go-title.win{color:var(--gold);}
+.go-title.lose{color:#EF5350;}
+
+/* ── Lightbox ── */
+#lbModal .mc{background:#000;border-color:#333;padding:8px;border-radius:12px;margin:20px;width:calc(100% - 40px);}
+#lbImg{max-width:100%;max-height:80vh;border-radius:8px;display:block;margin:0 auto;object-fit:contain;}
+
+@media(max-width:360px){
+  .sg,.bg{grid-template-columns:repeat(2,1fr);}
+  .map-grid{grid-template-columns:1fr;}
+}
+
+/* ── Celebration Overlay ── */
+#celebrationOverlay {
+  display: none; position: fixed; inset: 0; z-index: 3000;
+  background: rgba(0,0,0,0.92); flex-direction: column;
+  align-items: center; justify-content: center; text-align: center;
+  overflow-y: auto; padding: 24px 16px;
+}
+#celebrationOverlay.active { display: flex; }
+#confettiCanvas { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+#celebStep1, #celebStep2, #celebStep3 { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 380px; }
+.win-icon { font-size: 6em; animation: pop-badge 1s infinite alternate; }
+.win-title { font-family: 'Bangers', cursive; font-size: 3em; color: #F9A825; margin: 10px 0; }
+.win-msg { color: #fff; font-size: 1.1em; margin-bottom: 18px; padding: 0 16px; line-height: 1.5; }
+.prize-photo-thumb img { width: 64px; height: 64px; object-fit: cover; border-radius: 10px; border: 3px solid transparent; cursor: pointer; transition: border-color 0.15s, transform 0.1s; display: block; }
+.prize-photo-thumb img.selected { border-color: #F9A825; transform: scale(1.1); }
+.prize-input { font-family: 'Fredoka', sans-serif; font-size: 1em; padding: 10px 14px; border-radius: 12px; border: none; width: 100%; margin-bottom: 8px; background: rgba(255,255,255,0.12); color: #fff; }
+.prize-input::placeholder { color: rgba(255,255,255,0.5); }
+.prize-status { margin-top: 10px; font-size: 0.9em; color: #F9A825; min-height: 20px; }
+</style>
+</head>
+<body>
+<div id="app-shell">
+<div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div>
+<div class="cloud c4"></div><div class="cloud c5"></div><div class="cloud c6"></div>
+<canvas id="compressCanvas" hidden></canvas>
+
+<!-- Screen reminder -->
+<div id="sr" class="screen-reminder">
+  📱 30 min played — take a real-world break!
+  <button onclick="dimissReminder()">✖</button>
+</div>
+
+<!-- Onboarding -->
+<div id="ob" class="onboarding" style="padding:0;display:none;">
+  <!-- Full-screen Amsterdam cityscape -->
+  <div class="ob-scene">
+    <svg viewBox="0 0 800 560" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;">
+      <defs>
+        <linearGradient id="obSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1E90FF"/><stop offset="70%" stop-color="#63B8FF"/><stop offset="100%" stop-color="#A8D8FF"/></linearGradient>
+        <linearGradient id="obWater" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1565C0"/><stop offset="100%" stop-color="#1976D2"/></linearGradient>
+      </defs>
+      <!-- Sky -->
+      <rect width="800" height="560" fill="url(#obSky)"/>
+      <!-- Clouds -->
+      <ellipse cx="115" cy="52" rx="50" ry="20" fill="white" opacity="0.95"/>
+      <ellipse cx="88" cy="54" rx="34" ry="24" fill="white" opacity="0.95"/>
+      <ellipse cx="148" cy="50" rx="38" ry="18" fill="white" opacity="0.95"/>
+      <ellipse cx="390" cy="38" rx="44" ry="17" fill="white" opacity="0.9"/>
+      <ellipse cx="360" cy="40" rx="30" ry="21" fill="white" opacity="0.9"/>
+      <ellipse cx="426" cy="37" rx="32" ry="16" fill="white" opacity="0.9"/>
+      <ellipse cx="640" cy="48" rx="55" ry="21" fill="white" opacity="0.88"/>
+      <ellipse cx="610" cy="50" rx="38" ry="25" fill="white" opacity="0.88"/>
+      <ellipse cx="678" cy="46" rx="42" ry="19" fill="white" opacity="0.88"/>
+      <ellipse cx="750" cy="80" rx="38" ry="16" fill="white" opacity="0.8"/>
+      <ellipse cx="725" cy="82" rx="26" ry="19" fill="white" opacity="0.8"/>
+
+      <!-- ===== BACKGROUND: Westerkerk tower (centre-left) ===== -->
+      <!-- Base large section -->
+      <rect x="170" y="220" width="52" height="140" fill="#9C8265" stroke="#2A1A0A" stroke-width="2.5"/>
+      <!-- Brickwork hints -->
+      <line x1="170" y1="235" x2="222" y2="235" stroke="#8A7055" stroke-width="1" opacity="0.5"/>
+      <line x1="170" y1="255" x2="222" y2="255" stroke="#8A7055" stroke-width="1" opacity="0.5"/>
+      <line x1="170" y1="275" x2="222" y2="275" stroke="#8A7055" stroke-width="1" opacity="0.5"/>
+      <line x1="170" y1="295" x2="222" y2="295" stroke="#8A7055" stroke-width="1" opacity="0.5"/>
+      <line x1="170" y1="315" x2="222" y2="315" stroke="#8A7055" stroke-width="1" opacity="0.5"/>
+      <!-- Tower mid section -->
+      <rect x="177" y="175" width="38" height="50" fill="#B09878" stroke="#2A1A0A" stroke-width="2"/>
+      <!-- Tower upper section -->
+      <rect x="183" y="140" width="26" height="40" fill="#C0A880" stroke="#2A1A0A" stroke-width="2"/>
+      <!-- Belfry -->
+      <rect x="187" y="110" width="18" height="35" fill="#B09070" stroke="#2A1A0A" stroke-width="1.5"/>
+      <!-- Octagonal drum -->
+      <polygon points="192,105 196,110 196,110 186,110 186,110 190,105" fill="#C8A870" stroke="#2A1A0A" stroke-width="1"/>
+      <rect x="188" y="85" width="16" height="22" fill="#C0A068" stroke="#2A1A0A" stroke-width="1.5"/>
+      <!-- Onion dome -->
+      <ellipse cx="196" cy="80" rx="13" ry="10" fill="#C8A428" stroke="#2A1A0A" stroke-width="1.5"/>
+      <polygon points="196,55 190,80 202,80" fill="#D4B030" stroke="#2A1A0A" stroke-width="1.5"/>
+      <!-- Cross -->
+      <line x1="196" y1="44" x2="196" y2="55" stroke="#2A1A0A" stroke-width="2.5"/>
+      <line x1="190" y1="49" x2="202" y2="49" stroke="#2A1A0A" stroke-width="2.5"/>
+      <!-- Clock face -->
+      <circle cx="196" cy="152" r="10" fill="#F8F0D8" stroke="#2A1A0A" stroke-width="2"/>
+      <circle cx="196" cy="152" r="7" fill="none" stroke="#9B7820" stroke-width="1.5"/>
+      <line x1="196" y1="152" x2="196" y2="147" stroke="#2A1A0A" stroke-width="1.5"/>
+      <line x1="196" y1="152" x2="200" y2="152" stroke="#2A1A0A" stroke-width="1.5"/>
+      <!-- Tower windows -->
+      <rect x="180" y="230" width="10" height="14" rx="1" fill="#1A1530" stroke="#3A2A0A" stroke-width="1"/>
+      <rect x="198" y="230" width="10" height="14" rx="1" fill="#1A1530" stroke="#3A2A0A" stroke-width="1"/>
+      <rect x="180" y="254" width="10" height="14" rx="1" fill="#1A1530" stroke="#3A2A0A" stroke-width="1"/>
+      <rect x="198" y="254" width="10" height="14" rx="1" fill="#1A1530" stroke="#3A2A0A" stroke-width="1"/>
+      <rect x="180" y="278" width="10" height="14" rx="1" fill="#1A1530" stroke="#3A2A0A" stroke-width="1"/>
+      <rect x="198" y="278" width="10" height="14" rx="1" fill="#1A1530" stroke="#3A2A0A" stroke-width="1"/>
+      <rect x="180" y="302" width="10" height="14" rx="1" fill="#1A1530" stroke="#3A2A0A" stroke-width="1"/>
+      <rect x="198" y="302" width="10" height="14" rx="1" fill="#1A1530" stroke="#3A2A0A" stroke-width="1"/>
+
+      <!-- ===== BACKGROUND: Large domed church (centre-right) ===== -->
+      <rect x="430" y="230" width="145" height="130" fill="#7A6248" stroke="#2A1A0A" stroke-width="2"/>
+      <!-- Sub-towers either side -->
+      <rect x="418" y="195" width="22" height="60" fill="#8A7258" stroke="#2A1A0A" stroke-width="2"/>
+      <polygon points="418,196 429,175 440,196" fill="#9A8268" stroke="#2A1A0A" stroke-width="2"/>
+      <rect x="565" y="195" width="22" height="60" fill="#8A7258" stroke="#2A1A0A" stroke-width="2"/>
+      <polygon points="565,196 576,175 587,196" fill="#9A8268" stroke="#2A1A0A" stroke-width="2"/>
+      <!-- Dome base drum -->
+      <rect x="452" y="190" width="101" height="45" fill="#8A7858" stroke="#2A1A0A" stroke-width="2"/>
+      <!-- Main dome -->
+      <ellipse cx="502" cy="178" rx="62" ry="46" fill="#9A9898" stroke="#2A1A0A" stroke-width="2.5"/>
+      <ellipse cx="502" cy="174" rx="48" ry="35" fill="#B8B0B0" stroke="#2A1A0A" stroke-width="1.5"/>
+      <!-- Dome lantern -->
+      <rect x="494" y="142" width="16" height="25" fill="#C8C0C0" stroke="#2A1A0A" stroke-width="1.5"/>
+      <polygon points="502,125 493,142 511,142" fill="#D0C8C8" stroke="#2A1A0A" stroke-width="1.5"/>
+      <!-- Cross -->
+      <line x1="502" y1="112" x2="502" y2="125" stroke="#2A1A0A" stroke-width="2.5"/>
+      <line x1="496" y1="117" x2="508" y2="117" stroke="#2A1A0A" stroke-width="2.5"/>
+      <!-- Church windows -->
+      <rect x="444" y="248" width="20" height="28" rx="2" fill="#1A1530" stroke="#3A2A0A" stroke-width="1"/>
+      <rect x="472" y="248" width="20" height="28" rx="2" fill="#1A1530" stroke="#3A2A0A" stroke-width="1"/>
+      <rect x="513" y="248" width="20" height="28" rx="2" fill="#1A1530" stroke="#3A2A0A" stroke-width="1"/>
+      <rect x="541" y="248" width="20" height="28" rx="2" fill="#1A1530" stroke="#3A2A0A" stroke-width="1"/>
+
+      <!-- ===== TREES ===== -->
+      <ellipse cx="138" cy="278" rx="24" ry="30" fill="#2E7D32" stroke="#1B5E20" stroke-width="2"/>
+      <rect x="135" y="300" width="7" height="20" fill="#5D4037"/>
+      <ellipse cx="162" cy="285" rx="18" ry="22" fill="#388E3C" stroke="#1B5E20" stroke-width="2"/>
+      <ellipse cx="330" cy="285" rx="20" ry="26" fill="#2E7D32" stroke="#1B5E20" stroke-width="2"/>
+      <rect x="327" y="305" width="7" height="18" fill="#5D4037"/>
+      <ellipse cx="630" cy="272" rx="26" ry="32" fill="#2E7D32" stroke="#1B5E20" stroke-width="2"/>
+      <rect x="627" y="295" width="7" height="22" fill="#5D4037"/>
+      <ellipse cx="660" cy="280" rx="20" ry="24" fill="#388E3C" stroke="#1B5E20" stroke-width="2"/>
+
+      <!-- ===== CANAL HOUSES — stepped gable style ===== -->
+      <!-- Each house: body rect + stepped polygon gable + white trim lines + dark windows -->
+
+      <!-- HOUSE 1: Dark charcoal, x=0–90 -->
+      <rect x="0" y="240" width="90" height="120" fill="#2C2E42" stroke="#111" stroke-width="2.5"/>
+      <polygon points="0,240 0,218 14,218 14,198 28,198 28,180 45,163 62,180 62,198 76,198 76,218 90,218 90,240" fill="#1E2032" stroke="#111" stroke-width="2.5"/>
+      <polyline points="0,240 0,218 14,218 14,198 28,198 28,180 45,163" stroke="#E8E0C8" stroke-width="2" fill="none"/>
+      <polyline points="90,240 90,218 76,218 76,198 62,198 62,180 45,163" stroke="#E8E0C8" stroke-width="2" fill="none"/>
+      <!-- H1 windows -->
+      <rect x="7" y="250" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="30" y="250" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="53" y="250" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="72" y="250" width="14" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="7" y="278" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="30" y="278" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="53" y="278" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="72" y="278" width="14" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="7" y="306" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="30" y="306" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="53" y="306" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="72" y="306" width="14" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <!-- H1 door -->
+      <rect x="34" y="330" width="22" height="30" rx="2" fill="#111" stroke="#555" stroke-width="1"/>
+
+      <!-- HOUSE 2: Orange-brown, x=88–182 -->
+      <rect x="88" y="222" width="94" height="138" fill="#C85818" stroke="#111" stroke-width="2.5"/>
+      <polygon points="88,222 88,200 102,200 102,180 116,180 116,162 135,143 154,162 154,180 168,180 168,200 182,200 182,222" fill="#A84608" stroke="#111" stroke-width="2.5"/>
+      <polyline points="88,222 88,200 102,200 102,180 116,180 116,162 135,143" stroke="#F5E8D0" stroke-width="2.5" fill="none"/>
+      <polyline points="182,222 182,200 168,200 168,180 154,180 154,162 135,143" stroke="#F5E8D0" stroke-width="2.5" fill="none"/>
+      <rect x="96" y="233" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="118" y="233" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="140" y="233" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="162" y="233" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="96" y="260" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="118" y="260" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="140" y="260" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="162" y="260" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="96" y="287" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="118" y="287" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="140" y="287" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="162" y="287" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="96" y="314" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="118" y="314" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="140" y="314" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="162" y="314" width="16" height="20" rx="1" fill="#1A1530" stroke="#333" stroke-width="1"/>
+      <rect x="119" y="334" width="24" height="26" rx="2" fill="#111" stroke="#333" stroke-width="1"/>
+
+      <!-- HOUSE 3: Cream/beige, x=180–268 -->
+      <rect x="180" y="228" width="88" height="132" fill="#E8DDB8" stroke="#111" stroke-width="2.5"/>
+      <polygon points="180,228 180,207 193,207 193,188 206,188 206,170 224,152 242,170 242,188 255,188 255,207 268,207 268,228" fill="#D8CDA8" stroke="#111" stroke-width="2.5"/>
+      <polyline points="180,228 180,207 193,207 193,188 206,188 206,170 224,152" stroke="#9A8A60" stroke-width="2.5" fill="none"/>
+      <polyline points="268,228 268,207 255,207 255,188 242,188 242,170 224,152" stroke="#9A8A60" stroke-width="2.5" fill="none"/>
+      <rect x="188" y="238" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="210" y="238" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="233" y="238" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="250" y="238" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="188" y="265" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="210" y="265" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="233" y="265" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="250" y="265" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="188" y="292" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="210" y="292" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="233" y="292" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="250" y="292" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="188" y="319" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="210" y="319" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="233" y="319" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="250" y="319" width="15" height="20" rx="1" fill="#2A2048" stroke="#888" stroke-width="1"/>
+      <rect x="208" y="336" width="24" height="24" rx="2" fill="#111" stroke="#888" stroke-width="1"/>
+
+      <!-- HOUSE 4: Brick red, x=266–358 -->
+      <rect x="266" y="218" width="92" height="142" fill="#C02818" stroke="#111" stroke-width="2.5"/>
+      <!-- Brick texture lines -->
+      <line x1="266" y1="235" x2="358" y2="235" stroke="#A01808" stroke-width="1" opacity="0.5"/>
+      <line x1="266" y1="252" x2="358" y2="252" stroke="#A01808" stroke-width="1" opacity="0.5"/>
+      <line x1="266" y1="269" x2="358" y2="269" stroke="#A01808" stroke-width="1" opacity="0.5"/>
+      <polygon points="266,218 266,196 280,196 280,177 294,177 294,158 312,140 330,158 330,177 344,177 344,196 358,196 358,218" fill="#A02010" stroke="#111" stroke-width="2.5"/>
+      <polyline points="266,218 266,196 280,196 280,177 294,177 294,158 312,140" stroke="#F5C8B8" stroke-width="2.5" fill="none"/>
+      <polyline points="358,218 358,196 344,196 344,177 330,177 330,158 312,140" stroke="#F5C8B8" stroke-width="2.5" fill="none"/>
+      <rect x="274" y="227" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="297" y="227" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="320" y="227" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="340" y="227" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="274" y="254" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="297" y="254" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="320" y="254" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="340" y="254" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="274" y="281" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="297" y="281" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="320" y="281" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="340" y="281" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="274" y="308" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="297" y="308" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="320" y="308" width="16" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="340" y="308" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="296" y="330" width="24" height="30" rx="2" fill="#111" stroke="#555" stroke-width="1"/>
+
+      <!-- HOUSE 5: Dark brown, x=356–444 -->
+      <rect x="356" y="225" width="88" height="135" fill="#6B4226" stroke="#111" stroke-width="2.5"/>
+      <polygon points="356,225 356,204 369,204 369,185 382,185 382,167 400,149 418,167 418,185 431,185 431,204 444,204 444,225" fill="#5A3418" stroke="#111" stroke-width="2.5"/>
+      <polyline points="356,225 356,204 369,204 369,185 382,185 382,167 400,149" stroke="#C8A060" stroke-width="2.5" fill="none"/>
+      <polyline points="444,225 444,204 431,204 431,185 418,185 418,167 400,149" stroke="#C8A060" stroke-width="2.5" fill="none"/>
+      <rect x="363" y="235" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="384" y="235" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="406" y="235" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="426" y="235" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="363" y="262" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="384" y="262" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="406" y="262" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="426" y="262" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="363" y="289" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="384" y="289" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="406" y="289" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="426" y="289" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="363" y="316" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="384" y="316" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="406" y="316" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="426" y="316" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="384" y="334" width="24" height="26" rx="2" fill="#111" stroke="#555" stroke-width="1"/>
+
+      <!-- HOUSE 6: Purple/mauve, x=560–648 -->
+      <rect x="558" y="232" width="88" height="128" fill="#7A4E8E" stroke="#111" stroke-width="2.5"/>
+      <polygon points="558,232 558,211 571,211 571,192 584,192 584,174 602,156 620,174 620,192 633,192 633,211 646,211 646,232" fill="#6A3A7E" stroke="#111" stroke-width="2.5"/>
+      <polyline points="558,232 558,211 571,211 571,192 584,192 584,174 602,156" stroke="#D8B8F0" stroke-width="2.5" fill="none"/>
+      <polyline points="646,232 646,211 633,211 633,192 620,192 620,174 602,156" stroke="#D8B8F0" stroke-width="2.5" fill="none"/>
+      <rect x="565" y="242" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="586" y="242" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="608" y="242" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="628" y="242" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="565" y="268" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="586" y="268" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="608" y="268" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="628" y="268" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="565" y="294" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="586" y="294" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="608" y="294" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="628" y="294" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="565" y="320" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="586" y="320" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="608" y="320" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="628" y="320" width="15" height="20" rx="1" fill="#1A1530" stroke="#555" stroke-width="1"/>
+      <rect x="585" y="334" width="24" height="26" rx="2" fill="#111" stroke="#555" stroke-width="1"/>
+
+      <!-- ===== QUAY / EMBANKMENT ===== -->
+      <rect x="0" y="358" width="800" height="22" fill="#9A8860" stroke="#6A5830" stroke-width="1.5"/>
+      <line x1="0" y1="368" x2="800" y2="368" stroke="#7A6840" stroke-width="1" opacity="0.5"/>
+      <!-- Mooring bollards -->
+      <rect x="52" y="349" width="7" height="20" rx="2" fill="#3A2A10"/><ellipse cx="55" cy="348" rx="6" ry="5" fill="#4A3820"/>
+      <rect x="248" y="349" width="7" height="20" rx="2" fill="#3A2A10"/><ellipse cx="251" cy="348" rx="6" ry="5" fill="#4A3820"/>
+      <rect x="460" y="349" width="7" height="20" rx="2" fill="#3A2A10"/><ellipse cx="463" cy="348" rx="6" ry="5" fill="#4A3820"/>
+
+      <!-- ===== CANAL WATER ===== -->
+      <rect x="0" y="378" width="800" height="182" fill="url(#obWater)"/>
+      <rect x="0" y="378" width="800" height="7" fill="#42A5F5" opacity="0.5"/>
+      <!-- Ripples -->
+      <line x1="40" y1="405" x2="160" y2="405" stroke="#1565C0" stroke-width="1.2" opacity="0.5"/>
+      <line x1="200" y1="418" x2="360" y2="418" stroke="#1565C0" stroke-width="1.2" opacity="0.45"/>
+      <line x1="400" y1="400" x2="540" y2="400" stroke="#1565C0" stroke-width="1.2" opacity="0.5"/>
+      <line x1="80" y1="435" x2="220" y2="435" stroke="#1565C0" stroke-width="1" opacity="0.4"/>
+      <line x1="480" y1="430" x2="620" y2="430" stroke="#1565C0" stroke-width="1" opacity="0.4"/>
+
+      <!-- ===== BOATS ===== -->
+      <!-- Orange tour boat -->
+      <rect x="240" y="382" width="188" height="26" rx="5" fill="#CC4400" stroke="#111" stroke-width="2"/>
+      <rect x="255" y="360" width="158" height="23" rx="4" fill="#FF6B00" stroke="#111" stroke-width="2"/>
+      <rect x="278" y="345" width="65" height="17" rx="3" fill="#FF8C00" stroke="#111" stroke-width="1.5"/>
+      <rect x="263" y="362" width="12" height="10" rx="1" fill="#87CEEB" stroke="#111" stroke-width="1"/>
+      <rect x="281" y="362" width="12" height="10" rx="1" fill="#87CEEB" stroke="#111" stroke-width="1"/>
+      <rect x="299" y="362" width="12" height="10" rx="1" fill="#87CEEB" stroke="#111" stroke-width="1"/>
+      <rect x="317" y="362" width="12" height="10" rx="1" fill="#87CEEB" stroke="#111" stroke-width="1"/>
+      <rect x="335" y="362" width="12" height="10" rx="1" fill="#87CEEB" stroke="#111" stroke-width="1"/>
+      <rect x="353" y="362" width="12" height="10" rx="1" fill="#87CEEB" stroke="#111" stroke-width="1"/>
+      <rect x="371" y="362" width="12" height="10" rx="1" fill="#87CEEB" stroke="#111" stroke-width="1"/>
+      <!-- White smaller boat -->
+      <rect x="480" y="387" width="115" height="20" rx="4" fill="#E8E8D8" stroke="#111" stroke-width="1.5"/>
+      <rect x="492" y="371" width="88" height="17" rx="3" fill="#FFFFFF" stroke="#111" stroke-width="1.5"/>
+      <rect x="500" y="373" width="10" height="8" rx="1" fill="#87CEEB" stroke="#aaa" stroke-width="0.8"/>
+      <rect x="516" y="373" width="10" height="8" rx="1" fill="#87CEEB" stroke="#aaa" stroke-width="0.8"/>
+      <rect x="532" y="373" width="10" height="8" rx="1" fill="#87CEEB" stroke="#aaa" stroke-width="0.8"/>
+      <rect x="548" y="373" width="10" height="8" rx="1" fill="#87CEEB" stroke="#aaa" stroke-width="0.8"/>
+      <rect x="564" y="373" width="10" height="8" rx="1" fill="#87CEEB" stroke="#aaa" stroke-width="0.8"/>
+
+      <!-- ===== STONE BRIDGE (right) ===== -->
+      <rect x="648" y="342" width="152" height="22" fill="#A89868" stroke="#5A4830" stroke-width="2"/>
+      <rect x="648" y="326" width="152" height="18" fill="#B8A878" stroke="#5A4830" stroke-width="1.5"/>
+      <path d="M648,364 Q668,338 688,364" fill="#9A8858" stroke="#5A4830" stroke-width="2"/>
+      <path d="M688,364 Q708,338 728,364" fill="#9A8858" stroke="#5A4830" stroke-width="2"/>
+      <path d="M728,364 Q748,338 768,364" fill="#9A8858" stroke="#5A4830" stroke-width="2"/>
+      <path d="M768,364 Q788,338 808,364" fill="#9A8858" stroke="#5A4830" stroke-width="2"/>
+      <line x1="648" y1="325" x2="800" y2="325" stroke="#5A4830" stroke-width="1.5"/>
+
+      <!-- ===== WINDMILL (far right) ===== -->
+      <polygon points="704,360 720,360 717,255 707,255" fill="#8D6E63" stroke="#3A1A0A" stroke-width="2.5"/>
+      <rect x="708" y="270" width="7" height="10" rx="1" fill="#FFCC66"/>
+      <rect x="708" y="290" width="7" height="10" rx="1" fill="#FFCC66"/>
+      <rect x="708" y="310" width="7" height="10" rx="1" fill="#FFCC66"/>
+      <circle cx="712" cy="258" r="9" fill="#6D4C41" stroke="#3A1A0A" stroke-width="2"/>
+      <!-- Sails cross -->
+      <line x1="712" y1="210" x2="712" y2="258" stroke="#6D4C41" stroke-width="4"/>
+      <line x1="665" y1="258" x2="759" y2="258" stroke="#6D4C41" stroke-width="4"/>
+      <!-- Sail blades -->
+      <polygon points="712,258 709,210 718,218" fill="#FF8C00" stroke="#3A1A0A" stroke-width="1.5"/>
+      <polygon points="712,258 759,255 751,264" fill="#FF8C00" stroke="#3A1A0A" stroke-width="1.5"/>
+      <polygon points="712,258 709,306 718,298" fill="#FF8C00" stroke="#3A1A0A" stroke-width="1.5"/>
+      <polygon points="712,258 665,255 673,264" fill="#FF8C00" stroke="#3A1A0A" stroke-width="1.5"/>
+
+      <!-- ===== STREET LAMP (left) ===== -->
+      <rect x="29" y="278" width="6" height="82" fill="#1A2A18" stroke="#0A1A08" stroke-width="1"/>
+      <path d="M32,278 Q32,255 50,255" stroke="#1A2A18" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <polygon points="46,255 56,255 58,267 44,267" fill="#1A2A18" stroke="#0A1A08" stroke-width="1"/>
+      <rect x="46" y="257" width="10" height="8" rx="1" fill="#FFE066"/>
+      <rect x="24" y="358" width="16" height="7" rx="2" fill="#1A2A18"/>
+      <circle cx="32" cy="275" r="5" fill="#1A2A18"/>
+
+      <!-- ===== BOTTOM GRADIENT (form readability) ===== -->
+      <rect x="0" y="410" width="800" height="150" fill="#180A48" opacity="0.75"/>
+    </svg>
+  </div>
+
+  <!-- Title at top -->
+  <div class="ob-top-title">
+    <div class="ob-title" style="font-size:3.2em;text-shadow:0 4px 0 #000,0 0 30px rgba(255,208,0,0.6);">AMSTERDAM</div>
+    <div class="ob-title" style="font-size:1.9em;color:#fff;margin-top:-8px;">ADVENTURE</div>
+  </div>
+
+  <!-- Form anchored at bottom -->
+  <div class="ob-form">
+    <input type="text" id="nameIn" class="ob-input" placeholder="Your explorer name…" maxlength="20" autocomplete="off">
+    <div class="ob-label">HOW OLD ARE YOU?</div>
+    <div class="age-cards">
+      <div class="age-card pop" onclick="selectAge('young')">
+        <span class="ai">🌟</span><div class="al">JUNIOR</div><div class="ar">Ages 5–8</div>
+      </div>
+      <div class="age-card pop" onclick="selectAge('teen')">
+        <span class="ai">🔬</span><div class="al">EXPLORER</div><div class="ar">Ages 9–14</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Character reveal screen -->
+<div id="charReveal" class="onboarding" style="display:none;z-index:2100;">
+  <div id="charRevealIcon" style="font-size:5em;animation:pop-badge 0.6s ease;filter:drop-shadow(0 0 20px rgba(255,208,0,0.8));margin-bottom:8px;"></div>
+  <div class="ob-title" style="font-size:2.2em;">YOU ARE…</div>
+  <div id="charRevealName" style="font-family:'Bangers',cursive;font-size:3.5em;color:var(--gold);-webkit-text-stroke:1px #000;letter-spacing:3px;margin:4px 0;"></div>
+  <div id="charRevealTitle" style="font-family:'Caveat',cursive;font-size:1.4em;color:var(--dim);margin-bottom:28px;"></div>
+  <button class="btn ylw pop" style="max-width:260px;" onclick="confirmCharacter()">🚲 Let's Explore!</button>
+</div>
+
+<!-- Character Select Screen -->
+<div id="charSelect" class="onboarding" style="display:none;z-index:2100;padding:16px 16px 36px;background:linear-gradient(160deg,#2D0E7A 0%,#1A0850 60%,#0F0430 100%);">
+  <div class="ob-title" style="font-size:2.3em;margin-bottom:2px;">CHOOSE YOUR EXPLORER</div>
+  <div style="font-family:'Caveat',cursive;font-size:1.3em;color:var(--dim);margin-bottom:20px;">Who are you on this adventure?</div>
+  <div class="char-grid" id="charGrid"></div>
+</div>
+
+<!-- Header -->
+<div class="app-header">
+  <div class="hrow">
+    <div class="hav" id="hAv">🧭</div>
+    <div class="hinfo">
+      <div class="htitle">🗺️ AMSTERDAM ADVENTURE</div>
+      <div class="hname" id="hName">Explorer</div>
+      <div class="hbadges">
+        <span class="mb">🎯 <span id="sMis">0</span></span>
+        <span class="mb g">⭐ <span id="sBdg">0</span></span>
+        <span class="mb p" id="sMod">🌟 Junior</span>
+      </div>
+    </div>
+    <button class="lang-btn" id="langBtn" onclick="toggleLang()">🇳🇱</button>
+  </div>
+</div>
+
+<!-- Scrollable content -->
+<div class="app-content">
+
+  <div id="missionsTab" class="tab-pane active">
+    <div class="pcard">
+      <div class="ctitle">🧭 AMSTERDAM ADVENTURE</div>
+      <div class="map-grid" id="mapGrid"></div>
+    </div>
+    <div class="pcard">
+      <div class="ctitle">🎯 YOUR MISSIONS</div>
+      <div class="mlist" id="mList"></div>
+    </div>
+  </div>
+
+  <div id="skillsTab" class="tab-pane">
+    <div class="pcard"><div class="ctitle">🛠️ SKILLS</div><div class="sg" id="skillsG"></div></div>
+  </div>
+
+  <div id="badgesTab" class="tab-pane">
+    <div class="pcard"><div class="ctitle">🏆 BADGES</div><div class="bg" id="badgesG"></div></div>
+  </div>
+
+  <div id="journalTab" class="tab-pane">
+    <div class="pcard"><div class="ctitle">📔 JOURNAL</div><div id="journalE"></div></div>
+  </div>
+
+  <div id="parentTab" class="tab-pane">
+    <div class="pcard">
+      <div class="ctitle">👨‍👩‍👦 PARENT CONTROLS</div>
+      <div id="pStats"></div>
+      <button class="btn sec pop" onclick="parentGate(changeProfile)">🔄 Change Age Profile</button>
+      <button class="btn pop" style="margin-top:8px;" onclick="parentGate(secureReset)">🗑️ Reset All Progress</button>
+      <button class="btn pop" style="margin-top:8px;background:linear-gradient(135deg,#333,#222);box-shadow:0 3px 0 #111;" onclick="changePin()">🔑 Change PIN</button>
+    </div>
+    <div class="pcard" style="font-size:0.87em;color:var(--dim);line-height:1.62;">
+      <div class="ctitle" style="font-size:1.05em;">📋 ABOUT</div>
+      <p>All data is stored locally on this device. No personal data is sent anywhere. COPPA compliant — no accounts, no tracking.</p>
+      <p style="margin-top:7px;">Junior missions (5–8): sensory discovery. Explorer missions (9–14): science, urban history &amp; logic.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- Bottom nav with Amsterdam skyline SVG -->
+<nav class="bottom-nav">
+<svg class="canal-svg" viewBox="0 0 800 96" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+<!-- Dutch stepped-gable canal houses — authentic earthy palette -->
+<!-- H1 Deep orange, x=0 -->
+<rect x="0" y="36" width="80" height="60" fill="#CC4800" stroke="#1A0048" stroke-width="1.5"/>
+<polygon points="0,36 0,26 10,26 10,16 20,16 20,8 30,8 40,2 50,8 60,8 60,16 70,16 70,26 80,26 80,36" fill="#A03600" stroke="#1A0048" stroke-width="1.5"/>
+<polyline points="0,26 10,26 10,16 20,16 20,8 30,8 40,2" stroke="#F5C890" stroke-width="1.5" fill="none"/>
+<polyline points="80,26 70,26 70,16 60,16 60,8 50,8 40,2" stroke="#F5C890" stroke-width="1.5" fill="none"/>
+<rect x="5" y="42" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="23" y="42" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="45" y="42" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="63" y="42" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/>
+<rect x="5" y="56" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="23" y="56" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="45" y="56" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="63" y="56" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/>
+<rect x="32" y="68" width="16" height="28" rx="3" fill="#1A0048"/>
+<!-- H2 Dark brick, x=80 -->
+<rect x="80" y="34" width="80" height="62" fill="#8A2000" stroke="#1A0048" stroke-width="1.5"/>
+<polygon points="80,34 80,24 90,24 90,14 100,14 100,6 110,6 120,0 130,6 140,6 140,14 150,14 150,24 160,24 160,34" fill="#6A1800" stroke="#1A0048" stroke-width="1.5"/>
+<polyline points="80,24 90,24 90,14 100,14 100,6 110,6 120,0" stroke="#F5C890" stroke-width="1.5" fill="none"/>
+<polyline points="160,24 150,24 150,14 140,14 140,6 130,6 120,0" stroke="#F5C890" stroke-width="1.5" fill="none"/>
+<rect x="85" y="40" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="103" y="40" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="125" y="40" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="143" y="40" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/>
+<rect x="85" y="54" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="103" y="54" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="125" y="54" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="143" y="54" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/>
+<rect x="112" y="66" width="16" height="30" rx="3" fill="#1A0048"/>
+<!-- H3 Cream, x=160 -->
+<rect x="160" y="38" width="80" height="58" fill="#D4C590" stroke="#1A0048" stroke-width="1.5"/>
+<polygon points="160,38 160,28 170,28 170,18 180,18 180,10 190,10 200,4 210,10 220,10 220,18 230,18 230,28 240,28 240,38" fill="#B0A060" stroke="#1A0048" stroke-width="1.5"/>
+<polyline points="160,28 170,28 170,18 180,18 180,10 190,10 200,4" stroke="#6A5020" stroke-width="1.5" fill="none"/>
+<polyline points="240,28 230,28 230,18 220,18 220,10 210,10 200,4" stroke="#6A5020" stroke-width="1.5" fill="none"/>
+<rect x="165" y="44" width="12" height="10" rx="1" fill="#2A1A08" stroke="#5A4020" stroke-width="1"/><rect x="183" y="44" width="12" height="10" rx="1" fill="#2A1A08" stroke="#5A4020" stroke-width="1"/><rect x="205" y="44" width="12" height="10" rx="1" fill="#2A1A08" stroke="#5A4020" stroke-width="1"/><rect x="223" y="44" width="12" height="10" rx="1" fill="#2A1A08" stroke="#5A4020" stroke-width="1"/>
+<rect x="165" y="58" width="12" height="10" rx="1" fill="#2A1A08" stroke="#5A4020" stroke-width="1"/><rect x="183" y="58" width="12" height="10" rx="1" fill="#2A1A08" stroke="#5A4020" stroke-width="1"/><rect x="205" y="58" width="12" height="10" rx="1" fill="#2A1A08" stroke="#5A4020" stroke-width="1"/><rect x="223" y="58" width="12" height="10" rx="1" fill="#2A1A08" stroke="#5A4020" stroke-width="1"/>
+<rect x="192" y="70" width="16" height="26" rx="3" fill="#2A1A08"/>
+<!-- H4 Deep red, x=240 -->
+<rect x="240" y="33" width="80" height="63" fill="#AA1800" stroke="#1A0048" stroke-width="1.5"/>
+<polygon points="240,33 240,23 250,23 250,13 260,13 260,5 270,5 280,1 290,5 300,5 300,13 310,13 310,23 320,23 320,33" fill="#880F00" stroke="#1A0048" stroke-width="1.5"/>
+<polyline points="240,23 250,23 250,13 260,13 260,5 270,5 280,1" stroke="#F5C890" stroke-width="1.5" fill="none"/>
+<polyline points="320,23 310,23 310,13 300,13 300,5 290,5 280,1" stroke="#F5C890" stroke-width="1.5" fill="none"/>
+<rect x="245" y="39" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="263" y="39" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="285" y="39" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="303" y="39" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/>
+<rect x="245" y="53" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="263" y="53" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="285" y="53" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="303" y="53" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/>
+<rect x="272" y="65" width="16" height="31" rx="3" fill="#1A0048"/>
+<!-- H5 Warm orange, x=320 -->
+<rect x="320" y="36" width="80" height="60" fill="#E07500" stroke="#1A0048" stroke-width="1.5"/>
+<polygon points="320,36 320,26 330,26 330,16 340,16 340,8 350,8 360,2 370,8 380,8 380,16 390,16 390,26 400,26 400,36" fill="#B85C00" stroke="#1A0048" stroke-width="1.5"/>
+<polyline points="320,26 330,26 330,16 340,16 340,8 350,8 360,2" stroke="#F5DDB0" stroke-width="1.5" fill="none"/>
+<polyline points="400,26 390,26 390,16 380,16 380,8 370,8 360,2" stroke="#F5DDB0" stroke-width="1.5" fill="none"/>
+<rect x="325" y="42" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="343" y="42" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="365" y="42" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="383" y="42" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/>
+<rect x="325" y="56" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="343" y="56" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="365" y="56" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="383" y="56" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/>
+<rect x="352" y="68" width="16" height="28" rx="3" fill="#1A0048"/>
+<!-- H6 Dark brown, x=400 -->
+<rect x="400" y="40" width="80" height="56" fill="#5C3010" stroke="#1A0048" stroke-width="1.5"/>
+<polygon points="400,40 400,30 410,30 410,20 420,20 420,12 430,12 440,6 450,12 460,12 460,20 470,20 470,30 480,30 480,40" fill="#3E2008" stroke="#1A0048" stroke-width="1.5"/>
+<polyline points="400,30 410,30 410,20 420,20 420,12 430,12 440,6" stroke="#C8A060" stroke-width="1.5" fill="none"/>
+<polyline points="480,30 470,30 470,20 460,20 460,12 450,12 440,6" stroke="#C8A060" stroke-width="1.5" fill="none"/>
+<rect x="405" y="46" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="423" y="46" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="445" y="46" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="463" y="46" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/>
+<rect x="405" y="60" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="423" y="60" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="445" y="60" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="463" y="60" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/>
+<rect x="432" y="72" width="16" height="24" rx="3" fill="#1A0048"/>
+<!-- H7 Warm red, x=480 -->
+<rect x="480" y="35" width="80" height="61" fill="#CC3800" stroke="#1A0048" stroke-width="1.5"/>
+<polygon points="480,35 480,25 490,25 490,15 500,15 500,7 510,7 520,1 530,7 540,7 540,15 550,15 550,25 560,25 560,35" fill="#AA2A00" stroke="#1A0048" stroke-width="1.5"/>
+<polyline points="480,25 490,25 490,15 500,15 500,7 510,7 520,1" stroke="#F5C890" stroke-width="1.5" fill="none"/>
+<polyline points="560,25 550,25 550,15 540,15 540,7 530,7 520,1" stroke="#F5C890" stroke-width="1.5" fill="none"/>
+<rect x="485" y="41" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="503" y="41" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="525" y="41" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="543" y="41" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/>
+<rect x="485" y="55" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="503" y="55" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="525" y="55" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="543" y="55" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/>
+<rect x="512" y="67" width="16" height="29" rx="3" fill="#1A0048"/>
+<!-- H8 Golden wheat, x=560 -->
+<rect x="560" y="37" width="80" height="59" fill="#C09830" stroke="#1A0048" stroke-width="1.5"/>
+<polygon points="560,37 560,27 570,27 570,17 580,17 580,9 590,9 600,3 610,9 620,9 620,17 630,17 630,27 640,27 640,37" fill="#9A7820" stroke="#1A0048" stroke-width="1.5"/>
+<polyline points="560,27 570,27 570,17 580,17 580,9 590,9 600,3" stroke="#6A5020" stroke-width="1.5" fill="none"/>
+<polyline points="640,27 630,27 630,17 620,17 620,9 610,9 600,3" stroke="#6A5020" stroke-width="1.5" fill="none"/>
+<rect x="565" y="43" width="12" height="10" rx="1" fill="#2A1A08" stroke="#5A4020" stroke-width="1"/><rect x="583" y="43" width="12" height="10" rx="1" fill="#2A1A08" stroke="#5A4020" stroke-width="1"/><rect x="605" y="43" width="12" height="10" rx="1" fill="#2A1A08" stroke="#5A4020" stroke-width="1"/><rect x="623" y="43" width="12" height="10" rx="1" fill="#2A1A08" stroke="#5A4020" stroke-width="1"/>
+<rect x="565" y="57" width="12" height="10" rx="1" fill="#2A1A08" stroke="#5A4020" stroke-width="1"/><rect x="583" y="57" width="12" height="10" rx="1" fill="#2A1A08" stroke="#5A4020" stroke-width="1"/><rect x="605" y="57" width="12" height="10" rx="1" fill="#2A1A08" stroke="#5A4020" stroke-width="1"/><rect x="623" y="57" width="12" height="10" rx="1" fill="#2A1A08" stroke="#5A4020" stroke-width="1"/>
+<rect x="592" y="69" width="16" height="27" rx="3" fill="#2A1A08"/>
+<!-- H9 Brown-orange, x=640 -->
+<rect x="640" y="34" width="80" height="62" fill="#B84000" stroke="#1A0048" stroke-width="1.5"/>
+<polygon points="640,34 640,24 650,24 650,14 660,14 660,6 670,6 680,0 690,6 700,6 700,14 710,14 710,24 720,24 720,34" fill="#943000" stroke="#1A0048" stroke-width="1.5"/>
+<polyline points="640,24 650,24 650,14 660,14 660,6 670,6 680,0" stroke="#F5C890" stroke-width="1.5" fill="none"/>
+<polyline points="720,24 710,24 710,14 700,14 700,6 690,6 680,0" stroke="#F5C890" stroke-width="1.5" fill="none"/>
+<rect x="645" y="40" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="663" y="40" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="685" y="40" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="703" y="40" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/>
+<rect x="645" y="54" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="663" y="54" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="685" y="54" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="703" y="54" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/>
+<rect x="672" y="66" width="16" height="30" rx="3" fill="#1A0048"/>
+<!-- H10 Dark red, x=720 -->
+<rect x="720" y="36" width="80" height="60" fill="#882800" stroke="#1A0048" stroke-width="1.5"/>
+<polygon points="720,36 720,26 730,26 730,16 740,16 740,8 750,8 760,2 770,8 780,8 780,16 790,16 790,26 800,26 800,36" fill="#661A00" stroke="#1A0048" stroke-width="1.5"/>
+<polyline points="720,26 730,26 730,16 740,16 740,8 750,8 760,2" stroke="#F5C890" stroke-width="1.5" fill="none"/>
+<polyline points="800,26 790,26 790,16 780,16 780,8 770,8 760,2" stroke="#F5C890" stroke-width="1.5" fill="none"/>
+<rect x="725" y="42" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="743" y="42" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="765" y="42" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="783" y="42" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/>
+<rect x="725" y="56" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="743" y="56" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="765" y="56" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/><rect x="783" y="56" width="12" height="10" rx="1" fill="#FFD000" stroke="#1A0048" stroke-width="1"/>
+<rect x="752" y="68" width="16" height="28" rx="3" fill="#1A0048"/>
+<!-- Canal water -->
+<rect x="0" y="93" width="800" height="3" fill="#4A00D0" opacity="0.8"/>
+</svg>
+<div class="tab-bar">
+  <button class="tab-btn active" id="tb0" onclick="switchTab('missions',this)"><span class="ti">🎯</span>Missions</button>
+  <button class="tab-btn" id="tb1" onclick="switchTab('skills',this)"><span class="ti">🛠️</span>Skills</button>
+  <button class="tab-btn" id="tb2" onclick="switchTab('badges',this)"><span class="ti">🏆</span>Badges</button>
+  <button class="tab-btn" id="tb3" onclick="switchTab('journal',this)"><span class="ti">📔</span>Journal</button>
+  <button class="tab-btn" id="tb4" onclick="parentGate(()=>switchTab('parent',document.getElementById('tb4'),true))"><span class="ti">👨‍👩‍👦</span>Parent</button>
+</div>
+</nav>
+
+<button id="backBtn" onclick="goBack()">←</button>
+
+<!-- Mission modal -->
+<div id="mModal" class="modal">
+  <div class="mc"><button class="mcls" onclick="closeModal('mModal')">×</button><div id="mBody"></div></div>
+</div>
+
+<!-- Mini-game modal -->
+<div id="gameModal" class="modal">
+  <div class="mc" style="position:relative;">
+    <div class="game-ui">
+      <div class="game-title">🚲 AMSTERDAM BIKE RUN!</div>
+      <div class="game-sub">TAP to jump • Survive 30 seconds to complete your mission!</div>
+    </div>
+    <canvas id="gameCanvas"></canvas>
+    <div id="gameOver" class="game-over-overlay">
+      <div id="goTitle" class="go-title">WIN!</div>
+      <div id="goMsg" style="color:#ddd;font-family:'Fredoka',sans-serif;font-size:1em;margin-bottom:16px;text-align:center;"></div>
+      <button id="btnComplete" class="btn ylw pop" style="max-width:260px;" onclick="finalizeMission()">🏆 Collect Badge!</button>
+      <button id="btnRetry" class="btn sec pop" style="max-width:260px;margin-top:8px;" onclick="retryGame()">🔄 Try Again</button>
+    </div>
+    <div class="game-ui" style="padding-top:0;">
+      <button class="btn pop" onclick="skipGame()" style="background:linear-gradient(135deg,#555,#333);box-shadow:0 3px 0 #111;font-size:0.85em;">Skip game &amp; complete anyway</button>
+    </div>
+  </div>
+</div>
+
+<!-- Lightbox -->
+<div id="lbModal" class="modal" onclick="closeModal('lbModal')">
+  <div class="mc center"><img id="lbImg" alt="" style="max-width:100%;max-height:80vh;border-radius:8px;display:none;margin:0 auto;object-fit:contain;"></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+// CAPACITOR BRIDGE
+// ═══════════════════════════════════════════════════════════════════
+const isNative = !!(window.Capacitor?.isNative);
+
+// ── Prize config – fill these in after signing up (both are free) ──
+// ImgBB:     imgbb.com → sign up → API → generate key
+// Formspree: formspree.io → New Form → copy the form ID from the URL
+// ── 4 Amsterdam Adventure characters ──
+const CHARACTERS = [
+  { id:'zoe', name:'Zoë', title:'Tulip Explorer', emoji:'🌷', color:'#FF3DB0', bg:'linear-gradient(145deg,#5A006A,#1E0A52)',
+    svgBody:`<ellipse cx="50" cy="28" rx="28" ry="20" fill="#5D2E0C"/><rect x="19" y="38" width="10" height="36" rx="5" fill="#5D2E0C" stroke="#3A1A00" stroke-width="1.5"/><rect x="71" y="38" width="10" height="36" rx="5" fill="#5D2E0C" stroke="#3A1A00" stroke-width="1.5"/><circle cx="50" cy="44" r="27" fill="#FFCC99" stroke="#2A1A00" stroke-width="2"/><ellipse cx="50" cy="19" rx="26" ry="11" fill="#FF4DA6" stroke="#2A1A00" stroke-width="2"/><circle cx="50" cy="9" r="6" fill="#FF4DA6" stroke="#2A1A00" stroke-width="1.5"/><line x1="67" y1="10" x2="67" y2="20" stroke="#388E3C" stroke-width="2" stroke-linecap="round"/><ellipse cx="64" cy="7" rx="3.5" ry="6" fill="#FF69B4" stroke="#2A1A00" stroke-width="1"/><ellipse cx="67" cy="4" rx="3.5" ry="6" fill="#FF4DA6" stroke="#2A1A00" stroke-width="1"/><ellipse cx="70" cy="7" rx="3.5" ry="6" fill="#E91E8C" stroke="#2A1A00" stroke-width="1"/><ellipse cx="30" cy="53" rx="9" ry="6" fill="#FF9999" opacity="0.5"/><ellipse cx="70" cy="53" rx="9" ry="6" fill="#FF9999" opacity="0.5"/><ellipse cx="39" cy="47" rx="9" ry="10" fill="white" stroke="#2A1A00" stroke-width="1.5"/><ellipse cx="61" cy="47" rx="9" ry="10" fill="white" stroke="#2A1A00" stroke-width="1.5"/><circle cx="40" cy="48" r="6.5" fill="#7B4A1E"/><circle cx="62" cy="48" r="6.5" fill="#7B4A1E"/><circle cx="40" cy="48" r="4" fill="#111"/><circle cx="62" cy="48" r="4" fill="#111"/><circle cx="38" cy="45" r="2" fill="white"/><circle cx="60" cy="45" r="2" fill="white"/><path d="M30,36 Q39,29 48,34" stroke="#5D2E0C" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M52,34 Q61,29 70,36" stroke="#5D2E0C" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M38,60 Q50,72 62,60" stroke="#B5651D" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M40,61 Q50,70 60,61" fill="white"/><rect x="44" y="70" width="12" height="9" rx="5" fill="#FFCC99" stroke="#2A1A00" stroke-width="1.5"/><path d="M16,79 L84,79 L88,130 L12,130 Z" fill="#FF4DA6" stroke="#2A1A00" stroke-width="2"/><path d="M30,79 Q50,73 70,79 L64,94 Q50,90 36,94 Z" fill="white" stroke="#2A1A00" stroke-width="1.5"/><circle cx="50" cy="108" r="3" fill="white" opacity="0.5"/><circle cx="42" cy="117" r="2.5" fill="white" opacity="0.4"/><circle cx="58" cy="117" r="2.5" fill="white" opacity="0.4"/><path d="M16,79 Q5,96 8,114" stroke="#FF4DA6" stroke-width="18" fill="none" stroke-linecap="round"/><path d="M84,79 Q95,96 92,114" stroke="#FF4DA6" stroke-width="18" fill="none" stroke-linecap="round"/><circle cx="8" cy="115" r="10" fill="#FFCC99" stroke="#2A1A00" stroke-width="1.5"/><circle cx="92" cy="115" r="10" fill="#FFCC99" stroke="#2A1A00" stroke-width="1.5"/><ellipse cx="34" cy="127" rx="14" ry="6" fill="#9C27B0" stroke="#2A1A00" stroke-width="2"/><ellipse cx="66" cy="127" rx="14" ry="6" fill="#9C27B0" stroke="#2A1A00" stroke-width="2"/>` },
+  { id:'paco', name:'Paco', title:'Canal Musician', emoji:'🎸', color:'#18E87A', bg:'linear-gradient(145deg,#003A20,#1E0A52)',
+    svgBody:`<circle cx="50" cy="32" r="34" fill="#1A0800"/><circle cx="50" cy="44" r="26" fill="#D4956A" stroke="#2A1A00" stroke-width="2"/><rect x="22" y="26" width="56" height="8" rx="4" fill="#18E87A" stroke="#2A1A00" stroke-width="1.5"/><ellipse cx="30" cy="51" rx="8" ry="6" fill="#B07040" opacity="0.5"/><ellipse cx="70" cy="51" rx="8" ry="6" fill="#B07040" opacity="0.5"/><ellipse cx="39" cy="46" rx="9" ry="10" fill="white" stroke="#2A1A00" stroke-width="1.5"/><ellipse cx="61" cy="46" rx="9" ry="10" fill="white" stroke="#2A1A00" stroke-width="1.5"/><circle cx="40" cy="47" r="6.5" fill="#3E1F00"/><circle cx="62" cy="47" r="6.5" fill="#3E1F00"/><circle cx="40" cy="47" r="4" fill="#111"/><circle cx="62" cy="47" r="4" fill="#111"/><circle cx="38" cy="44" r="2" fill="white"/><circle cx="60" cy="44" r="2" fill="white"/><path d="M31,35 Q39,29 47,33" stroke="#1A0800" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M53,33 Q61,29 69,35" stroke="#1A0800" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M36,60 Q50,75 64,60" fill="white" stroke="#2A1A00" stroke-width="2"/><path d="M40,62 Q50,72 60,62" fill="#D4956A"/><rect x="44" y="70" width="12" height="8" rx="5" fill="#D4956A" stroke="#2A1A00" stroke-width="1.5"/><path d="M18,79 L82,79 L84,130 L16,130 Z" fill="#18E87A" stroke="#2A1A00" stroke-width="2"/><rect x="38" y="98" width="24" height="18" rx="6" fill="#0EA85A" stroke="#2A1A00" stroke-width="1.5"/><path d="M18,79 Q6,97 9,115" stroke="#18E87A" stroke-width="18" fill="none" stroke-linecap="round"/><path d="M82,79 Q92,95 90,112" stroke="#18E87A" stroke-width="18" fill="none" stroke-linecap="round"/><circle cx="9" cy="116" r="10" fill="#D4956A" stroke="#2A1A00" stroke-width="1.5"/><circle cx="90" cy="113" r="10" fill="#D4956A" stroke="#2A1A00" stroke-width="1.5"/><ellipse cx="82" cy="98" rx="8" ry="10" fill="#7B3F00" stroke="#2A1A00" stroke-width="1.5"/><rect x="80" y="80" width="4" height="20" rx="2" fill="#5D2E0C" stroke="#2A1A00" stroke-width="1"/><line x1="78" y1="94" x2="86" y2="94" stroke="#FFD700" stroke-width="1.2"/><line x1="78" y1="98" x2="86" y2="98" stroke="#FFD700" stroke-width="1.2"/><line x1="78" y1="102" x2="86" y2="102" stroke="#FFD700" stroke-width="1.2"/><ellipse cx="34" cy="127" rx="13" ry="6" fill="#0D1A0D" stroke="#2A1A00" stroke-width="2"/><ellipse cx="66" cy="127" rx="13" ry="6" fill="#0D1A0D" stroke="#2A1A00" stroke-width="2"/>` },
+  { id:'rio', name:'Rio', title:'Dam Explorer', emoji:'🤠', color:'#FF7A00', bg:'linear-gradient(145deg,#4A1A00,#1E0A52)',
+    svgBody:`<ellipse cx="50" cy="17" rx="38" ry="10" fill="#5D3A00" stroke="#2A1A00" stroke-width="2"/><path d="M28,28 Q22,20 26,14" stroke="#8B2500" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M38,21 Q34,12 38,6" stroke="#8B2500" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M72,28 Q78,20 74,14" stroke="#8B2500" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="50" cy="44" r="26" fill="#F0C27F" stroke="#2A1A00" stroke-width="2"/><rect x="26" y="4" width="48" height="21" rx="8" fill="#7B4A00" stroke="#2A1A00" stroke-width="2"/><rect x="26" y="21" width="48" height="5" rx="2" fill="#FF7A00" stroke="#2A1A00" stroke-width="1.5"/><circle cx="31" cy="52" r="2.5" fill="#FF7A00" opacity="0.7"/><circle cx="26" cy="49" r="2" fill="#FF7A00" opacity="0.6"/><circle cx="30" cy="57" r="1.8" fill="#FF7A00" opacity="0.6"/><circle cx="69" cy="52" r="2.5" fill="#FF7A00" opacity="0.7"/><circle cx="74" cy="49" r="2" fill="#FF7A00" opacity="0.6"/><circle cx="70" cy="57" r="1.8" fill="#FF7A00" opacity="0.6"/><ellipse cx="29" cy="53" rx="8" ry="6" fill="#FFBB88" opacity="0.45"/><ellipse cx="71" cy="53" rx="8" ry="6" fill="#FFBB88" opacity="0.45"/><ellipse cx="39" cy="46" rx="9" ry="10" fill="white" stroke="#2A1A00" stroke-width="1.5"/><ellipse cx="61" cy="46" rx="9" ry="10" fill="white" stroke="#2A1A00" stroke-width="1.5"/><circle cx="40" cy="47" r="6.5" fill="#6B3A00"/><circle cx="62" cy="47" r="6.5" fill="#6B3A00"/><circle cx="40" cy="47" r="4" fill="#111"/><circle cx="62" cy="47" r="4" fill="#111"/><circle cx="38" cy="44" r="2" fill="white"/><circle cx="60" cy="44" r="2" fill="white"/><path d="M31,35 Q39,29 47,33" stroke="#6B3A00" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M53,33 Q61,29 69,35" stroke="#6B3A00" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M36,60 Q50,75 64,60" fill="white" stroke="#2A1A00" stroke-width="2"/><path d="M40,62 Q50,72 60,62" fill="#F0C27F"/><rect x="44" y="70" width="12" height="8" rx="5" fill="#F0C27F" stroke="#2A1A00" stroke-width="1.5"/><path d="M18,79 L82,79 L84,130 L16,130 Z" fill="#E65100" stroke="#2A1A00" stroke-width="2"/><polygon points="50,90 52,96 58,96 53,100 55,106 50,102 45,106 47,100 42,96 48,96" fill="#FFD700" stroke="#AA8800" stroke-width="1"/><polygon points="32,79 50,90 50,79" fill="#BF360C" stroke="#2A1A00" stroke-width="1.5"/><polygon points="68,79 50,90 50,79" fill="#BF360C" stroke="#2A1A00" stroke-width="1.5"/><path d="M18,79 Q5,97 8,115" stroke="#E65100" stroke-width="18" fill="none" stroke-linecap="round"/><path d="M82,79 Q95,97 92,115" stroke="#E65100" stroke-width="18" fill="none" stroke-linecap="round"/><circle cx="8" cy="116" r="10" fill="#F0C27F" stroke="#2A1A00" stroke-width="1.5"/><circle cx="92" cy="116" r="10" fill="#F0C27F" stroke="#2A1A00" stroke-width="1.5"/><ellipse cx="34" cy="127" rx="14" ry="6" fill="#3E2000" stroke="#2A1A00" stroke-width="2"/><ellipse cx="66" cy="127" rx="14" ry="6" fill="#3E2000" stroke="#2A1A00" stroke-width="2"/>` },
+  { id:'botu', name:'Botu', title:'Gear Frog', emoji:'🐸', color:'#00CFFF', bg:'linear-gradient(145deg,#003A50,#1E0A52)',
+    svgBody:`<circle cx="33" cy="24" r="15" fill="#4CAF50" stroke="#2A4A00" stroke-width="2"/><circle cx="67" cy="24" r="15" fill="#4CAF50" stroke="#2A4A00" stroke-width="2"/><circle cx="50" cy="50" r="32" fill="#66BB6A" stroke="#2A4A00" stroke-width="2.5"/><ellipse cx="50" cy="62" rx="22" ry="18" fill="#A5D6A7"/><circle cx="33" cy="22" r="10" fill="white" stroke="#2A4A00" stroke-width="1.5"/><circle cx="67" cy="22" r="10" fill="white" stroke="#2A4A00" stroke-width="1.5"/><circle cx="34" cy="23" r="7" fill="#FFC107"/><circle cx="68" cy="23" r="7" fill="#FFC107"/><ellipse cx="34" cy="23" rx="3" ry="5" fill="#111"/><ellipse cx="68" cy="23" rx="3" ry="5" fill="#111"/><circle cx="31" cy="20" r="2.5" fill="white"/><circle cx="65" cy="20" r="2.5" fill="white"/><circle cx="33" cy="22" r="12" fill="none" stroke="#00CFFF" stroke-width="3"/><circle cx="67" cy="22" r="12" fill="none" stroke="#00CFFF" stroke-width="3"/><rect x="46" y="20" width="8" height="4" rx="2" fill="#00CFFF"/><path d="M21,18 Q14,24 14,32" stroke="#00CFFF" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M79,18 Q86,24 86,32" stroke="#00CFFF" stroke-width="3" fill="none" stroke-linecap="round"/><ellipse cx="46" cy="55" rx="3" ry="2" fill="#388E3C"/><ellipse cx="54" cy="55" rx="3" ry="2" fill="#388E3C"/><path d="M30,66 Q38,78 50,74 Q62,78 70,66" stroke="#2A4A00" stroke-width="3" fill="none" stroke-linecap="round"/><rect x="40" y="68" width="8" height="5" rx="2" fill="white" stroke="#2A4A00" stroke-width="1"/><rect x="52" y="68" width="8" height="5" rx="2" fill="white" stroke="#2A4A00" stroke-width="1"/><rect x="44" y="81" width="12" height="8" rx="5" fill="#66BB6A" stroke="#2A4A00" stroke-width="1.5"/><path d="M16,89 L84,89 L86,130 L14,130 Z" fill="#0288D1" stroke="#2A1A00" stroke-width="2"/><rect x="36" y="97" width="28" height="20" rx="5" fill="#01579B" stroke="#2A1A00" stroke-width="1.5"/><circle cx="44" cy="107" r="3" fill="#00CFFF"/><circle cx="56" cy="107" r="3" fill="#00CFFF"/><path d="M16,89 Q4,106 8,123" stroke="#0288D1" stroke-width="18" fill="none" stroke-linecap="round"/><path d="M84,89 Q96,106 92,123" stroke="#0288D1" stroke-width="18" fill="none" stroke-linecap="round"/><circle cx="8" cy="124" r="10" fill="#66BB6A" stroke="#2A4A00" stroke-width="1.5"/><circle cx="92" cy="124" r="10" fill="#66BB6A" stroke="#2A4A00" stroke-width="1.5"/><rect x="87" y="118" width="12" height="4" rx="2" fill="#9E9E9E" stroke="#555" stroke-width="1"/><circle cx="99" cy="120" r="4" fill="#9E9E9E" stroke="#555" stroke-width="1"/><ellipse cx="32" cy="128" rx="16" ry="6" fill="#388E3C" stroke="#2A4A00" stroke-width="2"/><ellipse cx="68" cy="128" rx="16" ry="6" fill="#388E3C" stroke="#2A4A00" stroke-width="2"/>` },
+];
+window.CHARACTERS = CHARACTERS;
+
+const PRIZE_CONFIG = {
+  imgbbKey:     'YOUR_IMGBB_API_KEY',
+  formspreeUrl: 'https://formspree.io/f/YOUR_FORM_ID'
+};
+
+const Prefs = (() => {
+  if (isNative && window.Capacitor?.Plugins?.Preferences) return window.Capacitor.Plugins.Preferences;
+  return {
+    async set({key,value}){ localStorage.setItem(key,value); },
+    async get({key}){ return { value: localStorage.getItem(key) }; },
+    async remove({key}){ localStorage.removeItem(key); }
+  };
+})();
+
+async function nativeCapture(missionId) {
+  if (isNative && window.Capacitor?.Plugins?.Camera) {
+    const { Camera } = window.Capacitor.Plugins;
+    try {
+      const photo = await Camera.getPhoto({
+        quality: 60, allowEditing: false,
+        resultType: 'dataUrl',
+        source: 'Camera'
+      });
+      processPhotoData(photo.dataUrl, missionId);
+    } catch(e) { console.log('Camera cancelled'); }
+  } else {
+    document.getElementById('fi_' + missionId)?.click();
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// AUDIO (Web Audio API)
+// ═══════════════════════════════════════════════════════════════════
+let _ac;
+function ac() { if(!_ac) _ac = new (window.AudioContext||window.webkitAudioContext)(); return _ac; }
+
+function playDing() {
+  try {
+    const c=ac(), o=c.createOscillator(), g=c.createGain();
+    o.connect(g); g.connect(c.destination);
+    o.type='sine'; o.frequency.value=880;
+    g.gain.setValueAtTime(0.25,c.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+0.35);
+    o.start(); o.stop(c.currentTime+0.35);
+  } catch(e){}
+}
+function playFanfare() {
+  try {
+    const c=ac(), notes=[523,659,784,988,1047];
+    notes.forEach((f,i)=>{
+      const o=c.createOscillator(), g=c.createGain();
+      o.connect(g); g.connect(c.destination);
+      o.type='triangle'; o.frequency.value=f;
+      const t=c.currentTime+i*0.11;
+      g.gain.setValueAtTime(0.22,t);
+      g.gain.exponentialRampToValueAtTime(0.001,t+0.22);
+      o.start(t); o.stop(t+0.22);
+    });
+  } catch(e){}
+}
+function playBlip() {
+  try {
+    const c=ac(), o=c.createOscillator(), g=c.createGain();
+    o.connect(g); g.connect(c.destination);
+    o.type='square'; o.frequency.value=330;
+    g.gain.setValueAtTime(0.08,c.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+0.09);
+    o.start(); o.stop(c.currentTime+0.09);
+  } catch(e){}
+}
+function playHit() {
+  try {
+    const c=ac(), o=c.createOscillator(), g=c.createGain();
+    o.connect(g); g.connect(c.destination);
+    o.type='sawtooth'; o.frequency.value=120;
+    g.gain.setValueAtTime(0.2,c.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+0.15);
+    o.start(); o.stop(c.currentTime+0.15);
+  } catch(e){}
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════════════════════════
+const REGIONS = [
+  {id:'centrum',  en:'Centrum',        icon:'🏛️'},
+  {id:'canals',   en:'Canals',         icon:'🚤'},
+  {id:'jordaan',  en:'De Jordaan',     icon:'🌷'},
+  {id:'museums',  en:'Museums',        icon:'🎨'},
+  {id:'parks',    en:'Parks',          icon:'🌳'},
+  {id:'depijp',   en:'De Pijp',        icon:'🏘️'},
+  {id:'noord',    en:'Noord',          icon:'⛴️'}
+];
+
+const SKILLS = [
+  {id:'explorer',      icon:'🧭', name:'Explorer',       titles:['Newcomer','Wanderer','Pathfinder','Navigator','Master Explorer']},
+  {id:'active',        icon:'🏃', name:'Active',         titles:['Couch Potato','Mover','Runner','Athlete','Champion']},
+  {id:'nature',        icon:'🌿', name:'Nature',         titles:['Observer','Naturalist','Botanist','Ecologist','Nature Master']},
+  {id:'language',      icon:'💬', name:'Language',       titles:['Listener','Speaker','Talker','Linguist','Taalmeester']},
+  {id:'photographer',  icon:'📸', name:'Photographer',   titles:['Snapper','Shooter','Framer','Photographer','Artist']},
+  {id:'detective',     icon:'🔍', name:'Detective',      titles:['Curious','Seeker','Finder','Investigator','Master Detective']},
+  {id:'creator',       icon:'✂️', name:'Creator',        titles:['Dreamer','Maker','Builder','Craftsman','Master Maker']},
+  {id:'masterCrafter', icon:'🔨', name:'Master Crafter', titles:['Apprentice','Journeyman','Craftsman','Expert','Grand Master']},
+  {id:'urbanHistorian',icon:'🏙️', name:'Urban Historian',titles:['Passer-by','Resident','Archivist','Historian','City Scholar']},
+  {id:'architect',     icon:'🏛️', name:'Architect',      titles:['Sketcher','Drafter','Designer','Architect','Grand Architect']},
+  {id:'scientist',     icon:'🔬', name:'Scientist',       titles:['Curious','Observer','Experimenter','Researcher','Field Scientist']}
+];
+
+const BADGES = [
+  {id:'first-step',    icon:'👟', name:'First Step',      ok:s=>s.done.length>=1},
+  {id:'bridge-finder', icon:'🌉', name:'Bridge Finder',   ok:s=>s.done.includes(12)},
+  {id:'bike-expert',   icon:'🚲', name:'Bike Expert',     ok:s=>s.done.includes(7)},
+  {id:'canal-watcher', icon:'🚤', name:'Canal Watcher',   ok:s=>s.done.includes(2)},
+  {id:'nature-kid',    icon:'🌿', name:'Nature Kid',      ok:s=>s.xp.nature>=3},
+  {id:'shutterbug',    icon:'📸', name:'Shutterbug',      ok:s=>s.xp.photographer>=3},
+  {id:'language-star', icon:'🗣️', name:'Language Star',   ok:s=>s.done.includes(18)},
+  {id:'scientist',     icon:'🔬', name:'Scientist',       ok:s=>s.done.includes(16)||s.done.includes(17)},
+  {id:'ferry-rider',   icon:'⛴️', name:'Ferry Rider',     ok:s=>s.done.includes(8)},
+  {id:'adventurer',    icon:'🗺️', name:'Adventurer',      ok:s=>s.done.length>=5},
+  {id:'grand-explorer',icon:'🏆', name:'Grand Explorer',  ok:s=>s.done.length>=15},
+  {id:'amsterdam-kid', icon:'🌷', name:'Amsterdam Kid',   ok:s=>s.done.length>=25},
+  {id:'grand-architect',icon:'🏛️',name:'Grand Architect', ok:s=>(s.xp.architect||0)>=4},
+  {id:'field-scientist',icon:'🔬',name:'Field Scientist',  ok:s=>(s.xp.scientist||0)>=4},
+  {id:'taalmeester',    icon:'🗣️',name:'Taalmeester',     ok:s=>(s.xp.language||0)>=6},
+  {id:'night-watch',   icon:'🖼️',name:'Night Watch',      ok:s=>s.done.includes(32)},
+  {id:'market-master', icon:'🥕',name:'Market Master',    ok:s=>s.done.includes(33)},
+  {id:'remembrance',   icon:'📖',name:'Remembrance',      ok:s=>s.done.includes(34)}
+];
+
+const MISSIONS = [
+  // ── CENTRUM (always unlocked) ──────────────────────────────────────
+  {id:1, region:'centrum', age:'young', type:'te',
+   icon:'🧱', title:'Brick Texture Hunt',
+   desc:'Touch 5 different walls of 17th-century canal houses along the Herengracht. Is each brick rough, smooth, powdery, or crumbly? Describe each one in your journal.',
+   challenge:'Find 5 DIFFERENT brick textures. Sketch one pattern — no two bricks are exactly the same!',
+   voice:{zoe:"I wonder if the bricks have hidden patterns — try rubbing paper over them to capture the texture!",paco:"Listen while you touch — do rough bricks sound different when you tap them vs smooth ones?",rio:"How high can you reach? Count how many bricks up to your maximum reach height!",botu:"Rate each texture 1–5. A truly scientific survey needs a consistent scale."},
+   xp:{explorer:1,nature:1}, unlocks:null, needsPhoto:false},
+
+  {id:4, region:'centrum', age:'young', type:'td',
+   icon:'🍫', title:'De Hagelslag Detective',
+   desc:'Go to a supermarket and find the hagelslag aisle! Count EVERY different flavour — chocolate, white, fruit, rainbow, anise. Which is the most unusual one you find?',
+   challenge:'Count ALL hagelslag flavours. Photograph the most unusual flavour you find. The Dutch eat it on bread for BREAKFAST!',
+   voice:{zoe:"Find the most colourful packaging — which one would YOU design if you invented a new flavour?",paco:"Hagelslag on bread for breakfast! What Dutch breakfast song would you write to celebrate this?",rio:"I bet there are more than 10 flavours. Set a personal record — find as many as possible!",botu:"Check the grams of sugar per 100g on each packet. Which flavour is sweetest by science?"},
+   xp:{detective:2,language:1}, unlocks:null, needsPhoto:true},
+
+  {id:6, region:'centrum', age:'young', type:'ta',
+   icon:'🔔', title:'Tram Bell Listener',
+   desc:'Stand near any tram stop in Centrum and listen carefully. Every time a tram rings its bell, mark a tally in your journal. Can you count 10 rings in 10 minutes?',
+   challenge:'Before you start, predict how many rings you\'ll count. Write it down. Then count for exactly 10 minutes — which tram line rings most, and does it ring before stopping or while moving? Were you over or under your prediction?',
+   voice:{zoe:"The tram bell has a specific pitch — hum it back to yourself. Is it a note you recognise?",paco:"Each tram driver rings differently — some twice, some once. Can you detect a pattern or rhythm?",rio:"Can you predict WHEN the next bell will ring before it happens? Challenge yourself!",botu:"Calculate the average time between rings. Total minutes ÷ total rings = frequency. What's the number?"},
+   xp:{active:1,explorer:1}, unlocks:null, needsPhoto:false},
+
+  {id:9, region:'centrum', age:'all', type:'te',
+   icon:'🏠', title:'Singel 7 Secret',
+   desc:'Find Singel 7 — possibly the narrowest house in the world. It\'s only as wide as a front door! Stand in front of it and spread your arms. Are YOU wider than the house?',
+   challenge:'Find Singel 7. Spread arms — are you wider? Photograph yourself next to it!',
+   voice:{zoe:"If you lived in Singel 7, what would your one window look out onto? Sketch it.",paco:"Imagine moving furniture in. How would it sound when they hoist it through the tiny window?",rio:"Time yourself: how quickly can you sprint to the house and back from the corner?",botu:"Measure the width with arm spans. One span is roughly 70cm. Calculate the real width."},
+   xp:{explorer:1,detective:1}, unlocks:'canals', needsPhoto:true},
+
+  {id:12, region:'centrum', age:'young', type:'te',
+   icon:'🌉', title:'Bridge Counter',
+   desc:'Walk around Centrum for one hour. Every time you cross a bridge over a canal, mark a tally. Amsterdam has over 1,200 bridges — how many can you cross?',
+   challenge:'Before you walk, predict your bridge count. Write that number down. After the hour: were you over or under? Now calculate your "bridges per minute" rate. Amsterdam has 1,281 bridges total — at YOUR rate, how many days would it take to cross them all?',
+   voice:{zoe:"Sketch one bridge with the prettiest details — ironwork, lamps, carved stone.",paco:"Each bridge sounds different when you walk over it. Which one is most musical?",rio:"Set your prediction before you start. Beat your personal best!",botu:"Note the canal width under each bridge. Wider canal = longer bridge. Find the longest one."},
+   xp:{explorer:2,active:1}, unlocks:null, needsPhoto:false},
+
+  {id:14, region:'centrum', age:'teen', type:'td',
+   icon:'⛪', title:'Oude Kerk Lean',
+   desc:'The Oude Kerk tower has been sinking for 700 years! Take a photo from the square and use a protractor or notebook edge to measure how many degrees it leans from vertical.',
+   challenge:'Measure the lean angle in degrees. WHICH direction does it lean? Why does this happen in Amsterdam\'s soft peat soil?',
+   voice:{zoe:"Imagine being the architect watching it slowly sink over 700 years. How would you feel?",paco:"The church bells have rung since 1300. Imagine the very first time — who was listening?",rio:"Balance with your body leaning at the same angle as the tower. Have someone photograph it!",botu:"If it leans 2.5° and stands 70m tall, calculate how many centimetres off vertical the top is."},
+   xp:{detective:2,urbanHistorian:2}, unlocks:'canals', needsPhoto:true},
+
+  {id:19, region:'centrum', age:'teen', type:'ts',
+   icon:'🌺', title:'Begijnhof Secret Garden',
+   desc:'Hidden behind a tiny wooden door on Gedempte Begijnensloot is the Begijnhof — a medieval courtyard garden that has existed since 1346. Find it, enter, and sit quietly for 2 minutes.',
+   challenge:'Enter the Begijnhof. What is the oldest building? Find the English Reformed Church. Why were the Beguines special women in Amsterdam history?',
+   voice:{zoe:"Sketch the courtyard from the doorway — it should fit on one page of your journal.",paco:"Sit in complete silence for the full 2 minutes. What sounds filter in from outside the walls?",rio:"Find the oldest date on any gravestone. How many years ago was that person born?",botu:"Count the buildings around the courtyard. Estimate the average age of the structures."},
+   xp:{urbanHistorian:3,explorer:1}, unlocks:null, needsPhoto:true},
+
+  // ── CANALS (unlocked by mission 9 or 14) ──────────────────────────
+  {id:2, region:'canals', age:'all', type:'tp',
+   icon:'🌥️', title:'Canal Reflection Hunt',
+   desc:'Look into any canal and find reflections! Find a cloud AND a canal house reflected together in the water. Do reflections look exactly the same as the real thing?',
+   challenge:'Photograph a cloud AND a house reflection in the same canal shot. Tricky!',
+   voice:{zoe:"Reflections change with ripples — wait for perfect stillness, then take the shot.",paco:"The canal surface is like a drum skin. Drop a pebble and watch the reflections distort.",rio:"Find the most dramatic reflection — the tallest building mirrored perfectly.",botu:"Reflections invert images. If a house is 10m tall, how tall is its reflection?"},
+   xp:{explorer:1,photographer:2}, unlocks:'jordaan', needsPhoto:true},
+
+  {id:10, region:'canals', age:'young', type:'tn',
+   icon:'🦆', title:'Duck Parade',
+   desc:'Find a family of ducks swimming along a canal. Count every duckling! Watch for 2 minutes — can you tell the mama from the papa? What do they eat?',
+   challenge:'Count the ducklings — then predict: how many will still be together in 2 minutes? Watch and check. The mallard male has a green head; the female is brown. Who is leading the family? Photograph the moment a duckling does something unexpected.',
+   voice:{zoe:"Sketch the family — who is leading? Who keeps wandering off?",paco:"Watch the rhythm of their paddling feet under the water surface. What tempo are they swimming at?",rio:"Time how fast the family covers 10 metres of canal. Calculate their speed in metres per minute!",botu:"Mallard female is brown, male has a green head in spring. Confirm the ID — who is who?"},
+   xp:{nature:2,photographer:1}, unlocks:null, needsPhoto:true},
+
+  {id:15, region:'canals', age:'teen', type:'td',
+   icon:'🪝', title:'VOC Hoisting Hook Physics',
+   desc:'Look at the top of ANY canal house — there\'s a hoisting hook sticking FORWARD over the street. Sketch it carefully. Now explain the physics: WHY must it lean outward?',
+   challenge:'Sketch the hook angle. Write a physics explanation: what happens to the rope and furniture if the hook pointed straight up instead of forward?',
+   voice:{zoe:"Sketch the full mechanism — where it attaches, how the rope runs, where goods would land.",paco:"Imagine the sounds of the 1600s Amsterdam docks — ropes creaking, merchants shouting, wood groaning.",rio:"Find the highest hook you can spot. Estimate how many floors it would have served.",botu:"The forward lean means the rope clears the building face. Calculate the geometry — how far forward and at what angle?"},
+   xp:{detective:2,urbanHistorian:1}, unlocks:'jordaan', needsPhoto:true},
+
+  {id:21, region:'canals', age:'teen', type:'ta',
+   icon:'🌉', title:'Bridge That Opens',
+   desc:'Amsterdam has dozens of working drawbridges (ophaalbruggen) that open to let tall boats through. Find one operating and time the full open-close cycle.',
+   challenge:'Time the cycle: closed → fully open → boat passes → closed again. Is it automatic or does a keeper operate it?',
+   voice:{zoe:"Photograph the bridge in 4 positions: closed, opening, fully open, closing.",paco:"The mechanical sounds of an opening bridge are a composition. Describe each sound in your journal.",rio:"Time it precisely with a second-counter. Find a second bridge and compare times!",botu:"Is it counterweighted, hydraulic, or electric? Look for the operating machinery and identify it."},
+   xp:{active:1,urbanHistorian:2}, unlocks:null, needsPhoto:true},
+
+  // ── JORDAAN (unlocked by mission 2 or 15) ─────────────────────────
+  {id:5, region:'jordaan', age:'all', type:'td',
+   icon:'🐰', title:'Nijntje Spy',
+   desc:'Keep your eyes WIDE open in De Jordaan. You must find EITHER a Nijntje (Miffy) toy displayed in a shop window, OR a real cat sitting in a canal house window watching the world.',
+   challenge:'Spot a Nijntje OR a cat in a window. Take a photo as PROOF — no cheating!',
+   voice:{zoe:"If you find a Nijntje, sketch her in your own style — how would YOU draw Miffy?",paco:"Nijntje has her own theme song by Annie M.G. Schmidt. Can you hum it while you search?",rio:"Speed challenge: how quickly can you spot the first cat or Nijntje? Start your timer now!",botu:"Miffy (Nijntje) was created in 1955. Calculate exactly how old the character is today."},
+   xp:{detective:1,photographer:1}, unlocks:'museums', needsPhoto:true},
+
+  {id:7, region:'jordaan', age:'young', type:'tp',
+   icon:'🚲', title:'Bakfiets Spotter',
+   desc:'A bakfiets is a cargo bike with a huge wooden box at the front. Amsterdam LOVES them! Find and photograph 3 DIFFERENT bakfietsen carrying different cargo.',
+   challenge:'Find 3 bakfietsen. What is each one carrying? Children? Groceries? A dog? A surfboard? Photograph each one!',
+   voice:{zoe:"Sketch the best-decorated bakfiets — do any have paintings or personal touches?",paco:"Does the cargo make different sounds on cobblestones? Children vs groceries vs tools?",rio:"How full is the heaviest-looking bakfiets? Estimate the total cargo weight in kilograms.",botu:"A bakfiets can carry 100kg. If a child weighs 25kg, how many children could fit in the box?"},
+   xp:{photographer:2,explorer:1}, unlocks:null, needsPhoto:true},
+
+  {id:22, region:'jordaan', age:'teen', type:'tc',
+   icon:'🦢', title:'Origami on the Bridge',
+   desc:'Fold 3 origami animals — try a crane, a frog, and a fish (look up folding instructions). Then find the prettiest bridge in the Jordaan and pose your animals on the railing.',
+   challenge:'Fold 3 animals AND photograph them posed on a bridge with the canal behind. Which was hardest to fold?',
+   voice:{zoe:"Pick a colour scheme that matches the canal and houses behind your folded animals.",paco:"Count the folds for each animal — which takes the most steps? Which is most efficient?",rio:"Time each fold. Which animal did you complete fastest? Can you beat your personal best?",botu:"Origami is geometry. Count how many triangles and squares are visible in your finished crane."},
+   xp:{creator:3,photographer:1}, unlocks:null, needsPhoto:true},
+
+  // ── MUSEUMS (unlocked by mission 5) ───────────────────────────────
+  {id:16, region:'museums', age:'all', type:'ts',
+   icon:'🏛️', title:'NEMO Roof Geometry',
+   desc:'Stand outside NEMO Science Museum (the massive green ship-shaped building by the IJ). Count every triangular skylight panel on the sloped roof, then calculate the total glass area.',
+   challenge:'Count triangles. Estimate each panel is ~2m wide and 1.5m tall. Total area = count × (0.5 × base × height). Show your working!',
+   voice:{zoe:"NEMO's green copper exterior evokes the harbour. What does the shape remind YOU of?",paco:"The roof is a public square — what sounds do you hear up there? Wind, seagulls, the city below?",rio:"Climb to the NEMO rooftop — it's free and open! Time how long it takes you.",botu:"Renzo Piano designed NEMO. Show every step of your area calculation in the journal."},
+   xp:{masterCrafter:2,detective:2}, unlocks:'parks', needsPhoto:true},
+
+  {id:20, region:'museums', age:'teen', type:'ts',
+   icon:'🦜', title:'De Papagaai — Hidden Church',
+   desc:'At Kalverstraat 58, behind what looks like a regular shop, hides De Papegaai — a full Catholic church secretly built inside a row of canal houses in the 1600s. Find it!',
+   challenge:'Find and enter De Papegaai. Why was it hidden? What event in 1578 forced Catholics to hide their churches in Amsterdam?',
+   voice:{zoe:"Sketch the church interior — how does hidden architecture feel different from open architecture?",paco:"Imagine secret organ music in the 1600s, played quietly so neighbours wouldn't hear. What would they play?",rio:"Find it using only the address: Kalverstraat 58. No hints allowed!",botu:"The church fits inside 3 canal houses. Estimate the total floor area using the house widths you measured."},
+   xp:{urbanHistorian:3,explorer:1}, unlocks:null, needsPhoto:true},
+
+  {id:23, region:'museums', age:'teen', type:'ts',
+   icon:'🚲', title:'Bike Parking Maths',
+   desc:'Find the massive bike park at Centraal Station (the underground or multi-storey one). Count every bike in ONE section, then count the sections. Multiply to estimate total parked bikes.',
+   challenge:'Show your maths! Official total: ~16,000 bikes at Centraal. How close were you? Amsterdam has ~900,000 bikes total!',
+   voice:{zoe:"Walk the length of the bike park and sketch its overall shape — rectangle? L-shape?",paco:"The sound of 16,000 bikes rattling in the wind is Amsterdam's own kind of percussion.",rio:"Beat the clock: count one section as fast as possible. What's your speed record?",botu:"Amsterdam has 900,000 bikes and 900,000 residents — a 1:1 ratio. What does that tell us about this city?"},
+   xp:{masterCrafter:2,detective:1}, unlocks:null, needsPhoto:true},
+
+  // ── PARKS (unlocked by mission 16) ────────────────────────────────
+  {id:3, region:'parks', age:'all', type:'tn',
+   icon:'🍃', title:'Vondelpark Leaf ID',
+   desc:'Collect 5 DIFFERENT leaf shapes from the ground in Vondelpark (NEVER pull from living trees!). Lay them flat on a page and draw around each one carefully.',
+   challenge:'Find 5 different shapes. Which leaf is biggest? Which has the most points? Which has the smoothest edge?',
+   voice:{zoe:"Arrange your 5 leaves from smallest to largest and photograph from above — it's natural art.",paco:"Hold each leaf up and let wind blow through it — does it make a sound? Which is loudest?",rio:"Find the biggest single leaf in the entire park. How large compared to your hand?",botu:"Count the lobes or points on each leaf. Oak: 5–7 lobes. Maple: 5 points. Identify the trees!"},
+   xp:{nature:2}, unlocks:'depijp', needsPhoto:true},
+
+  {id:17, region:'parks', age:'teen', type:'ts',
+   icon:'🔒', title:'Water Level Logic at Locks',
+   desc:'Find a sluis (lock gate) near the Amstel or Centraal Station. Watch it work, or draw a detailed cross-section diagram showing exactly how water level changes move a boat up or down.',
+   challenge:'Draw a diagram with labels: water level A, level B, lock chamber, gates opening/closing. Explain each step to raise a boat from low to high.',
+   voice:{zoe:"The lock gates are covered in water-stains and barnacles — sketch one close-up panel.",paco:"Listen to the sound of water rushing through the lock as it equalises — what musical note is it?",rio:"Time how long it takes for the water level inside the lock to fully equalise. Precisely!",botu:"Calculate: if the lock is 10m wide, 20m long, level rises 1.2m — how many cubic metres of water moved?"},
+   xp:{masterCrafter:2,urbanHistorian:1}, unlocks:null, needsPhoto:true},
+
+  {id:25, region:'parks', age:'young', type:'ta',
+   icon:'🚣', title:'Bosbaan Rowing Timer',
+   desc:'Go to the Bosbaan in Amsterdamse Bos — a straight 2km rowing competition lake. Watch for a rowing boat and time how long it takes to row from one end to the other.',
+   challenge:'Time the rowers carefully. Then calculate their speed in metres per second. A World Championship crew of 8 rows 2,000m in about 5:30. How does the Bosbaan crew compare? Were they faster or slower, and why might that be?',
+   voice:{zoe:"Sketch the rowers mid-stroke — the synchronised movement is beautiful geometry.",paco:"Listen for the rhythm of oars entering the water. Can you clap along to their tempo?",rio:"Calculate the speed: if a crew rows 2km in 6 minutes, what\'s that in km/h?",botu:"An 8-person crew exerts roughly 8× the power of a solo rower. Does their time reflect that? Compare and calculate."},
+   xp:{active:1,explorer:1}, unlocks:null, needsPhoto:false},
+
+  // ── DE PIJP (unlocked by mission 3) ───────────────────────────────
+  {id:11, region:'depijp', age:'all', type:'tn',
+   icon:'🧇', title:'Stroopwafel Science',
+   desc:'Buy a fresh stroopwafel from a market stall in De Pijp. Hold it FLAT over a hot drink (tea or cocoa) for exactly 60 seconds. Then eat it immediately. FEEL the difference!',
+   challenge:'Hold over steam exactly 60 seconds. Is the caramel softer? What changed chemically? Why does the steam heat change the texture?',
+   voice:{zoe:"Watch the caramel change through the waffle grid — photograph it before and after the steam.",paco:"The sizzle when steam hits cold caramel is a tiny percussion note. Listen carefully.",rio:"Set an exact 60-second timer. Don\'t cheat — science only works if the experiment is controlled!",botu:"The caramel softens because heat lowers its viscosity. Can you feel the molecular change on your tongue?"},
+   xp:{nature:1,creator:1}, unlocks:'noord', needsPhoto:false},
+
+  {id:18, region:'depijp', age:'teen', type:'tl',
+   icon:'🗣️', title:'Spreek als een Amsterdammer',
+   desc:'Use these 3 Dutch phrases with REAL strangers (not family): "Goedemorgen" (good morning), "Alsjeblieft" (please / here you go), "Dank je wel" (thank you very much).',
+   challenge:'Each phrase must be used in a REAL interaction in a shop or café. Write down each reaction. Did they respond in Dutch or switch to English?',
+   voice:{zoe:"Notice people\'s FACES when you speak Dutch — their surprise is the most interesting reaction.",paco:"Dutch has a particular music — the guttural G sound. Practise getting that right before you speak.",rio:"Challenge: use all 3 phrases in a single interaction, without stopping or switching to English!",botu:"Dutch is spoken by 23 million people worldwide. After this mission, you are officially one of them."},
+   xp:{language:3}, unlocks:null, needsPhoto:false},
+
+  // ── NOORD (unlocked by mission 11) ────────────────────────────────
+  {id:8, region:'noord', age:'all', type:'ta',
+   icon:'⛴️', title:'Free Ferry to Noord',
+   desc:'Walk behind Centraal Station to the IJ waterfront and take the FREE GVB ferry to Amsterdam-Noord. It runs 24 hours and is completely free! Watch Amsterdam shrink behind you.',
+   challenge:'Ride the ferry there AND back. From the water, count how many church spires you can see in the Amsterdam skyline.',
+   voice:{zoe:"Photograph Amsterdam\'s skyline from the water. Which spire is the most beautiful?",paco:"Listen to the ferry engine\'s hum — is it a low note or a high note? Which musical pitch is closest?",rio:"Before you cross, predict your spire count. Then count from the water — were you right?",botu:"The IJ is a former inland sea. Amsterdam sits on 11 million wooden piles. What keeps them from rotting?"},
+   xp:{active:1,explorer:2}, unlocks:null, needsPhoto:true},
+
+  {id:13, region:'noord', age:'all', type:'td',
+   icon:'❌', title:'The XXX Poles Hunt',
+   desc:'Amsterdam\'s coat of arms has 3 St. Andrew\'s crosses (X shapes). These appear on poles, bollards, bridges, and buildings all over the city! Find and photograph 5 in Noord.',
+   challenge:'Find 5 different XXX symbols in Amsterdam-Noord (on poles, walls, bridges). Why three X\'s? Research the legend of the Amsterdam shield!',
+   voice:{zoe:"The three X\'s are a heraldic symbol called St. Andrew\'s Cross. Sketch the Amsterdam coat of arms from memory.",paco:"Spot the XXX symbol in the most surprising place — a drain cover, a wall tile, a mooring post.",rio:"Find all 5 within a 500m radius. How small an area can you complete the hunt in?",botu:"The three X\'s may represent fire, flood, and plague — the city\'s three historical enemies. Research which theory historians favour most."},
+   xp:{detective:2,urbanHistorian:1}, unlocks:null, needsPhoto:true},
+
+  {id:24, region:'noord', age:'teen', type:'tp',
+   icon:'🎨', title:'NDSM Street Art Hunt',
+   desc:'The NDSM wharf in Noord is a legendary street art destination — an old shipyard turned creative playground. Find and photograph 3 different murals or graffiti artworks there.',
+   challenge:'Find 3 artworks at NDSM. For each: what style is it (portrait, abstract, lettering)? Do any reference Amsterdam culture? Can you find an artist signature?',
+   voice:{zoe:"For each mural, note the dominant colours used. Build a palette of Amsterdam street art.",paco:"Does any artwork have a musical reference? NDSM hosts music festivals — is that in the art?",rio:"The NDSM wharf is huge — 5 minutes to walk across. Map your 3 artworks by location.",botu:"Street art has a lifespan. What materials and surface conditions would make one last longer?"},
+   xp:{photographer:2,creator:1,explorer:1}, unlocks:null, needsPhoto:true},
+
+  // ── NEW MISSIONS (26-31) ───────────────────────────────────────────
+  {id:26, region:'centrum', age:'all', type:'te',
+   icon:'🏛️', title:'The Great Gable Hunt',
+   nl_title:'De Grote Geveljacht',
+   desc:'Look up at any canal house and you\'ll find a gable — the decorative top of the building. Amsterdam has 7 types: step, bell, neck, spout, elevated, cornice, and bottle. Walk along Herengracht and see how many types you can spot and sketch.',
+   nl_desc:'Kijk omhoog naar een grachtenpand en je ziet de gevel — de versierde bovenkant. Amsterdam heeft 7 soorten: trapgevel, klokgevel, halsgevel, tuitgevel, verhoogde gevel, lijstgevel en flesgevel. Wandel langs de Herengracht en zoek er zo veel mogelijk.',
+   challenge:'Find and sketch 6 different gable types. Which is the most common? Which is the fanciest? Why did Amsterdam merchants compete to have the most impressive gable on the block?',
+   nl_challenge:'Vind en teken 6 verschillende gevelsoorten. Welke zie je het vaakst? Welke is de sjiekste? Waarom wilden rijke Amsterdammers altijd de mooiste gevel van de hele straat?',
+   voice:{zoe:"Draw one gable in full detail — windows, ornamental stones, and the hook at the top.",paco:"If each gable type were a music genre, which would be jazz? Which would be classical?",rio:"Walk the full Herengracht and count every gable you pass — not just 6, but every single one.",botu:"The halsgevel (neck gable) was designed to support a hoisting hook. Find the engineering logic in its shape."},
+   xp:{architect:3,urbanHistorian:2}, unlocks:null, needsPhoto:true},
+
+  {id:27, region:'centrum', age:'young', type:'ta',
+   icon:'🚲', title:'Bike Law School',
+   nl_title:'Verkeersschool op de Fiets',
+   desc:'Dutch kids pass a real cycling exam called the Verkeersexamen at age 11–12. Your challenge: stand at a busy cycle path junction for 10 minutes and observe cyclists. Count how many use hand signals, how many run red lights, and how many ride with no hands on the bars.',
+   nl_desc:'In Nederland halen kinderen van 11–12 jaar het Verkeersexamen. Jouw opdracht: ga 10 minuten bij een drukke fietskruising staan en tel: hoeveel fietsers geven een handteken, hoeveel rijden door rood, en hoeveel rijden zonder handen aan het stuur?',
+   challenge:'Keep a tally for each behaviour. What are the Dutch traffic rules for cyclists? Based on your count — would most Amsterdam cyclists PASS the verkeersexamen?',
+   nl_challenge:'Maak een tellijst voor elk gedrag. Wat zijn de verkeersregels voor fietsers? Zou de gemiddelde Amsterdammer het verkeersexamen halen — of niet?',
+   voice:{zoe:"Notice how confident Dutch cyclists look — no helmets, no hands, phone in one hand. What does that tell you about the city?",paco:"Is there a rhythm to the flow of cyclists at the junction? Can you find the beat?",rio:"Count the full 10 minutes without losing track. Concentration challenge!",botu:"Calculate a pass rate: (hand-signalers ÷ total cyclists) × 100. What\'s the percentage?"},
+   xp:{active:2,detective:1}, unlocks:null, needsPhoto:false},
+
+  {id:28, region:'parks', age:'young', type:'tn',
+   icon:'🐦', title:'The Great Bird Sit',
+   nl_title:'De Grote Vogelteldag',
+   desc:'Sit completely still in Vondelpark for exactly 5 minutes with a pencil and paper. Every time you see or hear a different bird species, add it to your list with a quick sketch or description. Ornithologists call this a "point count" — it\'s real citizen science!',
+   nl_desc:'Ga doodstil zitten in het Vondelpark, 5 minuten lang, met alleen een potlood en papier. Schrijf elke vogelsoort op die je ziet of hoort — met een snelle schets erbij. Vogelonderzoekers noemen dit een "puntelling": echte wetenschap!',
+   challenge:'List every species you spotted. Which was most common? Did you hear any you couldn\'t see? With a grown-up, upload your count to waarneming.nl — the Dutch nature database used by real scientists.',
+   nl_challenge:'Schrijf elke soort op. Welke vogel zag je het vaakst? Hoorde je er ook die je niet kon zien? Zet je telling met een volwassene op waarneming.nl — de database die echte biologen gebruiken!',
+   voice:{zoe:"Draw a quick sketch of the most beautiful bird you see. Don\'t worry about accuracy — capture the feeling.",paco:"Try to whistle the call of one bird you hear. Can you get it to respond?",rio:"After 5 minutes, walk around for 5 more. How many new species can you add in the second round?",botu:"Upload to waarneming.nl with a grown-up — your data joins a national database used by professional ornithologists."},
+   xp:{scientist:2,nature:3}, unlocks:null, needsPhoto:false},
+
+  {id:29, region:'canals', age:'teen', type:'ts',
+   icon:'🔬', title:'Canal Science Lab',
+   nl_title:'Grachtenwaterlab',
+   desc:'Pick two different canals that are far apart. At each one, safely observe the water from the bank: what colour is it? Clear or murky? Any smell? Any plants, algae, or wildlife? Record everything in your journal. Then compare your two canals.',
+   nl_desc:'Kies twee grachten die ver van elkaar liggen. Bekijk het water veilig vanaf de kant: welke kleur heeft het? Helder of troebel? Ruikt het ergens naar? Zie je planten, algen of dieren? Schrijf alles op en vergelijk de twee.',
+   challenge:'Write a comparison table: Canal A vs Canal B across 5 factors. What explains the differences? How might water quality affect the wildlife you saw? What would YOU do to improve Amsterdam\'s canal water?',
+   nl_challenge:'Maak een vergelijkingstabel: Gracht A vs Gracht B voor 5 factoren. Waarom zijn ze anders? Heeft waterkwaliteit invloed op het dierenleven? Wat zou JIJ doen om het grachtwater te verbeteren?',
+   voice:{zoe:"Use colour words precisely — not just \'green\', but jade, olive, emerald, or khaki.",paco:"Do the two canals sound different? Record any sounds — boats, ducks, traffic echoes off the water.",rio:"Walk between your two observation points and record exactly how long it takes.",botu:"Drop a white tissue in (tied to a string) and measure the depth at which it disappears — this estimates turbidity."},
+   xp:{scientist:3,nature:2,detective:1}, unlocks:null, needsPhoto:false},
+
+  {id:30, region:'museums', age:'teen', type:'td',
+   icon:'🌰', title:'The Nutmeg Millionaires',
+   nl_title:'De Nootmuskaatmiljonairs',
+   desc:'In 1600, a single bag of nutmeg was worth more than a canal house. The VOC (Dutch East India Company) had a monopoly on spices — and Amsterdam got filthy rich off it. Your mission: a VOC captain returns with 200 kg of nutmeg worth 100 guilders per kg. A canal house costs 8,000 guilders. How many houses could he buy?',
+   nl_desc:'In het jaar 1600 was één zak nootmuskaat meer waard dan een heel grachtenpand. De VOC had het monopolie op specerijen — en Amsterdam werd er slapend rijk mee. Jouw opdracht: een VOC-kapitein keert terug met 200 kg nootmuskaat, 100 gulden per kilo waard. Een grachtenpand kost 8.000 gulden. Hoeveel panden kon hij kopen?',
+   challenge:'Solve the maths. Then find nutmeg in a supermarket — how much does it cost today per gram? What does that price collapse tell you about trade, supply chains, and globalisation?',
+   nl_challenge:'Los de som op. Zoek dan nootmuskaat in een supermarkt — hoeveel kost het nu per gram? Wat zegt die enorme prijsdaling over handel, aanbod en globalisering?',
+   voice:{zoe:"Find nutmeg in a supermarket and really smell it. Close your eyes. Imagine a 1600s spice ship.",paco:"VOC sailors sang shanties on the spice route. Can you invent one verse about nutmeg?",rio:"How long did the sailing route from Amsterdam to the Banda Islands (nutmeg source) take? Look it up — prepare to be amazed.",botu:"If nutmeg costs €0.80/gram today and was 100 guilders/kg in 1600, calculate the approximate price collapse factor."},
+   xp:{urbanHistorian:3,detective:2}, unlocks:null, needsPhoto:false},
+
+  {id:31, region:'jordaan', age:'all', type:'tc',
+   icon:'✏️', title:'Draw the Jordaan',
+   nl_title:'Teken de Jordaan',
+   desc:'Find a spot on any Jordaan street with a view of at least 3 canal houses. Sit down, get out any paper, and spend 15 minutes drawing exactly what you see — rooftops, gables, windows, bikes, trees, people. No phone photos for this one. Just eyes and a pencil.',
+   nl_desc:'Zoek een plek in de Jordaan met uitzicht op minstens 3 grachtenpanden. Ga zitten, pak een vel papier en teken 15 minuten lang precies wat je voor je ziet — daken, gevels, ramen, fietsen, bomen, mensen. Geen telefoon. Alleen ogen en een potlood.',
+   challenge:'Draw the scene, then add one surprising contrast you notice — a satellite dish on a 300-year-old roof, a neon sign, a modern bike rack against ancient brickwork. How old and new Amsterdam live side by side.',
+   nl_challenge:'Teken de scène en voeg daarna één verrassend contrast toe — een schotelantenne op een 300 jaar oud dak, een neonreclame, een modern fietsrek naast oeroud metselwerk. Zo leven oud en nieuw Amsterdam gewoon naast elkaar.',
+   voice:{zoe:"Don\'t just copy — choose what to emphasise. What is the most beautiful part of your view?",paco:"While you draw, listen. Write 3 sounds you heard during your 15 minutes of drawing.",rio:"Set a timer for exactly 15 minutes. No cheating — commit to the full time!",botu:"Count the windows in your drawing. Then count the actual windows. How accurate were you?"},
+   xp:{architect:2,creator:3,explorer:1}, unlocks:null, needsPhoto:true},
+
+  // ── NEW MISSIONS: RIJKSMUSEUM, ALBERT CUYP, ANNE FRANK, LANGUAGE ──
+  {id:32, region:'museums', age:'all', type:'te',
+   icon:'🖼️', title:'Rijksmuseum Treasure Hunt',
+   nl_title:'Rijksmuseum Schattenjacht',
+   desc:'The Rijksmuseum is the Netherlands\' greatest museum — and the building is a masterpiece before you even go inside. Stone creatures, golden crests, and carved details cover the facade. Inside, the 17th century comes alive: paintings, ships, weapons, and porcelain.',
+   nl_desc:'Het Rijksmuseum is het grootste museum van Nederland — en het gebouw zelf is al een kunstwerk. Stenen dieren, vergulde wapenschilden en reliëfs bedekken de gevel. Binnen komt de 17de eeuw tot leven: schilderijen, schepen, wapens en porselein.',
+   challenge:'Young explorers: sketch the grand archway entrance and count every stone animal you can spot on the facade. Teen explorers: find the Night Watch (Nachtwacht) by Rembrandt. Count every person in the painting. Who is the most important figure — and HOW does Rembrandt tell you this without using words?',
+   nl_challenge:'Jonge ontdekkers: teken de boogpoort en tel alle stenen dieren op de gevel. Tiener-onderzoekers: zoek De Nachtwacht van Rembrandt. Tel alle personen in het schilderij. Wie is de belangrijkste figuur — en hoe laat Rembrandt dat ZONDER woorden zien?',
+   voice:{zoe:"Study how Rembrandt used light — the brightest areas lead your eye to the most important person.",paco:"Vermeer painted The Milkmaid in near-silence. What sound do YOU imagine in that painting?",rio:"The Night Watch is 363cm × 437cm — bigger than your bedroom wall. Time how long you spend looking at it.",botu:"The museum uses humidity and UV sensors to protect the paintings. Find one of the small monitoring devices near a painting."},
+   xp:{urbanHistorian:2,architect:1,photographer:1}, unlocks:null, needsPhoto:true},
+
+  {id:33, region:'depijp', age:'all', type:'tn',
+   icon:'🥕', title:'Albert Cuyp Market Safari',
+   nl_title:'Albert Cuypmarkt Safari',
+   desc:'The Albert Cuyp Market is the longest street market in the Netherlands — over a kilometre of stalls selling stroopwafels, raw herring, fresh flowers, Indonesian spices, and things you can\'t name yet. It has been here since 1905.',
+   nl_desc:'De Albert Cuypmarkt is de langste straatmarkt van Nederland — meer dan een kilometer aan kraampjes met stroopwafels, haring, verse bloemen, Indonesische kruiden en dingen die je nog nooit hebt gezien. Al hier sinds 1905.',
+   challenge:'Walk the full length. Find: (1) something you have never seen before, (2) a food from another country, (3) something that costs less than €1, (4) the loudest market seller. Buy one small thing using only Dutch words.',
+   nl_challenge:'Loop de hele markt van begin tot eind. Vind: (1) iets wat je nog nooit hebt gezien, (2) een eten uit een ander land, (3) iets dat minder dan €1 kost, (4) de luidste marktkoopman. Koop iets kleins — maar bestel in het Nederlands!',
+   voice:{zoe:"Find the stall with the most beautiful flower or colour arrangement. Could you recreate it?",paco:"Every market has its own soundscape — vendors calling, music, crinkle of bags. Record 10 seconds in your memory.",rio:"Walk the full 1km from end to end without stopping. Time yourself!",botu:"If there are 260 stalls and each is 3 metres wide, what is the total length of stall frontage?"},
+   xp:{explorer:2,language:1,nature:1}, unlocks:null, needsPhoto:true},
+
+  {id:34, region:'jordaan', age:'teen', type:'ts',
+   icon:'📖', title:'The House on Prinsengracht',
+   nl_title:'Het Huis aan de Prinsengracht',
+   desc:'At Prinsengracht 263 is one of the most important addresses in the world. Even if you cannot go inside, stand outside and look at the building. For two years and one month, Anne Frank, her family, and four others hid in the back house behind a bookcase. She was 13 when they went into hiding.',
+   nl_desc:'Op Prinsengracht 263 staat een van de belangrijkste adressen ter wereld. Zelfs als je niet naar binnen kunt: sta buiten en kijk naar het pand. Twee jaar en één maand verborgen zich hier Anne Frank en zeven anderen — achter een boekenkast. Ze was 13 jaar oud.',
+   challenge:'Stand quietly in front of the building for 3 minutes. In your journal, write: What would you miss most if you had to stay indoors for two years? What sounds from outside would reach you? Anne wrote 34 notebooks. What would YOU write about today — right now, in this moment?',
+   nl_challenge:'Sta 3 minuten stil voor het pand. Schrijf in je dagboek: Wat zou jij het meest missen als je twee jaar binnen moest blijven? Welke geluiden van buiten zouden jou bereiken? Anne schreef 34 schriften vol. Wat zou JIJ vandaag schrijven — nu, op dit moment?',
+   voice:{zoe:"Anne pressed flowers between the pages of her diary. Find a small flower outside and press it in your journal.",paco:"Anne listened to Radio Oranje secretly — music was her escape. What music would you listen to in hiding?",rio:"The Secret Annex was 50m² for 8 people. Calculate the space per person and compare it to your bedroom.",botu:"The bookcase door was 215cm tall and 90cm wide. It opened and closed hundreds of times. Sketch the hinge mechanism."},
+   xp:{urbanHistorian:3,language:2}, unlocks:null, needsPhoto:false},
+
+  {id:35, region:'centrum', age:'all', type:'tl',
+   icon:'🔤', title:'Dutchspotter',
+   nl_title:'Nederlandsspotter',
+   desc:'Dutch is all around you, if you look carefully. Walk one block anywhere in Centrum with your eyes up. Shop names, market signs, street posters, tram announcements, menus — the city is writing to you in Dutch. Collect 10 words you have never seen before.',
+   nl_desc:'Het Nederlands is overal om je heen — als je maar goed kijkt. Loop één blok in het Centrum met je ogen omhoog. Winkelnamen, borden, posters, trammededelingen, menu\'s — de stad schrijft je aan in het Nederlands. Verzamel 10 woorden die je nog nooit hebt gezien.',
+   challenge:'For each word: write it down, guess the meaning from context, then check. How many did you get right? Bonus: find a Dutch word borrowed from English, or an English word borrowed from Dutch. (Hint: "cookie" is originally Dutch — koekje.)',
+   nl_challenge:'Voor elk woord: schrijf het op, raad de betekenis vanuit de context, controleer daarna. Hoeveel had je goed? Bonus: vind een Nederlands woord uit het Engels, of een Nederlands woord dat het Engels heeft overgenomen. (Tip: "cookie" is eigenlijk koekje.)',
+   voice:{zoe:"Dutch compound words have a lot of visual personality — schildpad (tortoise) literally means \'shield-toad\'. Find your favourite!",paco:"\'Scheveningen\' — try saying it. It was used as a spy test in WWII because only Dutch speakers could pronounce it correctly.",rio:"10 words in 10 minutes. Go!",botu:"Dutch has some of the longest compound words in Germanic languages. Find the longest single word you can spot on a sign."},
+   xp:{language:3,detective:1}, unlocks:null, needsPhoto:true},
+
+  {id:36, region:'centrum', age:'young', type:'tl',
+   icon:'🚋', title:'Tram Language Catcher',
+   nl_title:'Tramtaalleer',
+   desc:'Get on any tram in Amsterdam (with your grown-up). While you ride, listen carefully to the automated Dutch announcements. The tram tells you every station name and warns you about doors. You are about to take a Dutch listening lesson on wheels.',
+   nl_desc:'Stap in een tram in Amsterdam (met een volwassene). Luister goed naar de automatische Nederlandse omroepen. De tram vertelt je elke haltenaam en waarschuwt voor de deuren. Jij krijgt nu een luisterles Nederlands op wieltjes.',
+   challenge:'Write down every Dutch word you understand during the journey. How many stops did you travel? What did the announcement say when the doors were closing? Can you say "Let op, de deuren gaan sluiten" without looking?',
+   nl_challenge:'Schrijf elk Nederlands woord op dat je begrijpt tijdens de rit. Hoeveel haltes reed je? Wat zei de omroep als de deuren dichtgingen? Kun je "Let op, de deuren gaan sluiten" zeggen zonder te kijken?',
+   voice:{zoe:"Each tram line has its own personality. Line 1 through Jordaan, Line 5 through Museumplein — which feels most Amsterdam?",paco:"The automated tram voice has a specific rhythm. Can you clap along to the announcement pattern?",rio:"Count the stops: what\'s the maximum you can ride in 15 minutes?",botu:"Amsterdam trams run on 600V DC from overhead wires. Look out the window — can you spot where the wire changes direction?"},
+   xp:{language:2,active:1}, unlocks:null, needsPhoto:false},
+
+  {id:37, region:'depijp', age:'teen', type:'tl',
+   icon:'☕', title:'Bestel in het Nederlands',
+   nl_title:'Bestel in het Nederlands',
+   desc:'Find a café in De Pijp. You are going to order something — entirely in Dutch. No pointing at the menu and hoping. No switching to English when it gets hard. You need a greeting, your order, the magic word "alsjeblieft," and a thank you. That is a complete Dutch conversation.',
+   nl_desc:'Zoek een café in de Pijp en bestel iets — volledig in het Nederlands. Niet wijzen en hopen. Niet overschakelen naar Engels als het moeilijk wordt. Jij hebt nodig: een begroeting, je bestelling, het toverwoord "alsjeblieft," en een bedankje.',
+   challenge:'"Goedemiddag. Ik wil graag een [koffie/thee/chocomel], alsjeblieft." Then: "Dank je wel!" Write in your journal: did they answer in Dutch or switch to English? If they switched — why do you think that happened? (Hint: it says something interesting about Amsterdam.)',
+   nl_challenge:'"Goedemiddag. Ik wil graag een [koffie/thee/chocomel], alsjeblieft." Dan: "Dank je wel!" Schrijf op: antwoordden ze in het Nederlands of schakelden ze over naar het Engels? Waarom denk je dat? (Tip: dat zegt iets interessants over Amsterdam.)',
+   voice:{zoe:"Notice the café\'s interior — Amsterdam bruin cafés have a specific warm, dark, woody aesthetic. Sketch one detail.",paco:"Dutch café culture revolves around \'gezelligheid\' — untranslatable cosiness. Do you feel it? Describe it in your journal.",rio:"Order as fast as possible with zero hesitation. Confidence is everything in a foreign language!",botu:"Chocomel contains about 12g sugar per 100ml. Is that more or less than a typical cola? Compare."},
+   xp:{language:3,detective:1}, unlocks:null, needsPhoto:false}
+];
+
+// ═══════════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════════
+const DEF = {
+  name:'', mode:null,
+  done:[], unlocked:['centrum'],
+  xp:{explorer:0,active:0,nature:0,language:0,photographer:0,detective:0,creator:0,masterCrafter:0,urbanHistorian:0,architect:0,scientist:0},
+  badges:[], journal:[], grandFinale:false, character:null, sessionStart:Date.now()
+};
+let S = {...DEF};
+let tabHistory = [];
+let tmpPhotos = {};
+let currentMissionId = null;
+let LANG = 'en';
+let selectedRegion = null;
+
+function toggleLang() {
+  LANG = LANG === 'en' ? 'nl' : 'en';
+  document.getElementById('langBtn').textContent = LANG === 'en' ? '🇳🇱' : '🇬🇧';
+  renderTab('missions');
+  if (currentMissionId) openMission(currentMissionId);
+}
+
+const NL = {
+  1:{title:'Baksteentextuur Jacht',
+     desc:'Voel aan de muren van 5 grachtenpanden langs de Herengracht — gebouwen die er al staan sinds de 17e eeuw. Is elke steen ruw, glad, zanderig of brokkelig? Geen twee zijn precies hetzelfde.',
+     challenge:'Vind 5 VERSCHILLENDE texturen en beschrijf ze. Teken er één zo nauwkeurig mogelijk na. Elke baksteen werd ooit met de hand gemaakt!'},
+  2:{title:'Spiegelbeelden in de Gracht',
+     desc:'Kijk in het water van een willekeurige gracht. Kun je een wolk én een grachtenpand tegelijk als spiegelbeeld vangen? Let op: golven vervormen alles — wacht op het juiste moment.',
+     challenge:'Maak één foto met zowel een wolk als een grachtenpand in het water weerspiegeld. Is een spiegelbeeld altijd precies hetzelfde als het echte? Kijk goed!'},
+  3:{title:'Bladeren Zoeken in het Vondelpark',
+     desc:'Raap 5 VERSCHILLENDE bladvormen op van de grond in het Vondelpark — nooit van een levende boom plukken! Leg ze plat op papier en teken er zorgvuldig omheen.',
+     challenge:'Vind 5 verschillende vormen. Welk blad is het grootst? Welk heeft de meeste punten? En welk heeft de gladste rand?'},
+  4:{title:'De Hagelslag Detective',
+     desc:'Ga naar een supermarkt en zoek het hagelslag-rek. Tel elke smaak — chocolade, wit, fruit, regenboog, anijs. Welke vind jij het meest gestoord? Nederlanders eten dit gewoon op hun brood, als ontbijt.',
+     challenge:'Tel alle smaken en fotografeer de raarste. Hoeveel smaken zijn er? Had jij er meer verwacht?'},
+  5:{title:'Nijntje Spion',
+     desc:'Houd je ogen goed open in de Jordaan. Je moet óf een Nijntje-knuffel in een etalage spotten, óf een echte kat die vanuit een raam naar buiten kijkt alsof hij de baas van de straat is.',
+     challenge:'Spot een Nijntje ÓF een kat in een raam en maak een foto als bewijs. Geen smokkelen!'},
+  6:{title:'Trambelletjes Tellen',
+     desc:'Ga bij een tramhalte in het Centrum staan en luister. Elke keer dat een tram zijn bel gebruikt, zet je een streepje. Hoeveel keer hoor je hem in 10 minuten?',
+     challenge:'Tel trambellen 10 minuten lang. Welke lijn belt het vaakst? Wanneer gebruikt een trambestuurder de bel — en wanneer niet?'},
+  7:{title:'Bakfiets Spotter',
+     desc:'Een bakfiets heeft een grote bak vóór het stuur. Amsterdam is er dol op. Vind en fotografeer 3 VERSCHILLENDE bakfietsen — elk met iets anders erin.',
+     challenge:'Wat zit er in elke bakfiets? Kinderen? Boodschappen? Een hond? Een surfplank? Fotografeer ze alle drie en schrijf op wat je zag.'},
+  8:{title:'Gratis Pont naar Noord',
+     desc:'Loop achter Centraal Station naar de IJ-oever en stap op de GRATIS GVB-pont naar Amsterdam-Noord. Hij vaart dag en nacht en kost niks. Kijk hoe de stad achter je kleiner wordt.',
+     challenge:'Neem de pont heen én terug. Hoeveel kerktorens tel je in de skyline vanuit het water? Noteer het getal!'},
+  9:{title:'Het Smalste Huis ter Wereld',
+     desc:'Zoek Singel 7 — misschien wel het smalste huis ter wereld. Het is amper breder dan een voordeur! Ga ervoor staan en spreid je armen zo ver mogelijk. Ben JIJ er breder dan?',
+     challenge:'Vind Singel 7, spreid je armen en vergelijk. Maak een foto als bewijs. Hoe kan iemand hier ooit hebben gewoond?'},
+  10:{title:'Eendenparade',
+      desc:'Zoek een eendenfamilie in een gracht en tel elk kuikentje. Kijk twee minuten goed: kun jij de moer van de woerd onderscheiden? En wat pikken ze eigenlijk op uit het water?',
+      challenge:'Tel alle kuikentjes. Kijk wat ze eten. Fotografeer de hele familie op één rij — dat kost geduld!'},
+  11:{title:'Stroopwafel Experiment',
+      desc:'Koop een verse stroopwafel bij een marktkraam in De Pijp. Houd hem PLAT boven een warm drankje precies 60 seconden. Eet hem daarna meteen op. Voel je het verschil?',
+      challenge:'Houd hem precies 60 seconden boven de stoom. Is de karamel zachter geworden? Wat veranderde er en waarom doet warmte dat met suiker?'},
+  12:{title:'Bruggen Tellen',
+      desc:'Wandel een uur door het Centrum en zet een streepje elke keer dat je een brug oversteekt. Amsterdam heeft meer dan 1.200 bruggen — hoeveel haal jij er?',
+      challenge:'Wandel 1 uur en tel. Kom je aan 10 of meer? Schrijf je eindtelling op. Welke brug was de mooiste?'},
+  13:{title:'De XXX-Jacht',
+      desc:'Op het wapen van Amsterdam staan 3 Andreaskruisen (de X-vorm). Je vindt ze overal: op palen, poortjes, bruggen en gevels. Ga naar Noord en fotografeer er 5.',
+      challenge:'Vind 5 verschillende XXX-tekens in Amsterdam-Noord. Waarom staan er drie kruisen op het stadswapen? Zoek de legende op!'},
+  14:{title:'De Scheve Toren van de Oude Kerk',
+      desc:'De toren van de Oude Kerk zakt al 700 jaar weg in de zachte Amsterdamse veenbodem! Maak een foto vanuit het plein en meet met een liniaal hoeveel graden hij afwijkt van recht.',
+      challenge:'Meet de hellingshoek. Welke kant helt hij op? Waarom zakt een stenen toren weg in veen — en waarom is hij nog niet omgevallen?'},
+  15:{title:'De Hijshaak: Waarom Scheef?',
+      desc:'Kijk omhoog naar elk grachtenpand — aan de bovenkant steekt een hijshaak schuin over de straat. Teken hem nauwkeurig. Waarom staat hij eigenlijk schuin naar voren en niet recht omhoog?',
+      challenge:'Teken de haakhoek en schrijf je uitleg: wat gaat er mis als de haak recht omhoog zou wijzen? Gebruik een touw en een zware kast als voorbeeld.'},
+  16:{title:'NEMO: Dak vol Driehoeken',
+      desc:'Sta voor het NEMO Science Museum — het grote groene scheepsvormige gebouw bij het IJ. Tel alle driehoekige glasruitjes op het schuine dak en bereken de totale glasoppervlakte.',
+      challenge:'Tel de driehoeken. Schat elk ruitje op 2m breed en 1,5m hoog. Oppervlakte = aantal × (0,5 × 2 × 1,5). Klopt jouw berekening met wat je ziet?'},
+  17:{title:'Hoe Werkt een Sluis?',
+      desc:'Zoek een sluis bij de Amstel of Centraal Station. Kijk hoe hij werkt, of teken een doorsnede die stap voor stap laat zien hoe een boot omhoog of omlaag wordt gebracht.',
+      challenge:'Teken een schets met labels: waterpeil A, waterpeil B, sluiskamer en sluisdeuren. Leg uit hoe een boot van laag water naar hoog water gaat — stap voor stap.'},
+  18:{title:'Spreek als een Amsterdammer',
+      desc:'Gebruik deze drie zinnen met echte vreemden — niet je eigen familie: "Goedemorgen", "Alsjeblieft" en "Dank je wel". Gebruik ze in echte situaties op straat of in een winkel.',
+      challenge:'Elke zin telt alleen als je hem echt hebt gebruikt. Hoe reageerden mensen? Bleven ze Nederlands praten of schakelden ze meteen over naar Engels?'},
+  19:{title:'De Verborgen Tuin van het Begijnhof',
+      desc:'Achter een klein houten deurtje aan het Gedempte Begijnensloot ligt het Begijnhof — een middeleeuwse binnentuin die al bestaat sinds 1346. Zoek hem, ga naar binnen en zit twee minuten lang stil.',
+      challenge:'Ga naar binnen. Wat is het oudste gebouw? Vind de Engelse Kerk. Waarom waren de Begijnen bijzondere vrouwen — en waarom woonden ze hier samen?'},
+  20:{title:'De Papegaai: Kerk Achter een Winkeldeur',
+      desc:'Op Kalverstraat 58 zit achter een gewone winkeldeur een complete katholieke kerk — De Papegaai, stiekem gebouwd in de jaren 1600. Weet jij hem te vinden?',
+      challenge:'Ga naar binnen. Waarom moest deze kerk verborgen zijn? Wat gebeurde er in 1578 waardoor katholieken hun kerken in Amsterdam moesten verstoppen?'},
+  21:{title:'De Brug die Opengaat',
+      desc:'Amsterdam heeft tientallen ophaalbrug­gen die opengaan voor grote schepen. Vind er een terwijl hij beweegt en stop de tijd van de hele open-sluit cyclus.',
+      challenge:'Meet: dicht → helemaal open → boot passeert → weer dicht. Hoeveel seconden duurt het? Gaat hij automatisch of zit er een bruggenwachter bij?'},
+  22:{title:'Origami op de Brug',
+      desc:'Vouw drie origami-figuren — een kraanvogel, een kikker en een vis (zoek de vouwuitleg op). Zoek daarna de mooiste brug in de Jordaan en fotografeer je figuren op de reling met het kanaal op de achtergrond.',
+      challenge:'Alle drie gevouwen én gefotografeerd op de brug? Welke figuur was het moeilijkst? Welke brug koos je en waarom?'},
+  23:{title:'De Grote Fietsentelling',
+      desc:'Zoek de fietsenstalling bij Centraal Station. Tel alle fietsen in één sectie, tel daarna het aantal secties en vermenigvuldig. Zo schat je het totaal.',
+      challenge:'Laat je berekening zien! Het officiële aantal is zo\'n 16.000 fietsen bij Centraal. Hoe dicht zat je? Amsterdam heeft trouwens in totaal bijna 900.000 fietsen.'},
+  24:{title:'NDSM Street Art Jacht',
+      desc:'De NDSM-werf in Noord is het grootste street art-plein van Amsterdam — een oude scheepswerf omgebouwd tot creatieve vrijplaats. Zoek en fotografeer drie muurschilderingen of graffiti-werken.',
+      challenge:'Vind drie werken. Wat is de stijl van elk — portret, abstract of letters? Verwijst er een naar Amsterdam? Kun je een handtekening van de kunstenaar ontdekken?'},
+  25:{title:'Roeiers op de Bosbaan',
+      desc:'De Bosbaan in het Amsterdamse Bos is een rechte roeistrook van precies 2 km, speciaal gebouwd voor wedstrijden. Zoek een roeiboot en stop de tijd van het ene einde naar het andere.',
+      challenge:'Gebruik seconden of een klok. Wat gaat sneller — één roeier of een acht? Noteer je tijden en vergelijk ze.'}
+};
+
+function t(m, field) {
+  if (LANG === 'nl') {
+    const nl = NL[m.id];
+    if (nl && nl[field]) return nl[field];
+    if (m['nl_'+field]) return m['nl_'+field];
+  }
+  return m[field];
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// STORAGE
+// ═══════════════════════════════════════════════════════════════════
+async function saveS() { await Prefs.set({key:'amsAdv3',value:JSON.stringify(S)}); }
+async function loadS() {
+  const {value} = await Prefs.get({key:'amsAdv3'});
+  if (value) { try {
+    const saved = JSON.parse(value);
+    S = {...DEF,...saved};
+    // ensure new xp keys are always present (backwards compat)
+    S.xp = {...DEF.xp, ...(saved.xp||{})};
+  } catch(e){} }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════════
+async function initApp() {
+  await loadS();
+  if (!S.mode) {
+    document.getElementById('ob').style.display = 'flex';
+  } else {
+    document.getElementById('ob').classList.add('hidden');
+    renderAll();
+  }
+  setInterval(checkScreenReminder, 5 * 60 * 1000);
+  // PWA service worker
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  }
+}
+
+function selectAge(mode) {
+  const n = document.getElementById('nameIn').value.trim();
+  S.name = n || (mode==='young' ? 'Junior Explorer' : 'Young Explorer');
+  S.mode = mode; S.sessionStart = Date.now();
+  playDing();
+  showCharSelect();
+}
+
+function showCharSelect() {
+  const grid = document.getElementById('charGrid');
+  grid.innerHTML = CHARACTERS.map(ch => `
+    <div class="char-card pop" onclick="selectCharacter('${ch.id}')"
+         style="background:${ch.bg};">
+      <svg viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg">${ch.svgBody}</svg>
+      <div class="char-name" style="color:${ch.color}">${ch.name}</div>
+      <div class="char-role">${ch.title}</div>
+    </div>`).join('');
+  document.getElementById('ob').style.opacity = '0';
+  document.getElementById('ob').style.pointerEvents = 'none';
+  document.getElementById('charSelect').style.display = 'flex';
+}
+
+function selectCharacter(id) {
+  S.character = id;
+  document.getElementById('charSelect').style.display = 'none';
+  showCharacterReveal();
+}
+
+function showCharacterReveal() {
+  const ch = CHARACTERS.find(c=>c.id===S.character);
+  document.getElementById('charRevealIcon').textContent = ch.emoji;
+  document.getElementById('charRevealName').textContent = ch.name;
+  document.getElementById('charRevealTitle').textContent = ch.title;
+  document.getElementById('charReveal').style.background =
+    `linear-gradient(160deg,${ch.bg} 0%,#1A0848 100%)`;
+  document.getElementById('charReveal').classList.remove('hidden');
+  document.getElementById('charReveal').style.display = 'flex';
+}
+
+function confirmCharacter() {
+  document.getElementById('charReveal').style.display = 'none';
+  document.getElementById('ob').style.display = 'none';
+  saveS(); renderAll();
+}
+
+function changeProfile() {
+  S.mode = null;
+  document.getElementById('nameIn').value = S.name || '';
+  document.getElementById('ob').style.display = 'flex';
+  document.getElementById('ob').classList.remove('hidden');
+  saveS();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// PARENT GATE
+// ═══════════════════════════════════════════════════════════════════
+function parentGate(cb) {
+  const stored = localStorage.getItem('amsAdv3_pin');
+  if (!stored) {
+    const pin = window.prompt('Welcome, parent!\n\nSet a 4-digit PIN to protect this area:');
+    if (!pin) return;
+    if (!/^\d{4}$/.test(pin)) { alert('Please enter exactly 4 digits.'); return; }
+    const confirm = window.prompt('Confirm your PIN:');
+    if (confirm !== pin) { alert('PINs did not match. Please try again.'); return; }
+    localStorage.setItem('amsAdv3_pin', pin);
+    cb();
+  } else {
+    const entered = window.prompt('Enter parent PIN:');
+    if (entered === null) return;
+    entered === stored ? cb() : alert('Incorrect PIN.');
+  }
+}
+function changePin() {
+  const stored = localStorage.getItem('amsAdv3_pin');
+  if (stored) {
+    const current = window.prompt('Enter current PIN to change it:');
+    if (current !== stored) { alert('Incorrect PIN.'); return; }
+  }
+  const pin = window.prompt('Enter new 4-digit PIN:');
+  if (!pin || !/^\d{4}$/.test(pin)) { alert('Please enter exactly 4 digits.'); return; }
+  const confirm = window.prompt('Confirm new PIN:');
+  if (confirm !== pin) { alert('PINs did not match.'); return; }
+  localStorage.setItem('amsAdv3_pin', pin);
+  alert('PIN updated!');
+}
+
+function secureReset() {
+  if (!confirm('Reset ALL progress? This cannot be undone!')) return;
+  Prefs.remove({key:'amsAdv3'});
+  S = {...DEF}; tabHistory = [];
+  document.getElementById('ob').style.display = 'flex';
+  document.getElementById('ob').classList.remove('hidden');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// TAB NAVIGATION
+// ═══════════════════════════════════════════════════════════════════
+let curTab = 'missions';
+function switchTab(name, btn, noHistory) {
+  if (!noHistory && curTab !== name) tabHistory.push(curTab);
+  curTab = name;
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.getElementById(name+'Tab').classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  else {
+    const m={missions:'tb0',skills:'tb1',badges:'tb2',journal:'tb3',parent:'tb4'};
+    document.getElementById(m[name])?.classList.add('active');
+  }
+  document.getElementById('backBtn').classList.toggle('vis', tabHistory.length > 0);
+  document.querySelector('.app-content').scrollTop = 0;
+  renderTab(name);
+}
+function goBack() {
+  if (!tabHistory.length) return;
+  switchTab(tabHistory.pop(), null, true);
+}
+function renderTab(n) {
+  if (n==='missions') { renderMap(); renderMissions(); }
+  else if (n==='skills') renderSkills();
+  else if (n==='badges') renderBadges();
+  else if (n==='journal') renderJournal();
+  else if (n==='parent') renderParent();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// RENDER ALL
+// ═══════════════════════════════════════════════════════════════════
+function renderAll() {
+  updateHeader(); renderMap(); renderMissions();
+}
+
+function updateHeader() {
+  const _ch = S.character ? CHARACTERS.find(c=>c.id===S.character) : null;
+  document.getElementById('hAv').textContent = _ch ? _ch.emoji : (S.mode==='teen' ? '🔬' : '🌟');
+  document.getElementById('hName').textContent = S.name || 'Explorer';
+  document.getElementById('sMis').textContent = S.done.length;
+  document.getElementById('sBdg').textContent = BADGES.filter(b=>b.ok(S)).length;
+  const mb = document.getElementById('sMod');
+  mb.textContent = S.mode==='teen' ? '🔬 Explorer' : '🌟 Junior';
+  mb.style.background = S.mode==='teen' ? '#1565C0' : '#5E35B1';
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// MAP
+// ═══════════════════════════════════════════════════════════════════
+function renderMap() {
+  document.getElementById('mapGrid').innerHTML = REGIONS.map(r => {
+    const ok = S.unlocked.includes(r.id);
+    const ms = MISSIONS.filter(m=>m.region===r.id&&(m.age===S.mode||m.age==='all'));
+    const done = S.done.filter(id=>ms.find(m=>m.id===id)).length;
+    const cls = !ok ? 'locked' : done===ms.length&&ms.length>0 ? 'completed' : 'unlocked';
+    return `<div class="mreg ${cls}" onclick="${ok?`goReg('${r.id}')`:''}" >
+      ${!ok?'<div class="rlk">🔒</div>':''}
+      <div class="ri">${r.icon}</div>
+      <div class="rn">${r.en}</div>
+      <div class="rs">${ok?done+'/'+ms.length+' done':'Locked'}</div>
+    </div>`;
+  }).join('');
+}
+
+function goReg(id) {
+  selectedRegion = id;
+  switchTab('missions', document.getElementById('tb0'), true);
+  document.querySelector('.app-content').scrollTop = 0;
+}
+function clearRegion() {
+  selectedRegion = null;
+  renderMissions();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// MISSIONS
+// ═══════════════════════════════════════════════════════════════════
+function renderMissions() {
+  const list = document.getElementById('mList');
+  if (!S.mode) { list.innerHTML='<div class="mempty">Complete onboarding to see missions!</div>'; return; }
+
+  let vis = MISSIONS.filter(m=>(m.age===S.mode||m.age==='all')&&S.unlocked.includes(m.region));
+  if (selectedRegion) vis = vis.filter(m=>m.region===selectedRegion);
+
+  const reg = selectedRegion ? REGIONS.find(r=>r.id===selectedRegion) : null;
+  const header = reg
+    ? `<div class="reg-filter-bar"><button class="reg-back-btn" onclick="clearRegion()">← All Regions</button><span>${reg.icon} ${reg.en}</span></div>`
+    : '';
+
+  if (!vis.length) { list.innerHTML=header+'<div class="mempty">No missions here yet — unlock more regions! 🗺️</div>'; return; }
+
+  list.innerHTML = header + vis.map(m => {
+    const done = S.done.includes(m.id);
+    const mr = REGIONS.find(r=>r.id===m.region);
+    const stags = Object.keys(m.xp).map(sk=>{
+      const d = SKILLS.find(s=>s.id===sk);
+      return `<span class="stag">${d?.icon||''} ${d?.name||sk}</span>`;
+    }).join('');
+    const cardTitle = t(m,'title');
+    const cardDesc = t(m,'desc').substring(0,80)+'…';
+    return `<div class="mcard ${m.type} ${done?'done':''}" onclick="openMission(${m.id})" data-rg="${m.region}">
+      ${done?'<div class="dst">✅</div>':''}
+      <div class="mtop">
+        <div class="mico">${m.icon}</div>
+        <div class="mbody">
+          <div class="mtit">${cardTitle}</div>
+          <div class="mdsc">${cardDesc}</div>
+          <div class="mmeta">${stags}${!selectedRegion?`<span class="rtag">${mr?.icon||''} ${mr?.en||m.region}</span>`:''}</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// MISSION MODAL
+// ═══════════════════════════════════════════════════════════════════
+function openMission(id) {
+  currentMissionId = id;
+  if (!tmpPhotos[id]) tmpPhotos[id] = [];
+  const m = MISSIONS.find(m=>m.id===id); if (!m) return;
+  const done = S.done.includes(id);
+  const je = S.journal.find(j=>j.id===id);
+  const note = je?.note || '';
+  const existPhotos = je?.photos || [];
+  const allPhotos = [...existPhotos, ...tmpPhotos[id]];
+  const hasPhoto = allPhotos.length > 0;
+
+  const sawd = Object.entries(m.xp).map(([sk,v])=>{
+    const d = SKILLS.find(s=>s.id===sk);
+    return `<span class="sawd">+${v} ${d?.icon||''} ${d?.name||sk}</span>`;
+  }).join('');
+
+  const phtml = allPhotos.map(s=>`<div class="pit" onclick="openLightbox('${s}')"><img src="${s}" alt=""></div>`).join('');
+
+  const photoSection = `
+    <div class="psec" style="margin-bottom:10px;">
+      <label onclick="nativeCapture(${id})">📸 ${hasPhoto?'Add Another Photo':'Add Photo Proof'}</label>
+      <input type="file" id="fi_${id}" accept="image/*" capture="environment" onchange="handlePhotoFile(event,${id})">
+      <div class="pp" id="pp_${id}">${phtml}</div>
+    </div>`;
+
+  const completeSection = done
+    ? '<div class="donebox">✅ MISSION COMPLETE!</div>'
+    : m.needsPhoto
+      ? `${!hasPhoto ? '<div class="photo-gate-msg">📸 Take a photo first to unlock the Race!</div>' : ''}
+         <button id="raceBtn_${id}" class="btn ylw pop" onclick="launchGame(${id})" ${!hasPhoto?'disabled':''}>
+           🚲 Race to Complete!
+         </button>`
+      : `<button class="btn grn pop" onclick="completeMission(${id})">✅ Mark Complete!</button>`;
+
+  const ch = S.character ? CHARACTERS.find(c=>c.id===S.character) : null;
+  const voiceLine = ch && m.voice && m.voice[ch.id]
+    ? `<div class="voice-bubble"><span class="vb-ava">${ch.emoji}</span><span class="vb-text"><strong>${ch.name}:</strong> ${m.voice[ch.id]}</span></div>`
+    : '';
+
+  document.getElementById('mBody').innerHTML = `
+    <div style="font-size:2.8em;text-align:center;margin-bottom:6px;">${m.icon}</div>
+    <div class="mtitle">${t(m,'title')}</div>
+    ${voiceLine}
+    <p class="mdesc">${t(m,'desc')}</p>
+    <div class="cbox"><h4>🎯 ${LANG==='nl'?'Opdracht':'Challenge'}</h4><p>${t(m,'challenge')}</p></div>
+    <div class="saw">${sawd}</div>
+    ${photoSection}
+    <textarea class="narea" id="mn_${id}" placeholder="Write your notes here…" rows="3">${note}</textarea>
+    ${completeSection}`;
+
+  document.getElementById('mModal').classList.add('active');
+  playDing();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// PHOTO HANDLING
+// ═══════════════════════════════════════════════════════════════════
+function handlePhotoFile(event, missionId) {
+  const file = event.target.files[0]; if (!file) return;
+  const img = new Image();
+  const url = URL.createObjectURL(file);
+  img.onload = () => {
+    const c = document.getElementById('compressCanvas');
+    const MAX = 800; const sc = img.width > MAX ? MAX/img.width : 1;
+    c.width = Math.round(img.width*sc); c.height = Math.round(img.height*sc);
+    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+    processPhotoData(c.toDataURL('image/jpeg', 0.6), missionId);
+    URL.revokeObjectURL(url);
+  };
+  img.src = url;
+}
+
+function processPhotoData(dataUrl, missionId) {
+  if (!tmpPhotos[missionId]) tmpPhotos[missionId] = [];
+  tmpPhotos[missionId].push(dataUrl);
+  const pp = document.getElementById(`pp_${missionId}`);
+  if (pp) pp.innerHTML += `<div class="pit" onclick="openLightbox('${dataUrl}')"><img src="${dataUrl}" alt=""></div>`;
+  // Unlock race button
+  const rb = document.getElementById(`raceBtn_${missionId}`);
+  if (rb) { rb.disabled = false; rb.style.opacity='1'; }
+  const gm = document.querySelector('.photo-gate-msg');
+  if (gm) gm.style.display = 'none';
+}
+
+function saveNote(id) {
+  const note = (document.getElementById(`mn_${id}`)?.value || '').trim();
+  const photos = [...(S.journal.find(j=>j.id===id)?.photos||[]), ...(tmpPhotos[id]||[])];
+  const entry = {id, note, photos, date:new Date().toLocaleDateString('en-GB')};
+  const idx = S.journal.findIndex(j=>j.id===id);
+  if (idx>=0) S.journal[idx]=entry; else S.journal.push(entry);
+  tmpPhotos[id] = [];
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// COMPLETE MISSION (direct, no photo required)
+// ═══════════════════════════════════════════════════════════════════
+function completeMission(id) {
+  if (S.done.includes(id)) return;
+  const m = MISSIONS.find(m=>m.id===id); if (!m) return;
+  saveNote(id);
+  S.done.push(id);
+  Object.entries(m.xp).forEach(([sk,v])=>{ if(S.xp[sk]!==undefined) S.xp[sk]+=v; });
+  if (m.unlocks && !S.unlocked.includes(m.unlocks)) S.unlocked.push(m.unlocks);
+  checkBadges();
+  saveS(); closeModal('mModal');
+  updateHeader(); renderMap(); renderMissions();
+  playFanfare();
+}
+
+function checkBadges() {
+  BADGES.forEach(b => {
+    if (!S.badges.includes(b.id) && b.ok(S)) {
+      S.badges.push(b.id);
+      playFanfare();
+    }
+  });
+
+  // THE BIG CELEBRATION: Check if total done matches total available
+  const totalAvailable = MISSIONS.filter(m => m.age === S.mode || m.age === 'all').length;
+  if (S.done.length >= totalAvailable && totalAvailable > 0) {
+    triggerGrandFinale();
+  }
+}
+
+function triggerGrandFinale() {
+  if (S.grandFinale) return;          // only fire once
+  S.grandFinale = true;
+  saveS();
+
+  // Reset overlay to step 1
+  showCelebStep1();
+  document.getElementById('celebrationOverlay').classList.add('active');
+
+  // Confetti
+  const canvas = document.getElementById('confettiCanvas');
+  const shell = document.getElementById('app-shell');
+  canvas.width  = shell.offsetWidth;
+  canvas.height = shell.offsetHeight;
+  launchConfetti(canvas);
+
+  playVictoryMusic();
+
+  if (isNative && window.Capacitor?.Plugins?.Haptics) {
+    window.Capacitor.Plugins.Haptics.vibrate();
+  }
+}
+
+function launchConfetti(canvas) {
+  const ctx = canvas.getContext('2d');
+  const colors = ['#F9A825','#E53935','#1E88E5','#43A047','#8E24AA','#00ACC1','#FB8C00','#EC407A'];
+  const particles = Array.from({length: 160}, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height - canvas.height,
+    w: Math.random() * 10 + 5,
+    h: Math.random() * 5 + 3,
+    color: colors[Math.floor(Math.random() * colors.length)],
+    vx: (Math.random() - 0.5) * 3,
+    vy: Math.random() * 3 + 2,
+    angle: Math.random() * Math.PI * 2,
+    spin: (Math.random() - 0.5) * 0.18,
+    circle: Math.random() > 0.6
+  }));
+
+  const start = Date.now();
+  let raf;
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const elapsed = Date.now() - start;
+    const fade = elapsed > 6000 ? Math.max(0, 1 - (elapsed - 6000) / 2000) : 1;
+    ctx.globalAlpha = fade;
+    particles.forEach(p => {
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.angle);
+      ctx.fillStyle = p.color;
+      if (p.circle) {
+        ctx.beginPath(); ctx.arc(0, 0, p.w / 2, 0, Math.PI * 2); ctx.fill();
+      } else {
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      }
+      ctx.restore();
+      p.x += p.vx; p.y += p.vy; p.angle += p.spin; p.vy += 0.06;
+      if (p.y > canvas.height) { p.y = -10; p.x = Math.random() * canvas.width; p.vy = Math.random() * 3 + 2; }
+    });
+    if (elapsed < 8000) {
+      raf = requestAnimationFrame(draw);
+    } else {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  }
+  draw();
+}
+
+function playVictoryMusic() {
+  try {
+    const c = ac();
+    // Victory melody: quick ascending run then a held chord
+    const melody = [
+      [392,0.00,0.10],[440,0.10,0.10],[494,0.20,0.10],[523,0.30,0.10],
+      [587,0.40,0.10],[659,0.50,0.10],[740,0.60,0.10],
+      [784,0.70,0.55],[988,0.72,0.55],[1175,0.74,0.55],
+      [784,1.30,0.30],[988,1.30,0.30],[1175,1.30,0.30]
+    ];
+    melody.forEach(([freq, start, dur]) => {
+      const o = c.createOscillator(), g = c.createGain();
+      o.connect(g); g.connect(c.destination);
+      o.type = 'triangle'; o.frequency.value = freq;
+      const t = c.currentTime + start;
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(0.25, t + 0.02);
+      g.gain.linearRampToValueAtTime(0, t + dur);
+      o.start(t); o.stop(t + dur + 0.05);
+    });
+  } catch(e) {}
+}
+
+// ── Celebration overlay navigation ──
+function dismissCelebration() {
+  document.getElementById('celebrationOverlay').classList.remove('active');
+}
+
+function showCelebStep1() {
+  document.getElementById('celebStep1').style.display = 'flex';
+  document.getElementById('celebStep2').style.display = 'none';
+  document.getElementById('celebStep3').style.display = 'none';
+}
+
+function showPrizeClaim() {
+  document.getElementById('celebStep1').style.display = 'none';
+  document.getElementById('celebStep2').style.display = 'flex';
+  document.getElementById('celebStep3').style.display = 'none';
+  document.getElementById('prizeStatus').textContent = '';
+
+  // Populate photo picker from journal
+  const grid = document.getElementById('prizePhotoGrid');
+  const photos = S.journal.flatMap(j => (j.photos || []).map(p => ({url: p, id: j.id})));
+  if (!photos.length) {
+    grid.innerHTML = '<div style="color:rgba(255,255,255,0.5);font-size:0.85em;">No photos in journal yet — take some on your adventures!</div>';
+  } else {
+    grid.innerHTML = photos.map((p, i) =>
+      `<div class="prize-photo-thumb" onclick="selectPrizePhoto('${i}', this)">
+         <img data-url="${p.url}" src="${p.url}" alt="">
+       </div>`
+    ).join('');
+  }
+  selectedPrizePhoto = null;
+  document.getElementById('selectedPhotoPreview').style.display = 'none';
+}
+
+let selectedPrizePhoto = null;
+
+function selectPrizePhoto(idx, el) {
+  document.querySelectorAll('.prize-photo-thumb img').forEach(img => img.classList.remove('selected'));
+  const img = el.querySelector('img');
+  img.classList.add('selected');
+  selectedPrizePhoto = img.dataset.url;
+  document.getElementById('selectedPhotoImg').src = selectedPrizePhoto;
+  document.getElementById('selectedPhotoPreview').style.display = 'block';
+}
+
+async function submitPrizeRequest() {
+  const parentName  = document.getElementById('prizeParentName').value.trim();
+  const parentEmail = document.getElementById('prizeParentEmail').value.trim();
+  const status      = document.getElementById('prizeStatus');
+
+  if (!parentEmail) { status.textContent = '⚠️ Please enter a parent email!'; return; }
+
+  const btn = document.querySelector('#celebStep2 .btn.ylw');
+  btn.disabled = true;
+  status.textContent = '⏳ Sending your request…';
+
+  try {
+    let photoUrl = selectedPrizePhoto || null;
+
+    // If a photo is selected and ImgBB is configured, host it so the URL is clickable in the email
+    if (selectedPrizePhoto && PRIZE_CONFIG.imgbbKey !== 'YOUR_IMGBB_API_KEY') {
+      const base64 = selectedPrizePhoto.split(',')[1];
+      const fd = new FormData();
+      fd.append('image', base64);
+      const r = await fetch(`https://api.imgbb.com/1/upload?key=${PRIZE_CONFIG.imgbbKey}`, {method:'POST', body:fd});
+      const d = await r.json();
+      photoUrl = d?.data?.url || photoUrl;
+    }
+
+    const payload = {
+      childName:   S.name || 'Explorer',
+      parentName,
+      parentEmail,
+      missions:    `${S.done.length} completed`,
+      mode:        S.mode === 'teen' ? 'Explorer (9-14)' : 'Junior (5-8)',
+      photo:       photoUrl && photoUrl.startsWith('http') ? photoUrl : '(base64 — configure ImgBB key to get a link)',
+      _replyto:    parentEmail,
+      _subject:    `🏆 Prize Request — ${S.name || 'Explorer'} conquered Amsterdam!`
+    };
+
+    if (PRIZE_CONFIG.formspreeUrl.includes('YOUR_FORM_ID')) {
+      // Fallback: open mailto so nothing is silently lost
+      const body = encodeURIComponent(
+        `Child: ${payload.childName}\nProfile: ${payload.mode}\nMissions: ${payload.missions}\nParent: ${parentName}\nReply to: ${parentEmail}\nPhoto: ${photoUrl || 'none'}`
+      );
+      window.location.href = `mailto:?subject=${encodeURIComponent(payload._subject)}&body=${body}`;
+    } else {
+      const r = await fetch(PRIZE_CONFIG.formspreeUrl, {
+        method:'POST',
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body: JSON.stringify(payload)
+      });
+      if (!r.ok) throw new Error('submit failed');
+    }
+
+    document.getElementById('celebStep2').style.display = 'none';
+    document.getElementById('celebStep3').style.display = 'flex';
+  } catch(e) {
+    status.textContent = '❌ Something went wrong — please try again!';
+    btn.disabled = false;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// MINI-GAME
+// ═══════════════════════════════════════════════════════════════════
+const GW = 480, GH = 180, GND = 128, BIKE_X = 62, BW = 50, BH = 42;
+const GRAV = 0.55, JUMP_V = -11.5;
+
+let G = {};
+let gAnimId = null;
+let gSpawnTimer = 0;
+let gNextSpawn = 80;
+
+function launchGame(missionId) {
+  currentMissionId = missionId;
+  saveNote(missionId); // save note/photos before game
+  closeModal('mModal');
+  document.getElementById('gameOver').classList.remove('vis');
+  document.getElementById('gameModal').classList.add('active');
+
+  const canvas = document.getElementById('gameCanvas');
+  canvas.width = GW; canvas.height = GH;
+
+  G = {
+    bikeY: GND - BH, bikeVy: 0, onGround: true,
+    lives: 3, startTime: Date.now(),
+    obstacles: [], speed: 3.6, phase: 'running',
+    invincible: 0, particles: [], won: false
+  };
+  gSpawnTimer = 0; gNextSpawn = 90;
+
+  canvas.ontouchstart = (e)=>{e.preventDefault();gameJump();};
+  canvas.onclick = gameJump;
+  document.onkeydown = (e)=>{ if(e.code==='Space'){e.preventDefault();gameJump();} };
+
+  if (gAnimId) cancelAnimationFrame(gAnimId);
+  gAnimId = requestAnimationFrame(gameStep);
+}
+
+function gameJump() {
+  if (G.phase !== 'running') return;
+  if (G.onGround) { G.bikeVy = JUMP_V; G.onGround = false; playBlip(); }
+}
+
+function gameStep() {
+  if (G.phase !== 'running') return;
+  const elapsed = (Date.now() - G.startTime) / 1000;
+  const rem = Math.max(0, 30 - elapsed);
+  if (rem <= 0) { G.phase='won'; G.won=true; endGame(true); return; }
+  gameUpdate(rem);
+  gameRender(rem);
+  gAnimId = requestAnimationFrame(gameStep);
+}
+
+function gameUpdate(rem) {
+  // Physics
+  G.bikeVy += GRAV;
+  G.bikeY += G.bikeVy;
+  if (G.bikeY >= GND - BH) { G.bikeY = GND - BH; G.bikeVy = 0; G.onGround = true; }
+  // Speed
+  G.speed = Math.min(8, 3.6 + (30-rem)*0.08);
+  // Spawn
+  gSpawnTimer++;
+  if (gSpawnTimer >= gNextSpawn) {
+    spawnObs();
+    gSpawnTimer = 0;
+    gNextSpawn = 55 + Math.floor(Math.random()*55);
+  }
+  // Update obstacles
+  G.obstacles = G.obstacles.filter(o=>{ o.x -= G.speed; return o.x > -120; });
+  // Invincibility
+  if (G.invincible > 0) G.invincible--;
+  // Collision
+  if (!G.invincible) checkGameCollision();
+  // Particles
+  G.particles = G.particles.filter(p=>{ p.x+=p.vx; p.y+=p.vy; p.vy+=0.22; p.life--; return p.life>0; });
+}
+
+function spawnObs() {
+  const types = ['tram','cheese','gap'];
+  // Avoid spawning gap too early
+  const elapsed = (Date.now()-G.startTime)/1000;
+  const pool = elapsed < 5 ? ['tram','cheese'] : types;
+  const type = pool[Math.floor(Math.random()*pool.length)];
+  G.obstacles.push({ type, x: GW+10 });
+}
+
+function obsW(t){ return t==='tram'?38:t==='cheese'?36:70; }
+function obsH(t){ return t==='tram'?62:t==='cheese'?34:0; }
+
+function checkGameCollision() {
+  const bL=BIKE_X+4, bR=BIKE_X+BW-4, bT=G.bikeY+4, bBot=G.bikeY+BH-2;
+  for (const o of G.obstacles) {
+    const ow=obsW(o.type), oL=o.x, oR=o.x+ow;
+    if (o.type==='gap') {
+      if (bR>oL+8 && bL<oR-8 && G.onGround) { gameHit(); return; }
+    } else {
+      const oh=obsH(o.type), oT=GND-oh;
+      if (bR>oL && bL<oR && bBot>oT+4 && bT<GND) { gameHit(); return; }
+    }
+  }
+}
+
+function gameHit() {
+  G.lives--;
+  G.invincible = 80;
+  playHit();
+  for (let i=0;i<10;i++) G.particles.push({
+    x:BIKE_X+BW/2, y:G.bikeY+BH/2,
+    vx:(Math.random()-0.5)*5, vy:Math.random()*-5,
+    color:['#FF5722','#FF8A65','#F9A825'][i%3], life:28
+  });
+  if (G.lives<=0) { G.phase='lost'; endGame(false); }
+}
+
+function gameRender(rem) {
+  const canvas = document.getElementById('gameCanvas');
+  const ctx = canvas.getContext('2d');
+
+  // Sky
+  const sg = ctx.createLinearGradient(0,0,0,GND);
+  sg.addColorStop(0,'#5B8BD0'); sg.addColorStop(1,'#8EC5F0');
+  ctx.fillStyle=sg; ctx.fillRect(0,0,GW,GND);
+
+  // Distant buildings silhouette
+  ctx.fillStyle='rgba(70,100,160,0.35)';
+  [[20,100,18,28],[55,90,14,38],[85,108,16,20],[110,95,22,33],[145,105,18,23],
+   [175,92,14,36],[205,100,20,28],[240,88,16,40],[270,103,18,25],[305,95,14,33]].forEach(([x,y,w,h])=>{
+    ctx.fillRect(x,y,w,h);
+  });
+
+  // Ground
+  ctx.fillStyle='#8B6914'; ctx.fillRect(0,GND,GW,GH-GND);
+  ctx.fillStyle='#558B2F'; ctx.fillRect(0,GND,GW,7);
+
+  // Obstacles
+  for (const o of G.obstacles) drawObs(ctx,o);
+
+  // Draw gap water OVER ground
+  for (const o of G.obstacles) {
+    if (o.type==='gap') {
+      const ow=obsW('gap');
+      ctx.fillStyle='#1E88E5'; ctx.fillRect(o.x,GND,ow,GH-GND);
+      ctx.fillStyle='rgba(255,255,255,0.25)';
+      ctx.fillRect(o.x+5,GND+4,14,3); ctx.fillRect(o.x+28,GND+9,18,3);
+      ctx.fillStyle='#558B2F'; // cover grass
+      ctx.clearRect(o.x,GND,ow,7);
+      ctx.fillStyle='#1E88E5'; ctx.fillRect(o.x,GND,ow,7);
+    }
+  }
+
+  // Bike with flicker
+  if (!G.invincible || Math.floor(G.invincible/6)%2===0) drawBike(ctx,BIKE_X,G.bikeY);
+
+  // Particles
+  G.particles.forEach(p=>{
+    ctx.fillStyle=p.color; ctx.beginPath();
+    ctx.arc(p.x,p.y,3,0,Math.PI*2); ctx.fill();
+  });
+
+  // HUD: lives
+  ctx.font='16px serif';
+  for(let i=0;i<3;i++) ctx.fillText(i<G.lives?'❤️':'🖤',7+i*22,20);
+
+  // Timer
+  const col = rem<8 ? '#EF5350' : '#fff';
+  ctx.fillStyle=col; ctx.font='bold 16px Fredoka,sans-serif';
+  ctx.textAlign='right'; ctx.fillText(Math.ceil(rem)+'s',GW-6,20); ctx.textAlign='left';
+
+  // Progress bar
+  const prog = 1-(rem/30);
+  ctx.fillStyle='rgba(0,0,0,0.25)'; ctx.fillRect(0,GH-5,GW,5);
+  ctx.fillStyle='#F9A825'; ctx.fillRect(0,GH-5,GW*prog,5);
+
+  // Finish flag at last 6 seconds
+  if (rem <= 6) {
+    const fx = GW - 50 + (6-rem)*80;
+    const clampedFx = Math.min(GW-35, Math.max(GW/2, fx));
+    drawFinish(ctx, clampedFx);
+  }
+}
+
+function drawObs(ctx, o) {
+  if (o.type==='tram') {
+    const ow=38, oh=62, oy=GND-oh;
+    ctx.fillStyle='#FFCA28'; ctx.fillRect(o.x,oy,ow,oh);
+    ctx.fillStyle='#E53935'; ctx.fillRect(o.x,oy-6,ow,12);
+    ctx.fillStyle='rgba(144,202,249,0.9)';
+    ctx.fillRect(o.x+4,oy+8,11,14); ctx.fillRect(o.x+23,oy+8,11,14);
+    ctx.fillStyle='#333';
+    ctx.fillRect(o.x+3,oy+oh-8,11,8); ctx.fillRect(o.x+24,oy+oh-8,11,8);
+    ctx.strokeStyle='#B71C1C'; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(o.x+ow/2,oy-6); ctx.lineTo(o.x+ow/2+4,oy-20); ctx.lineTo(o.x+ow/2+12,oy-22); ctx.stroke();
+    ctx.fillStyle='#FFCA28'; ctx.font='bold 7px Arial'; ctx.textAlign='center';
+    ctx.fillText('GVB',o.x+ow/2,oy+oh/2+2); ctx.textAlign='left';
+  } else if (o.type==='cheese') {
+    const r=17, cx=o.x+r, cy=GND-r;
+    ctx.fillStyle='#FFD54F'; ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle='#F9A825'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.stroke();
+    ctx.fillStyle='#EF8C00';
+    [[cx-5,cy-5,3],[cx+5,cy+4,2.5],[cx-4,cy+5,2],[cx+6,cy-4,2]].forEach(([hx,hy,hr])=>{
+      ctx.beginPath(); ctx.arc(hx,hy,hr,0,Math.PI*2); ctx.fill();
+    });
+  }
+  // gap drawn separately
+}
+
+function drawBike(ctx, bx, by) {
+  ctx.save();
+  const charColor = (S.character && window.CHARACTERS) ? (CHARACTERS.find(c=>c.id===S.character)||CHARACTERS[0]).color : '#FF7A00';
+  const wr=13, wx1=bx+14, wx2=bx+38, wy=by+BH-10;
+  // Shadow
+  ctx.fillStyle='rgba(0,0,0,0.2)';
+  ctx.beginPath(); ctx.ellipse(bx+BW/2,GND+3,BW/2-2,4,0,0,Math.PI*2); ctx.fill();
+  // Tyres
+  ctx.strokeStyle='#111'; ctx.lineWidth=3.5;
+  ctx.beginPath(); ctx.arc(wx1,wy,wr,0,Math.PI*2); ctx.stroke();
+  ctx.beginPath(); ctx.arc(wx2,wy,wr,0,Math.PI*2); ctx.stroke();
+  // Rims
+  ctx.strokeStyle='#ddd'; ctx.lineWidth=1.8;
+  ctx.beginPath(); ctx.arc(wx1,wy,wr-3,0,Math.PI*2); ctx.stroke();
+  ctx.beginPath(); ctx.arc(wx2,wy,wr-3,0,Math.PI*2); ctx.stroke();
+  // Spokes x4
+  ctx.strokeStyle='#bbb'; ctx.lineWidth=0.9;
+  for(let i=0;i<4;i++){const a=i*Math.PI/4;[wx1,wx2].forEach(cx=>{ctx.beginPath();ctx.moveTo(cx+Math.cos(a)*(wr-3),wy+Math.sin(a)*(wr-3));ctx.lineTo(cx-Math.cos(a)*(wr-3),wy-Math.sin(a)*(wr-3));ctx.stroke();});}
+  // Hubs
+  ctx.fillStyle='#666'; [wx1,wx2].forEach(cx=>{ctx.beginPath();ctx.arc(cx,wy,2.5,0,Math.PI*2);ctx.fill();});
+  // Frame points
+  const bbx=(wx1+wx2)/2, bby=wy-5;      // bottom bracket
+  const stx=bbx-4,       sty=by+11;     // seat cluster
+  const htx=wx2-4,       hty=wy-22;     // head tube
+  // Frame diamond
+  ctx.strokeStyle=charColor; ctx.lineWidth=3.5; ctx.lineJoin='round'; ctx.lineCap='round';
+  ctx.beginPath();
+  ctx.moveTo(wx1,wy);   ctx.lineTo(bbx,bby);  // chainstay
+  ctx.lineTo(stx,sty);                         // seat tube
+  ctx.lineTo(htx,hty);                         // top tube
+  ctx.lineTo(bbx,bby);                         // down tube
+  ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(stx,sty); ctx.lineTo(wx1,wy);  ctx.stroke(); // seat stay
+  ctx.beginPath(); ctx.moveTo(htx,hty); ctx.lineTo(wx2,wy);  ctx.stroke(); // fork
+  // Saddle
+  ctx.strokeStyle='#333'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(stx,sty); ctx.lineTo(stx,sty-8); ctx.stroke();
+  ctx.fillStyle='#222'; ctx.beginPath(); ctx.ellipse(stx,sty-9,7,2,0,0,Math.PI*2); ctx.fill();
+  // Handlebars
+  ctx.beginPath(); ctx.moveTo(htx,hty); ctx.lineTo(htx+4,hty-8); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(htx+4,hty-12); ctx.lineTo(htx+4,hty-4); ctx.stroke();
+  // Rider torso (leaning forward)
+  const rsx=stx, rsy=sty-9;
+  ctx.strokeStyle=charColor; ctx.lineWidth=3; ctx.lineCap='round';
+  ctx.beginPath(); ctx.moveTo(rsx,rsy); ctx.lineTo(htx+2,hty-6); ctx.stroke(); // torso
+  ctx.beginPath(); ctx.moveTo((rsx+htx)/2,rsy-5); ctx.lineTo(htx+4,hty-8); ctx.stroke(); // arm
+  // Head + helmet
+  const hx=rsx+5, hy=rsy-12;
+  ctx.fillStyle=charColor; ctx.beginPath(); ctx.arc(hx,hy,5.5,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='rgba(255,255,255,0.9)'; ctx.beginPath(); ctx.arc(hx,hy-1,6,Math.PI,0); ctx.fill();
+  ctx.fillStyle=charColor; ctx.fillRect(hx-6,hy-1,12,3);
+  // Eye
+  ctx.fillStyle='#111'; ctx.beginPath(); ctx.arc(hx+3,hy+1,1.2,0,Math.PI*2); ctx.fill();
+  // Pedals
+  ctx.strokeStyle='#555'; ctx.lineWidth=1.8;
+  ctx.beginPath(); ctx.moveTo(bbx,bby); ctx.lineTo(bbx+7,bby+9); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(bbx,bby); ctx.lineTo(bbx-6,bby-7); ctx.stroke();
+  ctx.restore();
+}
+function drawFinish(ctx, fx) {
+  // Flag pole
+  ctx.strokeStyle='#fff'; ctx.lineWidth=3;
+  ctx.beginPath(); ctx.moveTo(fx,GND); ctx.lineTo(fx,GND-55); ctx.stroke();
+  // Checkered flag
+  const cs=6;
+  for (let r=0;r<4;r++) for (let c=0;c<4;c++) {
+    ctx.fillStyle=(r+c)%2===0?'#fff':'#000';
+    ctx.fillRect(fx+(c*cs),GND-55+(r*cs),cs,cs);
+  }
+  // FINISH text
+  ctx.fillStyle='#F9A825'; ctx.font='bold 11px Fredoka,sans-serif';
+  ctx.textAlign='center'; ctx.fillText('FINISH!',fx+12,GND-60); ctx.textAlign='left';
+}
+
+function endGame(won) {
+  if (gAnimId) cancelAnimationFrame(gAnimId); gAnimId = null;
+  document.onkeydown = null;
+  const overlay = document.getElementById('gameOver');
+  const title = document.getElementById('goTitle');
+  const msg = document.getElementById('goMsg');
+  const btnC = document.getElementById('btnComplete');
+  const btnR = document.getElementById('btnRetry');
+  if (won) {
+    title.textContent = '🏆 FINISH!';
+    title.className = 'go-title win';
+    msg.textContent = 'You survived Amsterdam on a bike! Your badge is ready!';
+    btnC.style.display = 'block';
+    btnR.style.display = 'none';
+    playFanfare();
+  } else {
+    title.textContent = '💨 Wipeout!';
+    title.className = 'go-title lose';
+    msg.textContent = 'No lives left! Try again or skip to still complete.';
+    btnC.style.display = 'none';
+    btnR.style.display = 'block';
+  }
+  overlay.classList.add('vis');
+}
+
+function finalizeMission() {
+  const id = currentMissionId;
+  closeModal('gameModal');
+  if (S.done.includes(id)) return;
+  const m = MISSIONS.find(m=>m.id===id); if (!m) return;
+  S.done.push(id);
+  Object.entries(m.xp).forEach(([sk,v])=>{ if(S.xp[sk]!==undefined) S.xp[sk]+=v; });
+  if (m.unlocks && !S.unlocked.includes(m.unlocks)) S.unlocked.push(m.unlocks);
+  checkBadges();
+  saveS(); updateHeader(); renderMap(); renderMissions();
+  playFanfare();
+}
+
+function retryGame() {
+  document.getElementById('gameOver').classList.remove('vis');
+  launchGame(currentMissionId);
+}
+
+function skipGame() {
+  closeModal('gameModal');
+  finalizeMission();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// SKILLS
+// ═══════════════════════════════════════════════════════════════════
+function lvl(xp){ return xp>=10?4:xp>=6?3:xp>=3?2:xp>=1?1:0; }
+function renderSkills() {
+  document.getElementById('skillsG').innerHTML = SKILLS.map(s=>{
+    const xp=S.xp[s.id]||0, l=lvl(xp);
+    const next=[1,3,6,10,15][Math.min(l,4)];
+    const pct=Math.min(100,Math.round(xp/next*100));
+    return `<div class="skc">
+      <div class="ski">${s.icon}</div>
+      <div class="skn">${s.name}</div>
+      <div class="skt">${s.titles[l]}</div>
+      <div class="skx">${xp} XP · Lv${l+1}</div>
+      <div class="sbw"><div class="sb" style="width:${pct}%"></div></div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// BADGES
+// ═══════════════════════════════════════════════════════════════════
+function renderBadges() {
+  document.getElementById('badgesG').innerHTML = BADGES.map(b=>{
+    const e=b.ok(S);
+    return `<div class="bdg ${e?'earned':''}">
+      <div class="bi">${b.icon}</div>
+      <div class="bn">${b.name}</div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// JOURNAL
+// ═══════════════════════════════════════════════════════════════════
+function renderJournal() {
+  const el = document.getElementById('journalE');
+  if (!S.journal.length) { el.innerHTML='<div class="jempty">Journal empty — complete missions to fill it! 📔</div>'; return; }
+  el.innerHTML = [...S.journal].reverse().map(e=>{
+    const m = MISSIONS.find(m=>m.id===e.id);
+    const ph=(e.photos||[]).map(s=>`<div class="jpit" onclick="openLightbox('${s}')"><img src="${s}" alt=""></div>`).join('');
+    return `<div class="je">
+      <div class="jmn">${m?.icon||'📝'} ${m?.title||'Mission'}</div>
+      <div class="jdt">${e.date||''}</div>
+      ${e.note?`<div class="jnt">"${e.note}"</div>`:''}
+      ${ph?`<div class="jph">${ph}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// PARENT
+// ═══════════════════════════════════════════════════════════════════
+function renderParent() {
+  const total=MISSIONS.filter(m=>m.age===S.mode||m.age==='all').length;
+  const top=SKILLS.map(s=>({n:s.name,v:S.xp[s.id]||0})).sort((a,b)=>b.v-a.v)[0];
+  document.getElementById('pStats').innerHTML=`
+    <div class="ps"><span>Age profile</span><strong>${S.mode==='teen'?'Explorer (9–14)':'Junior (5–8)'}</strong></div>
+    <div class="ps"><span>Name</span><strong>${S.name||'—'}</strong></div>
+    <div class="ps"><span>Missions done</span><strong>${S.done.length} / ${total}</strong></div>
+    <div class="ps"><span>Regions unlocked</span><strong>${S.unlocked.length} / ${REGIONS.length}</strong></div>
+    <div class="ps"><span>Badges earned</span><strong>${BADGES.filter(b=>b.ok(S)).length} / ${BADGES.length}</strong></div>
+    <div class="ps"><span>Top skill</span><strong>${top?.n||'—'} (${top?.v||0} XP)</strong></div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// LIGHTBOX + MODALS + SCREEN REMINDER
+// ═══════════════════════════════════════════════════════════════════
+function openLightbox(src) {
+  const img = document.getElementById('lbImg');
+  img.src = src;
+  img.style.display = 'block';
+  document.getElementById('lbModal').classList.add('active');
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('active');
+  if (id==='gameModal' && gAnimId) { cancelAnimationFrame(gAnimId); gAnimId=null; }
+}
+function checkScreenReminder() {
+  if (Date.now()-(S.sessionStart||Date.now()) > 30*60*1000)
+    document.getElementById('sr').classList.add('vis');
+}
+function dimissReminder() {
+  document.getElementById('sr').classList.remove('vis');
+  S.sessionStart=Date.now(); saveS();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// BOOT
+// ═══════════════════════════════════════════════════════════════════
+initApp();
+</script>
+
+<div id="celebrationOverlay">
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- Step 1: Win screen -->
+  <div id="celebStep1">
+    <div class="win-icon">🏆</div>
+    <div class="win-title">CITY MASTER!</div>
+    <div class="win-msg">You've completed every mission in Amsterdam!<br>The city is officially yours, Explorer.</div>
+    <button class="btn ylw pop" style="max-width:240px;margin-bottom:10px;" onclick="showPrizeClaim()">🎁 Claim Your Prize!</button>
+    <button class="btn sec pop" style="max-width:240px;" onclick="dismissCelebration()">Keep Exploring! 🗺️</button>
+  </div>
+
+  <!-- Step 2: Prize claim form -->
+  <div id="celebStep2" style="display:none;">
+    <div style="font-size:2.5em;margin-bottom:4px;">🎁</div>
+    <div class="win-title" style="font-size:2em;">Your Prize!</div>
+    <div class="win-msg" style="font-size:0.95em;margin-bottom:10px;">Pick your favourite journal photo — we'll turn it into a custom puzzle just for you!</div>
+
+    <div id="prizePhotoGrid" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:10px;max-height:150px;overflow-y:auto;width:100%;"></div>
+
+    <div id="selectedPhotoPreview" style="display:none;margin-bottom:10px;">
+      <div style="color:#F9A825;font-size:0.8em;margin-bottom:4px;">Selected:</div>
+      <img id="selectedPhotoImg" style="width:80px;height:80px;object-fit:cover;border-radius:10px;border:3px solid #F9A825;" alt="">
+    </div>
+
+    <input id="prizeParentName"  class="prize-input" type="text"  placeholder="Parent's name (optional)">
+    <input id="prizeParentEmail" class="prize-input" type="email" placeholder="Parent's email (for prize delivery) *">
+    <button class="btn ylw pop" style="max-width:260px;margin-bottom:8px;" onclick="submitPrizeRequest()">📬 Send Prize Request!</button>
+    <button class="btn sec pop" style="max-width:260px;" onclick="showCelebStep1()">← Back</button>
+    <div id="prizeStatus" class="prize-status"></div>
+  </div>
+
+  <!-- Step 3: Confirmation -->
+  <div id="celebStep3" style="display:none;">
+    <div style="font-size:3em;margin-bottom:8px;">📬</div>
+    <div class="win-title" style="font-size:2em;">Request Sent!</div>
+    <div class="win-msg">We've got it! Your custom puzzle is being prepared.<br>Check your inbox soon.</div>
+    <button class="btn ylw pop" style="max-width:240px;" onclick="dismissCelebration()">Keep Exploring! 🗺️</button>
+  </div>
+</div>
+</div><!-- /app-shell -->
+</body>
+</html>

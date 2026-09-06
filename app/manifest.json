@@ -1,0 +1,21 @@
+{
+  "name": "Amsterdam Adventure",
+  "short_name": "AmsAdventure",
+  "description": "Explore Amsterdam with 37 real-world missions — history, language, nature and design, for ages 5–14.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1C0A58",
+  "theme_color": "#FFD000",
+  "categories": ["education", "kids", "travel"],
+  "lang": "en",
+  "icons": [
+    {
+      "src": "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect width='120' height='120' rx='26' fill='%23D84315'/%3E%3Ccircle cx='38' cy='78' r='18' fill='none' stroke='%23fff' stroke-width='5.5'/%3E%3Ccircle cx='82' cy='78' r='18' fill='none' stroke='%23fff' stroke-width='5.5'/%3E%3Cpath d='M38 78 L60 42 L82 78' fill='none' stroke='%23fff' stroke-width='5' stroke-linejoin='round'/%3E%3Cpath d='M60 42 L60 30 M50 58 L68 58' stroke='%23fff' stroke-width='4.5' stroke-linecap='round'/%3E%3Ccircle cx='60' cy='26' r='5' fill='%23F9A825'/%3E%3C/svg%3E",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
