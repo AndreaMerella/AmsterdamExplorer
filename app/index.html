@@ -245,23 +245,63 @@ button:active{transform:scale(0.93);}
 }
 
 /* ── Map ── */
-.map-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
-.mreg{
-  background:linear-gradient(135deg,#311880,#1E0A52);
-  border-radius:14px;padding:13px 9px;text-align:center;
-  cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;
-  border:3px solid rgba(255,255,255,0.1);position:relative;min-height:95px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  box-shadow:0 4px 0 rgba(0,0,0,0.4);
+.map-wrap{
+  position:relative;border-radius:16px;overflow:hidden;
+  border:3px solid rgba(255,255,255,0.12);
+  box-shadow:0 4px 0 rgba(0,0,0,0.4),inset 0 0 40px rgba(0,0,0,0.35);
+  background:#160A44;
 }
-.mreg:active{transform:scale(0.95);}
-.mreg.locked{opacity:0.35;cursor:default;background:linear-gradient(135deg,#1E0A3A,#130630);}
-.mreg.unlocked{border-color:var(--lime);animation:pulse-unlock 2.5s ease infinite;box-shadow:0 4px 0 rgba(0,0,0,0.4),0 0 16px rgba(24,232,122,0.3);}
-.mreg.completed{border-color:var(--gold);background:linear-gradient(135deg,#3D2A00,#2D1E00,#311880);box-shadow:0 4px 0 rgba(0,0,0,0.4),0 0 16px rgba(255,208,0,0.3);}
-.ri{font-size:2.2em;margin-bottom:4px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5));}
-.rn{font-weight:700;color:#fff;font-size:0.92em;}
-.rs{font-size:0.7em;color:var(--dim);margin-top:1px;}
-.rlk{position:absolute;top:6px;right:6px;font-size:0.95em;opacity:0.3;}
+.map-svg{width:100%;height:auto;display:block;}
+
+/* district nodes */
+.mnode{cursor:pointer;transform-box:fill-box;transform-origin:center;
+  transition:transform .14s ease;}
+.mnode:active{transform:scale(0.93);}
+.mnode.locked{cursor:default;}
+.mnode:focus{outline:none;}
+.mnode:focus-visible .nring{stroke:var(--cyan);stroke-width:5;}
+
+.nring{transition:stroke .2s;}
+.mnode.locked .nring{stroke:rgba(255,255,255,0.18);}
+.mnode.open   .nring{stroke:var(--lime);}
+.mnode.done   .nring{stroke:var(--gold);}
+
+.mnode.locked .nbody{fill:#190B3E;}
+.mnode.open   .nbody{fill:#2C1576;}
+.mnode.done   .nbody{fill:#3E2B02;}
+
+.nicon{font-size:25px;text-anchor:middle;dominant-baseline:central;}
+.mnode.locked .nicon{opacity:.32;}
+.nlabel{
+  font-family:'Fredoka',sans-serif;font-weight:700;font-size:14px;
+  fill:#fff;text-anchor:middle;paint-order:stroke fill;
+  stroke:rgba(0,0,0,.75);stroke-width:3.5px;stroke-linejoin:round;
+}
+.mnode.locked .nlabel{fill:#8C79B8;}
+.nprog{
+  font-family:'Fredoka',sans-serif;font-weight:600;font-size:11.5px;
+  fill:var(--dim);text-anchor:middle;paint-order:stroke fill;
+  stroke:rgba(0,0,0,.7);stroke-width:3px;stroke-linejoin:round;
+}
+.mnode.done .nprog{fill:var(--gold);}
+.mnode.open .nprog{fill:var(--lime);}
+
+.mnode.open .nglow{opacity:.9;animation:node-pulse 2.4s ease-in-out infinite;}
+.mnode.done .nglow{opacity:.75;}
+.mnode.locked .nglow{opacity:0;}
+@keyframes node-pulse{
+  0%,100%{opacity:.35;} 50%{opacity:1;}
+}
+@media (prefers-reduced-motion:reduce){
+  .mnode.open .nglow{animation:none;opacity:.7;}
+}
+
+.map-legend{
+  display:flex;gap:13px;justify-content:center;flex-wrap:wrap;
+  margin-top:10px;font-size:0.72em;color:var(--dim);
+}
+.map-legend i{font-style:normal;display:inline-flex;align-items:center;gap:4px;}
+.map-legend b{width:9px;height:9px;border-radius:50%;display:inline-block;}
 
 /* ── Missions ── */
 .mlist{display:flex;flex-direction:column;gap:10px;}
@@ -827,7 +867,13 @@ button:active{transform:scale(0.93);}
   <div id="missionsTab" class="tab-pane active">
     <div class="pcard">
       <div class="ctitle">🧭 AMSTERDAM ADVENTURE</div>
-      <div class="map-grid" id="mapGrid"></div>
+      <div class="map-wrap"><svg id="mapSvg" class="map-svg" viewBox="0 0 400 440"
+           role="group" aria-label="Map of Amsterdam districts"></svg></div>
+      <div class="map-legend">
+        <i><b style="background:var(--lime)"></b><span id="lgOpen">Open</span></i>
+        <i><b style="background:var(--gold)"></b><span id="lgDone">Complete</span></i>
+        <i><b style="background:#4A3A72"></b><span id="lgLock">Locked</span></i>
+      </div>
     </div>
     <div class="pcard">
       <div class="ctitle">🎯 YOUR MISSIONS</div>
@@ -1098,14 +1144,18 @@ function playHit() {
 // ═══════════════════════════════════════════════════════════════════
 // DATA
 // ═══════════════════════════════════════════════════════════════════
+// x/y are positions on the 400×420 map viewBox, laid out to match the real
+// city: Noord sits across the IJ, the canal belt curves west and south of
+// Centrum, the Jordaan sits just outside it, and Museumplein, Vondelpark
+// and De Pijp spread along the south.
 const REGIONS = [
-  {id:'centrum',  en:'Centrum',        icon:'🏛️'},
-  {id:'canals',   en:'Canals',         icon:'🚤'},
-  {id:'jordaan',  en:'De Jordaan',     icon:'🌷'},
-  {id:'museums',  en:'Museums',        icon:'🎨'},
-  {id:'parks',    en:'Parks',          icon:'🌳'},
-  {id:'depijp',   en:'De Pijp',        icon:'🏘️'},
-  {id:'noord',    en:'Noord',          icon:'⛴️'}
+  {id:'centrum',  en:'Centrum',    icon:'🏛️', x:218, y:146},
+  {id:'canals',   en:'Canals',     icon:'🚤', x:176, y:232},
+  {id:'jordaan',  en:'De Jordaan', icon:'🌷', x:106, y:186},
+  {id:'museums',  en:'Museums',    icon:'🎨', x:170, y:344},
+  {id:'parks',    en:'Parks',      icon:'🌳', x: 74, y:302},
+  {id:'depijp',   en:'De Pijp',    icon:'🏘️', x:276, y:336},
+  {id:'noord',    en:'Noord',      icon:'⛴️', x:200, y: 44}
 ];
 
 const SKILLS = [
@@ -1737,19 +1787,107 @@ function updateHeader() {
 // ═══════════════════════════════════════════════════════════════════
 // MAP
 // ═══════════════════════════════════════════════════════════════════
+// ── The city itself: water, canal belt and land, drawn once ──────────
+// Amsterdam read as a game board. The canal belt is four concentric arcs
+// sweeping west and south of Centrum, exactly as the Grachtengordel does;
+// the IJ cuts across the top with Noord beyond it; the Amstel comes up
+// from the south-east into the middle.
+const MAP_SCENERY = `
+<defs>
+  <linearGradient id="landG" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%"  stop-color="#241063"/>
+    <stop offset="100%" stop-color="#170A42"/>
+  </linearGradient>
+  <linearGradient id="waterG" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%"  stop-color="#12406E"/>
+    <stop offset="100%" stop-color="#0B2C50"/>
+  </linearGradient>
+  <filter id="nGlow" x="-60%" y="-60%" width="220%" height="220%">
+    <feGaussianBlur stdDeviation="7" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="b"/></feMerge>
+  </filter>
+</defs>
+
+<rect width="400" height="440" fill="url(#landG)"/>
+
+<!-- The IJ: the open water Noord sits across from -->
+<path d="M0,74 Q60,66 104,76 T208,76 Q262,68 306,78 T400,74 L400,120
+         Q330,128 286,118 T182,118 Q120,126 74,116 T0,120 Z"
+      fill="url(#waterG)"/>
+<path d="M0,74 Q60,66 104,76 T208,76 Q262,68 306,78 T400,74"
+      fill="none" stroke="#2E7FC4" stroke-width="1.8" opacity=".6"/>
+
+<!-- The ferry, which is genuinely how you cross to Noord -->
+<path d="M202,116 L200,80" fill="none" stroke="#5FA8DE" stroke-width="2.2"
+      stroke-dasharray="5 6" stroke-linecap="round" opacity=".75"/>
+
+<!-- Grachtengordel: Singel, Herengracht, Keizersgracht, Prinsengracht -->
+<g fill="none" stroke="#3B8FD4" stroke-linecap="round">
+  <path d="M156,122 A 66  58 0 1 0 274,122" stroke-width="4" opacity=".7"/>
+  <path d="M133,122 A 87  77 0 1 0 297,122" stroke-width="4" opacity=".64"/>
+  <path d="M111,122 A108  96 0 1 0 319,122" stroke-width="4" opacity=".58"/>
+  <path d="M 89,122 A129 115 0 1 0 341,122" stroke-width="4" opacity=".52"/>
+</g>
+
+<!-- The Amstel, running up from the south into the centre -->
+<path d="M296,440 Q304,380 286,330 Q270,292 276,248 Q280,210 264,180"
+      fill="none" stroke="#2E7FC4" stroke-width="5.5" opacity=".55"
+      stroke-linecap="round"/>
+
+<!-- Vondelpark, the one big green in the south-west -->
+<ellipse cx="74" cy="300" rx="54" ry="28" fill="#1C5230" opacity=".6"
+         transform="rotate(-18 74 300)"/>
+
+<text x="52" y="102" style="font-family:'Fredoka',sans-serif;font-size:10.5px;
+      fill:#6FA6D0;letter-spacing:2.6px;opacity:.85;">HET IJ</text>
+`;
+
 function renderMap() {
-  document.getElementById('mapGrid').innerHTML = REGIONS.map(r => {
-    const ok = S.unlocked.includes(r.id);
-    const ms = MISSIONS.filter(m=>m.region===r.id&&(m.age===S.mode||m.age==='all'));
-    const done = S.done.filter(id=>ms.find(m=>m.id===id)).length;
-    const cls = !ok ? 'locked' : done===ms.length&&ms.length>0 ? 'completed' : 'unlocked';
-    return `<div class="mreg ${cls}" onclick="${ok?`goReg('${r.id}')`:''}" >
-      ${!ok?'<div class="rlk">🔒</div>':''}
-      <div class="ri">${r.icon}</div>
-      <div class="rn">${r.en}</div>
-      <div class="rs">${ok?done+'/'+ms.length+' done':'Locked'}</div>
-    </div>`;
+  const svg = document.getElementById('mapSvg');
+  const nl  = LANG === 'nl';
+
+  const nodes = REGIONS.map(r => {
+    const ok   = S.unlocked.includes(r.id);
+    const ms   = MISSIONS.filter(m => m.region === r.id && (m.age === S.mode || m.age === 'all'));
+    const done = S.done.filter(id => ms.find(m => m.id === id)).length;
+    const all  = ms.length > 0 && done === ms.length;
+    const cls  = !ok ? 'locked' : all ? 'done' : 'open';
+
+    // Labels sit below each node, except Noord which would run off the top
+    const labelY = r.y + 50;
+    const progY  = r.y + 65;
+    const status = !ok ? (nl ? 'Op slot' : 'Locked') : `${done}/${ms.length}`;
+    const aria   = `${r.en} — ${!ok ? (nl?'op slot':'locked')
+                     : `${done} ${nl?'van':'of'} ${ms.length} ${nl?'voltooid':'done'}`}`;
+
+    return `<g class="mnode ${cls}" ${ok ? `onclick="goReg('${r.id}')"` : ''}
+               ${ok ? 'tabindex="0"' : ''} role="button" aria-label="${aria}"
+               data-reg="${r.id}">
+      <circle class="nglow" cx="${r.x}" cy="${r.y}" r="30"
+              fill="${all ? '#FFD000' : '#18E87A'}" filter="url(#nGlow)" opacity="0"/>
+      <circle class="nbody" cx="${r.x}" cy="${r.y}" r="30"/>
+      <circle class="nring" cx="${r.x}" cy="${r.y}" r="30"
+              fill="none" stroke-width="3.5"/>
+      <text class="nicon" x="${r.x}" y="${r.y + 1}">${ok ? r.icon : '🔒'}</text>
+      <text class="nlabel" x="${r.x}" y="${labelY}">${r.en}</text>
+      <text class="nprog"  x="${r.x}" y="${progY}">${status}</text>
+    </g>`;
   }).join('');
+
+  svg.innerHTML = MAP_SCENERY + nodes;
+
+  // Keyboard: Enter/Space opens a district, matching the tap target
+  svg.querySelectorAll('.mnode[tabindex]').forEach(n => {
+    n.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goReg(n.dataset.reg); }
+    });
+  });
+
+  const lg = { lgOpen:[ 'Open','Open' ], lgDone:['Complete','Compleet'], lgLock:['Locked','Op slot'] };
+  Object.keys(lg).forEach(k => {
+    const el = document.getElementById(k);
+    if (el) el.textContent = lg[k][nl ? 1 : 0];
+  });
 }
 
 function goReg(id) {
