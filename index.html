@@ -2436,6 +2436,7 @@ function finalizeMission() {
   if (m.unlocks && !S.unlocked.includes(m.unlocks)) S.unlocked.push(m.unlocks);
   checkBadges();
   saveS(); updateHeader(); renderMap(); renderMissions();
+  playFanfare();
 }
 
 function retryGame() {

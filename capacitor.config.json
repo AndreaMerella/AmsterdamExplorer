@@ -1,0 +1,24 @@
+{
+  "appId": "com.amsterdamadventure.app",
+  "appName": "Amsterdam Adventure",
+  "webDir": "www",
+  "plugins": {
+    "Camera": {
+      "permissions": ["camera", "photos"]
+    },
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "backgroundColor": "#0D1A2D",
+      "androidSplashResourceName": "splash",
+      "androidScaleType": "CENTER_CROP",
+      "showSpinner": false
+    }
+  },
+  "ios": {
+    "scheme": "Amsterdam Adventure",
+    "contentInset": "automatic"
+  },
+  "android": {
+    "allowMixedContent": false
+  }
+}
