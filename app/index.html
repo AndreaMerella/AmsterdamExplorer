@@ -244,6 +244,40 @@ button:active{transform:scale(0.93);}
   color:var(--gold);-webkit-text-stroke:0.5px rgba(0,0,0,0.5);paint-order:stroke fill;
 }
 
+/* ── Districts: card grid ── */
+.map-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+.mreg{
+  background:linear-gradient(135deg,#311880,#1E0A52);
+  border-radius:14px;padding:13px 9px;text-align:center;
+  cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;
+  border:3px solid rgba(255,255,255,0.1);position:relative;min-height:95px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  box-shadow:0 4px 0 rgba(0,0,0,0.4);
+}
+.mreg:active{transform:scale(0.95);}
+.mreg.locked{opacity:0.35;cursor:default;background:linear-gradient(135deg,#1E0A3A,#130630);}
+.mreg.unlocked{border-color:var(--lime);animation:pulse-unlock 2.5s ease infinite;box-shadow:0 4px 0 rgba(0,0,0,0.4),0 0 16px rgba(24,232,122,0.3);}
+.mreg.completed{border-color:var(--gold);background:linear-gradient(135deg,#3D2A00,#2D1E00,#311880);box-shadow:0 4px 0 rgba(0,0,0,0.4),0 0 16px rgba(255,208,0,0.3);}
+.ri{font-size:2.2em;margin-bottom:4px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5));}
+.rn{font-weight:700;color:#fff;font-size:0.92em;}
+.rs{font-size:0.7em;color:var(--dim);margin-top:1px;}
+.rlk{position:absolute;top:6px;right:6px;font-size:0.95em;opacity:0.3;}
+
+/* ── Cards / map switch ── */
+.viewtoggle{
+  display:flex;gap:5px;background:rgba(0,0,0,0.3);
+  padding:4px;border-radius:13px;margin-bottom:11px;
+}
+.viewtoggle button{
+  flex:1;font-family:'Fredoka',sans-serif;font-weight:600;font-size:0.85em;
+  padding:8px 4px;border:0;border-radius:10px;background:transparent;
+  color:var(--dim);cursor:pointer;transition:background .18s,color .18s;
+}
+.viewtoggle button.on{
+  background:var(--card);color:#fff;box-shadow:0 2px 0 rgba(0,0,0,0.35);
+}
+.viewtoggle button:focus-visible{outline:2px solid var(--cyan);outline-offset:1px;}
+
 /* ── Map ── */
 .map-wrap{
   position:relative;border-radius:16px;overflow:hidden;
@@ -867,12 +901,25 @@ button:active{transform:scale(0.93);}
   <div id="missionsTab" class="tab-pane active">
     <div class="pcard">
       <div class="ctitle">🧭 AMSTERDAM ADVENTURE</div>
-      <div class="map-wrap"><svg id="mapSvg" class="map-svg" viewBox="0 0 400 440"
-           role="group" aria-label="Map of Amsterdam districts"></svg></div>
-      <div class="map-legend">
-        <i><b style="background:var(--lime)"></b><span id="lgOpen">Open</span></i>
-        <i><b style="background:var(--gold)"></b><span id="lgDone">Complete</span></i>
-        <i><b style="background:#4A3A72"></b><span id="lgLock">Locked</span></i>
+      <div class="viewtoggle" role="tablist">
+        <button id="vwCards" class="on" role="tab" aria-selected="true"
+                onclick="setMapView('cards')">🗂️ <span id="vwCardsL">Districts</span></button>
+        <button id="vwMap" role="tab" aria-selected="false"
+                onclick="setMapView('map')">🗺️ <span id="vwMapL">Map</span></button>
+      </div>
+
+      <div id="cardsView">
+        <div class="map-grid" id="mapGrid"></div>
+      </div>
+
+      <div id="mapView" hidden>
+        <div class="map-wrap"><svg id="mapSvg" class="map-svg" viewBox="0 0 400 440"
+             role="group" aria-label="Map of Amsterdam districts"></svg></div>
+        <div class="map-legend">
+          <i><b style="background:var(--lime)"></b><span id="lgOpen">Open</span></i>
+          <i><b style="background:var(--gold)"></b><span id="lgDone">Complete</span></i>
+          <i><b style="background:#4A3A72"></b><span id="lgLock">Locked</span></i>
+        </div>
       </div>
     </div>
     <div class="pcard">
@@ -1771,6 +1818,9 @@ function renderTab(n) {
 // ═══════════════════════════════════════════════════════════════════
 function renderAll() {
   updateHeader(); renderMap(); renderMissions();
+  let v = 'cards';
+  try { v = localStorage.getItem('amsAdv3_view') || 'cards'; } catch (e) {}
+  setMapView(v === 'map' ? 'map' : 'cards');
 }
 
 function updateHeader() {
@@ -1842,10 +1892,41 @@ const MAP_SCENERY = `
       fill:#6FA6D0;letter-spacing:2.6px;opacity:.85;">HET IJ</text>
 `;
 
+// Cards are the way in; the map is the way to see the whole city at once.
+// Both read from the same state, so they can never disagree.
+let MAP_VIEW = 'cards';
+
+function setMapView(v) {
+  MAP_VIEW = v;
+  const card = v === 'cards';
+  document.getElementById('cardsView').hidden = !card;
+  document.getElementById('mapView').hidden   = card;
+  const bc = document.getElementById('vwCards'), bm = document.getElementById('vwMap');
+  bc.classList.toggle('on', card);  bc.setAttribute('aria-selected', String(card));
+  bm.classList.toggle('on', !card); bm.setAttribute('aria-selected', String(!card));
+  try { localStorage.setItem('amsAdv3_view', v); } catch (e) {}
+}
+
 function renderMap() {
   const svg = document.getElementById('mapSvg');
   const nl  = LANG === 'nl';
 
+  // ── The district cards ──
+  document.getElementById('mapGrid').innerHTML = REGIONS.map(r => {
+    const ok   = S.unlocked.includes(r.id);
+    const ms   = MISSIONS.filter(m => m.region === r.id && (m.age === S.mode || m.age === 'all'));
+    const done = S.done.filter(id => ms.find(m => m.id === id)).length;
+    const cls  = !ok ? 'locked' : (done === ms.length && ms.length > 0) ? 'completed' : 'unlocked';
+    const sub  = ok ? `${done}/${ms.length} ${nl ? 'klaar' : 'done'}` : (nl ? 'Op slot' : 'Locked');
+    return `<div class="mreg ${cls}" ${ok ? `onclick="goReg('${r.id}')"` : ''}>
+      ${!ok ? '<div class="rlk">🔒</div>' : ''}
+      <div class="ri">${r.icon}</div>
+      <div class="rn">${r.en}</div>
+      <div class="rs">${sub}</div>
+    </div>`;
+  }).join('');
+
+  // ── The same seven districts, on the city ──
   const nodes = REGIONS.map(r => {
     const ok   = S.unlocked.includes(r.id);
     const ms   = MISSIONS.filter(m => m.region === r.id && (m.age === S.mode || m.age === 'all'));
@@ -1883,7 +1964,10 @@ function renderMap() {
     });
   });
 
-  const lg = { lgOpen:[ 'Open','Open' ], lgDone:['Complete','Compleet'], lgLock:['Locked','Op slot'] };
+  const lg = {
+    lgOpen:['Open','Open'], lgDone:['Complete','Compleet'], lgLock:['Locked','Op slot'],
+    vwCardsL:['Districts','Wijken'], vwMapL:['Map','Kaart']
+  };
   Object.keys(lg).forEach(k => {
     const el = document.getElementById(k);
     if (el) el.textContent = lg[k][nl ? 1 : 0];
