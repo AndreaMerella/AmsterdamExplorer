@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Amsterdam Adventure for Schools</title>
+<meta name="description" content="A free, bilingual city-exploration app for ages 5–14. 37 missions across 7 Amsterdam districts, mapped to the Dutch kerndoelen.">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect width='120' height='120' rx='26' fill='%239C3A28'/%3E%3Ccircle cx='38' cy='78' r='18' fill='none' stroke='%23F7F4EC' stroke-width='5.5'/%3E%3Ccircle cx='82' cy='78' r='18' fill='none' stroke='%23F7F4EC' stroke-width='5.5'/%3E%3Cpath d='M38 78 L60 42 L82 78' fill='none' stroke='%23F7F4EC' stroke-width='5' stroke-linejoin='round'/%3E%3Cpath d='M60 42 L60 30 M50 58 L68 58' stroke='%23F7F4EC' stroke-width='4.5' stroke-linecap='round'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --paper:#F7F4EC;
+  --paper-2:#FFFDF8;
+  --rule:#DDD5C6;
+  --ink:#191512;
+  --ink-soft:#6B615A;
+  --ink-faint:#9A8F84;
+  --brick:#9C3A28;
+  --canal:#2C4A46;
+  --brass:#A67C1F;
+  --brick-wash:rgba(156,58,40,.07);
+  --canal-wash:rgba(44,74,70,.07);
+  --f-display:'Fraunces',Georgia,'Times New Roman',serif;
+  --f-body:'Public Sans',system-ui,-apple-system,sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,'Courier New',monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#12100E;
+    --paper-2:#1A1714;
+    --rule:#332D26;
+    --ink:#EDE6DA;
+    --ink-soft:#A2978A;
+    --ink-faint:#6E655B;
+    --brick:#D9705A;
+    --canal:#7FB5AC;
+    --brass:#D9A840;
+    --brick-wash:rgba(217,112,90,.10);
+    --canal-wash:rgba(127,181,172,.10);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#12100E;
+  --paper-2:#1A1714;
+  --rule:#332D26;
+  --ink:#EDE6DA;
+  --ink-soft:#A2978A;
+  --ink-faint:#6E655B;
+  --brick:#D9705A;
+  --canal:#7FB5AC;
+  --brass:#D9A840;
+  --brick-wash:rgba(217,112,90,.10);
+  --canal-wash:rgba(127,181,172,.10);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--f-body);
+  font-size:16px;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+  padding:0 22px 96px;
+}
+
+.doc{max-width:740px;margin:0 auto;}
+
+/* ── language toggle ── */
+.nl{display:none;}
+body.lang-nl .nl{display:revert;}
+body.lang-nl .en{display:none;}
+
+/* ── masthead ── */
+.masthead{
+  display:flex;justify-content:space-between;align-items:flex-start;gap:24px;
+  padding:38px 0 0;
+}
+.eyebrow{
+  font-family:var(--f-mono);
+  font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--brick);
+}
+.langtoggle{display:flex;border:1px solid var(--rule);border-radius:3px;overflow:hidden;flex-shrink:0;}
+.langtoggle button{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;
+  padding:5px 11px;border:0;background:transparent;color:var(--ink-soft);
+  cursor:pointer;transition:background .15s,color .15s;
+}
+.langtoggle button[aria-pressed="true"]{background:var(--brick);color:var(--paper-2);}
+.langtoggle button:focus-visible{outline:2px solid var(--brass);outline-offset:-2px;}
+
+h1{
+  font-family:var(--f-display);
+  font-size:clamp(2.15rem,6vw,3.1rem);
+  font-weight:700;line-height:1.04;letter-spacing:-.015em;
+  text-wrap:balance;margin:20px 0 0;
+}
+.standfirst{
+  font-family:var(--f-display);
+  font-size:clamp(1.08rem,2.6vw,1.3rem);
+  font-weight:400;font-style:italic;line-height:1.45;
+  color:var(--ink-soft);max-width:37ch;margin-top:14px;
+}
+
+/* ── primary action ── */
+.actions{
+  display:flex;flex-wrap:wrap;gap:12px;align-items:center;
+  margin:30px 0 8px;
+}
+.btn{
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:var(--f-body);font-size:15px;font-weight:600;
+  text-decoration:none;padding:12px 22px;border-radius:3px;
+  transition:transform .12s,box-shadow .12s;
+}
+.btn-main{background:var(--brick);color:#FFFDF8;box-shadow:0 1px 0 rgba(0,0,0,.14);}
+.btn-main:hover{transform:translateY(-1px);box-shadow:0 4px 12px var(--brick-wash);}
+.btn-alt{color:var(--ink);border:1px solid var(--rule);}
+.btn-alt:hover{border-color:var(--brick);color:var(--brick);}
+.btn:focus-visible{outline:2px solid var(--brass);outline-offset:3px;}
+.actions-note{
+  font-size:13.5px;color:var(--ink-faint);margin-bottom:34px;
+}
+
+/* ── facts strip ── */
+.facts{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));
+  gap:0;border-block:1px solid var(--rule);margin:0 0 42px;
+}
+.fact{padding:16px 14px 15px;border-left:1px solid var(--rule);}
+.fact:first-child{border-left:0;padding-left:0;}
+.fact-n{
+  font-family:var(--f-display);font-size:1.72rem;font-weight:600;
+  line-height:1;color:var(--canal);font-variant-numeric:tabular-nums;
+}
+.fact-l{
+  font-family:var(--f-mono);font-size:10.5px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--ink-faint);margin-top:7px;
+}
+
+/* ── sections ── */
+section{margin-bottom:46px;}
+h2{
+  font-family:var(--f-display);font-size:1.5rem;font-weight:600;
+  letter-spacing:-.01em;margin-bottom:6px;text-wrap:balance;
+}
+.sec-kicker{
+  font-family:var(--f-mono);font-size:10.5px;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--brass);margin-bottom:9px;
+}
+p{margin-bottom:15px;max-width:66ch;}
+p:last-child{margin-bottom:0;}
+strong{font-weight:600;}
+a{color:var(--brick);text-decoration-thickness:1px;text-underline-offset:2px;}
+
+/* ── session walkthrough ── */
+.steps{list-style:none;counter-reset:s;display:grid;gap:2px;}
+.steps li{
+  counter-increment:s;display:grid;grid-template-columns:auto 1fr;gap:15px;
+  padding:15px 0;border-top:1px solid var(--rule);align-items:baseline;
+}
+.steps li::before{
+  content:counter(s,decimal-leading-zero);
+  font-family:var(--f-mono);font-size:11.5px;font-weight:500;
+  color:var(--brick);padding-top:2px;
+}
+.step-t{font-weight:600;display:block;margin-bottom:2px;}
+.step-d{color:var(--ink-soft);font-size:15px;}
+
+/* ── curriculum table ── */
+.tablewrap{overflow-x:auto;border:1px solid var(--rule);border-radius:3px;background:var(--paper-2);}
+table{border-collapse:collapse;width:100%;min-width:540px;font-size:14.5px;}
+thead th{
+  font-family:var(--f-mono);font-size:10px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--ink-faint);font-weight:500;
+  text-align:left;padding:12px 15px;border-bottom:1px solid var(--rule);
+  white-space:nowrap;
+}
+tbody td{padding:12px 15px;border-bottom:1px solid var(--rule);vertical-align:top;}
+tbody tr:last-child td{border-bottom:0;}
+tbody tr:nth-child(odd){background:var(--canal-wash);}
+.kd{
+  font-family:var(--f-mono);font-size:12px;font-weight:500;
+  color:var(--canal);white-space:nowrap;
+}
+.subj{font-weight:600;white-space:nowrap;}
+.miss{color:var(--ink-soft);}
+.caveat{
+  font-size:13.5px;color:var(--ink-faint);margin-top:13px;
+  padding-left:13px;border-left:2px solid var(--rule);max-width:62ch;
+}
+
+/* ── IB PYP block ── */
+.pyp{margin-top:34px;padding-top:26px;border-top:1px solid var(--rule);}
+.themes{list-style:none;display:grid;gap:14px;margin-top:16px;}
+.themes li{
+  padding:13px 16px;border-radius:3px;
+  background:var(--brick-wash);border-left:2px solid var(--brick);
+}
+.theme-n{
+  display:block;font-family:var(--f-display);font-size:1.02rem;
+  font-weight:600;font-style:italic;margin-bottom:3px;
+}
+.theme-d{font-size:14.5px;color:var(--ink-soft);}
+
+/* ── honest status ── */
+.status{display:grid;gap:2px;}
+.status div{
+  display:grid;grid-template-columns:auto 1fr;gap:12px;
+  padding:11px 0;border-top:1px solid var(--rule);align-items:baseline;
+}
+.mark{font-family:var(--f-mono);font-size:12px;font-weight:500;}
+.yes .mark{color:var(--canal);}
+.no .mark{color:var(--ink-faint);}
+.no span:last-child{color:var(--ink-soft);}
+
+/* ── pricing ── */
+.price{
+  border:1px solid var(--rule);border-radius:3px;padding:22px 24px;
+  background:var(--brick-wash);
+}
+.price-n{
+  font-family:var(--f-display);font-size:2.1rem;font-weight:600;
+  color:var(--brick);line-height:1;
+}
+.price p{margin-top:11px;margin-bottom:0;}
+
+/* ── contact ── */
+.contact{border-top:2px solid var(--ink);padding-top:22px;}
+.contact a{font-weight:600;}
+footer{
+  margin-top:52px;padding-top:20px;border-top:1px solid var(--rule);
+  font-size:13px;color:var(--ink-faint);
+}
+
+@media (max-width:560px){
+  .masthead{flex-direction:column;gap:16px;}
+  .fact{border-left:0;padding-left:0;}
+  .facts{grid-template-columns:1fr 1fr;gap:0 20px;}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;}
+}
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <header class="masthead">
+    <div>
+      <div class="eyebrow">
+        <span class="en">For schools &amp; museums · Amsterdam</span>
+        <span class="nl">Voor scholen &amp; musea · Amsterdam</span>
+      </div>
+    </div>
+    <div class="langtoggle" role="group" aria-label="Language">
+      <button type="button" id="btnEN" aria-pressed="true">EN</button>
+      <button type="button" id="btnNL" aria-pressed="false">NL</button>
+    </div>
+  </header>
+
+  <h1>
+    <span class="en">Amsterdam Adventure</span>
+    <span class="nl">Amsterdam Adventure</span>
+  </h1>
+
+  <p class="standfirst">
+    <span class="en">A free bilingual app that turns the city itself into the classroom — 37 missions, seven districts, ages 5 to 14.</span>
+    <span class="nl">Een gratis tweetalige app die de stad zelf tot klaslokaal maakt — 37 opdrachten, zeven stadsdelen, 5 tot 14 jaar.</span>
+  </p>
+
+  <div class="actions">
+    <a class="btn btn-main" href="../">
+      <span class="en">Try the app now →</span>
+      <span class="nl">Probeer de app nu →</span>
+    </a>
+    <a class="btn btn-alt" href="#curriculum">
+      <span class="en">See curriculum fit</span>
+      <span class="nl">Bekijk kerndoelen</span>
+    </a>
+  </div>
+  <p class="actions-note">
+    <span class="en">Opens straight in the browser. No account, no install, no data collected.</span>
+    <span class="nl">Opent direct in de browser. Geen account, geen installatie, geen dataverzameling.</span>
+  </p>
+
+  <div class="facts">
+    <div class="fact"><div class="fact-n">37</div><div class="fact-l"><span class="en">Missions</span><span class="nl">Opdrachten</span></div></div>
+    <div class="fact"><div class="fact-n">7</div><div class="fact-l"><span class="en">Districts</span><span class="nl">Stadsdelen</span></div></div>
+    <div class="fact"><div class="fact-n">5–14</div><div class="fact-l"><span class="en">Age range</span><span class="nl">Leeftijd</span></div></div>
+    <div class="fact"><div class="fact-n">2</div><div class="fact-l"><span class="en">Languages</span><span class="nl">Talen</span></div></div>
+    <div class="fact"><div class="fact-n">€0</div><div class="fact-l"><span class="en">Cost</span><span class="nl">Kosten</span></div></div>
+  </div>
+
+  <section>
+    <div class="sec-kicker"><span class="en">What it is</span><span class="nl">Wat het is</span></div>
+    <h2><span class="en">Not a quiz app. A reason to walk.</span><span class="nl">Geen quiz-app. Een reden om te lopen.</span></h2>
+    <p>
+      <span class="en">Every mission sends a child to a real place and asks them to do something physical there: measure how far the Oude Kerk tower leans, count the people in the Nachtwacht, order a drink in Dutch, press a flower found outside Prinsengracht 263. Nothing can be completed from a sofa.</span>
+      <span class="nl">Elke opdracht stuurt een kind naar een echte plek en vraagt daar iets fysieks: meet hoe scheef de Oude Kerk staat, tel de mensen op de Nachtwacht, bestel iets in het Nederlands, pers een bloem gevonden bij Prinsengracht 263. Niets is vanaf de bank te doen.</span>
+    </p>
+    <p>
+      <span class="en">Districts unlock in sequence, so a class works outward from Centrum through the canals to Noord over multiple visits. Children earn experience across eleven tracks — history, language, architecture, nature, observation — and choose one of four guide characters who comments on each mission in their own voice.</span>
+      <span class="nl">Stadsdelen ontgrendelen op volgorde: een klas werkt van het Centrum via de grachten naar Noord, verspreid over meerdere bezoeken. Kinderen verdienen ervaring in elf vaardigheden — geschiedenis, taal, architectuur, natuur, observatie — en kiezen één van vier gidsfiguren die elke opdracht in eigen stijl becommentarieert.</span>
+    </p>
+  </section>
+
+  <section>
+    <div class="sec-kicker"><span class="en">In practice</span><span class="nl">In de praktijk</span></div>
+    <h2><span class="en">What a school session looks like</span><span class="nl">Hoe een schoolbezoek verloopt</span></h2>
+    <ol class="steps">
+      <li><div>
+        <span class="step-t"><span class="en">Pick a district before you leave</span><span class="nl">Kies vooraf een stadsdeel</span></span>
+        <span class="step-d"><span class="en">Centrum and the canals suit a first visit — everything is within walking distance of Dam Square.</span><span class="nl">Centrum en de grachten zijn geschikt voor een eerste bezoek — alles ligt op loopafstand van de Dam.</span></span>
+      </div></li>
+      <li><div>
+        <span class="step-t"><span class="en">Groups of three, one device each</span><span class="nl">Groepjes van drie, één apparaat</span></span>
+        <span class="step-d"><span class="en">Works on any phone or tablet the school or children already have. Set the age mode to 5–8 or 9–14 at the start.</span><span class="nl">Werkt op elke telefoon of tablet die de school of de kinderen al hebben. Stel bij aanvang de leeftijdsmodus 5–8 of 9–14 in.</span></span>
+      </div></li>
+      <li><div>
+        <span class="step-t"><span class="en">Two to three hours in the city</span><span class="nl">Twee tot drie uur de stad in</span></span>
+        <span class="step-d"><span class="en">A group typically finishes four to six missions. Written answers stay in the app's journal; photographs stay on the device.</span><span class="nl">Een groepje rondt meestal vier tot zes opdrachten af. Antwoorden blijven in het logboek van de app; foto's blijven op het apparaat.</span></span>
+      </div></li>
+      <li><div>
+        <span class="step-t"><span class="en">Back in class, compare journals</span><span class="nl">Terug in de klas: vergelijk logboeken</span></span>
+        <span class="step-d"><span class="en">Each group has different measurements, counts and sketches of the same city. That disagreement is the lesson.</span><span class="nl">Elk groepje heeft andere metingen, tellingen en schetsen van dezelfde stad. Juist dat verschil is de les.</span></span>
+      </div></li>
+    </ol>
+  </section>
+
+  <section id="curriculum">
+    <div class="sec-kicker"><span class="en">Curriculum</span><span class="nl">Kerndoelen</span></div>
+    <h2><span class="en">Mapped to the Dutch kerndoelen</span><span class="nl">Gekoppeld aan de kerndoelen</span></h2>
+    <p>
+      <span class="en">Missions were written against the SLO kerndoelen for primary education. A selection, with the mission that carries each one:</span>
+      <span class="nl">De opdrachten zijn geschreven vanuit de SLO-kerndoelen voor het basisonderwijs. Een selectie, met de opdracht die er invulling aan geeft:</span>
+    </p>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th><span class="en">Code</span><span class="nl">Code</span></th>
+            <th><span class="en">Area</span><span class="nl">Gebied</span></th>
+            <th><span class="en">Carried by</span><span class="nl">Ingevuld door</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="kd">KD 1 · 2</td>
+            <td class="subj"><span class="en">Dutch — oral</span><span class="nl">Nederlands — mondeling</span></td>
+            <td class="miss"><span class="en">Tram Language Catcher; Order in Dutch — listening to tram announcements, then ordering in a café unaided</span><span class="nl">Tramtaalleer; Bestel in het Nederlands — luisteren naar omroepen, daarna zelfstandig bestellen in een café</span></td>
+          </tr>
+          <tr>
+            <td class="kd">KD 4 · 5 · 9</td>
+            <td class="subj"><span class="en">Dutch — written</span><span class="nl">Nederlands — schriftelijk</span></td>
+            <td class="miss"><span class="en">Dutchspotter; The House on Prinsengracht — collecting unfamiliar words from signage; diary writing in response to the Secret Annex</span><span class="nl">Nederlandsspotter; Het Huis aan de Prinsengracht — woorden verzamelen van straatborden; dagboekschrijven n.a.v. het Achterhuis</span></td>
+          </tr>
+          <tr>
+            <td class="kd">KD 24 · 33</td>
+            <td class="subj"><span class="en">Mathematics</span><span class="nl">Rekenen</span></td>
+            <td class="miss"><span class="en">Bridge Counter; Oude Kerk Lean; VOC nutmeg problem — rates, angle measurement, historical currency conversion</span><span class="nl">Bruggenteller; Scheve Oude Kerk; VOC-nootmuskaatsom — verhoudingen, hoekmeting, historische valuta</span></td>
+          </tr>
+          <tr>
+            <td class="kd">KD 47 · 50</td>
+            <td class="subj"><span class="en">Geography</span><span class="nl">Aardrijkskunde</span></td>
+            <td class="miss"><span class="en">Albert Cuyp Market Safari; Narrowest House — reading a city's spatial and economic layout on foot</span><span class="nl">Albert Cuypmarkt Safari; Smalste Huis — de ruimtelijke en economische opbouw van een stad te voet lezen</span></td>
+          </tr>
+          <tr>
+            <td class="kd">KD 51 · 52 · 53</td>
+            <td class="subj"><span class="en">History</span><span class="nl">Geschiedenis</span></td>
+            <td class="miss"><span class="en">Begijnhof; VOC problem; Prinsengracht 263 — medieval city, Dutch Golden Age trade, and the Second World War, each at its own address</span><span class="nl">Begijnhof; VOC-som; Prinsengracht 263 — middeleeuwse stad, Gouden Eeuw en Tweede Wereldoorlog, elk op de eigen plek</span></td>
+          </tr>
+          <tr>
+            <td class="kd">KD 54 · 55</td>
+            <td class="subj"><span class="en">Arts</span><span class="nl">Kunstzinnig</span></td>
+            <td class="miss"><span class="en">Draw the Jordaan; Rijksmuseum Treasure Hunt — fifteen minutes of observational drawing; reading how Rembrandt directs attention with light</span><span class="nl">Teken de Jordaan; Rijksmuseum Schattenjacht — vijftien minuten waarnemend tekenen; zien hoe Rembrandt met licht stuurt</span></td>
+          </tr>
+          <tr>
+            <td class="kd">KD 56</td>
+            <td class="subj"><span class="en">Heritage</span><span class="nl">Erfgoed</span></td>
+            <td class="miss"><span class="en">Present across the canal-house, gable-stone and Begijnhof missions</span><span class="nl">Aanwezig in de opdrachten over grachtenpanden, gevelstenen en het Begijnhof</span></td>
+          </tr>
+          <tr>
+            <td class="kd">KD 57 · 58</td>
+            <td class="subj"><span class="en">Movement</span><span class="nl">Bewegen</span></td>
+            <td class="miss"><span class="en">Sustained walking is structural — a district is covered on foot, in groups, over several hours</span><span class="nl">Langdurig lopen zit in de opzet — een stadsdeel wordt te voet en in groepjes afgelegd</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="caveat">
+      <span class="en">This alignment is the author's own mapping, offered so teachers can place the missions in their planning. It is not an SLO certification, and I am happy to walk through it with a curriculum coordinator.</span>
+      <span class="nl">Deze koppeling is een eigen inschatting van de maker, bedoeld om de opdrachten in de planning te kunnen plaatsen. Het is geen SLO-certificering; ik licht het graag toe aan een leerplancoördinator.</span>
+    </p>
+
+    <div class="pyp">
+      <div class="sec-kicker" style="color:var(--brick);">
+        <span class="en">International schools · IB PYP</span>
+        <span class="nl">Internationale scholen · IB PYP</span>
+      </div>
+      <p>
+        <span class="en">For schools running the Primary Years Programme, the missions sit inside three transdisciplinary themes — and the whole app doubles as host-country integration, since every mission happens in the city your students live in and half of them involve Dutch.</span>
+        <span class="nl">Voor scholen met het Primary Years Programme vallen de opdrachten binnen drie transdisciplinaire thema's — en de app werkt tegelijk als kennismaking met het gastland: elke opdracht speelt zich af in de stad waar de leerlingen wonen, en de helft raakt aan het Nederlands.</span>
+      </p>
+      <ul class="themes">
+        <li>
+          <span class="theme-n"><span class="en">Where we are in place and time</span><span class="nl">Where we are in place and time</span></span>
+          <span class="theme-d"><span class="en">The core fit. A medieval courtyard, a Golden Age trading problem and a wartime address, each read on the spot rather than from a textbook.</span><span class="nl">De sterkste aansluiting. Een middeleeuws hofje, een handelsvraagstuk uit de Gouden Eeuw en een oorlogsadres — ter plekke gelezen, niet uit een boek.</span></span>
+        </li>
+        <li>
+          <span class="theme-n"><span class="en">How we express ourselves</span><span class="nl">How we express ourselves</span></span>
+          <span class="theme-d"><span class="en">Observational drawing in the Jordaan, and reading how Rembrandt directs a viewer's eye with light alone.</span><span class="nl">Waarnemend tekenen in de Jordaan, en zien hoe Rembrandt de blik van de kijker stuurt met alleen licht.</span></span>
+        </li>
+        <li>
+          <span class="theme-n"><span class="en">How we organise ourselves</span><span class="nl">How we organise ourselves</span></span>
+          <span class="theme-d"><span class="en">A kilometre of market stalls, a spice monopoly, and a city built on trade — economics at street level.</span><span class="nl">Een kilometer marktkramen, een specerijenmonopolie en een stad gebouwd op handel — economie op straatniveau.</span></span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-kicker"><span class="en">Straight answers</span><span class="nl">Eerlijk antwoord</span></div>
+    <h2><span class="en">What exists today, and what doesn't</span><span class="nl">Wat er nu is — en wat nog niet</span></h2>
+    <div class="status">
+      <div class="yes"><span class="mark">✓</span><span><span class="en">37 missions, seven districts, two age modes, English and Dutch throughout</span><span class="nl">37 opdrachten, zeven stadsdelen, twee leeftijdsmodi, volledig Engels en Nederlands</span></span></div>
+      <div class="yes"><span class="mark">✓</span><span><span class="en">Runs offline once opened — no signal needed while walking</span><span class="nl">Werkt offline zodra geopend — onderweg is geen bereik nodig</span></span></div>
+      <div class="yes"><span class="mark">✓</span><span><span class="en">No account, no login, no analytics. Everything stays on the device</span><span class="nl">Geen account, geen login, geen analytics. Alles blijft op het apparaat</span></span></div>
+      <div class="yes"><span class="mark">✓</span><span><span class="en">Written journal and photo capture per mission, kept locally</span><span class="nl">Logboek en foto per opdracht, lokaal bewaard</span></span></div>
+      <div class="no"><span class="mark">○</span><span><span class="en">No teacher dashboard yet — a class view is the next thing I build, and I would rather build it with a school than guess</span><span class="nl">Nog geen docentenoverzicht — een klasweergave bouw ik als volgende, het liefst samen met een school in plaats van op gevoel</span></span></div>
+      <div class="no"><span class="mark">○</span><span><span class="en">No printed worksheets yet</span><span class="nl">Nog geen geprinte werkbladen</span></span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-kicker"><span class="en">Cost</span><span class="nl">Kosten</span></div>
+    <div class="price">
+      <div class="price-n"><span class="en">Free for schools</span><span class="nl">Gratis voor scholen</span></div>
+      <p>
+        <span class="en">Use it with as many classes as you like, this year, with nothing to sign. What I want in exchange is to come along on one trip and watch where children get stuck — that feedback is worth more to me right now than a licence fee.</span>
+        <span class="nl">Gebruik het dit jaar met zoveel klassen als u wilt, zonder contract. Wat ik ervoor terugvraag: één keer meelopen en zien waar kinderen vastlopen — die feedback is me nu meer waard dan een licentie.</span>
+      </p>
+    </div>
+  </section>
+
+  <section class="contact">
+    <h2><span class="en">Get in touch</span><span class="nl">Neem contact op</span></h2>
+    <p>
+      <span class="en">I am a parent in Amsterdam who built this for my own son, then kept going. If you teach groep 5–8, coordinate a curriculum, or run museum education, I would like to hear where this is wrong.</span>
+      <span class="nl">Ik ben een ouder in Amsterdam die dit voor zijn eigen zoon bouwde en toen doorging. Geeft u les in groep 5–8, coördineert u een leerplan of doet u museumeducatie — dan hoor ik graag waar dit tekortschiet.</span>
+    </p>
+    <p><a href="mailto:andrea.merella.audio@gmail.com">andrea.merella.audio@gmail.com</a></p>
+  </section>
+
+  <footer>
+    <span class="en">Amsterdam Adventure · Built in Amsterdam · Free to use, no data collected</span>
+    <span class="nl">Amsterdam Adventure · Gemaakt in Amsterdam · Gratis te gebruiken, geen dataverzameling</span>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  var body  = document.body;
+  var btnEN = document.getElementById('btnEN');
+  var btnNL = document.getElementById('btnNL');
+
+  function setLang(lang) {
+    var nl = lang === 'nl';
+    body.classList.toggle('lang-nl', nl);
+    document.documentElement.lang = nl ? 'nl' : 'en';
+    btnEN.setAttribute('aria-pressed', String(!nl));
+    btnNL.setAttribute('aria-pressed', String(nl));
+    try { localStorage.setItem('ams_pitch_lang', lang); } catch (e) {}
+  }
+
+  btnEN.addEventListener('click', function () { setLang('en'); });
+  btnNL.addEventListener('click', function () { setLang('nl'); });
+
+  // Remember the reader's choice; otherwise follow the browser's language.
+  var saved = null;
+  try { saved = localStorage.getItem('ams_pitch_lang'); } catch (e) {}
+  if (saved === 'nl' || saved === 'en') {
+    setLang(saved);
+  } else if ((navigator.language || '').toLowerCase().indexOf('nl') === 0) {
+    setLang('nl');
+  }
+})();
+</script>
+</body>
+</html>
