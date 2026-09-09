@@ -255,7 +255,9 @@ button:active{transform:scale(0.93);}
   box-shadow:0 4px 0 rgba(0,0,0,0.4);
 }
 .mreg:active{transform:scale(0.95);}
-.mreg.locked{opacity:0.35;cursor:default;background:linear-gradient(135deg,#1E0A3A,#130630);}
+.mreg.fresh{border-color:rgba(255,255,255,0.16);}
+.mreg.hint{border-color:var(--gold);animation:pulse-unlock 2.5s ease infinite;box-shadow:0 4px 0 rgba(0,0,0,0.4),0 0 18px rgba(255,208,0,0.35);}
+.mreg.hint .rs{color:var(--gold);font-weight:600;}
 .mreg.unlocked{border-color:var(--lime);animation:pulse-unlock 2.5s ease infinite;box-shadow:0 4px 0 rgba(0,0,0,0.4),0 0 16px rgba(24,232,122,0.3);}
 .mreg.completed{border-color:var(--gold);background:linear-gradient(135deg,#3D2A00,#2D1E00,#311880);box-shadow:0 4px 0 rgba(0,0,0,0.4),0 0 16px rgba(255,208,0,0.3);}
 .ri{font-size:2.2em;margin-bottom:4px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5));}
@@ -291,27 +293,30 @@ button:active{transform:scale(0.93);}
 .mnode{cursor:pointer;transform-box:fill-box;transform-origin:center;
   transition:transform .14s ease;}
 .mnode:active{transform:scale(0.93);}
-.mnode.locked{cursor:default;}
+
 .mnode:focus{outline:none;}
 .mnode:focus-visible .nring{stroke:var(--cyan);stroke-width:5;}
 
 .nring{transition:stroke .2s;}
-.mnode.locked .nring{stroke:rgba(255,255,255,0.18);}
+.mnode.fresh  .nring{stroke:rgba(255,255,255,0.30);}
 .mnode.open   .nring{stroke:var(--lime);}
 .mnode.done   .nring{stroke:var(--gold);}
+.mnode.hint   .nring{stroke:var(--gold);}
+.mnode.hint   .nglow{opacity:.9;animation:node-pulse 2.4s ease-in-out infinite;}
+.mnode.hint   .nprog{fill:var(--gold);}
 
-.mnode.locked .nbody{fill:#190B3E;}
+.mnode.fresh  .nbody{fill:#241065;}
 .mnode.open   .nbody{fill:#2C1576;}
 .mnode.done   .nbody{fill:#3E2B02;}
 
 .nicon{font-size:25px;text-anchor:middle;dominant-baseline:central;}
-.mnode.locked .nicon{opacity:.32;}
+.mnode.fresh  .nicon{opacity:.75;}
 .nlabel{
   font-family:'Fredoka',sans-serif;font-weight:700;font-size:14px;
   fill:#fff;text-anchor:middle;paint-order:stroke fill;
   stroke:rgba(0,0,0,.75);stroke-width:3.5px;stroke-linejoin:round;
 }
-.mnode.locked .nlabel{fill:#8C79B8;}
+.mnode.fresh  .nlabel{fill:#CBB9EE;}
 .nprog{
   font-family:'Fredoka',sans-serif;font-weight:600;font-size:11.5px;
   fill:var(--dim);text-anchor:middle;paint-order:stroke fill;
@@ -322,7 +327,7 @@ button:active{transform:scale(0.93);}
 
 .mnode.open .nglow{opacity:.9;animation:node-pulse 2.4s ease-in-out infinite;}
 .mnode.done .nglow{opacity:.75;}
-.mnode.locked .nglow{opacity:0;}
+.mnode.fresh  .nglow{opacity:0;}
 @keyframes node-pulse{
   0%,100%{opacity:.35;} 50%{opacity:1;}
 }
@@ -916,9 +921,9 @@ button:active{transform:scale(0.93);}
         <div class="map-wrap"><svg id="mapSvg" class="map-svg" viewBox="0 0 400 440"
              role="group" aria-label="Map of Amsterdam districts"></svg></div>
         <div class="map-legend">
-          <i><b style="background:var(--lime)"></b><span id="lgOpen">Open</span></i>
+          <i><b style="background:#6B57A8"></b><span id="lgLock">Not started</span></i>
+          <i><b style="background:var(--lime)"></b><span id="lgOpen">In progress</span></i>
           <i><b style="background:var(--gold)"></b><span id="lgDone">Complete</span></i>
-          <i><b style="background:#4A3A72"></b><span id="lgLock">Locked</span></i>
         </div>
       </div>
     </div>
@@ -1317,7 +1322,7 @@ const MISSIONS = [
    xp:{detective:2,urbanHistorian:1,scientist:2}, unlocks:'jordaan', needsPhoto:true},
 
   {id:21, region:'canals', age:'teen', type:'ta',
-   icon:'🌉', title:'Bridge That Opens',
+   icon:'🌁', title:'Bridge That Opens',
    desc:'Amsterdam has dozens of working drawbridges (ophaalbruggen) that open to let tall boats through. Find one operating and time the full open-close cycle.',
    challenge:'Time the full cycle: closed → fully open → boat through → closed again. Is it automatic, or is there a keeper? Now count what it cost: how many cars, cyclists and pedestrians waited while that one boat went through? Amsterdam has kept hundreds of opening bridges anyway. Who is the city putting first here — and would you make the same choice?',
    voice:{zoe:"Photograph the bridge in 4 positions: closed, opening, fully open, closing.",paco:"The mechanical sounds of an opening bridge are a composition. Describe each sound in your journal.",rio:"Time it precisely with a second-counter. Find a second bridge and compare times!",botu:"Is it counterweighted, hydraulic, or electric? Look for the operating machinery and identify it."},
@@ -1361,7 +1366,7 @@ const MISSIONS = [
    xp:{urbanHistorian:3,explorer:1}, unlocks:null, needsPhoto:true},
 
   {id:23, region:'museums', age:'teen', type:'ts',
-   icon:'🚲', title:'Bike Parking Maths',
+   icon:'🅿️', title:'Bike Parking Maths',
    desc:'Find the bike park at Centraal Station — the huge underground one on Stationsplein, which alone holds about 7,000 bicycles. Rather than counting them all, count every bike in ONE section, count the sections, and multiply. This is called sampling, and it is how scientists count things too numerous to count.',
    challenge:'Show your working. Compare your estimate to the 7,000 the Stationsplein garage is built for — how close were you, and would your estimate have been better or worse if you had sampled a different section? Amsterdam has roughly 880,000 bicycles for about 930,000 residents. Almost one each: what does that ratio tell you about how this city is built?',
    voice:{zoe:"Walk the length of the garage and sketch its overall shape — rectangle? L-shape? That shape is why sampling works.",paco:"Thousands of bikes shifting and ticking underground has its own strange acoustic. Stand still and listen for ten seconds.",rio:"Beat the clock: count one section as fast as you can, then recount it slowly. Did you get the same number?",botu:"Sampling assumes every section is equally full. Walk the whole garage — is that assumption actually true here?"},
@@ -1376,7 +1381,7 @@ const MISSIONS = [
    xp:{nature:2}, unlocks:'depijp', needsPhoto:true},
 
   {id:17, region:'parks', age:'teen', type:'ts',
-   icon:'🔒', title:'Water Level Logic at Locks',
+   icon:'⚙️', title:'Water Level Logic at Locks',
    desc:'Find a sluis (lock gate) near the Amstel or Centraal Station. Watch it work, or draw a detailed cross-section diagram showing exactly how water level changes move a boat up or down.',
    challenge:'Draw a diagram with labels: water level A, level B, lock chamber, gates opening/closing. Explain each step to raise a boat from low to high.',
    voice:{zoe:"The lock gates are covered in water-stains and barnacles — sketch one close-up panel.",paco:"Listen to the sound of water rushing through the lock as it equalises — what musical note is it?",rio:"Time how long it takes for the water level inside the lock to fully equalise. Precisely!",botu:"Calculate: if the lock is 10m wide, 20m long, level rises 1.2m — how many cubic metres of water moved?"},
@@ -1428,7 +1433,7 @@ const MISSIONS = [
 
   // ── NEW MISSIONS (26-31) ───────────────────────────────────────────
   {id:26, region:'centrum', age:'all', type:'te',
-   icon:'🏛️', title:'The Great Gable Hunt',
+   icon:'🏘️', title:'The Great Gable Hunt',
    nl_title:'De Grote Geveljacht',
    desc:'Look up at any canal house and you\'ll find a gable — the decorative top of the building. Amsterdam has six main types: step (trapgevel), bell (klokgevel), neck (halsgevel), spout (tuitgevel), cornice (lijstgevel) and point (puntgevel). Walk along Herengracht and see how many you can spot.',
    nl_desc:'Kijk omhoog naar een grachtenpand en je ziet de gevel — de versierde bovenkant. Amsterdam heeft zes hoofdsoorten: trapgevel, klokgevel, halsgevel, tuitgevel, lijstgevel en puntgevel. Wandel langs de Herengracht en zoek er zo veel mogelijk.',
@@ -1438,7 +1443,7 @@ const MISSIONS = [
    xp:{architect:3,urbanHistorian:2}, unlocks:null, needsPhoto:true},
 
   {id:27, region:'centrum', age:'young', type:'ta',
-   icon:'🚲', title:'Bike Law School',
+   icon:'🚦', title:'Bike Law School',
    nl_title:'Verkeersschool op de Fiets',
    desc:'Dutch children take a real national cycling exam, the VVN Verkeersexamen, in groep 7 or 8 — a written test at school and then a practical ride through real traffic. Your challenge: stand at a busy cycle path junction for 10 minutes and observe cyclists. Count how many use hand signals, how many run red lights, and how many ride with no hands on the bars.',
    nl_desc:'In Nederland halen kinderen van 11–12 jaar het Verkeersexamen. Jouw opdracht: ga 10 minuten bij een drukke fietskruising staan en tel: hoeveel fietsers geven een handteken, hoeveel rijden door rood, en hoeveel rijden zonder handen aan het stuur?',
@@ -1590,7 +1595,7 @@ const MISSIONS = [
    xp:{creator:2,photographer:1,architect:1}, unlocks:null, needsPhoto:false},
 
   {id:42, region:'depijp', age:'all', type:'td',
-   icon:'🎨', title:'The Painter Streets',
+   icon:'🖌️', title:'The Painter Streets',
    nl_title:'De Schildersstraten',
    desc:'De Pijp hides a pattern in plain sight. Read the street signs as you walk: Albert Cuyp, Ferdinand Bol, Govert Flinck, Gerard Dou, Jan Steen, Frans Hals, Ruysdael, Hobbema. Every one of them is a Dutch painter from the 1600s. You are walking through a list of artists.',
    nl_desc:'De Pijp verbergt een patroon in het volle zicht. Lees de straatnaambordjes terwijl je loopt: Albert Cuyp, Ferdinand Bol, Govert Flinck, Gerard Dou, Jan Steen, Frans Hals, Ruysdael, Hobbema. Stuk voor stuk Nederlandse schilders uit de 17de eeuw. Je loopt door een lijst met kunstenaars.',
@@ -1630,7 +1635,7 @@ const MISSIONS = [
    xp:{explorer:2,architect:2,detective:1}, unlocks:null, needsPhoto:true},
 
   {id:46, region:'parks', age:'teen', type:'tn',
-   icon:'🦜', title:'The Parakeet Problem',
+   icon:'🪶', title:'The Parakeet Problem',
    nl_title:'Het Parkietenprobleem',
    desc:'There are wild parrots in Vondelpark. Bright green rose-ringed parakeets, screeching in the treetops — birds that belong in Africa and South Asia, not the Netherlands. The first was officially recorded here in 1976, almost certainly an escaped pet. By 2022 there were an estimated 22,000 across the Randstad, up from around 5,000 in 2005.',
    nl_desc:'In het Vondelpark leven wilde papegaaien. Felgroene halsbandparkieten die krijsend door de boomtoppen schieten — vogels die thuishoren in Afrika en Zuid-Azië, niet in Nederland. De eerste werd hier officieel gezien in 1976, vrijwel zeker een ontsnapte huisvogel. In 2022 waren het er naar schatting 22.000 in de Randstad, tegen zo\'n 5.000 in 2005.',
@@ -1675,7 +1680,7 @@ const MISSIONS = [
 // ═══════════════════════════════════════════════════════════════════
 const DEF = {
   name:'', mode:null,
-  done:[], unlocked:['centrum'],
+  done:[], unlocked:REGIONS.map(r=>r.id),
   xp:{explorer:0,active:0,nature:0,language:0,photographer:0,detective:0,creator:0,masterCrafter:0,urbanHistorian:0,architect:0,scientist:0},
   badges:[], journal:[], grandFinale:false, character:null, sessionStart:Date.now()
 };
@@ -1789,6 +1794,8 @@ async function loadS() {
   if (value) { try {
     const saved = JSON.parse(value);
     S = {...DEF,...saved};
+    // Districts are no longer gated — release anyone held by an older save
+    S.unlocked = REGIONS.map(r=>r.id);
     // ensure new xp keys are always present (backwards compat)
     S.xp = {...DEF.xp, ...(saved.xp||{})};
   } catch(e){} }
@@ -2037,13 +2044,15 @@ function renderMap() {
 
   // ── The district cards ──
   document.getElementById('mapGrid').innerHTML = REGIONS.map(r => {
-    const ok   = S.unlocked.includes(r.id);
     const ms   = MISSIONS.filter(m => m.region === r.id && (m.age === S.mode || m.age === 'all'));
     const done = S.done.filter(id => ms.find(m => m.id === id)).length;
-    const cls  = !ok ? 'locked' : (done === ms.length && ms.length > 0) ? 'completed' : 'unlocked';
-    const sub  = ok ? `${done}/${ms.length} ${nl ? 'klaar' : 'done'}` : (nl ? 'Op slot' : 'Locked');
-    return `<div class="mreg ${cls}" ${ok ? `onclick="goReg('${r.id}')"` : ''}>
-      ${!ok ? '<div class="rlk">🔒</div>' : ''}
+    const all  = ms.length > 0 && done === ms.length;
+    const cls  = all ? 'completed' : done > 0 ? 'unlocked' : 'fresh';
+    // Point a brand-new explorer at Centrum without shutting anything else
+    const hint = (S.done.length === 0 && r.id === 'centrum');
+    const sub  = hint ? (nl ? 'Begin hier!' : 'Start here!')
+                      : `${done}/${ms.length} ${nl ? 'klaar' : 'done'}`;
+    return `<div class="mreg ${cls}${hint ? ' hint' : ''}" onclick="goReg('${r.id}')">
       <div class="ri">${r.icon}</div>
       <div class="rn">${r.en}</div>
       <div class="rs">${sub}</div>
@@ -2052,28 +2061,29 @@ function renderMap() {
 
   // ── The same seven districts, on the city ──
   const nodes = REGIONS.map(r => {
-    const ok   = S.unlocked.includes(r.id);
     const ms   = MISSIONS.filter(m => m.region === r.id && (m.age === S.mode || m.age === 'all'));
     const done = S.done.filter(id => ms.find(m => m.id === id)).length;
     const all  = ms.length > 0 && done === ms.length;
-    const cls  = !ok ? 'locked' : all ? 'done' : 'open';
+    let   cls  = all ? 'done' : done > 0 ? 'open' : 'fresh';
+    // Same steer as the cards: point a new explorer at Centrum first
+    const hint = (S.done.length === 0 && r.id === 'centrum');
+    if (hint) cls += ' hint';
 
     // Labels sit below each node, except Noord which would run off the top
     const labelY = r.y + 50;
     const progY  = r.y + 65;
-    const status = !ok ? (nl ? 'Op slot' : 'Locked') : `${done}/${ms.length}`;
-    const aria   = `${r.en} — ${!ok ? (nl?'op slot':'locked')
-                     : `${done} ${nl?'van':'of'} ${ms.length} ${nl?'voltooid':'done'}`}`;
+    const status = hint ? (nl ? 'Begin hier!' : 'Start here!') : `${done}/${ms.length}`;
+    const aria   = `${r.en} — ${done} ${nl?'van':'of'} ${ms.length} ${nl?'voltooid':'done'}`;
 
-    return `<g class="mnode ${cls}" ${ok ? `onclick="goReg('${r.id}')"` : ''}
-               ${ok ? 'tabindex="0"' : ''} role="button" aria-label="${aria}"
+    return `<g class="mnode ${cls}" onclick="goReg('${r.id}')"
+               tabindex="0" role="button" aria-label="${aria}"
                data-reg="${r.id}">
       <circle class="nglow" cx="${r.x}" cy="${r.y}" r="30"
-              fill="${all ? '#FFD000' : '#18E87A'}" filter="url(#nGlow)" opacity="0"/>
+              fill="${all || hint ? '#FFD000' : '#18E87A'}" filter="url(#nGlow)" opacity="0"/>
       <circle class="nbody" cx="${r.x}" cy="${r.y}" r="30"/>
       <circle class="nring" cx="${r.x}" cy="${r.y}" r="30"
               fill="none" stroke-width="3.5"/>
-      <text class="nicon" x="${r.x}" y="${r.y + 1}">${ok ? r.icon : '🔒'}</text>
+      <text class="nicon" x="${r.x}" y="${r.y + 1}">${r.icon}</text>
       <text class="nlabel" x="${r.x}" y="${labelY}">${r.en}</text>
       <text class="nprog"  x="${r.x}" y="${progY}">${status}</text>
     </g>`;
@@ -2089,7 +2099,7 @@ function renderMap() {
   });
 
   const lg = {
-    lgOpen:['Open','Open'], lgDone:['Complete','Compleet'], lgLock:['Locked','Op slot'],
+    lgOpen:['In progress','Bezig'], lgDone:['Complete','Compleet'], lgLock:['Not started','Nog niet begonnen'],
     vwCardsL:['Districts','Wijken'], vwMapL:['Map','Kaart']
   };
   Object.keys(lg).forEach(k => {
@@ -2115,7 +2125,7 @@ function renderMissions() {
   const list = document.getElementById('mList');
   if (!S.mode) { list.innerHTML='<div class="mempty">Complete onboarding to see missions!</div>'; return; }
 
-  let vis = MISSIONS.filter(m=>(m.age===S.mode||m.age==='all')&&S.unlocked.includes(m.region));
+  let vis = MISSIONS.filter(m=>(m.age===S.mode||m.age==='all'));
   if (selectedRegion) vis = vis.filter(m=>m.region===selectedRegion);
 
   const reg = selectedRegion ? REGIONS.find(r=>r.id===selectedRegion) : null;
@@ -2881,7 +2891,7 @@ function renderParent() {
     <div class="ps"><span>Age profile</span><strong>${S.mode==='teen'?'Explorer (9–14)':'Junior (5–8)'}</strong></div>
     <div class="ps"><span>Name</span><strong>${S.name||'—'}</strong></div>
     <div class="ps"><span>Missions done</span><strong>${S.done.length} / ${total}</strong></div>
-    <div class="ps"><span>Regions unlocked</span><strong>${S.unlocked.length} / ${REGIONS.length}</strong></div>
+    <div class="ps"><span>Districts finished</span><strong>${REGIONS.filter(r=>{const ms=MISSIONS.filter(m=>m.region===r.id&&(m.age===S.mode||m.age==='all'));return ms.length&&ms.every(m=>S.done.includes(m.id));}).length} / ${REGIONS.length}</strong></div>
     <div class="ps"><span>Badges earned</span><strong>${badgesForMode().filter(b=>b.ok(S)).length} / ${badgesForMode().length}</strong></div>
     <div class="ps"><span>Top skill</span><strong>${top?.n||'—'} (${top?.v||0} XP)</strong></div>`;
 }
