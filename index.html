@@ -1109,7 +1109,10 @@ window.CHARACTERS = CHARACTERS;
 
 const PRIZE_CONFIG = {
   imgbbKey:     'YOUR_IMGBB_API_KEY',
-  formspreeUrl: 'https://formspree.io/f/YOUR_FORM_ID'
+  formspreeUrl: 'https://formspree.io/f/YOUR_FORM_ID',
+  // Until Formspree is set up, prize requests fall back to a pre-addressed
+  // email to this inbox. Change it to whichever address should receive them.
+  prizeInbox:   'andrea.merella.audio@gmail.com'
 };
 
 const Prefs = (() => {
@@ -2322,12 +2325,17 @@ async function submitPrizeRequest() {
       _subject:    `🏆 Prize Request — ${S.name || 'Explorer'} conquered Amsterdam!`
     };
 
+    // Whether the request actually reached anyone decides what we promise.
+    // Never tell a child a prize is coming when nothing was delivered.
+    let delivered = false;
+
     if (PRIZE_CONFIG.formspreeUrl.includes('YOUR_FORM_ID')) {
-      // Fallback: open mailto so nothing is silently lost
+      // Not wired up yet: hand the parent a pre-addressed email to send.
       const body = encodeURIComponent(
         `Child: ${payload.childName}\nProfile: ${payload.mode}\nMissions: ${payload.missions}\nParent: ${parentName}\nReply to: ${parentEmail}\nPhoto: ${photoUrl || 'none'}`
       );
-      window.location.href = `mailto:?subject=${encodeURIComponent(payload._subject)}&body=${body}`;
+      window.location.href = `mailto:${encodeURIComponent(PRIZE_CONFIG.prizeInbox)}` +
+        `?subject=${encodeURIComponent(payload._subject)}&body=${body}`;
     } else {
       const r = await fetch(PRIZE_CONFIG.formspreeUrl, {
         method:'POST',
@@ -2335,6 +2343,20 @@ async function submitPrizeRequest() {
         body: JSON.stringify(payload)
       });
       if (!r.ok) throw new Error('submit failed');
+      delivered = true;
+    }
+
+    if (delivered) {
+      document.getElementById('celebStep3Icon').textContent  = '📬';
+      document.getElementById('celebStep3Title').textContent = 'Request Sent!';
+      document.getElementById('celebStep3Msg').innerHTML     =
+        'We\'ve got it! Your custom puzzle is being prepared.<br>Check your inbox soon.';
+    } else {
+      document.getElementById('celebStep3Icon').textContent  = '✉️';
+      document.getElementById('celebStep3Title').textContent = 'One Last Step!';
+      document.getElementById('celebStep3Msg').innerHTML     =
+        'We\'ve opened your email app with everything filled in.<br>' +
+        '<strong>Press send</strong> to finish your request!';
     }
 
     document.getElementById('celebStep2').style.display = 'none';
@@ -2799,9 +2821,9 @@ initApp();
 
   <!-- Step 3: Confirmation -->
   <div id="celebStep3" style="display:none;">
-    <div style="font-size:3em;margin-bottom:8px;">📬</div>
-    <div class="win-title" style="font-size:2em;">Request Sent!</div>
-    <div class="win-msg">We've got it! Your custom puzzle is being prepared.<br>Check your inbox soon.</div>
+    <div id="celebStep3Icon" style="font-size:3em;margin-bottom:8px;">📬</div>
+    <div class="win-title" id="celebStep3Title" style="font-size:2em;">Request Sent!</div>
+    <div class="win-msg" id="celebStep3Msg">We've got it! Your custom puzzle is being prepared.<br>Check your inbox soon.</div>
     <button class="btn ylw pop" style="max-width:240px;" onclick="dismissCelebration()">Keep Exploring! 🗺️</button>
   </div>
 </div>
