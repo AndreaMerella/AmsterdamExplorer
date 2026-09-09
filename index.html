@@ -1224,23 +1224,23 @@ const SKILLS = [
 
 const BADGES = [
   {id:'first-step',    icon:'👟', name:'First Step',      ok:s=>s.done.length>=1},
-  {id:'bridge-finder', icon:'🌉', name:'Bridge Finder',   ok:s=>s.done.includes(12)},
-  {id:'bike-expert',   icon:'🚲', name:'Bike Expert',     ok:s=>s.done.includes(7)},
+  {id:'bridge-finder', icon:'🌉', name:'Bridge Finder',   ok:s=>s.done.includes(12)||s.done.includes(21)},
+  {id:'bike-expert',   icon:'🚲', name:'Bike Expert',     ok:s=>s.done.includes(7)||s.done.includes(23)||s.done.includes(27)},
   {id:'canal-watcher', icon:'🚤', name:'Canal Watcher',   ok:s=>s.done.includes(2)},
   {id:'nature-kid',    icon:'🌿', name:'Nature Kid',      ok:s=>s.xp.nature>=3},
   {id:'shutterbug',    icon:'📸', name:'Shutterbug',      ok:s=>s.xp.photographer>=3},
-  {id:'language-star', icon:'🗣️', name:'Language Star',   ok:s=>s.done.includes(18)},
+  {id:'language-star', icon:'🗣️', name:'Language Star',   ok:s=>(s.xp.language||0)>=3},
   {id:'scientist',     icon:'🔬', name:'Scientist',       ok:s=>s.done.includes(16)||s.done.includes(17)},
   {id:'ferry-rider',   icon:'⛴️', name:'Ferry Rider',     ok:s=>s.done.includes(8)},
   {id:'adventurer',    icon:'🗺️', name:'Adventurer',      ok:s=>s.done.length>=5},
   {id:'grand-explorer',icon:'🏆', name:'Grand Explorer',  ok:s=>s.done.length>=15},
-  {id:'amsterdam-kid', icon:'🌷', name:'Amsterdam Kid',   ok:s=>s.done.length>=25},
+  {id:'amsterdam-kid', icon:'🌷', name:'Amsterdam Kid',   ok:s=>s.done.length>=20},
   {id:'grand-architect',icon:'🏛️',name:'Grand Architect', ok:s=>(s.xp.architect||0)>=4},
   {id:'field-scientist',icon:'🔬',name:'Field Scientist',  ok:s=>(s.xp.scientist||0)>=4},
   {id:'taalmeester',    icon:'🗣️',name:'Taalmeester',     ok:s=>(s.xp.language||0)>=6},
   {id:'night-watch',   icon:'🖼️',name:'Night Watch',      ok:s=>s.done.includes(32)},
   {id:'market-master', icon:'🥕',name:'Market Master',    ok:s=>s.done.includes(33)},
-  {id:'remembrance',   icon:'📖',name:'Remembrance',      ok:s=>s.done.includes(34)}
+  {id:'remembrance',   icon:'📖',name:'Remembrance',      modes:['teen'], ok:s=>s.done.includes(34)}
 ];
 
 const MISSIONS = [
@@ -1271,14 +1271,14 @@ const MISSIONS = [
    desc:'Find Singel 7. Guidebooks love to call it "the narrowest house in the world" — its front is barely a metre across, about the width of a door. Stand in front of it and spread your arms. Are YOU wider than the house?',
    challenge:'Measure the front in arm spans (one span is roughly your own height across). Then be a proper detective: walk to the bridge and look at the building from the side. Is the WHOLE house that narrow, or only the front? Singel 7 widens out behind — so is the famous claim true, or is it a good story? Write down what you actually saw, not what the guidebooks say.',
    voice:{zoe:"If you lived in Singel 7, what would your one window look out onto? Sketch it.",paco:"Imagine moving furniture in. How would it sound when they hoist it through the tiny window?",rio:"Time yourself: how quickly can you sprint to the house and back from the corner?",botu:"Measure the width with arm spans. One span is roughly 70cm. Calculate the real width."},
-   xp:{explorer:1,detective:1}, unlocks:'canals', needsPhoto:true},
+   xp:{explorer:1,detective:1,urbanHistorian:1}, unlocks:'canals', needsPhoto:true},
 
   {id:12, region:'centrum', age:'young', type:'te',
    icon:'🌉', title:'Bridge Counter',
    desc:'Walk around Centrum for one hour. Every time you cross a bridge over a canal, mark a tally. Amsterdam has over 1,200 bridges — how many can you cross?',
    challenge:'Before you walk, predict your bridge count. Write that number down. After the hour: were you over or under? Now calculate your "bridges per minute" rate. Amsterdam has 1,281 bridges total — at YOUR rate, how many days would it take to cross them all?',
    voice:{zoe:"Sketch one bridge with the prettiest details — ironwork, lamps, carved stone.",paco:"Each bridge sounds different when you walk over it. Which one is most musical?",rio:"Set your prediction before you start. Beat your personal best!",botu:"Note the canal width under each bridge. Wider canal = longer bridge. Find the longest one."},
-   xp:{explorer:2,active:1}, unlocks:null, needsPhoto:false},
+   xp:{explorer:2,active:1,masterCrafter:2}, unlocks:null, needsPhoto:false},
 
   {id:14, region:'centrum', age:'teen', type:'td',
    icon:'⛪', title:'Standing on 60,000 People',
@@ -1300,7 +1300,7 @@ const MISSIONS = [
    desc:'Look into any canal and find reflections! Find a cloud AND a canal house reflected together in the water. Do reflections look exactly the same as the real thing?',
    challenge:'Photograph a cloud AND a house reflected in the same shot. Then look closely at your photo: the reflection is upside down, and the top of the house sits FURTHEST from you in the water. Why? Wait for the water to go still, take a second photo, and compare — what do ripples do to a reflection, and what does that tell you about how light bounces off a moving surface?',
    voice:{zoe:"Reflections change with ripples — wait for perfect stillness, then take the shot.",paco:"The canal surface is like a drum skin. Drop a pebble and watch the reflections distort.",rio:"Find the most dramatic reflection — the tallest building mirrored perfectly.",botu:"Reflections invert images. If a house is 10m tall, how tall is its reflection?"},
-   xp:{explorer:1,photographer:2}, unlocks:'jordaan', needsPhoto:true},
+   xp:{explorer:1,photographer:2,scientist:1}, unlocks:'jordaan', needsPhoto:true},
 
   {id:10, region:'canals', age:'young', type:'tn',
    icon:'🦆', title:'Duck Parade',
@@ -1314,7 +1314,7 @@ const MISSIONS = [
    desc:'Look at the top of ANY canal house — a hook juts out over the street. Amsterdam staircases are famously narrow and steep, so for four centuries furniture has gone in through the WINDOWS instead, hauled up on a rope. Sketch the hook carefully, then work out the physics: why must it stick forward?',
    challenge:'Sketch the hook and its angle. Explain what would happen to the rope and the furniture if the hook pointed straight up instead of forward. Then look at the whole facade from across the canal — many Amsterdam houses lean deliberately FORWARD, built "op vlucht". Given what you just worked out about the rope, why would builders do that on purpose?',
    voice:{zoe:"Sketch the full mechanism — where it attaches, how the rope runs, where goods would land.",paco:"Imagine the sounds of the 1600s Amsterdam docks — ropes creaking, merchants shouting, wood groaning.",rio:"Find the highest hook you can spot. Estimate how many floors it would have served.",botu:"The forward lean means the rope clears the building face. Calculate the geometry — how far forward and at what angle?"},
-   xp:{detective:2,urbanHistorian:1}, unlocks:'jordaan', needsPhoto:true},
+   xp:{detective:2,urbanHistorian:1,scientist:2}, unlocks:'jordaan', needsPhoto:true},
 
   {id:21, region:'canals', age:'teen', type:'ta',
    icon:'🌉', title:'Bridge That Opens',
@@ -1329,7 +1329,7 @@ const MISSIONS = [
    desc:'Nijntje — Miffy in English — was drawn by Dick Bruna in 1955, using only thick black outlines and a handful of flat colours. Keep your eyes WIDE open in De Jordaan and find EITHER a Nijntje in a shop window, OR a real cat sitting in a canal house window watching the world go by.',
    challenge:'Photograph your Nijntje or your cat as proof. Then look hard at how Nijntje is drawn: count the colours Bruna allowed himself, and notice that her face is only ever dots and a cross. Draw your OWN animal using the same rules — black outline, no more than four colours, no shading. Is drawing simply easier or harder than drawing in detail?',
    voice:{zoe:"Bruna redrew Nijntje\'s face hundreds of times to get one line right. Try it — draw the same face five times and pick your best.",paco:"Nijntje books are famous for being read aloud to very small children. Read one line out loud in Dutch — the rhythm is the point.",rio:"Speed challenge: how quickly can you spot the first cat or Nijntje? Start your timer now!",botu:"Nijntje was created in 1955. Work out exactly how old the character is today — years, then months."},
-   xp:{detective:1,photographer:1}, unlocks:'museums', needsPhoto:true},
+   xp:{detective:1,photographer:1,creator:2}, unlocks:'museums', needsPhoto:true},
 
   {id:7, region:'jordaan', age:'young', type:'tp',
    icon:'🚲', title:'Bakfiets Spotter',
@@ -1351,7 +1351,7 @@ const MISSIONS = [
    desc:'NEMO Science Museum is the huge green ship rising out of the water by the IJ. You need no ticket for this mission — the entire roof is a public square, the highest in the Netherlands, and the steps up the eastern side are free to climb.',
    challenge:'Climb to the top, counting every step as you go. The roof reaches about 22 metres above the water. Use your step count to work out the average height of ONE step. Then estimate the slope: for each metre you walk forward, how many centimetres do you climb? Finally, kneel down and count how many different plants you can find in one square metre — the roof was replanted in 2025 and now holds over 75 species.',
    voice:{zoe:"NEMO's green copper hull was built to echo the ships in the harbour. What does the shape remind YOU of?",paco:"You are 22 metres up on the highest square in the country. Close your eyes: wind, gulls, the city humming below. Which is loudest?",rio:"Race the steps to the summit — then do it again and try to beat your own time.",botu:"Renzo Piano designed this building. Show every step of your slope calculation in your journal, units included."},
-   xp:{masterCrafter:2,detective:2}, unlocks:'parks', needsPhoto:true},
+   xp:{masterCrafter:2,detective:2,scientist:2}, unlocks:'parks', needsPhoto:true},
 
   {id:20, region:'museums', age:'teen', type:'ts',
    icon:'🦜', title:'De Papegaai — The Parrot Church',
@@ -1365,7 +1365,7 @@ const MISSIONS = [
    desc:'Find the bike park at Centraal Station — the huge underground one on Stationsplein, which alone holds about 7,000 bicycles. Rather than counting them all, count every bike in ONE section, count the sections, and multiply. This is called sampling, and it is how scientists count things too numerous to count.',
    challenge:'Show your working. Compare your estimate to the 7,000 the Stationsplein garage is built for — how close were you, and would your estimate have been better or worse if you had sampled a different section? Amsterdam has roughly 880,000 bicycles for about 930,000 residents. Almost one each: what does that ratio tell you about how this city is built?',
    voice:{zoe:"Walk the length of the garage and sketch its overall shape — rectangle? L-shape? That shape is why sampling works.",paco:"Thousands of bikes shifting and ticking underground has its own strange acoustic. Stand still and listen for ten seconds.",rio:"Beat the clock: count one section as fast as you can, then recount it slowly. Did you get the same number?",botu:"Sampling assumes every section is equally full. Walk the whole garage — is that assumption actually true here?"},
-   xp:{masterCrafter:2,detective:1}, unlocks:null, needsPhoto:true},
+   xp:{masterCrafter:2,detective:1,scientist:1,active:1}, unlocks:null, needsPhoto:true},
 
   // ── PARKS (unlocked by mission 16) ────────────────────────────────
   {id:3, region:'parks', age:'all', type:'tn',
@@ -1380,14 +1380,14 @@ const MISSIONS = [
    desc:'Find a sluis (lock gate) near the Amstel or Centraal Station. Watch it work, or draw a detailed cross-section diagram showing exactly how water level changes move a boat up or down.',
    challenge:'Draw a diagram with labels: water level A, level B, lock chamber, gates opening/closing. Explain each step to raise a boat from low to high.',
    voice:{zoe:"The lock gates are covered in water-stains and barnacles — sketch one close-up panel.",paco:"Listen to the sound of water rushing through the lock as it equalises — what musical note is it?",rio:"Time how long it takes for the water level inside the lock to fully equalise. Precisely!",botu:"Calculate: if the lock is 10m wide, 20m long, level rises 1.2m — how many cubic metres of water moved?"},
-   xp:{masterCrafter:2,urbanHistorian:1}, unlocks:null, needsPhoto:true},
+   xp:{masterCrafter:2,urbanHistorian:1,scientist:2}, unlocks:null, needsPhoto:true},
 
   {id:25, region:'parks', age:'young', type:'ta',
    icon:'🚣', title:'Bosbaan Rowing Timer',
    desc:'Go to the Bosbaan in Amsterdamse Bos — a straight 2km rowing competition lake. Watch for a rowing boat and time how long it takes to row from one end to the other.',
    challenge:'Time the rowers carefully. Then calculate their speed in metres per second. A World Championship crew of 8 rows 2,000m in about 5:30. How does the Bosbaan crew compare? Were they faster or slower, and why might that be?',
    voice:{zoe:"Sketch the rowers mid-stroke — the synchronised movement is beautiful geometry.",paco:"Listen for the rhythm of oars entering the water. Can you clap along to their tempo?",rio:"Calculate the speed: if a crew rows 2km in 6 minutes, what\'s that in km/h?",botu:"An 8-person crew exerts roughly 8× the power of a solo rower. Does their time reflect that? Compare and calculate."},
-   xp:{active:1,explorer:1}, unlocks:null, needsPhoto:false},
+   xp:{active:1,explorer:1,masterCrafter:2}, unlocks:null, needsPhoto:false},
 
   // ── DE PIJP (unlocked by mission 3) ───────────────────────────────
   {id:11, region:'depijp', age:'all', type:'tn',
@@ -1395,7 +1395,7 @@ const MISSIONS = [
    desc:'Buy a fresh stroopwafel from a market stall in De Pijp. Hold it FLAT over a hot drink (tea or cocoa) for exactly 60 seconds. Then eat it immediately. FEEL the difference!',
    challenge:'Hold it over the steam for exactly 60 seconds. Is the caramel softer? Now the real question: is this a PHYSICAL change or a CHEMICAL one? Here is the test — let a second stroopwafel cool down again afterwards. If it goes back to how it started, the change was physical. If it cannot go back, it was chemical. Try it and record what happens.',
    voice:{zoe:"Watch the caramel shift through the waffle grid — photograph it before and after the steam.",paco:"The faint sigh of steam meeting cold caramel is a tiny percussion note. Listen for it.",rio:"Set an exact 60-second timer. No cheating — an experiment only counts if it is controlled!",botu:"Heat makes the caramel flow more easily: its viscosity drops. Nothing new is created, so nothing has reacted. What does that tell you about your answer?"},
-   xp:{nature:1,creator:1}, unlocks:'noord', needsPhoto:false},
+   xp:{nature:1,creator:1,scientist:1}, unlocks:'noord', needsPhoto:false},
 
   {id:18, region:'depijp', age:'teen', type:'tl',
    icon:'🗣️', title:'Spreek als een Amsterdammer',
@@ -1424,7 +1424,7 @@ const MISSIONS = [
    desc:'The NDSM wharf in Noord is a legendary street art destination — an old shipyard turned creative playground. Find and photograph 3 different murals or graffiti artworks there.',
    challenge:'Find 3 artworks at NDSM. For each: what style is it (portrait, abstract, lettering)? Do any reference Amsterdam culture? Can you find an artist signature?',
    voice:{zoe:"For each mural, note the dominant colours used. Build a palette of Amsterdam street art.",paco:"Does any artwork have a musical reference? NDSM hosts music festivals — is that in the art?",rio:"The NDSM wharf is huge — 5 minutes to walk across. Map your 3 artworks by location.",botu:"Street art has a lifespan. What materials and surface conditions would make one last longer?"},
-   xp:{photographer:2,creator:1,explorer:1}, unlocks:null, needsPhoto:true},
+   xp:{photographer:2,creator:1,explorer:1,active:1}, unlocks:null, needsPhoto:true},
 
   // ── NEW MISSIONS (26-31) ───────────────────────────────────────────
   {id:26, region:'centrum', age:'all', type:'te',
@@ -1506,7 +1506,7 @@ const MISSIONS = [
    challenge:'Walk the full length. Find: (1) something you have never seen before, (2) a food from another country, (3) something that costs less than €1, (4) the loudest market seller. Buy one small thing using only Dutch words.',
    nl_challenge:'Loop de hele markt van begin tot eind. Vind: (1) iets wat je nog nooit hebt gezien, (2) een eten uit een ander land, (3) iets dat minder dan €1 kost, (4) de luidste marktkoopman. Koop iets kleins — maar bestel in het Nederlands!',
    voice:{zoe:"Find the stall with the most beautiful flower or colour arrangement. Could you recreate it?",paco:"Every market has its own soundscape — vendors calling, music, crinkle of bags. Record 10 seconds in your memory.",rio:"Walk the full 1km from end to end without stopping. Time yourself!",botu:"If there are 260 stalls and each is 3 metres wide, what is the total length of stall frontage?"},
-   xp:{explorer:2,language:1,nature:1}, unlocks:null, needsPhoto:true},
+   xp:{explorer:2,language:1,nature:1,active:2}, unlocks:null, needsPhoto:true},
 
   {id:34, region:'jordaan', age:'teen', type:'ts',
    icon:'📖', title:'The House on Prinsengracht',
@@ -1831,7 +1831,7 @@ function updateHeader() {
   document.getElementById('hAv').textContent = _ch ? _ch.emoji : (S.mode==='teen' ? '🔬' : '🌟');
   document.getElementById('hName').textContent = S.name || 'Explorer';
   document.getElementById('sMis').textContent = S.done.length;
-  document.getElementById('sBdg').textContent = BADGES.filter(b=>b.ok(S)).length;
+  document.getElementById('sBdg').textContent = badgesForMode().filter(b=>b.ok(S)).length;
   const mb = document.getElementById('sMod');
   mb.textContent = S.mode==='teen' ? '🔬 Explorer' : '🌟 Junior';
   mb.style.background = S.mode==='teen' ? '#1565C0' : '#5E35B1';
@@ -2139,8 +2139,14 @@ function completeMission(id) {
   playFanfare();
 }
 
+// A badge tied to a mission only offered in one age mode must not appear
+// in the other, or the child sees something they can never unlock.
+function badgesForMode() {
+  return BADGES.filter(b => !b.modes || b.modes.includes(S.mode));
+}
+
 function checkBadges() {
-  BADGES.forEach(b => {
+  badgesForMode().forEach(b => {
     if (!S.badges.includes(b.id) && b.ok(S)) {
       S.badges.push(b.id);
       playFanfare();
@@ -2717,7 +2723,7 @@ function renderSkills() {
 // BADGES
 // ═══════════════════════════════════════════════════════════════════
 function renderBadges() {
-  document.getElementById('badgesG').innerHTML = BADGES.map(b=>{
+  document.getElementById('badgesG').innerHTML = badgesForMode().map(b=>{
     const e=b.ok(S);
     return `<div class="bdg ${e?'earned':''}">
       <div class="bi">${b.icon}</div>
@@ -2755,7 +2761,7 @@ function renderParent() {
     <div class="ps"><span>Name</span><strong>${S.name||'—'}</strong></div>
     <div class="ps"><span>Missions done</span><strong>${S.done.length} / ${total}</strong></div>
     <div class="ps"><span>Regions unlocked</span><strong>${S.unlocked.length} / ${REGIONS.length}</strong></div>
-    <div class="ps"><span>Badges earned</span><strong>${BADGES.filter(b=>b.ok(S)).length} / ${BADGES.length}</strong></div>
+    <div class="ps"><span>Badges earned</span><strong>${badgesForMode().filter(b=>b.ok(S)).length} / ${badgesForMode().length}</strong></div>
     <div class="ps"><span>Top skill</span><strong>${top?.n||'—'} (${top?.v||0} XP)</strong></div>`;
 }
 
