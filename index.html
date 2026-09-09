@@ -950,7 +950,7 @@ button:active{transform:scale(0.93);}
     </div>
     <div class="pcard" style="font-size:0.87em;color:var(--dim);line-height:1.62;">
       <div class="ctitle" style="font-size:1.05em;">📋 ABOUT</div>
-      <p>All data is stored locally on this device. No personal data is sent anywhere. COPPA compliant — no accounts, no tracking.</p>
+      <p id="aboutPrivacy">Everything you do here is stored on this device alone. No account, no login, no tracking, no analytics. The one exception is the prize request at the very end: if a parent chooses to send it, the name, email and photo they enter are transmitted so a prize can be posted. Nothing else ever leaves the device.</p>
       <p style="margin-top:7px;">Junior missions (5–8): sensory discovery. Explorer missions (9–14): science, urban history &amp; logic.</p>
     </div>
   </div>
@@ -1270,7 +1270,7 @@ const MISSIONS = [
    icon:'🏠', title:'Singel 7 Secret',
    desc:'Find Singel 7. Guidebooks love to call it "the narrowest house in the world" — its front is barely a metre across, about the width of a door. Stand in front of it and spread your arms. Are YOU wider than the house?',
    challenge:'Measure the front in arm spans (one span is roughly your own height across). Then be a proper detective: walk to the bridge and look at the building from the side. Is the WHOLE house that narrow, or only the front? Singel 7 widens out behind — so is the famous claim true, or is it a good story? Write down what you actually saw, not what the guidebooks say.',
-   voice:{zoe:"If you lived in Singel 7, what would your one window look out onto? Sketch it.",paco:"Imagine moving furniture in. How would it sound when they hoist it through the tiny window?",rio:"Time yourself: how quickly can you sprint to the house and back from the corner?",botu:"Measure the width with arm spans. One span is roughly 70cm. Calculate the real width."},
+   voice:{zoe:"If you lived in Singel 7, what would your one window look out onto? Sketch it.",paco:"Imagine moving furniture in. How would it sound when they hoist it through the tiny window?",rio:"Time yourself: how quickly can you sprint to the house and back from the corner?",botu:"Your arm span is roughly your own height. Measure yourself first, then use that to work out the width of the front in metres."},
    xp:{explorer:1,detective:1,urbanHistorian:1}, unlocks:'canals', needsPhoto:true},
 
   {id:12, region:'centrum', age:'young', type:'te',
@@ -1291,7 +1291,7 @@ const MISSIONS = [
    icon:'🌺', title:'Begijnhof Secret Garden',
    desc:'Hidden behind a tiny wooden door on Gedempte Begijnensloot is the Begijnhof — a medieval courtyard garden that has existed since 1346. Find it, enter, and sit quietly for 2 minutes.',
    challenge:'Enter the Begijnhof and find Het Houten Huys — the oldest house in the courtyard, from around 1528, and one of only two wooden houses left standing in Amsterdam. Why do you think almost every other wooden house is gone? Then find the English Reformed Church. Who were the Beguines, and why was a courtyard of independent, unmarried women unusual in the 1300s?',
-   voice:{zoe:"Sketch the courtyard from the doorway — it should fit on one page of your journal.",paco:"Sit in complete silence for the full 2 minutes. What sounds filter in from outside the walls?",rio:"Find the oldest date on any gravestone. How many years ago was that person born?",botu:"Count the buildings around the courtyard. Estimate the average age of the structures."},
+   voice:{zoe:"Sketch the courtyard from the doorway — it should fit on one page of your journal.",paco:"Sit in complete silence for the full 2 minutes. What sounds filter in from outside the walls?",rio:"Find the oldest date carved on any stone. That is the year the person died — how many years ago was that?",botu:"Count the buildings around the courtyard. Estimate the average age of the structures."},
    xp:{urbanHistorian:3,explorer:1}, unlocks:null, needsPhoto:true},
 
   // ── CANALS (unlocked by mission 9 or 14) ──────────────────────────
@@ -1299,7 +1299,7 @@ const MISSIONS = [
    icon:'🌥️', title:'Canal Reflection Hunt',
    desc:'Look into any canal and find reflections! Find a cloud AND a canal house reflected together in the water. Do reflections look exactly the same as the real thing?',
    challenge:'Photograph a cloud AND a house reflected in the same shot. Then look closely at your photo: the reflection is upside down, and the top of the house sits FURTHEST from you in the water. Why? Wait for the water to go still, take a second photo, and compare — what do ripples do to a reflection, and what does that tell you about how light bounces off a moving surface?',
-   voice:{zoe:"Reflections change with ripples — wait for perfect stillness, then take the shot.",paco:"The canal surface is like a drum skin. Drop a pebble and watch the reflections distort.",rio:"Find the most dramatic reflection — the tallest building mirrored perfectly.",botu:"Reflections invert images. If a house is 10m tall, how tall is its reflection?"},
+   voice:{zoe:"Reflections change with ripples — wait for perfect stillness, then take the shot.",paco:"The canal surface is like a drum skin. Drop a pebble and watch the reflections distort.",rio:"Find the most dramatic reflection — the tallest building mirrored perfectly.",botu:"Crouch down, then stand up, watching the same reflection. Does the reflected house move? Light bounces off water at the same angle it arrives — so the reflection you see depends on where your eyes are."},
    xp:{explorer:1,photographer:2,scientist:1}, unlocks:'jordaan', needsPhoto:true},
 
   {id:10, region:'canals', age:'young', type:'tn',
@@ -1401,7 +1401,7 @@ const MISSIONS = [
    icon:'🗣️', title:'Spreek als een Amsterdammer',
    desc:'Use these 3 Dutch phrases with REAL strangers (not family): "Goedemorgen" (good morning — but only before noon; after midday it is "Goedemiddag"), "Alsjeblieft" (please / here you go), "Dank je wel" (thank you).',
    challenge:'Each phrase must be used in a REAL interaction in a shop or café. Write down each reaction. Did they respond in Dutch or switch to English?',
-   voice:{zoe:"Notice people\'s FACES when you speak Dutch — their surprise is the most interesting reaction.",paco:"Dutch has a particular music — the guttural G sound. Practise getting that right before you speak.",rio:"Challenge: use all 3 phrases in a single interaction, without stopping or switching to English!",botu:"Dutch is spoken by 23 million people worldwide. After this mission, you are officially one of them."},
+   voice:{zoe:"Notice people\'s FACES when you speak Dutch — their surprise is the most interesting reaction.",paco:"Dutch has a particular music — the guttural G sound. Practise getting that right before you speak.",rio:"Challenge: use all 3 phrases in a single interaction, without stopping or switching to English!",botu:"Dutch is a first language for more than 24 million people, mostly in the Netherlands and Belgium. After this mission you have spoken it to a stranger — that counts."},
    xp:{language:3}, unlocks:null, needsPhoto:false},
 
   // ── NOORD (unlocked by mission 11) ────────────────────────────────
@@ -1409,7 +1409,7 @@ const MISSIONS = [
    icon:'⛴️', title:'Free Ferry to Noord',
    desc:'Walk behind Centraal Station to the IJ waterfront and take the FREE GVB ferry to Amsterdam-Noord. It runs 24 hours and is completely free! Watch Amsterdam shrink behind you.',
    challenge:'Ride the ferry there AND back. From the water, count how many church spires you can see in the Amsterdam skyline.',
-   voice:{zoe:"Photograph Amsterdam\'s skyline from the water. Which spire is the most beautiful?",paco:"Listen to the ferry engine\'s hum — is it a low note or a high note? Which musical pitch is closest?",rio:"Before you cross, predict your spire count. Then count from the water — were you right?",botu:"The IJ is a former inland sea. Amsterdam sits on 11 million wooden piles. What keeps them from rotting?"},
+   voice:{zoe:"Photograph Amsterdam\'s skyline from the water. Which spire is the most beautiful?",paco:"Listen to the ferry engine\'s hum — is it a low note or a high note? Which musical pitch is closest?",rio:"Before you cross, predict your spire count. Then count from the water — were you right?",botu:"The Royal Palace on the Dam stands on 13,659 wooden piles driven into the mud. Underwater they barely rot — but what do you think happens if the water level ever drops?"},
    xp:{active:1,explorer:2}, unlocks:null, needsPhoto:true},
 
   {id:13, region:'noord', age:'all', type:'td',
@@ -1434,7 +1434,7 @@ const MISSIONS = [
    nl_desc:'Kijk omhoog naar een grachtenpand en je ziet de gevel — de versierde bovenkant. Amsterdam heeft zes hoofdsoorten: trapgevel, klokgevel, halsgevel, tuitgevel, lijstgevel en puntgevel. Wandel langs de Herengracht en zoek er zo veel mogelijk.',
    challenge:'Find and sketch at least 4 of the six types. Which do you see most often? Which is the fanciest? The step gable is the oldest and the neck gable came later — walking the Herengracht, can you work out which stretch was built first? Why did Amsterdam merchants compete over the gable on their block?',
    nl_challenge:'Vind en teken er minstens 4 van de zes. Welke zie je het vaakst? Welke is de sjiekste? De trapgevel is de oudste, de halsgevel kwam later — kun je op de Herengracht zien welk stuk het eerst gebouwd is? Waarom wilden rijke Amsterdammers de mooiste gevel van de straat?',
-   voice:{zoe:"Draw one gable in full detail — windows, ornamental stones, and the hook at the top.",paco:"If each gable type were a music genre, which would be jazz? Which would be classical?",rio:"Walk the full Herengracht and count every gable you pass — not just 6, but every single one.",botu:"The halsgevel (neck gable) was designed to support a hoisting hook. Find the engineering logic in its shape."},
+   voice:{zoe:"Draw one gable in full detail — windows, ornamental stones, and the hook at the top.",paco:"If each gable type were a music genre, which would be jazz? Which would be classical?",rio:"Walk the full Herengracht and count every gable you pass — not just the four you sketch, but every single one.",botu:"The halsgevel (neck gable) was designed to support a hoisting hook. Find the engineering logic in its shape."},
    xp:{architect:3,urbanHistorian:2}, unlocks:null, needsPhoto:true},
 
   {id:27, region:'centrum', age:'young', type:'ta',
@@ -1444,7 +1444,7 @@ const MISSIONS = [
    nl_desc:'In Nederland halen kinderen van 11–12 jaar het Verkeersexamen. Jouw opdracht: ga 10 minuten bij een drukke fietskruising staan en tel: hoeveel fietsers geven een handteken, hoeveel rijden door rood, en hoeveel rijden zonder handen aan het stuur?',
    challenge:'Keep a tally for each behaviour. What are the Dutch traffic rules for cyclists? Based on your count — would most Amsterdam cyclists PASS the verkeersexamen?',
    nl_challenge:'Maak een tellijst voor elk gedrag. Wat zijn de verkeersregels voor fietsers? Zou de gemiddelde Amsterdammer het verkeersexamen halen — of niet?',
-   voice:{zoe:"Notice how confident Dutch cyclists look — no helmets, no hands, phone in one hand. What does that tell you about the city?",paco:"Is there a rhythm to the flow of cyclists at the junction? Can you find the beat?",rio:"Count the full 10 minutes without losing track. Concentration challenge!",botu:"Calculate a pass rate: (hand-signalers ÷ total cyclists) × 100. What\'s the percentage?"},
+   voice:{zoe:"Watch how much Dutch cyclists rely on eye contact instead of shouting. Sketch a junction and mark where people look before they turn.",paco:"Is there a rhythm to the flow of cyclists at the junction? Can you find the beat?",rio:"Count the full 10 minutes without losing track. Concentration challenge!",botu:"Calculate a pass rate: (hand-signalers ÷ total cyclists) × 100. What\'s the percentage?"},
    xp:{active:2,detective:1}, unlocks:null, needsPhoto:false},
 
   {id:28, region:'parks', age:'young', type:'tn',
@@ -1464,7 +1464,7 @@ const MISSIONS = [
    nl_desc:'Kies twee grachten die ver van elkaar liggen. Bekijk het water veilig vanaf de kant: welke kleur heeft het? Helder of troebel? Ruikt het ergens naar? Zie je planten, algen of dieren? Schrijf alles op en vergelijk de twee.',
    challenge:'Write a comparison table: Canal A vs Canal B across 5 factors. What explains the differences? How might water quality affect the wildlife you saw? What would YOU do to improve Amsterdam\'s canal water?',
    nl_challenge:'Maak een vergelijkingstabel: Gracht A vs Gracht B voor 5 factoren. Waarom zijn ze anders? Heeft waterkwaliteit invloed op het dierenleven? Wat zou JIJ doen om het grachtwater te verbeteren?',
-   voice:{zoe:"Use colour words precisely — not just \'green\', but jade, olive, emerald, or khaki.",paco:"Do the two canals sound different? Record any sounds — boats, ducks, traffic echoes off the water.",rio:"Walk between your two observation points and record exactly how long it takes.",botu:"Drop a white tissue in (tied to a string) and measure the depth at which it disappears — this estimates turbidity."},
+   voice:{zoe:"Use colour words precisely — not just \'green\', but jade, olive, emerald, or khaki.",paco:"Do the two canals sound different? Record any sounds — boats, ducks, traffic echoes off the water.",rio:"Walk between your two observation points and record exactly how long it takes.",botu:"Tie a white plastic lid to a string, lower it in and note the depth where it vanishes, then pull it back out. Scientists call this a Secchi depth — it measures how cloudy water is. Never leave anything behind in the canal."},
    xp:{scientist:3,nature:2,detective:1}, unlocks:null, needsPhoto:false},
 
   {id:30, region:'museums', age:'teen', type:'td',
@@ -1505,7 +1505,7 @@ const MISSIONS = [
    nl_desc:'De Albert Cuypmarkt is de langste straatmarkt van Nederland — meer dan een kilometer aan kraampjes met stroopwafels, haring, verse bloemen, Indonesische kruiden en dingen die je nog nooit hebt gezien. Al hier sinds 1905.',
    challenge:'Walk the full length. Find: (1) something you have never seen before, (2) a food from another country, (3) something that costs less than €1, (4) the loudest market seller. Buy one small thing using only Dutch words.',
    nl_challenge:'Loop de hele markt van begin tot eind. Vind: (1) iets wat je nog nooit hebt gezien, (2) een eten uit een ander land, (3) iets dat minder dan €1 kost, (4) de luidste marktkoopman. Koop iets kleins — maar bestel in het Nederlands!',
-   voice:{zoe:"Find the stall with the most beautiful flower or colour arrangement. Could you recreate it?",paco:"Every market has its own soundscape — vendors calling, music, crinkle of bags. Record 10 seconds in your memory.",rio:"Walk the full 1km from end to end without stopping. Time yourself!",botu:"If there are 260 stalls and each is 3 metres wide, what is the total length of stall frontage?"},
+   voice:{zoe:"Find the stall with the most beautiful flower or colour arrangement. Could you recreate it?",paco:"Every market has its own soundscape — vendors calling, music, crinkle of bags. Record 10 seconds in your memory.",rio:"Walk the full 1km from end to end without stopping. Time yourself!",botu:"About 260 stalls at roughly 3 metres each is 780 metres of frontage — yet the market runs over a kilometre. Where does the missing distance go? Look for the gaps as you walk."},
    xp:{explorer:2,language:1,nature:1,active:2}, unlocks:null, needsPhoto:true},
 
   {id:34, region:'jordaan', age:'teen', type:'ts',
@@ -1535,7 +1535,7 @@ const MISSIONS = [
    nl_desc:'Stap in een tram in Amsterdam (met een volwassene). Luister goed naar de automatische Nederlandse omroepen. De tram vertelt je elke haltenaam en waarschuwt voor de deuren. Jij krijgt nu een luisterles Nederlands op wieltjes.',
    challenge:'Write down every Dutch word you understand during the journey. How many stops did you travel? What did the announcement say when the doors were closing? Can you say "Let op, de deuren gaan sluiten" without looking?',
    nl_challenge:'Schrijf elk Nederlands woord op dat je begrijpt tijdens de rit. Hoeveel haltes reed je? Wat zei de omroep als de deuren dichtgingen? Kun je "Let op, de deuren gaan sluiten" zeggen zonder te kijken?',
-   voice:{zoe:"Each tram line has its own personality. Line 1 through Jordaan, Line 5 through Museumplein — which feels most Amsterdam?",paco:"The automated tram voice has a specific rhythm. Can you clap along to the announcement pattern?",rio:"Count the stops: what\'s the maximum you can ride in 15 minutes?",botu:"Amsterdam trams run on 600V DC from overhead wires. Look out the window — can you spot where the wire changes direction?"},
+   voice:{zoe:"Every tram line has its own personality depending on the streets it takes. Look at the route map by the door — which line would you most want to ride to the end?",paco:"The automated tram voice has a specific rhythm. Can you clap along to the announcement pattern?",rio:"Count the stops: what\'s the maximum you can ride in 15 minutes?",botu:"Amsterdam trams run on 600V DC from overhead wires. Look out the window — can you spot where the wire changes direction?"},
    xp:{language:2,active:1}, unlocks:null, needsPhoto:false},
 
   {id:37, region:'depijp', age:'teen', type:'tl',
