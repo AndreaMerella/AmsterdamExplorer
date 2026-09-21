@@ -4,6 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
 <title>Amsterdam Adventure</title>
+<meta name="description" content="A free bilingual app that turns Amsterdam into a classroom: 49 real-world missions across 7 districts, for ages 5–14. No account, works offline.">
+
+<!-- Link previews (LinkedIn, WhatsApp, Slack, X) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Amsterdam Adventure">
+<meta property="og:url" content="https://amsterdamadventure.nl/">
+<meta property="og:title" content="Amsterdam Adventure — the city is the classroom">
+<meta property="og:description" content="49 real-world missions across 7 Amsterdam districts, for ages 5–14. Measure how far a church leans, count the figures in the Nachtwacht, order a drink in Dutch. Free, bilingual, works offline.">
+<meta property="og:image" content="https://amsterdamadventure.nl/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A game map of Amsterdam showing seven explorable districts around the canal ring.">
+<meta property="og:locale" content="en_GB">
+<meta property="og:locale:alternate" content="nl_NL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Amsterdam Adventure — the city is the classroom">
+<meta name="twitter:description" content="49 real-world missions across 7 Amsterdam districts, for ages 5–14. Free, bilingual, works offline.">
+<meta name="twitter:image" content="https://amsterdamadventure.nl/social-card.png">
 
 <!-- HD Red Bicycle PWA Icon -->
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cdefs%3E%3CradialGradient id='g' cx='50%25' cy='50%25' r='50%25'%3E%3Cstop offset='0%25' stop-color='%23FF5722'/%3E%3Cstop offset='100%25' stop-color='%23B71C1C'/%3E%3C/radialGradient%3E%3Cfilter id='gl'%3E%3CfeGaussianBlur stdDeviation='3' result='b'/%3E%3CfeMerge%3E%3CfeMergeNode in='b'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Crect width='120' height='120' rx='26' fill='url(%23g)'/%3E%3Ccircle cx='38' cy='78' r='18' fill='none' stroke='%23fff' stroke-width='5.5' filter='url(%23gl)'/%3E%3Ccircle cx='82' cy='78' r='18' fill='none' stroke='%23fff' stroke-width='5.5' filter='url(%23gl)'/%3E%3Ccircle cx='38' cy='78' r='3' fill='%23fff'/%3E%3Ccircle cx='82' cy='78' r='3' fill='%23fff'/%3E%3Cpath d='M38 78 L60 42 L82 78' fill='none' stroke='%23fff' stroke-width='5' stroke-linejoin='round' filter='url(%23gl)'/%3E%3Cpath d='M60 42 L60 30' stroke='%23fff' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M50 58 L68 58' stroke='%23fff' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='60' cy='26' r='6' fill='%23F9A825'/%3E%3Cpath d='M54 30 Q48 34 48 40' stroke='%23F9A825' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
@@ -46,14 +64,35 @@ body{
   background:linear-gradient(170deg,#1C0A58 0%,#130638 100%);
   display:flex;flex-direction:column;overflow:hidden;
 }
-@media(min-width:600px){
-  .pcard{max-width:720px;margin-left:auto;margin-right:auto;}
-  .map-grid{max-width:720px;margin:0 auto;}
-  .mlist{max-width:720px;margin:0 auto;}
-  .sg{max-width:720px;margin:0 auto;}
-  .bg{max-width:720px;margin:0 auto;}
-  #journalE{max-width:720px;margin:0 auto;}
-  .app-header .hrow{max-width:720px;margin:0 auto;}
+
+/* On a laptop this is still a phone app, so present it as one: a centred
+   panel on a backdrop, rather than a mobile layout stretched to 1440px
+   with its clouds and skyline stranded in the empty space. */
+@media(min-width:860px){
+  body{
+    background:
+      radial-gradient(1100px 700px at 50% -10%, #1B0B4A 0%, rgba(8,3,24,0) 70%),
+      radial-gradient(800px 500px at 50% 110%, #16093C 0%, rgba(8,3,24,0) 70%),
+      #070216;
+    justify-content:center;
+  }
+  #app-shell{
+    max-width:540px;
+    height:min(calc(100dvh - 48px), 920px);
+    border-radius:26px;
+    box-shadow:0 30px 80px rgba(0,0,0,.65), 0 0 0 1px rgba(255,255,255,.07);
+  }
+  /* The default scrollbar reads as a white seam down the panel edge */
+  .app-content{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) transparent;}
+  .app-content::-webkit-scrollbar{width:7px;}
+  .app-content::-webkit-scrollbar-track{background:transparent;}
+  .app-content::-webkit-scrollbar-thumb{
+    background:rgba(255,255,255,.16);border-radius:4px;
+  }
+  .app-content::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.28);}
+  /* Overlays stay full-viewport — that is the normal pattern over a
+     centred panel — but their content matches the panel's width. */
+  .modal .mc{max-width:540px;}
 }
 
 /* ── Clouds ── */
