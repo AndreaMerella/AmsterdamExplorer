@@ -2214,7 +2214,13 @@ function renderMap() {
 function goReg(id) {
   selectedRegion = id;
   switchTab('missions', document.getElementById('tb0'), true);
-  document.querySelector('.app-content').scrollTop = 0;
+  // Take the player to the missions, not back to the top of the map
+  requestAnimationFrame(() => {
+    const card = document.getElementById('mList')?.closest('.pcard');
+    if (!card) return;
+    const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    card.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
+  });
 }
 function clearRegion() {
   selectedRegion = null;
@@ -2236,7 +2242,7 @@ function renderMissions() {
     ? `<div class="reg-filter-bar"><button class="reg-back-btn" onclick="clearRegion()">← All Regions</button><span>${reg.icon} ${reg.en}</span></div>`
     : '';
 
-  if (!vis.length) { list.innerHTML=header+'<div class="mempty">No missions here yet — unlock more regions! 🗺️</div>'; return; }
+  if (!vis.length) { list.innerHTML=header+'<div class="mempty">'+(LANG==='nl'?'Hier staan nog geen opdrachten voor jouw leeftijd — kies een ander stadsdeel! 🗺️':'No missions here for your age group — try another district! 🗺️')+'</div>'; return; }
 
   list.innerHTML = header + vis.map(m => {
     const done = S.done.includes(m.id);

@@ -1,7 +1,11 @@
 // Amsterdam Adventure — offline service worker
-// The whole app is one self-contained HTML file, so caching it plus the
-// Google Fonts stylesheet is enough to run the entire app with no signal.
-const CACHE = 'ams-adventure-v2';
+//
+// The app is one self-contained HTML file, so caching it is enough to run
+// everything with no signal. But the page must be fetched network-first:
+// a cache-first document never updates, and players sit on an old build
+// forever without knowing it. Network-first keeps them current when they
+// have signal, and the cache still carries them when they do not.
+const CACHE = 'ams-adventure-v3';
 const ASSETS = ['./', './index.html', './manifest.json'];
 
 self.addEventListener('install', (e) => {
@@ -12,7 +16,6 @@ self.addEventListener('install', (e) => {
   );
 });
 
-// Drop old caches when the app updates
 self.addEventListener('activate', (e) => {
   e.waitUntil(
     caches.keys()
@@ -23,15 +26,39 @@ self.addEventListener('activate', (e) => {
   );
 });
 
+// Is this a request for the app page itself?
+function isPage(req) {
+  return req.mode === 'navigate'
+      || (req.destination === 'document')
+      || req.url.endsWith('/')
+      || req.url.endsWith('/index.html');
+}
+
 self.addEventListener('fetch', (e) => {
   if (e.request.method !== 'GET') return;
+
+  if (isPage(e.request)) {
+    // Network first: always try for the latest build, fall back when offline
+    e.respondWith(
+      fetch(e.request)
+        .then((res) => {
+          if (res && res.ok) {
+            const copy = res.clone();
+            caches.open(CACHE).then((c) => c.put('./index.html', copy));
+          }
+          return res;
+        })
+        .catch(() => caches.match('./index.html').then((r) => r || caches.match('./')))
+    );
+    return;
+  }
+
+  // Everything else (fonts, icons) can come from cache first
   e.respondWith(
     caches.match(e.request).then((cached) => {
-      // Serve from cache first — kids are often on a school trip with no data
       if (cached) return cached;
       return fetch(e.request)
         .then((res) => {
-          // Cache successful same-origin responses and fonts for next time
           if (res.ok && (e.request.url.startsWith(self.location.origin)
               || e.request.url.includes('fonts.g'))) {
             const copy = res.clone();
@@ -39,7 +66,7 @@ self.addEventListener('fetch', (e) => {
           }
           return res;
         })
-        .catch(() => caches.match('./index.html'));
+        .catch(() => cached);
     })
   );
 });
