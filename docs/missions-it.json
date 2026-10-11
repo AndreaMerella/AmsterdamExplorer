@@ -26,8 +26,8 @@
  },
  "6": {
   "title": "In Ascolto del Campanello del Tram",
-  "desc": "Mettiti vicino a una fermata del tram nel Centrum e ascolta con attenzione. Ogni volta che un tram suona il campanello, segna una tacca nel diario. Riesci a contarne 10 in 10 minuti?",
-  "challenge": "Prima di iniziare, prevedi quanti squilli conterai e scrivilo. Poi conta per esattamente 10 minuti: quale linea suona di più, e suona prima di fermarsi o mentre si muove? Eri sopra o sotto la tua previsione?"
+  "desc": "Mettiti vicino a una fermata del tram in Centrum e ascolta con attenzione. Ogni volta che un tram suona il campanello, segna una tacca sul diario. Quanti squilli riesci a sentire in 5 minuti?",
+  "challenge": "Prima di cominciare, ognuno del gruppo indovina quanti squilli sentirete in 5 minuti: scrivete le previsioni. Poi contate. Chi ci è andato più vicino? Mentre ascolti: il conducente suona prima di fermarsi o mentre è in movimento?"
  },
  "7": {
   "title": "A Caccia di Bakfiets",
@@ -45,9 +45,9 @@
   "challenge": "Misura la facciata in aperture di braccia (un'apertura è più o meno quanto sei alto). Poi fai il vero detective: vai sul ponte e guarda l'edificio di lato. È stretta TUTTA la casa, o solo la facciata? Singel 7 si allarga sul retro: allora la famosa affermazione è vera, o è solo una bella storia? Scrivi quello che hai visto davvero, non quello che dicono le guide."
  },
  "10": {
-  "title": "La Parata delle Anatre",
-  "desc": "Trova una famiglia di anatre che nuota in un canale. Conta tutti gli anatroccoli! Osserva per 2 minuti: riesci a distinguere la mamma dal papà? Cosa mangiano?",
-  "challenge": "Conta gli anatroccoli, poi prevedi: quanti saranno ancora insieme tra 2 minuti? Osserva e controlla. Il maschio del germano reale ha la testa verde, la femmina è marrone. Chi guida la famiglia? Fotografa il momento in cui un anatroccolo fa qualcosa di inaspettato."
+  "title": "La Parata degli Uccelli d'Acqua",
+  "desc": "I canali di Amsterdam sono pieni di uccelli acquatici tutto l'anno: anatre, folaghe con la fronte bianca, gallinelle d'acqua con il becco rosso, cigni e aironi immobili come statue. Scegli un uccello o una famiglia e osservalo per 2 minuti.",
+  "challenge": "Conta quante specie diverse di uccelli acquatici trovi lungo un canale. Poi scegline uno e prevedi: dove sarà fra 2 minuti? Osserva e controlla. In primavera e all'inizio dell'estate cerca i piccoli: anatroccoli, o cignetti grigi e soffici che seguono un cigno. Il germano reale maschio ha la testa verde, la femmina è marrone. Fotografa il momento in cui un uccello fa qualcosa di inaspettato."
  },
  "11": {
   "title": "La Scienza dello Stroopwafel",
@@ -56,8 +56,8 @@
  },
  "12": {
   "title": "Il Conta-Ponti",
-  "desc": "Cammina per il Centrum per un'ora. Ogni volta che attraversi un ponte su un canale, segna una tacca. Amsterdam ha più di 1.200 ponti: quanti riesci ad attraversarne?",
-  "challenge": "Prima di partire, prevedi quanti ponti attraverserai e scrivi il numero. Dopo un'ora conta le tacche: ne hai attraversati di più o di meno di quanto pensavi, e di quanti? Qual era il ponte più bello, e cosa lo rendeva diverso da tutti gli altri?"
+  "desc": "Cammina per Centrum per 20 minuti. Ogni volta che attraversi un ponte su un canale, segna una tacca. Amsterdam ha più di 1.200 ponti: quanti riesci ad attraversarne?",
+  "challenge": "Prima di partire, prevedi quanti ponti attraverserai in 20 minuti e scrivi il numero. Allo scadere del tempo conta le tacche: ne hai attraversati più o meno di quanti pensavi, e di quanti? Qual era il ponte più bello, e che cosa lo rendeva diverso da tutti gli altri?"
  },
  "13": {
   "title": "A Caccia delle Tre X",
@@ -66,8 +66,8 @@
  },
  "14": {
   "title": "In Piedi su 60.000 Persone",
-  "desc": "La Oude Kerk è l'edificio più antico di Amsterdam: una chiesa di pietra consacrata nel 1306, nel punto dove dal 1213 sorgeva una cappella di legno. Entra e guarda in basso. Quel pavimento non è fatto di lastre qualsiasi. Sono 2.500 lapidi, e sotto i tuoi piedi sono sepolte circa 60.000 persone.",
-  "challenge": "Fai il conto lì sul posto: 60.000 persone sotto 2.500 lapidi, quante sepolture per lapide? Poi trova la tomba di Saskia van Uylenburgh, la moglie di Rembrandt, sotto il piccolo organo del coro: morì nel 1642, a 29 anni. Infine guarda IN ALTO il soffitto di legno, costruito intorno al 1390 con quercia estone. È la più grande volta medievale in legno d'Europa e si regge da sola da più di 600 anni, senza rinforzi moderni. Cosa la tiene su?"
+  "desc": "La Oude Kerk è l'edificio più antico di Amsterdam: una chiesa di pietra consacrata nel 1306, nel punto in cui dal 1213 sorgeva una cappella di legno. Entra e guarda in basso. Quel pavimento non è lastricato: sono 2.500 lapidi, e sotto i tuoi piedi sono sepolte circa 60.000 persone. (L'ingresso alla Oude Kerk è a pagamento; è gratuito con la Museumkaart o la Stadspas.)",
+  "challenge": "Fai il calcolo lì in piedi: 60.000 persone sotto 2.500 lapidi, quante sepolture per lapide? Poi trova la tomba di Saskia van Uylenburgh, moglie di Rembrandt, sotto il piccolo organo del coro; morì nel 1642, a 29 anni. Infine guarda IN ALTO il soffitto di legno, costruito intorno al 1390 con quercia estone. È la più grande volta lignea medievale d'Europa e si regge da oltre 600 anni senza alcun rinforzo moderno. Che cosa la tiene su?"
  },
  "15": {
   "title": "Il Problema del Gancio",
@@ -81,8 +81,8 @@
  },
  "17": {
   "title": "La Logica dell'Acqua nelle Chiuse",
-  "desc": "Trova una chiusa (sluis) vicino all'Amstel o alla Stazione Centrale. Guardala funzionare, oppure disegna una sezione dettagliata che mostri esattamente come il cambio del livello dell'acqua fa salire o scendere una barca.",
-  "challenge": "Disegna uno schema con le etichette: livello dell'acqua A, livello B, camera della chiusa, porte che si aprono e si chiudono. Spiega ogni passaggio per portare una barca da un livello basso a uno alto."
+  "desc": "Amsterdam tiene le sue acque a livelli diversi, e una sluis (chiusa) è il modo in cui le barche salgono da un livello all'altro. Trova una chiusa vicino all'Amstel o alla Stazione Centrale. Se ce n'è una in funzione, guarda tutto il passaggio; se no, potete comunque capirlo da soli.",
+  "challenge": "Prima mettetela in scena: due persone sono le porte, una è la barca e tutti gli altri sono l'acqua. Lo spazio tra le porte è la camera della chiusa. Passo dopo passo, come fa la barca a passare dall'acqua bassa a quella alta? Quale porta si apre per prima, e che cosa fa l'acqua? Poi trova una chiusa vera e indica le due porte e la camera in mezzo. Bonus per chi ama i disegni: disegnala con le etichette: livello A, livello B, camera, porte."
  },
  "18": {
   "title": "Parla come un Amsterdammer",
@@ -91,18 +91,18 @@
  },
  "19": {
   "title": "Il Giardino Segreto del Begijnhof",
-  "desc": "Nascosto dietro una minuscola porta di legno sulla Gedempte Begijnensloot c'è il Begijnhof: un cortile-giardino medievale che esiste dal 1346. Trovalo, entra e siediti in silenzio per 2 minuti.",
-  "challenge": "Entra nel Begijnhof e trova Het Houten Huys: la casa più antica del cortile, del 1528 circa, e uno dei soli due edifici del centro di Amsterdam che hanno ancora la facciata di legno. Secondo te perché quasi tutte le altre case di legno sono scomparse? Poi trova la Chiesa Riformata Inglese. Chi erano le beghine, e perché un cortile di donne indipendenti e non sposate era una cosa insolita nel Trecento?"
+  "desc": "Dietro una minuscola porta di legno sulla Gedempte Begijnensloot si nasconde il Begijnhof: un cortile-giardino medievale che esiste dal 1346. Quasi tutti passano davanti alla porta senza accorgersene. Riesci a trovarla senza chiedere a nessuno?",
+  "challenge": "Dentro, vai a caccia di: (1) Het Houten Huys, la casa più antica del cortile, del 1528 circa, e uno dei soli due edifici del centro di Amsterdam che hanno ancora la facciata di legno; (2) la Chiesa Riformata Inglese; (3) la data più antica che trovi incisa da qualche parte. Perché secondo te quasi tutte le altre case di legno della città sono scomparse? E chi erano le beghine, donne che nel Trecento scelsero di vivere qui insieme, indipendenti e non sposate?"
  },
  "20": {
   "title": "De Papegaai: la Chiesa del Pappagallo",
-  "desc": "Al numero 58 della Kalverstraat, tra le vetrine dei negozi, una porta si apre su un'intera chiesa cattolica. Dopo il 1578 Amsterdam vietò il culto cattolico, così i fedeli costruirono chiese segrete dentro case qualunque. Una sorgeva proprio qui, nascosta nel giardino di un venditore di uccelli: per questo ancora oggi la chiamano De Papegaai, il pappagallo.",
-  "challenge": "Trova il pappagallo sopra l'ingresso, poi entra: è gratis. Perché dopo il 1578 i cattolici dovevano nascondersi? Guarda bene: la chiesa in cui ti trovi è stata ricostruita nel 1848, quando il culto cattolico pubblico era di nuovo permesso, quindi è più grandiosa di quanto potesse essere una chiesa segreta. Per vederne una mai ricostruita, Ons' Lieve Heer op Solder sulla Oudezijds Voorburgwal conserva intatta la sua chiesa in soffitta del 1663."
+  "desc": "Da qualche parte sulla Kalverstraat, una delle vie dello shopping più affollate di Amsterdam, un pappagallo osserva la folla. Trovalo: dietro di lui scoprirai un'intera chiesa nascosta tra i negozi.",
+  "challenge": "Il pappagallo è sopra un portone al numero 58 della Kalverstraat. Individualo, poi entra: l'ingresso è gratuito. Ecco il segreto: dopo il 1578 ad Amsterdam il culto cattolico fu vietato, e i fedeli costruirono chiese nascoste dentro case normali. Una sorgeva proprio qui, nel giardino di un commerciante di uccelli: per questo si chiama ancora De Papegaai, il pappagallo. La chiesa in cui ti trovi fu ricostruita nel 1848, quando i cattolici poterono di nuovo pregare apertamente. Dalla strada, avresti mai immaginato che fosse qui?"
  },
  "21": {
   "title": "Il Ponte che si Apre",
-  "desc": "Amsterdam ha decine di ponti levatoi funzionanti (ophaalbruggen) che si aprono per far passare le barche alte. Trovane uno in funzione e cronometra il ciclo completo di apertura e chiusura.",
-  "challenge": "Cronometra il ciclo completo: chiuso → tutto aperto → barca passata → di nuovo chiuso. È automatico o c'è un guardiano? Ora conta quanto è costato: quante auto, ciclisti e pedoni hanno aspettato mentre passava quella sola barca? Eppure Amsterdam ha conservato centinaia di ponti mobili. A chi sta dando la precedenza la città, e tu faresti la stessa scelta?"
+  "desc": "Amsterdam ha decine di ponti levatoi funzionanti (ophaalbruggen) che si aprono per far passare le barche alte. Trovane uno in azione e cronometra l'intero ciclo di apertura e chiusura.",
+  "challenge": "Cronometra il ciclo completo: chiuso → tutto aperto → passaggio della barca → di nuovo chiuso. È automatico o c'è un guardiano? Ora conta quanto è costato: quante auto, ciclisti e pedoni hanno aspettato mentre passava quella sola barca? Amsterdam ha comunque conservato decine di ponti apribili. A chi sta dando la precedenza la città, qui? E tu faresti la stessa scelta? Nessuna fortuna dopo 15 minuti? Studia invece un ponte chiuso: trova la cerniera, il contrappeso o la cabina di comando, e capisci da che parte si muoverebbe e dove passerebbe la barca."
  },
  "22": {
   "title": "Disegna la Tua Gevelsteen",
@@ -111,8 +111,8 @@
  },
  "23": {
   "title": "La Matematica del Parcheggio Bici",
-  "desc": "Trova il parcheggio bici della Stazione Centrale: quello enorme e sotterraneo sullo Stationsplein, che da solo contiene circa 7.000 biciclette. Invece di contarle tutte, conta ogni bici di UNA sezione, conta le sezioni e moltiplica. Si chiama campionamento, ed è il modo in cui gli scienziati contano le cose troppo numerose per essere contate una per una.",
-  "challenge": "Mostra i tuoi calcoli. Confronta la tua stima con le 7.000 biciclette per cui è costruito il garage dello Stationsplein: quanto ti sei avvicinato, e la stima sarebbe stata migliore o peggiore se avessi scelto un'altra sezione? Amsterdam ha circa 881.000 biciclette per circa 940.000 abitanti. Quasi una a testa: cosa ti dice questo rapporto su come è costruita questa città?"
+  "desc": "Trova il parcheggio bici della Stazione Centrale: quello enorme sotterraneo sotto lo Stationsplein, che da solo contiene circa 7.000 biciclette. Invece di contarle tutte, conta ogni bici in UNA sezione, conta le sezioni e moltiplica. Si chiama campionamento, ed è così che gli scienziati contano le cose troppo numerose per essere contate una per una.",
+  "challenge": "Prima che qualcuno cominci a contare, ognuno del gruppo indovina quante bici ci sono nell'intero parcheggio: scrivete le previsioni. Poi fate il campionamento: contate una sezione, contate le sezioni, moltiplicate. Chi ci è andato più vicino a occhio, e quanto si avvicina il vostro campione alle 7.000 per cui il parcheggio è costruito? Amsterdam ha circa 881.000 biciclette per circa 940.000 abitanti. Quasi una a testa: che cosa ti dice questo su come è fatta questa città?"
  },
  "24": {
   "title": "Caccia alla Street Art all'NDSM",
@@ -126,13 +126,13 @@
  },
  "26": {
   "title": "La Grande Caccia ai Frontoni",
-  "desc": "Alza lo sguardo su una casa sul canale e vedrai il frontone: la parte decorata in cima all'edificio. Amsterdam ne ha sei tipi principali: a gradoni (trapgevel), a campana (klokgevel), a collo (halsgevel), a becco (tuitgevel), a cornicione (lijstgevel) e a punta (puntgevel). Cammina lungo la Herengracht e guarda quanti ne riesci a riconoscere.",
-  "challenge": "Trova e disegna almeno 4 dei sei tipi. Quale vedi più spesso? Qual è il più elegante? Il frontone a gradoni è il più antico e quello a collo è arrivato dopo: camminando lungo la Herengracht, riesci a capire quale tratto è stato costruito per primo? Perché i mercanti di Amsterdam facevano a gara per avere il frontone più bello dell'isolato?"
+  "desc": "Alza lo sguardo su una qualsiasi casa sui canali e troverai un frontone (gevel): la parte decorativa in cima all'edificio. Amsterdam ne ha sei tipi principali: a gradoni (trapgevel), a campana (klokgevel), a collo (halsgevel), a beccuccio (tuitgevel), a cornicione (lijstgevel) e a punta (puntgevel). Cammina lungo la Herengracht e guarda quanti ne riesci a trovare.",
+  "challenge": "Tombola dei frontoni: le sei forme sono a gradoni, a campana, a collo, a beccuccio, a cornicione e a punta. Grida il nome appena ne vedi una: vince chi ne trova per primo quattro diverse, e tutte e sei fanno tombola. Quale vedi più spesso? Il frontone a gradoni è il più antico e quello a collo è arrivato dopo: riesci a capire quale tratto della Herengracht è stato costruito per primo? Perché i mercanti di Amsterdam facevano a gara con il frontone della propria casa?"
  },
  "27": {
   "title": "La Scuola della Bici",
-  "desc": "I bambini olandesi fanno un vero esame nazionale di bicicletta, il VVN Verkeersexamen, in groep 7 o 8, cioè intorno ai 10–12 anni: una prova scritta a scuola e poi un percorso pratico nel traffico vero. La tua sfida: mettiti a un incrocio di piste ciclabili trafficato per 10 minuti e osserva i ciclisti. Conta quanti fanno i segnali con la mano, quanti passano col rosso e quanti vanno senza mani sul manubrio.",
-  "challenge": "Tieni il conto di ogni comportamento. Quali sono le regole olandesi per i ciclisti? In base al tuo conteggio: la maggior parte dei ciclisti di Amsterdam SUPEREREBBE il verkeersexamen?"
+  "desc": "I bambini olandesi sostengono un vero esame nazionale di ciclismo, il VVN Verkeersexamen, in groep 7 o 8: una prova scritta a scuola e poi un percorso pratico nel traffico vero. La tua sfida: mettiti a un incrocio di piste ciclabili molto trafficato per 5 minuti e guarda passare i ciclisti.",
+  "challenge": "Dividetevi i compiti: uno conta i segnali con la mano, uno chi passa col rosso, uno chi pedala senza mani sul manubrio. Dopo 5 minuti confrontate. Chi ha avuto il lavoro più impegnativo? Quali sono le regole del codice stradale olandese per i ciclisti? In base ai vostri conteggi, la maggior parte dei ciclisti di Amsterdam SUPEREREBBE il verkeersexamen?"
  },
  "28": {
   "title": "La Grande Seduta degli Uccelli",
@@ -141,13 +141,13 @@
  },
  "29": {
   "title": "Il Laboratorio dei Canali",
-  "desc": "Scegli due canali diversi e lontani tra loro. A ognuno, osserva l'acqua in sicurezza dalla riva: di che colore è? Limpida o torbida? Ha un odore? Ci sono piante, alghe o animali? Annota tutto nel diario. Poi confronta i due canali.",
-  "challenge": "Fai una tabella di confronto: Canale A contro Canale B su 5 aspetti. Cosa spiega le differenze? Come può la qualità dell'acqua influire sugli animali che hai visto? Cosa faresti TU per migliorare l'acqua dei canali di Amsterdam?"
+  "desc": "Scegli due canali diversi e lontani tra loro. In ciascuno, osserva l'acqua dalla riva in sicurezza: di che colore è? Limpida o torbida? Ha un odore? Ci sono piante, alghe o animali? Annota tutto nel diario. Poi confronta i due canali.",
+  "challenge": "Tombola dell'acqua: a ogni canale spunta quello che trovi: acqua limpida, acqua torbida, acqua verde, un odore, piante galleggianti, alghe, un pesce, un uccello acquatico, rifiuti, una casa galleggiante. Quale canale ha fatto più punti? Che cosa spiega le differenze, e come potrebbe l'acqua influire sugli animali che hai visto? Che cosa faresti TU per migliorare l'acqua dei canali di Amsterdam?"
  },
  "30": {
   "title": "I Milionari della Noce Moscata",
-  "desc": "La VOC, la Compagnia olandese delle Indie Orientali, fondata ad Amsterdam nel 1602, prese il controllo di tutta la noce moscata del mondo, che cresceva su una manciata di isole nell'attuale Indonesia. Gli abitanti di Banda si rifiutarono di venderla solo alla VOC, così nel 1621 la compagnia li cacciò dalle loro isole; molti furono uccisi e altri ridotti in schiavitù. Amsterdam si arricchì con il commercio che ne seguì, e l'anello dei canali in cui ti trovi fu costruito con quel denaro a partire dal 1613. Lavora con queste cifre: un capitano torna con 200 kg di noce moscata valutata 100 fiorini al chilo, e una casa sul canale costa 8.000 fiorini. Quante case vale il suo carico?",
-  "challenge": "Risolvi il calcolo. Poi cerca la noce moscata in un supermercato: quanto costa oggi al grammo? Cosa ti dice questo crollo del prezzo sul commercio, sulle catene di approvvigionamento e sulla globalizzazione? E un'ultima domanda: hai appena calcolato quanto valeva questo carico in case sul canale. Chi l'ha pagato?"
+  "desc": "La VOC, la Compagnia olandese delle Indie Orientali fondata ad Amsterdam nel 1602, prese il controllo della noce moscata del mondo, che cresceva su poche isole dell'attuale Indonesia. Gli abitanti di Banda si rifiutarono di vendere solo alla VOC, e nel 1621 la compagnia li cacciò dalle loro isole; molti furono uccisi e altri ridotti in schiavitù. Amsterdam si arricchì con il commercio che seguì, e l'anello dei canali in cui ti trovi fu costruito con quel denaro a partire dal 1613. Lavora con queste cifre: un capitano torna con 200 kg di noce moscata valutata 100 fiorini al chilo, e una casa sul canale costa 8.000 fiorini. Quante case vale il suo carico?",
+  "challenge": "Prima indovina: il carico vale meno di una casa, un paio di case o un'intera strada? Poi fai il calcolo e guarda chi ci è andato più vicino. Dopo, trova la noce moscata al supermercato e indovina il prezzo prima di guardare l'etichetta. Che cosa ti dice quel crollo del prezzo sul commercio e sulla globalizzazione? E un'ultima cosa: hai appena calcolato quanto valeva questo carico in case sul canale. Chi l'ha pagato?"
  },
  "31": {
   "title": "Disegna il Jordaan",
@@ -161,8 +161,8 @@
  },
  "33": {
   "title": "Safari al Mercato Albert Cuyp",
-  "desc": "L'Albert Cuyp è il più grande mercato di strada quotidiano dei Paesi Bassi: più di 260 bancarelle che vendono stroopwafel, aringa cruda, fiori freschi, spezie indonesiane e cose che ancora non sai nominare. La città lo ha aperto nel 1905, e da allora c'è sei giorni alla settimana.",
-  "challenge": "Cammina da un capo all'altro. Trova: (1) qualcosa che non hai mai visto, (2) un cibo di un altro paese, (3) qualcosa che costa meno di 1 €, (4) il venditore che urla di più. Compra tu stesso una piccola cosa: parli tu, non l'adulto che è con te. Poi conta i paesi: da quante parti diverse del mondo arriva il cibo che trovi su quest'unica strada?"
+  "desc": "L'Albert Cuyp è il più grande mercato di strada quotidiano dei Paesi Bassi: più di 260 bancarelle che vendono stroopwafel, aringa cruda, fiori freschi, spezie indonesiane e cose di cui ancora non conosci il nome. Il comune lo avviò nel 1905, e da allora è aperto sei giorni alla settimana: dal lunedì al sabato, mai la domenica.",
+  "challenge": "Percorrilo da un capo all'altro. Trova: (1) qualcosa che non hai mai visto prima, (2) un cibo di un altro paese, (3) qualcosa che costa meno di 1 €, (4) il venditore che grida più forte. Compra tu stesso una piccola cosa: parli tu, non il tuo adulto. Poi conta i paesi: da quante parti diverse del mondo arriva il cibo che trovi in questa sola strada?"
  },
  "34": {
   "title": "La Casa sulla Prinsengracht",
@@ -221,13 +221,13 @@
  },
  "45": {
   "title": "Noord Non Sembra Amsterdam",
-  "desc": "Attraversa l'acqua e cammina cinque minuti verso l'interno, lontano dal traghetto. C'è qualcosa di strano: niente case sui canali, niente frontoni alti e stretti, niente folla. Ci sono invece case basse di mattoni in fila, con giardinetti davanti, siepi e strade tranquille. Sembra quasi un'altra città.",
-  "challenge": "Fai due elenchi affiancati nel diario: cinque cose che hai visto nel centro storico e cinque che vedi qui. Poi fotografa una casa che NON potrebbe esistere nel centro. Noord era fatta di campi e cantieri navali molto tempo dopo la costruzione dei canali, quindi le sue case sono arrivate molto più tardi: riesci a trovare qualcosa che sembri vecchio?"
+  "desc": "Attraversa l'acqua e cammina per cinque minuti verso l'interno, lontano dal traghetto. C'è qualcosa di strano: niente case sui canali, niente frontoni alti e stretti, niente folla. Ci sono invece file di case basse di mattoni, con giardinetti davanti, siepi e strade tranquille. Sembra quasi un'altra città.",
+  "challenge": "Trova qui tre cose che NON potrebbero MAI stare nel centro storico (una casa, una strada, un giardino) e fotografale. Per ciascuna, di' esattamente che cosa la tradisce: l'altezza, il giardino davanti, la larghezza della strada? Noord è rimasta terreno agricolo e cantieri navali molto dopo la costruzione dei canali, quindi le sue case sono arrivate molto più tardi: riesci a trovare qualcosa che sembri antico?"
  },
  "46": {
   "title": "Il Problema dei Parrocchetti",
-  "desc": "Nel Vondelpark ci sono pappagalli selvatici. Parrocchetti dal collare verde brillante che strillano tra le cime degli alberi: uccelli che vengono dall'Africa e dall'Asia meridionale, non dai Paesi Bassi. Il primo è stato registrato ufficialmente qui nel 1976, quasi certamente un animale domestico scappato. Nel 2022 se ne stimavano 22.000 in tutto il Randstad, contro i circa 5.000 del 2005.",
-  "challenge": "Cercali prima a orecchio: il loro verso è uno strillo acuto e ripetuto, niente a che vedere con gli uccelli locali. Conta quanti ne vedi in quindici minuti e annota cosa stanno facendo. Poi la discussione: il parrocchetto dal collare è nella lista delle 100 specie invasive più dannose d'Europa, perché contende i buchi per il nido agli uccelli locali. Ma è arrivato qui senza nessuna colpa e ora prospera. Scrivi le ragioni A FAVORE della loro rimozione e quelle CONTRO, poi di' cosa pensi davvero."
+  "desc": "Nel Vondelpark ci sono pappagalli selvatici: parrocchetti dal collare verde brillante che strillano in cima agli alberi, uccelli che appartengono all'Africa e all'Asia meridionale, non ai Paesi Bassi. Il primo fu registrato ufficialmente qui nel 1976, quasi certamente un animale domestico fuggito. Nel 2022 se ne stimavano 22.000 in tutta la Randstad, contro circa 5.000 nel 2005.",
+  "challenge": "ESPLORATORI PIÙ PICCOLI: trovateli prima con l'orecchio (uno strillo aspro e ripetuto, diverso da quello di tutti gli altri uccelli), poi contate quanti riuscite a vederne in dieci minuti. Che cosa stanno facendo? ESPLORATORI PIÙ GRANDI: contate per quindici minuti, poi affrontate la questione. Il parrocchetto dal collare è nella lista delle 100 peggiori specie invasive d'Europa, perché contende i buchi per il nido agli uccelli autoctoni. Ma è arrivato qui senza alcuna colpa e ora prospera. Scrivete le ragioni PER rimuoverli e quelle CONTRO, poi dite a quali credete davvero."
  },
  "47": {
   "title": "Un Bosco Scavato a Mano",
