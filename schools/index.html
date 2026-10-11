@@ -259,6 +259,17 @@ footer{
   .masthead{flex-direction:column;gap:16px;}
   .fact{border-left:0;padding-left:0;}
   .facts{grid-template-columns:1fr 1fr;gap:0 20px;}
+  /* On a phone the three columns cannot fit: stack each row, so the
+     mission names stay on screen instead of in a sideways scroll */
+  .tablewrap{overflow-x:visible;}
+  table{min-width:0;}
+  thead{display:none;}
+  table,tbody,tr,td{display:block;width:100%;}
+  tbody tr{padding:12px 14px;border-bottom:1px solid var(--rule);}
+  tbody tr:last-child{border-bottom:0;}
+  tbody td{padding:0;border-bottom:0;}
+  .kd{margin-bottom:2px;}
+  .subj{white-space:normal;margin-bottom:4px;}
 }
 @media (prefers-reduced-motion:reduce){
   *{transition:none!important;}
@@ -370,7 +381,7 @@ footer{
           <tr>
             <td class="kd">KD 1 · 2</td>
             <td class="subj"><span class="en">Dutch — oral</span><span class="nl">Nederlands — mondeling</span></td>
-            <td class="miss"><span class="en">Tram Language Catcher; Order in Dutch — listening to tram announcements, then ordering in a café unaided</span><span class="nl">Tramtaalleer; Bestel in het Nederlands — luisteren naar omroepen, daarna zelfstandig bestellen in een café</span></td>
+            <td class="miss"><span class="en">Tram Language Catcher; Bestel in het Nederlands — listening to tram announcements, then ordering in a café unaided</span><span class="nl">Tramtaalleer; Bestel in het Nederlands — luisteren naar omroepen, daarna zelfstandig bestellen in een café</span></td>
           </tr>
           <tr>
             <td class="kd">KD 4 · 5 · 9</td>
@@ -380,27 +391,27 @@ footer{
           <tr>
             <td class="kd">KD 24 · 33</td>
             <td class="subj"><span class="en">Mathematics</span><span class="nl">Rekenen</span></td>
-            <td class="miss"><span class="en">Bridge Counter; Oude Kerk Lean; VOC nutmeg problem — rates, angle measurement, historical currency conversion</span><span class="nl">Bruggenteller; Scheve Oude Kerk; VOC-nootmuskaatsom — verhoudingen, hoekmeting, historische valuta</span></td>
+            <td class="miss"><span class="en">Bridge Counter; Standing on 60,000 People; The Nutmeg Millionaires — predicting and checking estimates, division, historical currency</span><span class="nl">Bruggen Tellen; Je Staat op 60.000 Mensen; De Nootmuskaatmiljonairs — schattingen voorspellen en controleren, delen, historische valuta</span></td>
           </tr>
           <tr>
             <td class="kd">KD 47 · 50</td>
             <td class="subj"><span class="en">Geography</span><span class="nl">Aardrijkskunde</span></td>
-            <td class="miss"><span class="en">Albert Cuyp Market Safari; Narrowest House — reading a city's spatial and economic layout on foot</span><span class="nl">Albert Cuypmarkt Safari; Smalste Huis — de ruimtelijke en economische opbouw van een stad te voet lezen</span></td>
+            <td class="miss"><span class="en">Albert Cuyp Market Safari; Singel 7 Secret — reading a city's spatial and economic layout on foot</span><span class="nl">Albert Cuypmarkt Safari; Singel 7: Klopt het Verhaal? — de ruimtelijke en economische opbouw van een stad te voet lezen</span></td>
           </tr>
           <tr>
             <td class="kd">KD 51 · 52 · 53</td>
             <td class="subj"><span class="en">History</span><span class="nl">Geschiedenis</span></td>
-            <td class="miss"><span class="en">Begijnhof; VOC problem; Prinsengracht 263 — medieval city, Dutch Golden Age trade, and the Second World War, each at its own address</span><span class="nl">Begijnhof; VOC-som; Prinsengracht 263 — middeleeuwse stad, Gouden Eeuw en Tweede Wereldoorlog, elk op de eigen plek</span></td>
+            <td class="miss"><span class="en">Begijnhof; The Nutmeg Millionaires; Prinsengracht 263 — medieval city, Dutch Golden Age trade, and the Second World War, each at its own address</span><span class="nl">Begijnhof; De Nootmuskaatmiljonairs; Prinsengracht 263 — middeleeuwse stad, Gouden Eeuw en Tweede Wereldoorlog, elk op de eigen plek</span></td>
           </tr>
           <tr>
             <td class="kd">KD 40 · 42</td>
             <td class="subj"><span class="en">Nature &amp; science</span><span class="nl">Natuur &amp; techniek</span></td>
-            <td class="miss"><span class="en">The Parakeet Problem; The Great Bird Sit; Canal Science Lab — identifying local species and arguing about an invasive one, a point count uploaded to waarneming.nl, and testing water clarity by Secchi depth</span><span class="nl">Het Parkietenprobleem; De Grote Vogelzit; Grachtenlab — inheemse soorten herkennen en over een invasieve soort discussiëren, een punttelling die naar waarneming.nl gaat, en watertroebelheid meten met de Secchi-diepte</span></td>
+            <td class="miss"><span class="en">The Parakeet Problem; The Great Bird Sit; Canal Science Lab — identifying local species and arguing about an invasive one, a point count uploaded to waarneming.nl, and comparing the water of two canals</span><span class="nl">Het Parkietenprobleem; De Grote Vogelteldag; Grachtenwaterlab — inheemse soorten herkennen en over een invasieve soort discussiëren, een punttelling die naar waarneming.nl gaat, en het water van twee grachten vergelijken</span></td>
           </tr>
           <tr>
             <td class="kd">KD 54 · 55</td>
             <td class="subj"><span class="en">Arts</span><span class="nl">Kunstzinnig</span></td>
-            <td class="miss"><span class="en">Draw the Jordaan; Rijksmuseum Treasure Hunt — fifteen minutes of observational drawing; reading how Rembrandt directs attention with light</span><span class="nl">Teken de Jordaan; Rijksmuseum Schattenjacht — vijftien minuten waarnemend tekenen; zien hoe Rembrandt met licht stuurt</span></td>
+            <td class="miss"><span class="en">Draw the Jordaan; Rijksmuseum Treasure Hunt — fifteen minutes of observational drawing; working out how Rembrandt shows who matters without a single word</span><span class="nl">Teken de Jordaan; Rijksmuseum Schattenjacht — vijftien minuten waarnemend tekenen; uitzoeken hoe Rembrandt laat zien wie er het belangrijkst is, zonder één woord</span></td>
           </tr>
           <tr>
             <td class="kd">KD 56</td>
@@ -436,7 +447,7 @@ footer{
         </li>
         <li>
           <span class="theme-n"><span class="en">How we express ourselves</span><span class="nl">How we express ourselves</span></span>
-          <span class="theme-d"><span class="en">Observational drawing in the Jordaan, and reading how Rembrandt directs a viewer's eye with light alone.</span><span class="nl">Waarnemend tekenen in de Jordaan, en zien hoe Rembrandt de blik van de kijker stuurt met alleen licht.</span></span>
+          <span class="theme-d"><span class="en">Observational drawing in the Jordaan, and working out how Rembrandt shows who matters without a single word.</span><span class="nl">Waarnemend tekenen in de Jordaan, en uitzoeken hoe Rembrandt laat zien wie er het belangrijkst is, zonder één woord.</span></span>
         </li>
         <li>
           <span class="theme-n"><span class="en">How we organise ourselves</span><span class="nl">How we organise ourselves</span></span>

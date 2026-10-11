@@ -138,9 +138,9 @@ button:active{transform:scale(0.93);}
   background:var(--gold);color:#1A0845;padding:10px 16px;
   display:flex;align-items:center;justify-content:space-between;
   font-weight:700;font-size:0.93em;
-  transform:translateY(-100%);transition:transform 0.4s ease;
+  transform:translateY(-100%);transition:transform 0.4s ease,visibility 0s 0.4s;visibility:hidden;
 }
-.screen-reminder.vis{transform:translateY(0);}
+.screen-reminder.vis{transform:translateY(0);visibility:visible;transition:transform 0.4s ease;}
 .screen-reminder button{background:none;border:none;font-size:1.5em;cursor:pointer;}
 
 /* ── Onboarding ── */
@@ -230,6 +230,16 @@ button:active{transform:scale(0.93);}
   color:var(--gold);-webkit-text-stroke:0.5px #000;paint-order:stroke fill;
 }
 .hname{font-family:'Caveat',cursive;font-size:1.02em;color:var(--dim);}
+/* Narrow phones: keep the header to its usual height, even with the back arrow showing */
+@media(max-width:400px){
+  .hrow{gap:8px;}
+  .hav{width:42px;height:42px;font-size:1.4em;}
+  #backBtn{width:34px;height:34px;font-size:1.05em;}
+  .hrow .htitle{font-size:clamp(1em,5vw,1.35em);white-space:nowrap;}
+  .hemoji{display:none;}
+  .hrow .hbadges{flex-wrap:nowrap;gap:4px;}
+  .hrow .mb{padding:2px 6px;white-space:nowrap;}
+}
 .hbadges{display:flex;gap:5px;flex-wrap:wrap;margin-top:3px;}
 .mb{background:rgba(0,207,255,0.25);color:var(--cyan);padding:2px 9px;border-radius:11px;font-size:0.68em;font-weight:700;border:1px solid rgba(0,207,255,0.4);}
 .mb.g{background:rgba(24,232,122,0.2);color:var(--lime);border-color:rgba(24,232,122,0.4);}
@@ -244,6 +254,8 @@ button:active{transform:scale(0.93);}
 /* ── Bottom nav ── */
 .bottom-nav{flex-shrink:0;position:relative;z-index:10;}
 .canal-svg{display:block;width:100%;height:96px;}
+@media(max-height:760px){.canal-svg{height:56px;}}
+@media(max-height:600px){.canal-svg{height:36px;}}
 .tab-bar{
   display:flex;
   background:linear-gradient(90deg,#1A0848,#25106A);
@@ -263,9 +275,9 @@ button:active{transform:scale(0.93);}
 
 /* ── Back button ── */
 #backBtn{
-  position:absolute;bottom:calc(env(safe-area-inset-bottom,0px) + 118px);right:13px;
-  z-index:200;background:var(--gold);color:#1A0845;border:none;
-  width:44px;height:44px;border-radius:50%;font-size:1.25em;cursor:pointer;
+  flex-shrink:0;align-self:center;
+  background:var(--gold);color:#1A0845;border:none;
+  width:40px;height:40px;border-radius:50%;font-size:1.2em;cursor:pointer;
   box-shadow:0 4px 0 var(--gold-shadow),0 0 14px rgba(255,208,0,0.5);
   display:none;align-items:center;justify-content:center;
   transition:transform 0.1s;font-weight:900;
@@ -420,6 +432,7 @@ button:active{transform:scale(0.93);}
 .stag{font-size:0.66em;font-weight:700;padding:2px 8px;border-radius:10px;background:rgba(0,207,255,0.25);color:var(--cyan);border:1px solid rgba(0,207,255,0.4);}
 .rtag{font-size:0.66em;padding:2px 8px;border-radius:10px;background:rgba(255,255,255,0.08);color:var(--dim);font-weight:600;}
 .dst{position:absolute;top:8px;right:8px;font-size:1.4em;}
+.mcard.done .mtit{padding-right:30px;}
 
 /* ── Skills ── */
 .sg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
@@ -580,6 +593,7 @@ button:active{transform:scale(0.93);}
 .cbox{background:rgba(0,207,255,0.08);border-radius:12px;padding:12px;border-left:5px solid var(--cyan);margin-bottom:12px;}
 .cbox h4{font-family:'Bangers',cursive;color:var(--cyan);font-size:1.12em;margin-bottom:4px;letter-spacing:1px;}
 .cbox p{font-size:0.87em;color:#C0B0E0;line-height:1.5;}
+.cbox p.track2{margin-top:8px;}
 .psec label{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,#7B2FBE,#3D1A6E);color:#fff;padding:10px 15px;border-radius:12px;cursor:pointer;font-weight:700;font-size:0.9em;box-shadow:0 4px 0 #1A0048;}
 .psec label:active{transform:translateY(2px);box-shadow:0 1px 0 #1A0048;}
 .psec input[type=file]{display:none;}
@@ -602,7 +616,7 @@ button:active{transform:scale(0.93);}
 .game-ui{padding:14px;}
 .game-title{font-family:'Bangers',cursive;font-size:1.6em;color:var(--gold);text-align:center;letter-spacing:2px;}
 .game-sub{font-family:'Fredoka',sans-serif;font-size:0.9em;color:var(--dim);text-align:center;margin-bottom:10px;}
-.game-over-overlay{display:none;position:absolute;inset:0;background:rgba(0,0,0,0.82);flex-direction:column;align-items:center;justify-content:center;padding:20px;}
+.game-over-overlay{display:none;position:absolute;inset:0;z-index:5;background:#0D0520;flex-direction:column;align-items:center;justify-content:center;padding:20px;}
 .game-over-overlay.vis{display:flex;}
 .go-title{font-family:'Bangers',cursive;font-size:2.5em;letter-spacing:2px;margin-bottom:10px;}
 .go-title.win{color:var(--gold);}
@@ -613,14 +627,14 @@ button:active{transform:scale(0.93);}
 #lbImg{max-width:100%;max-height:80vh;border-radius:8px;display:block;margin:0 auto;object-fit:contain;}
 
 @media(max-width:360px){
-  .sg,.bg{grid-template-columns:repeat(2,1fr);}
+  .sg,.bg,.album{grid-template-columns:repeat(2,1fr);}
   .map-grid{grid-template-columns:1fr;}
 }
 
 /* ── Celebration Overlay ── */
 #celebrationOverlay {
   display: none; position: fixed; inset: 0; z-index: 3000;
-  background: rgba(0,0,0,0.92); flex-direction: column;
+  background: rgba(8,2,26,0.97); flex-direction: column;
   align-items: center; justify-content: center; text-align: center;
   overflow-y: auto;
   padding: max(24px, env(safe-area-inset-top,0px)) 16px calc(24px + env(safe-area-inset-bottom,0px));
@@ -635,6 +649,7 @@ button:active{transform:scale(0.93);}
 .prize-photo-thumb img.selected { border-color: #F9A825; transform: scale(1.1); }
 .prize-input { font-family: 'Fredoka', sans-serif; font-size: 1em; padding: 10px 14px; border-radius: 12px; border: none; width: 100%; margin-bottom: 8px; background: rgba(255,255,255,0.12); color: #fff; }
 .prize-input::placeholder { color: rgba(255,255,255,0.5); }
+#celebStep2 { background: linear-gradient(160deg,#2D1278,#1A0850); border: 2px solid rgba(255,208,0,.4); border-radius: 20px; padding: 16px 14px 12px; }
 .prize-status { margin-top: 10px; font-size: 0.9em; color: #F9A825; min-height: 20px; }
 </style>
 </head>
@@ -1006,9 +1021,10 @@ button:active{transform:scale(0.93);}
 <!-- Header -->
 <div class="app-header">
   <div class="hrow">
+    <button id="backBtn" onclick="goBack()" aria-label="Back">←</button>
     <div class="hav" id="hAv">🧭</div>
     <div class="hinfo">
-      <div class="htitle">🗺️ AMSTERDAM ADVENTURE</div>
+      <div class="htitle"><span class="hemoji">🗺️ </span>AMSTERDAM ADVENTURE</div>
       <div class="hname" id="hName">Explorer</div>
       <div class="hbadges">
         <span class="mb">🎯 <span id="sMis">0</span></span>
@@ -1025,7 +1041,7 @@ button:active{transform:scale(0.93);}
 
   <div id="missionsTab" class="tab-pane active">
     <div class="pcard">
-      <div class="ctitle">🧭 AMSTERDAM ADVENTURE</div>
+      <div class="ctitle" id="exploreTitle">🧭 WHERE TO NEXT?</div>
       <div class="viewtoggle" role="tablist">
         <button id="vwCards" class="on" role="tab" aria-selected="true"
                 onclick="setMapView('cards')">🗂️ <span id="vwCardsL">Districts</span></button>
@@ -1179,7 +1195,6 @@ button:active{transform:scale(0.93);}
 </div>
 </nav>
 
-<button id="backBtn" onclick="goBack()">←</button>
 
 <!-- Mission modal -->
 <div id="mModal" class="modal">
@@ -1197,7 +1212,7 @@ button:active{transform:scale(0.93);}
     <div id="gameOver" class="game-over-overlay">
       <div id="goTitle" class="go-title">WIN!</div>
       <div id="goMsg" style="color:#ddd;font-family:'Fredoka',sans-serif;font-size:1em;margin-bottom:16px;text-align:center;"></div>
-      <button id="btnComplete" class="btn ylw pop" style="max-width:260px;" onclick="finalizeMission()">🏆 Collect Badge!</button>
+      <button id="btnComplete" class="btn ylw pop" style="max-width:260px;" onclick="finalizeMission()">🃏 Collect your card!</button>
       <button id="btnRetry" class="btn sec pop" style="max-width:260px;margin-top:8px;" onclick="retryGame()">🔄 Try Again</button>
     </div>
     <div class="game-ui" style="padding-top:0;">
@@ -2314,6 +2329,8 @@ function clearRegion() {
 // ═══════════════════════════════════════════════════════════════════
 function renderMissions() {
   const list = document.getElementById('mList');
+  const et = document.getElementById('exploreTitle');
+  if (et) et.textContent = LANG==='nl' ? '🧭 WAAR GAAN WE HEEN?' : '🧭 WHERE TO NEXT?';
   if (!S.mode) { list.innerHTML='<div class="mempty">Complete onboarding to see missions!</div>'; return; }
 
   let vis = MISSIONS.filter(m=>(m.age===S.mode||m.age==='all'));
@@ -2321,7 +2338,7 @@ function renderMissions() {
 
   const reg = selectedRegion ? REGIONS.find(r=>r.id===selectedRegion) : null;
   const header = reg
-    ? `<div class="reg-filter-bar"><button class="reg-back-btn" onclick="clearRegion()">← All Regions</button><span>${reg.icon} ${reg.en}</span></div>`
+    ? `<div class="reg-filter-bar"><button class="reg-back-btn" onclick="clearRegion()">${LANG==='nl'?'← Alle wijken':'← All Regions'}</button><span>${reg.icon} ${LANG==='nl'?districtName(reg.id):reg.en}</span></div>`
     : '';
 
   if (!vis.length) { list.innerHTML=header+'<div class="mempty">'+(LANG==='nl'?'Hier staan nog geen opdrachten voor jouw leeftijd — kies een ander stadsdeel! 🗺️':'No missions here for your age group — try another district! 🗺️')+'</div>'; return; }
@@ -2352,6 +2369,9 @@ function renderMissions() {
 // ═══════════════════════════════════════════════════════════════════
 // MISSION MODAL
 // ═══════════════════════════════════════════════════════════════════
+// Missions with a track per age or per language: give each track its own paragraph
+const TRACK_RE = /\s+(?=(?:OLDER EXPLORERS|IF DUTCH IS ALREADY YOURS|IF DUTCH IS YOUR OWN LANGUAGE|OUDERE ONTDEKKERS|ALS NEDERLANDS AL VAN JOU IS|ALS NEDERLANDS JE EIGEN TAAL IS):)/g;
+function splitTracks(txt){ return txt.replace(TRACK_RE, '</p><p class="track2">'); }
 function openMission(id) {
   currentMissionId = id;
   if (!tmpPhotos[id]) tmpPhotos[id] = [];
@@ -2401,7 +2421,7 @@ function openMission(id) {
     <div class="mtitle">${t(m,'title')}</div>
     ${voiceLine}
     <p class="mdesc">${t(m,'desc')}</p>
-    <div class="cbox"><h4>🎯 ${LANG==='nl'?'Opdracht':'Challenge'}</h4><p>${t(m,'challenge')}</p></div>
+    <div class="cbox"><h4>🎯 ${LANG==='nl'?'Opdracht':'Challenge'}</h4><p>${splitTracks(t(m,'challenge'))}</p></div>
     <div class="saw">${sawd}</div>
     ${photoSection}
     <textarea class="narea" id="mn_${id}" placeholder="Write your notes here…" rows="3">${note}</textarea>
@@ -3285,7 +3305,7 @@ initApp();
     </div>
 
     <input id="prizeParentName"  class="prize-input" type="text"  placeholder="Parent's name (optional)">
-    <input id="prizeParentEmail" class="prize-input" type="email" placeholder="Parent's email (for prize delivery) *">
+    <input id="prizeParentEmail" class="prize-input" type="email" placeholder="Parent's email (for the prize) *">
     <button class="btn ylw pop" style="max-width:260px;margin-bottom:8px;" onclick="submitPrizeRequest()">📬 Send Prize Request!</button>
     <button class="btn sec pop" style="max-width:260px;" onclick="showCelebStep1()">← Back</button>
     <div id="prizeStatus" class="prize-status"></div>
