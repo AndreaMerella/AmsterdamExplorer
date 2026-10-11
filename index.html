@@ -449,6 +449,73 @@ button:active{transform:scale(0.93);}
 .bi{font-size:2.1em;margin-bottom:4px;}
 .bn{font-size:0.7em;font-weight:700;color:#fff;}
 
+/* ── Collectible cards ── */
+.album-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:11px;}
+.album-count{font-family:'Bangers',cursive;font-size:1.45em;letter-spacing:1px;color:#fff;}
+.album-count b{color:var(--gold);}
+.rar-tally{display:flex;gap:5px;flex-wrap:wrap;}
+.rar-tally span{font-size:0.66em;font-weight:700;padding:3px 7px;border-radius:8px;color:#fff;}
+.album{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;}
+.acard{position:relative;aspect-ratio:3/4;border-radius:12px;padding:6px 5px 7px;cursor:pointer;
+  border:3px solid #0B0420;box-shadow:0 4px 0 rgba(0,0,0,.45);overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;justify-content:space-between;
+  transition:transform .12s;-webkit-tap-highlight-color:transparent;}
+.acard:active{transform:scale(.95);}
+.acard:focus-visible{outline:3px solid var(--cyan);outline-offset:2px;}
+.ac-ic{font-size:2.05em;line-height:1;margin-top:9px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.5));}
+.ac-t{font-weight:700;font-size:.6em;color:#fff;text-align:center;line-height:1.15;text-shadow:0 1px 2px rgba(0,0,0,.7);}
+.ac-r{font-size:.52em;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:2px 6px;border-radius:6px;background:rgba(0,0,0,.32);color:#fff;}
+.r-common{background:linear-gradient(160deg,#7586A1,#3F4B63);}
+.r-rare{background:linear-gradient(160deg,#2BC46B,#0F6B3A);}
+.r-epic{background:linear-gradient(160deg,#B455FF,#5B1E9E);}
+.r-legendary{background:linear-gradient(160deg,#FFE27A,#E0A100 55%,#9C5D00);}
+.r-keep{background:linear-gradient(160deg,#5F7591,#2B3A52);}
+.r-legendary .ac-t,.r-legendary .cr-t{color:#2A1600;text-shadow:0 1px 0 rgba(255,255,255,.35);}
+.acard.r-legendary::after,.cr-card.r-legendary::after{content:'';position:absolute;inset:-40%;
+  background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.55) 50%,transparent 60%);
+  animation:card-shine 3.2s ease-in-out infinite;pointer-events:none;}
+@keyframes card-shine{0%{transform:translateX(-60%)}60%,100%{transform:translateX(60%)}}
+/* Locked: dark, but framed in its rarity colour so the prize is visible */
+.acard.locked{background:#170936 !important;}
+.acard.locked::after{display:none;}
+.acard.locked .ac-ic{opacity:.3;filter:grayscale(1);}
+.acard.locked .ac-t{color:rgba(255,255,255,.4);text-shadow:none;}
+.acard.locked.r-common{border-color:#5B6B85;}
+.acard.locked.r-rare{border-color:#1E8F4E;}
+.acard.locked.r-epic{border-color:#8A3FD0;}
+.acard.locked.r-legendary{border-color:#D9A400;}
+.acard.locked.r-keep{border-color:#4A5D78;}
+
+/* Card reveal */
+#cardReveal{display:none;position:fixed;inset:0;z-index:2600;background:rgba(5,1,20,.94);
+  flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
+  padding:max(24px,env(safe-area-inset-top,0px)) 20px calc(24px + env(safe-area-inset-bottom,0px));}
+#cardReveal::before,#cardReveal::after{content:'';flex:1 0 0;}
+#cardReveal.active{display:flex;}
+.cr-new{font-family:'Bangers',cursive;font-size:2.1em;letter-spacing:2px;color:var(--gold);
+  -webkit-text-stroke:1px #000;paint-order:stroke fill;margin-bottom:14px;}
+.cr-new.quiet{font-family:'Fredoka',sans-serif;font-size:1.05em;font-weight:600;letter-spacing:.5px;
+  color:#C9D6E8;-webkit-text-stroke:0;}
+.cr-card{position:relative;overflow:hidden;width:min(230px,66vw);aspect-ratio:3/4;border-radius:20px;
+  border:4px solid #0B0420;padding:14px 12px 16px;display:flex;flex-direction:column;
+  align-items:center;justify-content:space-between;
+  box-shadow:0 10px 0 rgba(0,0,0,.5),0 0 70px var(--glow,transparent);
+  animation:card-in .75s cubic-bezier(.2,1.35,.4,1) both;}
+@keyframes card-in{0%{transform:perspective(900px) rotateY(95deg) scale(.55);opacity:0}100%{transform:none;opacity:1}}
+.cr-ic{font-size:4.3em;line-height:1;margin-top:16px;filter:drop-shadow(0 4px 6px rgba(0,0,0,.5));}
+.cr-t{font-family:'Bangers',cursive;font-size:1.45em;letter-spacing:1px;line-height:1.05;color:#fff;
+  -webkit-text-stroke:.5px rgba(0,0,0,.5);paint-order:stroke fill;}
+.cr-r{font-size:.75em;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 11px;
+  border-radius:8px;background:rgba(0,0,0,.35);color:#fff;}
+.cr-fact{max-width:330px;margin-top:18px;color:#E6DDFB;font-size:.96em;line-height:1.5;}
+.cr-fact b{display:block;font-family:'Bangers',cursive;font-weight:normal;letter-spacing:1px;color:var(--cyan);font-size:1.05em;margin-bottom:3px;}
+.cr-btn{margin-top:20px;max-width:260px;}
+@media (prefers-reduced-motion:reduce){
+  .cr-card{animation:none;}
+  .acard.r-legendary::after,.cr-card.r-legendary::after{animation:none;opacity:0;}
+}
+
 /* ── Journal ── */
 .je{background:linear-gradient(135deg,#2D1270,#1E0A52);border-radius:14px;padding:13px;margin-bottom:10px;border-left:6px solid #C77DFF;}
 .jmn{font-weight:700;color:#fff;margin-bottom:4px;}
@@ -991,6 +1058,7 @@ button:active{transform:scale(0.93);}
   </div>
 
   <div id="badgesTab" class="tab-pane">
+    <div class="pcard"><div class="ctitle" id="albumTitle">🃏 YOUR CARDS</div><div id="cardAlbum"></div></div>
     <div class="pcard"><div class="ctitle">🏆 BADGES</div><div class="bg" id="badgesG"></div></div>
   </div>
 
@@ -1105,7 +1173,7 @@ button:active{transform:scale(0.93);}
 <div class="tab-bar">
   <button class="tab-btn active" id="tb0" onclick="switchTab('missions',this)"><span class="ti">🎯</span>Missions</button>
   <button class="tab-btn" id="tb1" onclick="switchTab('skills',this)"><span class="ti">🛠️</span>Skills</button>
-  <button class="tab-btn" id="tb2" onclick="switchTab('badges',this)"><span class="ti">🏆</span>Badges</button>
+  <button class="tab-btn" id="tb2" onclick="switchTab('badges',this)"><span class="ti">🃏</span><span id="tb2L">Cards</span></button>
   <button class="tab-btn" id="tb3" onclick="switchTab('journal',this)"><span class="ti">📔</span>Journal</button>
   <button class="tab-btn" id="tb4" onclick="parentGate(()=>switchTab('parent',document.getElementById('tb4'),true))"><span class="ti">👨‍👩‍👦</span>Parent</button>
 </div>
@@ -2392,10 +2460,147 @@ function completeMission(id) {
   S.done.push(id);
   Object.entries(m.xp).forEach(([sk,v])=>{ if(S.xp[sk]!==undefined) S.xp[sk]+=v; });
   if (m.unlocks && !S.unlocked.includes(m.unlocks)) S.unlocked.push(m.unlocks);
-  checkBadges();
+  checkBadges(isKeep(id));
   saveS(); closeModal('mModal');
   updateHeader(); renderMap(); renderMissions();
-  playFanfare();
+  if (!isKeep(id)) playFanfare();
+  showCardReveal(id, true);
+}
+
+
+// ═══════════════════════════════════════════════════════════════════
+// COLLECTIBLE CARDS
+// Every mission is a card. Rarity follows how hard the mission is to do,
+// so the far, brave and luck-dependent missions are the ones worth chasing.
+// Every fact is taken from what the mission itself already says.
+// Two missions — the Anne Frank house and the Yiddish words — are cards to
+// keep rather than to win: no rarity, no fanfare.
+// ═══════════════════════════════════════════════════════════════════
+const RARITY = {
+  legendary:{en:'Legendary', nl:'Legendarisch', col:'#E0A100', glow:'rgba(255,208,0,.85)'},
+  epic:     {en:'Epic',      nl:'Episch',       col:'#8A3FD0', glow:'rgba(180,85,255,.7)'},
+  rare:     {en:'Rare',      nl:'Zeldzaam',     col:'#1E8F4E', glow:'rgba(46,204,113,.6)'},
+  common:   {en:'Common',    nl:'Gewoon',       col:'#5B6B85', glow:'rgba(150,170,200,.45)'},
+  keep:     {en:'To keep',   nl:'Om te bewaren',col:'#4A5D78', glow:'rgba(120,150,190,.3)'},
+};
+const RAR_ORDER = ['legendary','epic','rare','common','keep'];
+const CARDS = {
+  1:["common","Every brick on the old canal houses was shaped by hand and fired in a wood fire, so no two are the same.","Elke baksteen van de oude grachtenpanden is met de hand gevormd en op houtvuur gebakken, dus geen twee zijn gelijk."],
+  2:["common","A reflection is upside down: the top of the house is the part furthest from you in the water.","Een spiegelbeeld staat op zijn kop: de nok van het huis ligt in het water het verst bij je vandaan."],
+  3:["common","An oak leaf has rounded lobes, a maple has points like a star, a lime leaf is shaped like a heart.","Een eikenblad heeft ronde lobben, een esdoornblad punten als een ster, een lindeblad is hartvormig."],
+  4:["common","Dutch children really do eat chocolate sprinkles on bread — for breakfast.","Nederlandse kinderen eten echt hagelslag op brood — als ontbijt."],
+  5:["common","Dick Bruna drew Nijntje in 1955 with only black outlines and a handful of flat colours.","Dick Bruna tekende Nijntje in 1955 met alleen zwarte lijnen en een handvol vlakke kleuren."],
+  6:["rare","Amsterdam's trams run on 600 volts of electricity from the wire above them.","Amsterdamse trams rijden op 600 volt uit de draad boven hun hoofd."],
+  7:["common","A bakfiets can carry about 100 kg — that is four children of 25 kg.","In een bakfiets past ongeveer 100 kg — dat zijn vier kinderen van 25 kg."],
+  8:["epic","The ferry across the IJ to Noord is free, and it runs all night.","De pont over het IJ naar Noord is gratis en vaart de hele nacht door."],
+  9:["common","Singel 7's front is barely a metre wide — but the house widens out behind it.","De voorgevel van Singel 7 is amper een meter breed — maar het huis wordt achter de gevel breder."],
+  10:["rare","A coot has a white patch on its forehead; a moorhen has a red beak.","Een meerkoet heeft een witte bles op zijn kop; een waterhoen heeft een rode snavel."],
+  11:["rare","Warm caramel goes soft and hardens again as it cools. Nothing new is made, so it is a physical change.","Warme karamel wordt zacht en bij afkoelen weer hard. Er ontstaat niets nieuws, dus het is een natuurkundige verandering."],
+  12:["rare","The city of Amsterdam counts 1,281 bridges.","De gemeente Amsterdam telt 1.281 bruggen."],
+  13:["common","The three crosses in Amsterdam's coat of arms are St Andrew's crosses.","De drie kruisjes in het Amsterdamse wapen zijn andreaskruisen."],
+  14:["epic","The floor of the Oude Kerk is 2,500 gravestones, with about 60,000 people buried beneath it.","De vloer van de Oude Kerk bestaat uit 2.500 grafstenen, met ongeveer 60.000 mensen eronder begraven."],
+  15:["common","Amsterdam stairs are so narrow that furniture goes in through the windows, hauled up by a hook.","Amsterdamse trappen zijn zo smal dat meubels door het raam naar binnen gaan, opgehesen aan een haak."],
+  16:["legendary","NEMO's roof is the highest public square in the Netherlands, about 22 metres above the water.","Het dak van NEMO is het hoogste openbare plein van Nederland, zo'n 22 meter boven het water."],
+  17:["epic","A lock lifts a boat between two water levels by filling and emptying the chamber between its gates.","Een sluis brengt een boot tussen twee waterpeilen door de kolk tussen de deuren te vullen en te legen."],
+  18:["legendary","Dutch is the first language of more than 24 million people, mostly in the Netherlands and Belgium.","Nederlands is de moedertaal van ruim 24 miljoen mensen, vooral in Nederland en België."],
+  19:["rare","Het Houten Huys, from around 1528, is one of only two buildings in central Amsterdam with a wooden front.","Het Houten Huys, van rond 1528, is een van de maar twee panden in het centrum met een houten voorgevel."],
+  20:["rare","De Papegaai is named after the bird trader in whose garden a hidden church once stood.","De Papegaai is vernoemd naar de vogelhandelaar in wiens tuin ooit een schuilkerk stond."],
+  21:["legendary","Amsterdam still has dozens of bridges that lift or swing open so tall boats can pass.","Amsterdam heeft nog tientallen bruggen die omhoog of opzij gaan, zodat hoge boten erdoor kunnen."],
+  22:["rare","Before 1795 Amsterdam houses had no numbers — carved stones on the wall told you who lived there.","Vóór 1795 hadden Amsterdamse huizen geen nummer — gehouwen stenen in de muur vertelden wie er woonde."],
+  23:["rare","The underground bike park on Stationsplein holds about 7,000 bicycles.","De ondergrondse fietsenstalling op het Stationsplein biedt plek aan zo'n 7.000 fietsen."],
+  24:["epic","NDSM in Noord was a shipyard before it became one of Amsterdam's street-art spots.","De NDSM in Noord was een scheepswerf voordat het een van de street-artplekken van Amsterdam werd."],
+  25:["legendary","The best rowing crews in the world cover the Bosbaan's 2 km in about five and a half minutes.","De beste roeiploegen ter wereld doen de 2 km van de Bosbaan in ongeveer vijfenhalve minuut."],
+  26:["rare","The step gable is Amsterdam's oldest gable; the neck gable grew out of it later.","De trapgevel is de oudste Amsterdamse gevel; de halsgevel is er later uit ontstaan."],
+  27:["rare","Dutch children take a real cycling exam in groep 7 or 8, with a ride through real traffic.","Nederlandse kinderen doen in groep 7 of 8 een echt fietsexamen, met een rit door het gewone verkeer."],
+  28:["common","Your bird count can go on waarneming.nl, the Dutch nature database real scientists use.","Jouw vogeltelling kan op waarneming.nl, de natuurdatabase die echte onderzoekers gebruiken."],
+  29:["rare","Scientists measure how cloudy water is by lowering a white disc until it disappears: the Secchi depth.","Onderzoekers meten hoe troebel water is door een witte schijf te laten zakken tot hij verdwijnt: de secchi-diepte."],
+  30:["epic","The VOC was founded in Amsterdam in 1602, and the canal ring was built with that trade money from 1613.","De VOC werd in 1602 in Amsterdam opgericht, en vanaf 1613 werd met dat handelsgeld de grachtengordel gebouwd."],
+  31:["epic","Artists have been drawing these canals for centuries. Now one of those drawings is yours.","Kunstenaars tekenen deze grachten al eeuwenlang. Nu is een van die tekeningen van jou."],
+  32:["epic","The Night Watch is 379.5 cm tall and 453.5 cm wide — bigger than most bedroom walls.","De Nachtwacht is 379,5 cm hoog en 453,5 cm breed — groter dan de meeste slaapkamermuren."],
+  33:["epic","The Albert Cuyp market started in 1905 and has more than 260 stalls.","De Albert Cuypmarkt begon in 1905 en heeft ruim 260 kramen."],
+  34:["keep","Anne Frank was 14 when she began rewriting her diary on loose sheets, because she wanted it to become a book.","Anne Frank was 14 toen ze haar dagboek op losse vellen begon te herschrijven, omdat ze er een boek van wilde maken."],
+  35:["common","The English word 'cookie' comes from the Dutch word koekje.","Het Engelse woord 'cookie' komt van het Nederlandse koekje."],
+  36:["rare","'Let op, de deuren gaan sluiten' means 'Watch out, the doors are closing'.","Op elke tramrit hoor je 'Let op, de deuren gaan sluiten' — in het Engels: 'Watch out, the doors are closing'."],
+  37:["legendary","'Alsjeblieft' means both 'please' and 'here you go'.","'Alsjeblieft' gebruik je zowel als je iets vraagt als wanneer je iets geeft."],
+  38:["common","Between 12,000 and 15,000 bikes are fished out of Amsterdam's canals every year.","Elk jaar worden er 12.000 tot 15.000 fietsen uit de Amsterdamse grachten gevist."],
+  39:["common","About 2,500 houseboats are moored along Amsterdam's canals.","Er liggen zo'n 2.500 woonboten in de Amsterdamse grachten."],
+  40:["rare","Cyclists have had the right to ride under the Rijksmuseum since 1885 — and won a court case to keep it.","Fietsers mogen sinds 1885 onder het Rijksmuseum door — en wonnen een rechtszaak om dat zo te houden."],
+  41:["epic","Some of Van Gogh's yellows have slowly darkened since he painted them.","Sommige gelen van Van Gogh zijn sinds hij ze schilderde langzaam donkerder geworden."],
+  42:["common","Many streets in De Pijp are named after Dutch painters of the 1600s.","Veel straten in De Pijp zijn vernoemd naar Nederlandse schilders uit de 17de eeuw."],
+  43:["common","Samuel Sarphati was a doctor who spent his life making Amsterdam cleaner and healthier.","Samuel Sarphati was een arts die zijn leven wijdde aan een schonere, gezondere stad."],
+  44:["common","EYE, the film museum in Noord, opened in 2012.","EYE, het filmmuseum in Noord, opende in 2012."],
+  45:["common","Noord was still farmland and shipyards long after the canal ring was built.","Noord was nog boerenland en scheepswerf toen de grachtengordel er allang stond."],
+  46:["legendary","The first wild parakeet in Vondelpark was recorded in 1976. By 2022 there were an estimated 22,000 across the Randstad.","De eerste wilde parkiet in het Vondelpark werd in 1976 gezien. In 2022 waren het er naar schatting 22.000 in de Randstad."],
+  47:["legendary","The Amsterdamse Bos was dug by hand from 1934 by more than 20,000 workers.","Het Amsterdamse Bos werd vanaf 1934 met de hand gegraven door ruim 20.000 arbeiders."],
+  48:["common","The crown on the Westertoren is the imperial crown the city was allowed to use from 1489.","De kroon op de Westertoren is de keizerskroon die de stad vanaf 1489 mocht voeren."],
+  49:["common","You can estimate a tree's age without cutting it down: a thicker trunk usually means an older tree.","Je kunt de leeftijd van een boom schatten zonder hem om te zagen: een dikkere stam betekent meestal een oudere boom."],
+  50:["keep","Mazzel, gozer, tof, jatten and stiekem all came into Dutch from Yiddish and Hebrew.","Mazzel, gozer, tof, jatten en stiekem kwamen allemaal via het Jiddisch en Hebreeuws in het Nederlands."],
+};
+window.CARDS = CARDS;
+
+const isKeep = id => CARDS[id] && CARDS[id][0] === 'keep';
+
+function renderCards() {
+  const el = document.getElementById('cardAlbum'); if (!el) return;
+  const nl = LANG === 'nl';
+  const ms = MISSIONS.filter(m => m.age === S.mode || m.age === 'all')
+    .sort((a, b) => (S.done.includes(b.id) - S.done.includes(a.id))
+      || RAR_ORDER.indexOf(CARDS[a.id][0]) - RAR_ORDER.indexOf(CARDS[b.id][0]) || a.id - b.id);
+  const owned = ms.filter(m => S.done.includes(m.id)).length;
+  const tally = ['legendary','epic','rare','common'].map(r => {
+    const all = ms.filter(m => CARDS[m.id][0] === r);
+    const got = all.filter(m => S.done.includes(m.id)).length;
+    return all.length ? `<span style="background:${RARITY[r].col}">${got}/${all.length} ${RARITY[r][nl?'nl':'en']}</span>` : '';
+  }).join('');
+  const titleEl = document.getElementById('albumTitle'); if (titleEl) titleEl.textContent = nl ? '🃏 JOUW KAARTEN' : '🃏 YOUR CARDS';
+  el.innerHTML = `
+    <div class="album-head">
+      <div class="album-count"><b>${owned}</b> / ${ms.length}</div>
+      <div class="rar-tally">${tally}</div>
+    </div>
+    <div class="album">${ms.map(m => {
+      const r = CARDS[m.id][0], got = S.done.includes(m.id);
+      const label = got ? t_title(m) : districtName(m.region);
+      return `<div class="acard r-${r}${got ? '' : ' locked'}" role="button" tabindex="0"
+        aria-label="${got ? t_title(m) : (nl ? 'Nog niet verdiend' : 'Not yet earned')} — ${RARITY[r][nl?'nl':'en']}"
+        onclick="${got ? `showCardReveal(${m.id},false)` : `openMission(${m.id})`}"
+        onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+        <div class="ac-ic">${got ? m.icon : '❔'}</div>
+        <div class="ac-t">${label}</div>
+        <div class="ac-r">${RARITY[r][nl?'nl':'en']}</div>
+      </div>`;
+    }).join('')}</div>`;
+}
+const DISTRICT_NL = { canals:'Grachten', museums:'Musea', parks:'Parken' };
+function districtName(id) {
+  const r = REGIONS.find(x => x.id === id); if (!r) return '';
+  return (LANG === 'nl' && DISTRICT_NL[id]) || r.en;
+}
+function t_title(m) { return typeof t === 'function' ? t(m, 'title') : m.title; }
+
+function showCardReveal(id, isNew) {
+  const m = MISSIONS.find(x => x.id === id); const c = CARDS[id];
+  if (!m || !c) return;
+  const nl = LANG === 'nl', r = c[0], keep = r === 'keep';
+  const head = keep
+    ? `<div class="cr-new quiet">${nl ? 'Een kaart om te bewaren' : 'A card to keep'}</div>`
+    : `<div class="cr-new">${isNew ? (nl ? 'NIEUWE KAART!' : 'NEW CARD!') : RARITY[r][nl?'nl':'en'].toUpperCase()}</div>`;
+  document.getElementById('crBody').innerHTML = `
+    ${head}
+    <div class="cr-card r-${r}" style="--glow:${RARITY[r].glow}">
+      <div class="cr-ic">${m.icon}</div>
+      <div class="cr-t" id="crTitle">${t_title(m)}</div>
+      <div class="cr-r">${RARITY[r][nl?'nl':'en']}</div>
+    </div>
+    <p class="cr-fact"><b>${nl ? 'Wist je dat?' : 'Did you know?'}</b>${c[nl?2:1]}</p>
+    <button class="btn ylw pop cr-btn" onclick="closeCardReveal()">${isNew ? (nl ? 'Verder ontdekken! 🗺️' : 'Keep exploring! 🗺️') : (nl ? 'Sluiten' : 'Close')}</button>`;
+  const o = document.getElementById('cardReveal');
+  o.classList.add('active'); o.scrollTop = 0;
+  const b = o.querySelector('.cr-btn'); if (b) setTimeout(() => b.focus({ preventScroll: true }), 50);
+}
+function closeCardReveal() {
+  document.getElementById('cardReveal').classList.remove('active');
+  if (document.getElementById('badgesTab')?.classList.contains('active')) renderCards();
 }
 
 // A badge tied to a mission only offered in one age mode must not appear
@@ -2404,11 +2609,11 @@ function badgesForMode() {
   return BADGES.filter(b => !b.modes || b.modes.includes(S.mode));
 }
 
-function checkBadges() {
+function checkBadges(quiet) {
   badgesForMode().forEach(b => {
     if (!S.badges.includes(b.id) && b.ok(S)) {
       S.badges.push(b.id);
-      playFanfare();
+      if (!quiet) playFanfare();
     }
   });
 
@@ -2922,7 +3127,7 @@ function endGame(won) {
   if (won) {
     title.textContent = '🏆 FINISH!';
     title.className = 'go-title win';
-    msg.textContent = 'You survived Amsterdam on a bike! Your badge is ready!';
+    msg.textContent = 'You survived Amsterdam on a bike! Your card is ready!';
     btnC.style.display = 'block';
     btnR.style.display = 'none';
     playFanfare();
@@ -2944,9 +3149,10 @@ function finalizeMission() {
   S.done.push(id);
   Object.entries(m.xp).forEach(([sk,v])=>{ if(S.xp[sk]!==undefined) S.xp[sk]+=v; });
   if (m.unlocks && !S.unlocked.includes(m.unlocks)) S.unlocked.push(m.unlocks);
-  checkBadges();
+  checkBadges(isKeep(id));
   saveS(); updateHeader(); renderMap(); renderMissions();
-  playFanfare();
+  if (!isKeep(id)) playFanfare();
+  showCardReveal(id, true);
 }
 
 function retryGame() {
@@ -2982,6 +3188,7 @@ function renderSkills() {
 // BADGES
 // ═══════════════════════════════════════════════════════════════════
 function renderBadges() {
+  renderCards();
   document.getElementById('badgesG').innerHTML = badgesForMode().map(b=>{
     const e=b.ok(S);
     return `<div class="bdg ${e?'earned':''}">
@@ -3091,6 +3298,9 @@ initApp();
     <div class="win-msg" id="celebStep3Msg">We've got it! Your custom puzzle is being prepared.<br>Check your inbox soon.</div>
     <button class="btn ylw pop" style="max-width:240px;" onclick="dismissCelebration()">Keep Exploring! 🗺️</button>
   </div>
+</div>
+<div id="cardReveal" role="dialog" aria-modal="true" aria-labelledby="crTitle">
+  <div id="crBody"></div>
 </div>
 </div><!-- /app-shell -->
 </body>
