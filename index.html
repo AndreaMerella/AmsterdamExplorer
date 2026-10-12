@@ -174,7 +174,7 @@ button:active{transform:scale(0.93);}
   font-family:'Fredoka',sans-serif;font-size:1.15em;padding:11px 18px;
   border:3px solid var(--gold);border-radius:14px;
   background:rgba(255,255,255,0.1);color:#fff;
-  text-align:center;width:220px;outline:none;margin-bottom:18px;
+  text-align:center;width:min(260px,100%);outline:none;margin-bottom:18px;
   box-shadow:0 4px 0 var(--gold-shadow),0 0 20px rgba(255,208,0,0.2);
 }
 .ob-input::placeholder{color:rgba(255,255,255,0.45);}
@@ -192,6 +192,13 @@ button:active{transform:scale(0.93);}
 .age-card .ai{font-size:2.6em;display:block;margin-bottom:5px;}
 .age-card .al{font-family:'Bangers',cursive;font-size:1.5em;color:var(--gold);letter-spacing:2px;}
 .age-card .ar{font-size:0.83em;color:var(--dim);margin-top:2px;}
+/* Narrow phones: the two age cards side by side, so the form never climbs into the title */
+@media(max-width:360px){
+  .age-cards{gap:10px;flex-wrap:nowrap;width:100%;max-width:300px;}
+  .age-card{min-width:0;flex:1 1 0;padding:14px 6px;}
+  .age-card .ai{font-size:2.2em;}
+  .age-card .al{font-size:1.3em;letter-spacing:1px;}
+}
 
 /* ── Character Select ── */
 .char-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;max-width:420px;padding:4px;}
@@ -245,6 +252,9 @@ button:active{transform:scale(0.93);}
 .mb.g{background:rgba(24,232,122,0.2);color:var(--lime);border-color:rgba(24,232,122,0.4);}
 .mb.p{background:rgba(255,208,0,0.18);color:var(--gold);border-color:rgba(255,208,0,0.4);}
 .lang-btn{background:none;border:none;font-size:1.5em;cursor:pointer;padding:0;margin-left:auto;align-self:center;line-height:1;}
+.ob-lang{align-self:flex-end;margin:0 0 8px;cursor:pointer;line-height:1.2;
+  font-family:'Fredoka',sans-serif;font-size:.95em;font-weight:700;color:#fff;
+  background:rgba(20,8,60,.6);border:2px solid rgba(255,255,255,.5);border-radius:20px;padding:5px 12px;}
 
 /* ── Content ── */
 .app-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;position:relative;z-index:1;padding:13px 13px 4px;}
@@ -661,7 +671,7 @@ button:active{transform:scale(0.93);}
 
 <!-- Screen reminder -->
 <div id="sr" class="screen-reminder">
-  📱 30 min played — take a real-world break!
+  <span data-i18n="reminder">📱 30 min played — take a real-world break!</span>
   <button onclick="dimissReminder()">✖</button>
 </div>
 
@@ -989,14 +999,15 @@ button:active{transform:scale(0.93);}
 
   <!-- Form anchored at bottom -->
   <div class="ob-form">
-    <input type="text" id="nameIn" class="ob-input" placeholder="Your explorer name…" maxlength="20" autocomplete="off">
-    <div class="ob-label">HOW OLD ARE YOU?</div>
+    <button class="ob-lang" id="obLangBtn" onclick="toggleLang()" aria-label="Nederlands">🇳🇱 NL</button>
+    <input type="text" id="nameIn" class="ob-input" data-i18n-ph="namePh" placeholder="Your explorer name…" maxlength="20" autocomplete="off">
+    <div class="ob-label" data-i18n="howOld">HOW OLD ARE YOU?</div>
     <div class="age-cards">
       <div class="age-card pop" onclick="selectAge('young')">
-        <span class="ai">🌟</span><div class="al">JUNIOR</div><div class="ar">Ages 5–8</div>
+        <span class="ai">🌟</span><div class="al" data-i18n="junior">JUNIOR</div><div class="ar" data-i18n="ages58">Ages 5–8</div>
       </div>
       <div class="age-card pop" onclick="selectAge('teen')">
-        <span class="ai">🔬</span><div class="al">EXPLORER</div><div class="ar">Ages 9–14</div>
+        <span class="ai">🔬</span><div class="al" data-i18n="explorer">EXPLORER</div><div class="ar" data-i18n="ages914">Ages 9–14</div>
       </div>
     </div>
   </div>
@@ -1005,16 +1016,16 @@ button:active{transform:scale(0.93);}
 <!-- Character reveal screen -->
 <div id="charReveal" class="onboarding" style="display:none;z-index:2100;">
   <div id="charRevealIcon" style="font-size:5em;animation:pop-badge 0.6s ease;filter:drop-shadow(0 0 20px rgba(255,208,0,0.8));margin-bottom:8px;"></div>
-  <div class="ob-title" style="font-size:2.2em;">YOU ARE…</div>
+  <div class="ob-title" style="font-size:2.2em;" data-i18n="youAre">YOU ARE…</div>
   <div id="charRevealName" style="font-family:'Bangers',cursive;font-size:3.5em;color:var(--gold);-webkit-text-stroke:1px #000;letter-spacing:3px;margin:4px 0;"></div>
   <div id="charRevealTitle" style="font-family:'Caveat',cursive;font-size:1.4em;color:var(--dim);margin-bottom:28px;"></div>
-  <button class="btn ylw pop" style="max-width:260px;" onclick="confirmCharacter()">🚲 Let's Explore!</button>
+  <button class="btn ylw pop" style="max-width:260px;" onclick="confirmCharacter()" data-i18n="letsGo">🚲 Let's Explore!</button>
 </div>
 
 <!-- Character Select Screen -->
 <div id="charSelect" class="onboarding" style="display:none;z-index:2100;padding:max(16px,env(safe-area-inset-top,0px)) 16px calc(36px + env(safe-area-inset-bottom,0px));background:linear-gradient(160deg,#2D0E7A 0%,#1A0850 60%,#0F0430 100%);">
-  <div class="ob-title" style="font-size:2.3em;margin-bottom:2px;">CHOOSE YOUR EXPLORER</div>
-  <div style="font-family:'Caveat',cursive;font-size:1.3em;color:var(--dim);margin-bottom:20px;">Who are you on this adventure?</div>
+  <div class="ob-title" style="font-size:2.3em;margin-bottom:2px;" data-i18n="chooseExplorer">CHOOSE YOUR EXPLORER</div>
+  <div style="font-family:'Caveat',cursive;font-size:1.3em;color:var(--dim);margin-bottom:20px;" data-i18n="whoAreYou">Who are you on this adventure?</div>
   <div class="char-grid" id="charGrid"></div>
 </div>
 
@@ -1025,7 +1036,7 @@ button:active{transform:scale(0.93);}
     <div class="hav" id="hAv">🧭</div>
     <div class="hinfo">
       <div class="htitle"><span class="hemoji">🗺️ </span>AMSTERDAM ADVENTURE</div>
-      <div class="hname" id="hName">Explorer</div>
+      <div class="hname" id="hName" data-i18n="defName">Explorer</div>
       <div class="hbadges">
         <span class="mb">🎯 <span id="sMis">0</span></span>
         <span class="mb g">⭐ <span id="sBdg">0</span></span>
@@ -1041,12 +1052,12 @@ button:active{transform:scale(0.93);}
 
   <div id="missionsTab" class="tab-pane active">
     <div class="pcard">
-      <div class="ctitle" id="exploreTitle">🧭 WHERE TO NEXT?</div>
+      <div class="ctitle" id="exploreTitle" data-i18n="whereNext">🧭 WHERE TO NEXT?</div>
       <div class="viewtoggle" role="tablist">
         <button id="vwCards" class="on" role="tab" aria-selected="true"
-                onclick="setMapView('cards')">🗂️ <span id="vwCardsL">Districts</span></button>
+                onclick="setMapView('cards')">🗂️ <span id="vwCardsL" data-i18n="districts">Districts</span></button>
         <button id="vwMap" role="tab" aria-selected="false"
-                onclick="setMapView('map')">🗺️ <span id="vwMapL">Map</span></button>
+                onclick="setMapView('map')">🗺️ <span id="vwMapL" data-i18n="map">Map</span></button>
       </div>
 
       <div id="cardsView">
@@ -1055,45 +1066,45 @@ button:active{transform:scale(0.93);}
 
       <div id="mapView" hidden>
         <div class="map-wrap"><svg id="mapSvg" class="map-svg" viewBox="0 0 400 440"
-             role="group" aria-label="Map of Amsterdam districts"></svg></div>
+             role="group" aria-label="Map of Amsterdam districts" data-i18n-aria="mapAria"></svg></div>
         <div class="map-legend">
-          <i><b style="background:#6B57A8"></b><span id="lgLock">Not started</span></i>
-          <i><b style="background:var(--lime)"></b><span id="lgOpen">In progress</span></i>
-          <i><b style="background:var(--gold)"></b><span id="lgDone">Complete</span></i>
+          <i><b style="background:#6B57A8"></b><span id="lgLock" data-i18n="lgLock">Not started</span></i>
+          <i><b style="background:var(--lime)"></b><span id="lgOpen" data-i18n="lgOpen">In progress</span></i>
+          <i><b style="background:var(--gold)"></b><span id="lgDone" data-i18n="lgDone">Complete</span></i>
         </div>
       </div>
     </div>
     <div class="pcard">
-      <div class="ctitle">🎯 YOUR MISSIONS</div>
+      <div class="ctitle" data-i18n="yourMissions">🎯 YOUR MISSIONS</div>
       <div class="mlist" id="mList"></div>
     </div>
   </div>
 
   <div id="skillsTab" class="tab-pane">
-    <div class="pcard"><div class="ctitle">🛠️ SKILLS</div><div class="sg" id="skillsG"></div></div>
+    <div class="pcard"><div class="ctitle" data-i18n="skillsTitle">🛠️ SKILLS</div><div class="sg" id="skillsG"></div></div>
   </div>
 
   <div id="badgesTab" class="tab-pane">
-    <div class="pcard"><div class="ctitle" id="albumTitle">🃏 YOUR CARDS</div><div id="cardAlbum"></div></div>
-    <div class="pcard"><div class="ctitle">🏆 BADGES</div><div class="bg" id="badgesG"></div></div>
+    <div class="pcard"><div class="ctitle" id="albumTitle" data-i18n="yourCards">🃏 YOUR CARDS</div><div id="cardAlbum"></div></div>
+    <div class="pcard"><div class="ctitle" data-i18n="badgesTitle">🏆 BADGES</div><div class="bg" id="badgesG"></div></div>
   </div>
 
   <div id="journalTab" class="tab-pane">
-    <div class="pcard"><div class="ctitle">📔 JOURNAL</div><div id="journalE"></div></div>
+    <div class="pcard"><div class="ctitle" data-i18n="journalTitle">📔 JOURNAL</div><div id="journalE"></div></div>
   </div>
 
   <div id="parentTab" class="tab-pane">
     <div class="pcard">
-      <div class="ctitle">👨‍👩‍👦 PARENT CONTROLS</div>
+      <div class="ctitle" data-i18n="parentTitle">👨‍👩‍👦 PARENT CONTROLS</div>
       <div id="pStats"></div>
-      <button class="btn sec pop" onclick="parentGate(changeProfile)">🔄 Change Age Profile</button>
-      <button class="btn pop" style="margin-top:8px;" onclick="parentGate(secureReset)">🗑️ Reset All Progress</button>
-      <button class="btn pop" style="margin-top:8px;background:linear-gradient(135deg,#333,#222);box-shadow:0 3px 0 #111;" onclick="changePin()">🔑 Change PIN</button>
+      <button class="btn sec pop" onclick="parentGate(changeProfile)" data-i18n="changeAge">🔄 Change Age Profile</button>
+      <button class="btn pop" style="margin-top:8px;" onclick="parentGate(secureReset)" data-i18n="resetAll">🗑️ Reset All Progress</button>
+      <button class="btn pop" style="margin-top:8px;background:linear-gradient(135deg,#333,#222);box-shadow:0 3px 0 #111;" onclick="changePin()" data-i18n="changePin">🔑 Change PIN</button>
     </div>
     <div class="pcard" style="font-size:0.87em;color:var(--dim);line-height:1.62;">
-      <div class="ctitle" style="font-size:1.05em;">📋 ABOUT</div>
-      <p id="aboutPrivacy">Everything you do here is stored on this device alone. No account, no login, no tracking, no analytics. The one exception is the prize request at the very end: if a parent chooses to send it, the name, email and photo they enter are transmitted so a prize can be posted. Nothing else ever leaves the device.</p>
-      <p style="margin-top:7px;">Junior missions (5–8): sensory discovery. Explorer missions (9–14): science, urban history &amp; logic.</p>
+      <div class="ctitle" style="font-size:1.05em;" data-i18n="about">📋 ABOUT</div>
+      <p id="aboutPrivacy" data-i18n="privacy">Everything you do here is stored on this device alone. No account, no login, no tracking, no analytics. The one exception is the prize request at the very end: if a parent chooses to send it, the name, email and photo they enter are transmitted so a prize can be posted. Nothing else ever leaves the device.</p>
+      <p style="margin-top:7px;" data-i18n="aboutModes">Junior missions (5–8): sensory discovery. Explorer missions (9–14): science, urban history &amp; logic.</p>
     </div>
   </div>
 
@@ -1187,11 +1198,11 @@ button:active{transform:scale(0.93);}
 <rect x="0" y="93" width="800" height="3" fill="#4A00D0" opacity="0.8"/>
 </svg>
 <div class="tab-bar">
-  <button class="tab-btn active" id="tb0" onclick="switchTab('missions',this)"><span class="ti">🎯</span>Missions</button>
-  <button class="tab-btn" id="tb1" onclick="switchTab('skills',this)"><span class="ti">🛠️</span>Skills</button>
-  <button class="tab-btn" id="tb2" onclick="switchTab('badges',this)"><span class="ti">🃏</span><span id="tb2L">Cards</span></button>
-  <button class="tab-btn" id="tb3" onclick="switchTab('journal',this)"><span class="ti">📔</span>Journal</button>
-  <button class="tab-btn" id="tb4" onclick="parentGate(()=>switchTab('parent',document.getElementById('tb4'),true))"><span class="ti">👨‍👩‍👦</span>Parent</button>
+  <button class="tab-btn active" id="tb0" onclick="switchTab('missions',this)"><span class="ti">🎯</span><span data-i18n="tabMissions">Missions</span></button>
+  <button class="tab-btn" id="tb1" onclick="switchTab('skills',this)"><span class="ti">🛠️</span><span data-i18n="tabSkills">Skills</span></button>
+  <button class="tab-btn" id="tb2" onclick="switchTab('badges',this)"><span class="ti">🃏</span><span id="tb2L" data-i18n="tabCards">Cards</span></button>
+  <button class="tab-btn" id="tb3" onclick="switchTab('journal',this)"><span class="ti">📔</span><span data-i18n="tabJournal">Journal</span></button>
+  <button class="tab-btn" id="tb4" onclick="parentGate(()=>switchTab('parent',document.getElementById('tb4'),true))"><span class="ti">👨‍👩‍👦</span><span data-i18n="tabParent">Parent</span></button>
 </div>
 </nav>
 
@@ -1205,18 +1216,18 @@ button:active{transform:scale(0.93);}
 <div id="gameModal" class="modal">
   <div class="mc" style="position:relative;">
     <div class="game-ui">
-      <div class="game-title">🚲 AMSTERDAM BIKE RUN!</div>
-      <div class="game-sub">TAP to jump • Survive 30 seconds to complete your mission!</div>
+      <div class="game-title" data-i18n="gameTitle">🚲 AMSTERDAM BIKE RUN!</div>
+      <div class="game-sub" data-i18n="gameSub">TAP to jump • Survive 30 seconds to complete your mission!</div>
     </div>
     <canvas id="gameCanvas"></canvas>
     <div id="gameOver" class="game-over-overlay">
       <div id="goTitle" class="go-title">WIN!</div>
       <div id="goMsg" style="color:#ddd;font-family:'Fredoka',sans-serif;font-size:1em;margin-bottom:16px;text-align:center;"></div>
-      <button id="btnComplete" class="btn ylw pop" style="max-width:260px;" onclick="finalizeMission()">🃏 Collect your card!</button>
-      <button id="btnRetry" class="btn sec pop" style="max-width:260px;margin-top:8px;" onclick="retryGame()">🔄 Try Again</button>
+      <button id="btnComplete" class="btn ylw pop" style="max-width:260px;" onclick="finalizeMission()" data-i18n="collectCard">🃏 Collect your card!</button>
+      <button id="btnRetry" class="btn sec pop" style="max-width:260px;margin-top:8px;" onclick="retryGame()" data-i18n="tryAgain">🔄 Try Again</button>
     </div>
     <div class="game-ui" style="padding-top:0;">
-      <button class="btn pop" onclick="skipGame()" style="background:linear-gradient(135deg,#555,#333);box-shadow:0 3px 0 #111;font-size:0.85em;">Skip game &amp; complete anyway</button>
+      <button class="btn pop" onclick="skipGame()" style="background:linear-gradient(135deg,#555,#333);box-shadow:0 3px 0 #111;font-size:0.85em;" data-i18n="skipGame">Skip game &amp; complete anyway</button>
     </div>
   </div>
 </div>
@@ -1888,14 +1899,177 @@ let S = {...DEF};
 let tabHistory = [];
 let tmpPhotos = {};
 let currentMissionId = null;
-let LANG = 'en';
+// Language: remembered between visits; a first visit follows the device
+let LANG = (() => {
+  try { const v = localStorage.getItem('amsAdv3_lang'); if (v === 'en' || v === 'nl') return v; } catch (e) {}
+  return /^nl\b/i.test(navigator.language || '') ? 'nl' : 'en';
+})();
+
+// Every piece of interface text, English first, Dutch second
+const UI = {
+  reminder:      ['📱 30 min played — take a real-world break!', '📱 Al 30 minuten gespeeld — tijd voor een echte pauze!'],
+  namePh:        ['Your explorer name…', 'Jouw ontdekkersnaam…'],
+  howOld:        ['HOW OLD ARE YOU?', 'HOE OUD BEN JE?'],
+  junior:        ['JUNIOR', 'JUNIOR'],
+  explorer:      ['EXPLORER', 'ONTDEKKER'],
+  ages58:        ['Ages 5–8', '5–8 jaar'],
+  ages914:       ['Ages 9–14', '9–14 jaar'],
+  defNameYoung:  ['Junior Explorer', 'Kleine Ontdekker'],
+  defNameTeen:   ['Young Explorer', 'Jonge Ontdekker'],
+  chooseExplorer:['CHOOSE YOUR EXPLORER', 'KIES JE ONTDEKKER'],
+  whoAreYou:     ['Who are you on this adventure?', 'Wie ben jij in dit avontuur?'],
+  youAre:        ['YOU ARE…', 'JIJ BENT…'],
+  letsGo:        ["🚲 Let's Explore!", '🚲 Op pad!'],
+  modeJunior:    ['🌟 Junior', '🌟 Junior'],
+  modeExplorer:  ['🔬 Explorer', '🔬 Ontdekker'],
+  defName:       ['Explorer', 'Ontdekker'],
+  districts:     ['Districts', 'Wijken'],
+  map:           ['Map', 'Kaart'],
+  lgLock:        ['Not started', 'Nog niet begonnen'],
+  lgOpen:        ['In progress', 'Bezig'],
+  lgDone:        ['Complete', 'Compleet'],
+  whereNext:     ['🧭 WHERE TO NEXT?', '🧭 WAAR GAAN WE HEEN?'],
+  yourCards:     ['🃏 YOUR CARDS', '🃏 JOUW KAARTEN'],
+  mapAria:       ['Map of Amsterdam districts', 'Kaart van de Amsterdamse wijken'],
+  yourMissions:  ['🎯 YOUR MISSIONS', '🎯 JOUW OPDRACHTEN'],
+  skillsTitle:   ['🛠️ SKILLS', '🛠️ TALENTEN'],
+  badgesTitle:   ['🏆 BADGES', '🏆 BADGES'],
+  journalTitle:  ['📔 JOURNAL', '📔 DAGBOEK'],
+  parentTitle:   ['👨‍👩‍👦 PARENT CONTROLS', '👨‍👩‍👦 VOOR OUDERS'],
+  changeAge:     ['🔄 Change Age Profile', '🔄 Leeftijd wijzigen'],
+  resetAll:      ['🗑️ Reset All Progress', '🗑️ Alle voortgang wissen'],
+  changePin:     ['🔑 Change PIN', '🔑 Pincode wijzigen'],
+  about:         ['📋 ABOUT', '📋 OVER DEZE APP'],
+  privacy:       ['Everything you do here is stored on this device alone. No account, no login, no tracking, no analytics. The one exception is the prize request at the very end: if a parent chooses to send it, the name, email and photo they enter are transmitted so a prize can be posted. Nothing else ever leaves the device.',
+                  'Alles wat je hier doet, wordt alleen op dit apparaat bewaard. Geen account, geen inlog, geen tracking, geen statistieken. De enige uitzondering is de prijsaanvraag helemaal aan het eind: als een ouder ervoor kiest die te versturen, worden de ingevulde naam, het e-mailadres en de foto verzonden, zodat de prijs kan worden opgestuurd. Verder verlaat er nooit iets het apparaat.'],
+  aboutModes:    ['Junior missions (5–8): sensory discovery. Explorer missions (9–14): science, urban history & logic.',
+                  'Junior-opdrachten (5–8): ontdekken met je zintuigen. Ontdekker-opdrachten (9–14): wetenschap, stadsgeschiedenis en logisch denken.'],
+  tabMissions:   ['Missions', 'Opdrachten'],
+  tabSkills:     ['Skills', 'Talenten'],
+  tabCards:      ['Cards', 'Kaarten'],
+  tabJournal:    ['Journal', 'Dagboek'],
+  tabParent:     ['Parent', 'Ouders'],
+  back:          ['← Back', '← Terug'],
+  backAria:      ['Back', 'Terug'],
+  langAria:      ['Nederlands', 'English'],
+  noMode:        ['Complete onboarding to see missions!', 'Kies eerst je leeftijd om de opdrachten te zien!'],
+  addPhoto:      ['Add Photo Proof', 'Foto als bewijs toevoegen'],
+  addAnother:    ['Add Another Photo', 'Nog een foto toevoegen'],
+  missionDone:   ['✅ MISSION COMPLETE!', '✅ OPDRACHT VOLBRACHT!'],
+  photoFirst:    ['📸 Take a photo first to unlock the Race!', '📸 Maak eerst een foto om de race vrij te spelen!'],
+  race:          ['🚲 Race to Complete!', '🚲 Race naar de finish!'],
+  markDone:      ['✅ Mark Complete!', '✅ Afvinken!'],
+  notesPh:       ['Write your notes here…', 'Schrijf hier je aantekeningen…'],
+  gameTitle:     ['🚲 AMSTERDAM BIKE RUN!', '🚲 AMSTERDAMSE FIETSRACE!'],
+  gameSub:       ['TAP to jump • Survive 30 seconds to complete your mission!', 'TIK om te springen • Hou 30 seconden vol om je opdracht te voltooien!'],
+  gameWin:       ['🏆 FINISH!', '🏆 FINISH!'],
+  gameWinMsg:    ['You survived Amsterdam on a bike! Your card is ready!', 'Je hebt Amsterdam op de fiets overleefd! Je kaart ligt klaar!'],
+  gameLose:      ['💨 Wipeout!', '💨 Onderuit!'],
+  gameLoseMsg:   ['No lives left! Try again or skip to still complete.', 'Geen levens meer! Probeer het opnieuw, of sla het spel over en voltooi de opdracht toch.'],
+  collectCard:   ['🃏 Collect your card!', '🃏 Pak je kaart!'],
+  tryAgain:      ['🔄 Try Again', '🔄 Nog een keer'],
+  skipGame:      ['Skip game & complete anyway', 'Spel overslaan en toch voltooien'],
+  journalEmpty:  ['Journal empty — complete missions to fill it! 📔', 'Je dagboek is nog leeg — voltooi opdrachten om het te vullen! 📔'],
+  mission:       ['Mission', 'Opdracht'],
+  psAge:         ['Age profile', 'Leeftijdsprofiel'],
+  psJunior:      ['Junior (5–8)', 'Junior (5–8)'],
+  psExplorer:    ['Explorer (9–14)', 'Ontdekker (9–14)'],
+  psName:        ['Name', 'Naam'],
+  psDone:        ['Missions done', 'Opdrachten voltooid'],
+  psDistricts:   ['Districts finished', 'Wijken afgerond'],
+  psBadges:      ['Badges earned', 'Badges verdiend'],
+  psTop:         ['Top skill', 'Sterkste talent'],
+  pinWelcome:    ['Welcome, parent!\n\nSet a 4-digit PIN to protect this area:', 'Welkom!\n\nKies een pincode van 4 cijfers om dit deel voor ouders te beveiligen:'],
+  pin4:          ['Please enter exactly 4 digits.', 'Vul precies 4 cijfers in.'],
+  pinConfirm:    ['Confirm your PIN:', 'Bevestig je pincode:'],
+  pinMismatch:   ['PINs did not match. Please try again.', 'De pincodes komen niet overeen. Probeer het opnieuw.'],
+  pinEnter:      ['Enter parent PIN:', 'Vul de pincode voor ouders in:'],
+  pinWrong:      ['Incorrect PIN.', 'Onjuiste pincode.'],
+  pinCurrent:    ['Enter current PIN to change it:', 'Vul je huidige pincode in om hem te wijzigen:'],
+  pinNew:        ['Enter new 4-digit PIN:', 'Kies een nieuwe pincode van 4 cijfers:'],
+  pinNewConfirm: ['Confirm new PIN:', 'Bevestig de nieuwe pincode:'],
+  pinMismatch2:  ['PINs did not match.', 'De pincodes komen niet overeen.'],
+  pinUpdated:    ['PIN updated!', 'Pincode gewijzigd!'],
+  resetConfirm:  ['Reset ALL progress? This cannot be undone!', 'ALLE voortgang wissen? Dit kun je niet ongedaan maken!'],
+  cityMaster:    ['CITY MASTER!', 'STADSMEESTER!'],
+  cityMasterMsg: ["You've completed every mission in Amsterdam!<br>The city is officially yours, Explorer.", 'Je hebt alle opdrachten in Amsterdam voltooid!<br>De stad is officieel van jou, ontdekker.'],
+  claimPrize:    ['🎁 Claim Your Prize!', '🎁 Haal je prijs op!'],
+  keepExploring: ['Keep Exploring! 🗺️', 'Verder ontdekken! 🗺️'],
+  yourPrize:     ['Your Prize!', 'Jouw prijs!'],
+  pickPhoto:     ["Pick your favourite journal photo — we'll turn it into a custom puzzle just for you!", 'Kies je mooiste foto uit je dagboek — wij maken er een puzzel van, speciaal voor jou!'],
+  noPhotos:      ['No photos in journal yet — take some on your adventures!', "Nog geen foto's in je dagboek — maak er een paar onderweg!"],
+  selected:      ['Selected:', 'Gekozen:'],
+  parentNamePh:  ["Parent's name (optional)", 'Naam ouder (optioneel)'],
+  parentEmailPh: ["Parent's email (for the prize) *", 'E-mail ouder (voor de prijs) *'],
+  sendPrize:     ['📬 Send Prize Request!', '📬 Prijs aanvragen!'],
+  needEmail:     ['⚠️ Please enter a parent email!', '⚠️ Vul het e-mailadres van een ouder in!'],
+  sending:       ['⏳ Sending your request…', '⏳ Je aanvraag wordt verstuurd…'],
+  sendFailed:    ['❌ Something went wrong — please try again!', '❌ Er ging iets mis — probeer het nog eens!'],
+  sentTitle:     ['Request Sent!', 'Aanvraag verstuurd!'],
+  sentMsg:       ["We've got it! Your custom puzzle is being prepared.<br>Check your inbox soon.", 'We hebben hem ontvangen! Je eigen puzzel wordt gemaakt.<br>Kijk binnenkort in je inbox.'],
+  lastStepTitle: ['One Last Step!', 'Nog één stap!'],
+  lastStepMsg:   ["We've opened your email app with everything filled in.<br><strong>Press send</strong> to finish your request!", 'We hebben je mailprogramma geopend met alles al ingevuld.<br><strong>Druk op verzenden</strong> om je aanvraag af te ronden!'],
+};
+function tr(k) { const v = UI[k]; return v ? v[LANG === 'nl' ? 1 : 0] : k; }
+
+// Names that come from the data: characters, skills, badges
+const CHAR_NL   = { zoe:'Tulpenontdekker', paco:'Grachtenmuzikant', rio:'Damverkenner', botu:'Tandwielkikker' };
+const SKILL_NL  = {
+  explorer:      ['Ontdekker',        ['Nieuwkomer','Zwerver','Padvinder','Navigator','Meesterontdekker']],
+  active:        ['Actief',           ['Bankhanger','Beweger','Renner','Atleet','Kampioen']],
+  nature:        ['Natuur',           ['Waarnemer','Natuurkenner','Botanicus','Ecoloog','Natuurmeester']],
+  language:      ['Taal',             ['Luisteraar','Spreker','Prater','Taalkundige','Taalmeester']],
+  photographer:  ['Fotograaf',        ['Kiekjesmaker','Plaatjesschieter','Beeldbouwer','Fotograaf','Kunstenaar']],
+  detective:     ['Detective',        ['Nieuwsgierig','Zoeker','Vinder','Speurder','Meesterdetective']],
+  creator:       ['Maker',            ['Dromer','Knutselaar','Bouwer','Vakman','Meestermaker']],
+  masterCrafter: ['Ambachtsmeester',  ['Leerling','Gezel','Vakman','Expert','Grootmeester']],
+  urbanHistorian:['Stadshistoricus',  ['Voorbijganger','Bewoner','Archivaris','Historicus','Stadskenner']],
+  architect:     ['Architect',        ['Schetser','Tekenaar','Ontwerper','Architect','Bouwmeester']],
+  scientist:     ['Wetenschapper',    ['Nieuwsgierig','Waarnemer','Proefnemer','Onderzoeker','Veldonderzoeker']],
+};
+const BADGE_NL  = {
+  'first-step':'Eerste Stap', 'bridge-finder':'Bruggenvinder', 'bike-expert':'Fietsexpert',
+  'canal-watcher':'Grachtenkijker', 'nature-kid':'Natuurkind', 'shutterbug':'Fotofanaat',
+  'language-star':'Taalster', 'scientist':'Wetenschapper', 'ferry-rider':'Pontvaarder',
+  'adventurer':'Avonturier', 'grand-explorer':'Grote Ontdekker', 'amsterdam-kid':'Echte Amsterdammer',
+  'grand-architect':'Bouwmeester', 'field-scientist':'Veldonderzoeker', 'taalmeester':'Taalmeester',
+  'night-watch':'Nachtwacht', 'market-master':'Marktmeester', 'remembrance':'Herinnering',
+};
+const nlOn = () => LANG === 'nl';
+function charTitle(ch)   { return nlOn() && CHAR_NL[ch.id] ? CHAR_NL[ch.id] : ch.title; }
+function skillName(sk)   { return nlOn() && SKILL_NL[sk.id] ? SKILL_NL[sk.id][0] : sk.name; }
+function skillTitle(sk,l){ return nlOn() && SKILL_NL[sk.id] ? SKILL_NL[sk.id][1][l] : sk.titles[l]; }
+function badgeName(b)    { return nlOn() && BADGE_NL[b.id] ? BADGE_NL[b.id] : b.name; }
+
+// Put the fixed interface text into the current language
+function applyLang() {
+  document.documentElement.lang = LANG;
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = tr(el.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => { el.innerHTML = tr(el.dataset.i18nHtml); });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = tr(el.dataset.i18nPh); });
+  document.querySelectorAll('[data-i18n-aria]').forEach(el => { el.setAttribute('aria-label', tr(el.dataset.i18nAria)); });
+  const flag = LANG === 'en' ? '🇳🇱' : '🇬🇧';
+  const hb = document.getElementById('langBtn');
+  if (hb) { hb.textContent = flag; hb.setAttribute('aria-label', tr('langAria')); }
+  const ob = document.getElementById('obLangBtn');
+  if (ob) { ob.textContent = flag + (LANG === 'en' ? ' NL' : ' EN'); ob.setAttribute('aria-label', tr('langAria')); }
+  const bb = document.getElementById('backBtn');
+  if (bb) bb.setAttribute('aria-label', tr('backAria'));
+}
 let selectedRegion = null;
 
 function toggleLang() {
   LANG = LANG === 'en' ? 'nl' : 'en';
-  document.getElementById('langBtn').textContent = LANG === 'en' ? '🇳🇱' : '🇬🇧';
-  renderTab('missions');
-  if (currentMissionId) openMission(currentMissionId);
+  try { localStorage.setItem('amsAdv3_lang', LANG); } catch (e) {}
+  applyLang();
+  // Re-draw whatever is on screen in the new language
+  if (document.getElementById('charSelect').style.display === 'flex') showCharSelect();
+  if (S.mode) {
+    updateHeader(); renderMap(); renderMissions();
+    if (curTab !== 'missions') renderTab(curTab);
+  }
+  if (currentMissionId && document.getElementById('mModal').classList.contains('active')) openMission(currentMissionId);
+  if (cardRevealState && document.getElementById('cardReveal').classList.contains('active')) showCardReveal(...cardRevealState);
 }
 
 const NL = {
@@ -2005,6 +2179,9 @@ async function loadS() {
 // INIT
 // ═══════════════════════════════════════════════════════════════════
 async function initApp() {
+  applyLang();
+  // The celebration screens sit after this script in the page; translate them once they exist
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', applyLang);
   await loadS();
   if (!S.mode) {
     document.getElementById('ob').style.display = 'flex';
@@ -2021,7 +2198,7 @@ async function initApp() {
 
 function selectAge(mode) {
   const n = document.getElementById('nameIn').value.trim();
-  S.name = n || (mode==='young' ? 'Junior Explorer' : 'Young Explorer');
+  S.name = n || tr(mode==='young' ? 'defNameYoung' : 'defNameTeen');
   S.mode = mode; S.sessionStart = Date.now();
   playDing();
   showCharSelect();
@@ -2034,7 +2211,7 @@ function showCharSelect() {
          style="background:${ch.bg};">
       <svg viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg">${ch.svgBody}</svg>
       <div class="char-name" style="color:${ch.color}">${ch.name}</div>
-      <div class="char-role">${ch.title}</div>
+      <div class="char-role">${charTitle(ch)}</div>
     </div>`).join('');
   document.getElementById('ob').style.opacity = '0';
   document.getElementById('ob').style.pointerEvents = 'none';
@@ -2051,7 +2228,7 @@ function showCharacterReveal() {
   const ch = CHARACTERS.find(c=>c.id===S.character);
   document.getElementById('charRevealIcon').textContent = ch.emoji;
   document.getElementById('charRevealName').textContent = ch.name;
-  document.getElementById('charRevealTitle').textContent = ch.title;
+  document.getElementById('charRevealTitle').textContent = charTitle(ch);
   document.getElementById('charReveal').style.background =
     `linear-gradient(160deg,${ch.bg} 0%,#1A0848 100%)`;
   document.getElementById('charReveal').classList.remove('hidden');
@@ -2078,35 +2255,35 @@ function changeProfile() {
 function parentGate(cb) {
   const stored = localStorage.getItem('amsAdv3_pin');
   if (!stored) {
-    const pin = window.prompt('Welcome, parent!\n\nSet a 4-digit PIN to protect this area:');
+    const pin = window.prompt(tr('pinWelcome'));
     if (!pin) return;
-    if (!/^\d{4}$/.test(pin)) { alert('Please enter exactly 4 digits.'); return; }
-    const confirm = window.prompt('Confirm your PIN:');
-    if (confirm !== pin) { alert('PINs did not match. Please try again.'); return; }
+    if (!/^\d{4}$/.test(pin)) { alert(tr('pin4')); return; }
+    const confirm = window.prompt(tr('pinConfirm'));
+    if (confirm !== pin) { alert(tr('pinMismatch')); return; }
     localStorage.setItem('amsAdv3_pin', pin);
     cb();
   } else {
-    const entered = window.prompt('Enter parent PIN:');
+    const entered = window.prompt(tr('pinEnter'));
     if (entered === null) return;
-    entered === stored ? cb() : alert('Incorrect PIN.');
+    entered === stored ? cb() : alert(tr('pinWrong'));
   }
 }
 function changePin() {
   const stored = localStorage.getItem('amsAdv3_pin');
   if (stored) {
-    const current = window.prompt('Enter current PIN to change it:');
-    if (current !== stored) { alert('Incorrect PIN.'); return; }
+    const current = window.prompt(tr('pinCurrent'));
+    if (current !== stored) { alert(tr('pinWrong')); return; }
   }
-  const pin = window.prompt('Enter new 4-digit PIN:');
-  if (!pin || !/^\d{4}$/.test(pin)) { alert('Please enter exactly 4 digits.'); return; }
-  const confirm = window.prompt('Confirm new PIN:');
-  if (confirm !== pin) { alert('PINs did not match.'); return; }
+  const pin = window.prompt(tr('pinNew'));
+  if (!pin || !/^\d{4}$/.test(pin)) { alert(tr('pin4')); return; }
+  const confirm = window.prompt(tr('pinNewConfirm'));
+  if (confirm !== pin) { alert(tr('pinMismatch2')); return; }
   localStorage.setItem('amsAdv3_pin', pin);
-  alert('PIN updated!');
+  alert(tr('pinUpdated'));
 }
 
 function secureReset() {
-  if (!confirm('Reset ALL progress? This cannot be undone!')) return;
+  if (!confirm(tr('resetConfirm'))) return;
   Prefs.remove({key:'amsAdv3'});
   S = {...DEF}; tabHistory = [];
   document.getElementById('ob').style.display = 'flex';
@@ -2157,11 +2334,11 @@ function renderAll() {
 function updateHeader() {
   const _ch = S.character ? CHARACTERS.find(c=>c.id===S.character) : null;
   document.getElementById('hAv').textContent = _ch ? _ch.emoji : (S.mode==='teen' ? '🔬' : '🌟');
-  document.getElementById('hName').textContent = S.name || 'Explorer';
+  document.getElementById('hName').textContent = S.name || tr('defName');
   document.getElementById('sMis').textContent = S.done.length;
   document.getElementById('sBdg').textContent = badgesForMode().filter(b=>b.ok(S)).length;
   const mb = document.getElementById('sMod');
-  mb.textContent = S.mode==='teen' ? '🔬 Explorer' : '🌟 Junior';
+  mb.textContent = tr(S.mode==='teen' ? 'modeExplorer' : 'modeJunior');
   mb.style.background = S.mode==='teen' ? '#1565C0' : '#5E35B1';
 }
 
@@ -2254,7 +2431,7 @@ function renderMap() {
                       : `${done}/${ms.length} ${nl ? 'klaar' : 'done'}`;
     return `<div class="mreg ${cls}${hint ? ' hint' : ''}" onclick="goReg('${r.id}')">
       <div class="ri">${r.icon}</div>
-      <div class="rn">${r.en}</div>
+      <div class="rn">${districtName(r.id)}</div>
       <div class="rs">${sub}</div>
     </div>`;
   }).join('');
@@ -2273,7 +2450,7 @@ function renderMap() {
     const labelY = r.y + 50;
     const progY  = r.y + 65;
     const status = hint ? (nl ? 'Begin hier!' : 'Start here!') : `${done}/${ms.length}`;
-    const aria   = `${r.en} — ${done} ${nl?'van':'of'} ${ms.length} ${nl?'voltooid':'done'}`;
+    const aria   = `${districtName(r.id)} — ${done} ${nl?'van':'of'} ${ms.length} ${nl?'voltooid':'done'}`;
 
     return `<g class="mnode ${cls}" onclick="goReg('${r.id}')"
                tabindex="0" role="button" aria-label="${aria}"
@@ -2284,7 +2461,7 @@ function renderMap() {
       <circle class="nring" cx="${r.x}" cy="${r.y}" r="30"
               fill="none" stroke-width="3.5"/>
       <text class="nicon" x="${r.x}" y="${r.y + 1}">${r.icon}</text>
-      <text class="nlabel" x="${r.x}" y="${labelY}">${r.en}</text>
+      <text class="nlabel" x="${r.x}" y="${labelY}">${districtName(r.id)}</text>
       <text class="nprog"  x="${r.x}" y="${progY}">${status}</text>
     </g>`;
   }).join('');
@@ -2331,14 +2508,14 @@ function renderMissions() {
   const list = document.getElementById('mList');
   const et = document.getElementById('exploreTitle');
   if (et) et.textContent = LANG==='nl' ? '🧭 WAAR GAAN WE HEEN?' : '🧭 WHERE TO NEXT?';
-  if (!S.mode) { list.innerHTML='<div class="mempty">Complete onboarding to see missions!</div>'; return; }
+  if (!S.mode) { list.innerHTML='<div class="mempty">'+tr('noMode')+'</div>'; return; }
 
   let vis = MISSIONS.filter(m=>(m.age===S.mode||m.age==='all'));
   if (selectedRegion) vis = vis.filter(m=>m.region===selectedRegion);
 
   const reg = selectedRegion ? REGIONS.find(r=>r.id===selectedRegion) : null;
   const header = reg
-    ? `<div class="reg-filter-bar"><button class="reg-back-btn" onclick="clearRegion()">${LANG==='nl'?'← Alle wijken':'← All Regions'}</button><span>${reg.icon} ${LANG==='nl'?districtName(reg.id):reg.en}</span></div>`
+    ? `<div class="reg-filter-bar"><button class="reg-back-btn" onclick="clearRegion()">${LANG==='nl'?'← Alle wijken':'← All Regions'}</button><span>${reg.icon} ${districtName(reg.id)}</span></div>`
     : '';
 
   if (!vis.length) { list.innerHTML=header+'<div class="mempty">'+(LANG==='nl'?'Hier staan nog geen opdrachten voor jouw leeftijd — kies een ander stadsdeel! 🗺️':'No missions here for your age group — try another district! 🗺️')+'</div>'; return; }
@@ -2348,7 +2525,7 @@ function renderMissions() {
     const mr = REGIONS.find(r=>r.id===m.region);
     const stags = Object.keys(m.xp).map(sk=>{
       const d = SKILLS.find(s=>s.id===sk);
-      return `<span class="stag">${d?.icon||''} ${d?.name||sk}</span>`;
+      return `<span class="stag">${d?.icon||''} ${d?skillName(d):sk}</span>`;
     }).join('');
     const cardTitle = t(m,'title');
     const cardDesc = t(m,'desc').substring(0,80)+'…';
@@ -2359,7 +2536,7 @@ function renderMissions() {
         <div class="mbody">
           <div class="mtit">${cardTitle}</div>
           <div class="mdsc">${cardDesc}</div>
-          <div class="mmeta">${stags}${!selectedRegion?`<span class="rtag">${mr?.icon||''} ${mr?.en||m.region}</span>`:''}</div>
+          <div class="mmeta">${stags}${!selectedRegion?`<span class="rtag">${mr?.icon||''} ${mr?districtName(mr.id):m.region}</span>`:''}</div>
         </div>
       </div>
     </div>`;
@@ -2385,26 +2562,26 @@ function openMission(id) {
 
   const sawd = Object.entries(m.xp).map(([sk,v])=>{
     const d = SKILLS.find(s=>s.id===sk);
-    return `<span class="sawd">+${v} ${d?.icon||''} ${d?.name||sk}</span>`;
+    return `<span class="sawd">+${v} ${d?.icon||''} ${d?skillName(d):sk}</span>`;
   }).join('');
 
   const phtml = allPhotos.map(s=>`<div class="pit" onclick="openLightbox('${s}')"><img src="${s}" alt=""></div>`).join('');
 
   const photoSection = `
     <div class="psec" style="margin-bottom:10px;">
-      <label onclick="nativeCapture(${id})">📸 ${hasPhoto?'Add Another Photo':'Add Photo Proof'}</label>
+      <label onclick="nativeCapture(${id})">📸 ${tr(hasPhoto?'addAnother':'addPhoto')}</label>
       <input type="file" id="fi_${id}" accept="image/*" capture="environment" onchange="handlePhotoFile(event,${id})">
       <div class="pp" id="pp_${id}">${phtml}</div>
     </div>`;
 
   const completeSection = done
-    ? '<div class="donebox">✅ MISSION COMPLETE!</div>'
+    ? `<div class="donebox">${tr('missionDone')}</div>`
     : m.needsPhoto
-      ? `${!hasPhoto ? '<div class="photo-gate-msg">📸 Take a photo first to unlock the Race!</div>' : ''}
+      ? `${!hasPhoto ? `<div class="photo-gate-msg">${tr('photoFirst')}</div>` : ''}
          <button id="raceBtn_${id}" class="btn ylw pop" onclick="launchGame(${id})" ${!hasPhoto?'disabled':''}>
-           🚲 Race to Complete!
+           ${tr('race')}
          </button>`
-      : `<button class="btn grn pop" onclick="completeMission(${id})">✅ Mark Complete!</button>`;
+      : `<button class="btn grn pop" onclick="completeMission(${id})">${tr('markDone')}</button>`;
 
   const ch = S.character ? CHARACTERS.find(c=>c.id===S.character) : null;
   // Dutch guide lines where they exist, English as the safety net
@@ -2424,7 +2601,7 @@ function openMission(id) {
     <div class="cbox"><h4>🎯 ${LANG==='nl'?'Opdracht':'Challenge'}</h4><p>${splitTracks(t(m,'challenge'))}</p></div>
     <div class="saw">${sawd}</div>
     ${photoSection}
-    <textarea class="narea" id="mn_${id}" placeholder="Write your notes here…" rows="3">${note}</textarea>
+    <textarea class="narea" id="mn_${id}" placeholder="${tr('notesPh')}" rows="3">${note}</textarea>
     ${completeSection}`;
 
   document.getElementById('mModal').classList.add('active');
@@ -2598,7 +2775,9 @@ function districtName(id) {
 }
 function t_title(m) { return typeof t === 'function' ? t(m, 'title') : m.title; }
 
+let cardRevealState = null;
 function showCardReveal(id, isNew) {
+  cardRevealState = [id, isNew];
   const m = MISSIONS.find(x => x.id === id); const c = CARDS[id];
   if (!m || !c) return;
   const nl = LANG === 'nl', r = c[0], keep = r === 'keep';
@@ -2757,7 +2936,7 @@ function showPrizeClaim() {
   const grid = document.getElementById('prizePhotoGrid');
   const photos = S.journal.flatMap(j => (j.photos || []).map(p => ({url: p, id: j.id})));
   if (!photos.length) {
-    grid.innerHTML = '<div style="color:rgba(255,255,255,0.5);font-size:0.85em;">No photos in journal yet — take some on your adventures!</div>';
+    grid.innerHTML = `<div style="color:rgba(255,255,255,0.5);font-size:0.85em;">${tr('noPhotos')}</div>`;
   } else {
     grid.innerHTML = photos.map((p, i) =>
       `<div class="prize-photo-thumb" onclick="selectPrizePhoto('${i}', this)">
@@ -2785,11 +2964,11 @@ async function submitPrizeRequest() {
   const parentEmail = document.getElementById('prizeParentEmail').value.trim();
   const status      = document.getElementById('prizeStatus');
 
-  if (!parentEmail) { status.textContent = '⚠️ Please enter a parent email!'; return; }
+  if (!parentEmail) { status.textContent = tr('needEmail'); return; }
 
   const btn = document.querySelector('#celebStep2 .btn.ylw');
   btn.disabled = true;
-  status.textContent = '⏳ Sending your request…';
+  status.textContent = tr('sending');
 
   try {
     let photoUrl = selectedPrizePhoto || null;
@@ -2838,21 +3017,18 @@ async function submitPrizeRequest() {
 
     if (delivered) {
       document.getElementById('celebStep3Icon').textContent  = '📬';
-      document.getElementById('celebStep3Title').textContent = 'Request Sent!';
-      document.getElementById('celebStep3Msg').innerHTML     =
-        'We\'ve got it! Your custom puzzle is being prepared.<br>Check your inbox soon.';
+      document.getElementById('celebStep3Title').textContent = tr('sentTitle');
+      document.getElementById('celebStep3Msg').innerHTML     = tr('sentMsg');
     } else {
       document.getElementById('celebStep3Icon').textContent  = '✉️';
-      document.getElementById('celebStep3Title').textContent = 'One Last Step!';
-      document.getElementById('celebStep3Msg').innerHTML     =
-        'We\'ve opened your email app with everything filled in.<br>' +
-        '<strong>Press send</strong> to finish your request!';
+      document.getElementById('celebStep3Title').textContent = tr('lastStepTitle');
+      document.getElementById('celebStep3Msg').innerHTML     = tr('lastStepMsg');
     }
 
     document.getElementById('celebStep2').style.display = 'none';
     document.getElementById('celebStep3').style.display = 'flex';
   } catch(e) {
-    status.textContent = '❌ Something went wrong — please try again!';
+    status.textContent = tr('sendFailed');
     btn.disabled = false;
   }
 }
@@ -3145,16 +3321,16 @@ function endGame(won) {
   const btnC = document.getElementById('btnComplete');
   const btnR = document.getElementById('btnRetry');
   if (won) {
-    title.textContent = '🏆 FINISH!';
+    title.textContent = tr('gameWin');
     title.className = 'go-title win';
-    msg.textContent = 'You survived Amsterdam on a bike! Your card is ready!';
+    msg.textContent = tr('gameWinMsg');
     btnC.style.display = 'block';
     btnR.style.display = 'none';
     playFanfare();
   } else {
-    title.textContent = '💨 Wipeout!';
+    title.textContent = tr('gameLose');
     title.className = 'go-title lose';
-    msg.textContent = 'No lives left! Try again or skip to still complete.';
+    msg.textContent = tr('gameLoseMsg');
     btnC.style.display = 'none';
     btnR.style.display = 'block';
   }
@@ -3196,8 +3372,8 @@ function renderSkills() {
     const pct=Math.min(100,Math.round(xp/next*100));
     return `<div class="skc">
       <div class="ski">${s.icon}</div>
-      <div class="skn">${s.name}</div>
-      <div class="skt">${s.titles[l]}</div>
+      <div class="skn">${skillName(s)}</div>
+      <div class="skt">${skillTitle(s,l)}</div>
       <div class="skx">${xp} XP · Lv${l+1}</div>
       <div class="sbw"><div class="sb" style="width:${pct}%"></div></div>
     </div>`;
@@ -3213,7 +3389,7 @@ function renderBadges() {
     const e=b.ok(S);
     return `<div class="bdg ${e?'earned':''}">
       <div class="bi">${b.icon}</div>
-      <div class="bn">${b.name}</div>
+      <div class="bn">${badgeName(b)}</div>
     </div>`;
   }).join('');
 }
@@ -3223,12 +3399,12 @@ function renderBadges() {
 // ═══════════════════════════════════════════════════════════════════
 function renderJournal() {
   const el = document.getElementById('journalE');
-  if (!S.journal.length) { el.innerHTML='<div class="jempty">Journal empty — complete missions to fill it! 📔</div>'; return; }
+  if (!S.journal.length) { el.innerHTML=`<div class="jempty">${tr('journalEmpty')}</div>`; return; }
   el.innerHTML = [...S.journal].reverse().map(e=>{
     const m = MISSIONS.find(m=>m.id===e.id);
     const ph=(e.photos||[]).map(s=>`<div class="jpit" onclick="openLightbox('${s}')"><img src="${s}" alt=""></div>`).join('');
     return `<div class="je">
-      <div class="jmn">${m?.icon||'📝'} ${m?.title||'Mission'}</div>
+      <div class="jmn">${m?.icon||'📝'} ${m?t(m,'title'):tr('mission')}</div>
       <div class="jdt">${e.date||''}</div>
       ${e.note?`<div class="jnt">"${e.note}"</div>`:''}
       ${ph?`<div class="jph">${ph}</div>`:''}
@@ -3241,14 +3417,14 @@ function renderJournal() {
 // ═══════════════════════════════════════════════════════════════════
 function renderParent() {
   const total=MISSIONS.filter(m=>m.age===S.mode||m.age==='all').length;
-  const top=SKILLS.map(s=>({n:s.name,v:S.xp[s.id]||0})).sort((a,b)=>b.v-a.v)[0];
+  const top=SKILLS.map(s=>({n:skillName(s),v:S.xp[s.id]||0})).sort((a,b)=>b.v-a.v)[0];
   document.getElementById('pStats').innerHTML=`
-    <div class="ps"><span>Age profile</span><strong>${S.mode==='teen'?'Explorer (9–14)':'Junior (5–8)'}</strong></div>
-    <div class="ps"><span>Name</span><strong>${S.name||'—'}</strong></div>
-    <div class="ps"><span>Missions done</span><strong>${S.done.length} / ${total}</strong></div>
-    <div class="ps"><span>Districts finished</span><strong>${REGIONS.filter(r=>{const ms=MISSIONS.filter(m=>m.region===r.id&&(m.age===S.mode||m.age==='all'));return ms.length&&ms.every(m=>S.done.includes(m.id));}).length} / ${REGIONS.length}</strong></div>
-    <div class="ps"><span>Badges earned</span><strong>${badgesForMode().filter(b=>b.ok(S)).length} / ${badgesForMode().length}</strong></div>
-    <div class="ps"><span>Top skill</span><strong>${top?.n||'—'} (${top?.v||0} XP)</strong></div>`;
+    <div class="ps"><span>${tr('psAge')}</span><strong>${tr(S.mode==='teen'?'psExplorer':'psJunior')}</strong></div>
+    <div class="ps"><span>${tr('psName')}</span><strong>${S.name||'—'}</strong></div>
+    <div class="ps"><span>${tr('psDone')}</span><strong>${S.done.length} / ${total}</strong></div>
+    <div class="ps"><span>${tr('psDistricts')}</span><strong>${REGIONS.filter(r=>{const ms=MISSIONS.filter(m=>m.region===r.id&&(m.age===S.mode||m.age==='all'));return ms.length&&ms.every(m=>S.done.includes(m.id));}).length} / ${REGIONS.length}</strong></div>
+    <div class="ps"><span>${tr('psBadges')}</span><strong>${badgesForMode().filter(b=>b.ok(S)).length} / ${badgesForMode().length}</strong></div>
+    <div class="ps"><span>${tr('psTop')}</span><strong>${top?.n||'—'} (${top?.v||0} XP)</strong></div>`;
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -3285,29 +3461,29 @@ initApp();
   <!-- Step 1: Win screen -->
   <div id="celebStep1">
     <div class="win-icon">🏆</div>
-    <div class="win-title">CITY MASTER!</div>
-    <div class="win-msg">You've completed every mission in Amsterdam!<br>The city is officially yours, Explorer.</div>
-    <button class="btn ylw pop" style="max-width:240px;margin-bottom:10px;" onclick="showPrizeClaim()">🎁 Claim Your Prize!</button>
-    <button class="btn sec pop" style="max-width:240px;" onclick="dismissCelebration()">Keep Exploring! 🗺️</button>
+    <div class="win-title" data-i18n="cityMaster">CITY MASTER!</div>
+    <div class="win-msg" data-i18n-html="cityMasterMsg">You've completed every mission in Amsterdam!<br>The city is officially yours, Explorer.</div>
+    <button class="btn ylw pop" style="max-width:240px;margin-bottom:10px;" onclick="showPrizeClaim()" data-i18n="claimPrize">🎁 Claim Your Prize!</button>
+    <button class="btn sec pop" style="max-width:240px;" onclick="dismissCelebration()" data-i18n="keepExploring">Keep Exploring! 🗺️</button>
   </div>
 
   <!-- Step 2: Prize claim form -->
   <div id="celebStep2" style="display:none;">
     <div style="font-size:2.5em;margin-bottom:4px;">🎁</div>
-    <div class="win-title" style="font-size:2em;">Your Prize!</div>
-    <div class="win-msg" style="font-size:0.95em;margin-bottom:10px;">Pick your favourite journal photo — we'll turn it into a custom puzzle just for you!</div>
+    <div class="win-title" style="font-size:2em;" data-i18n="yourPrize">Your Prize!</div>
+    <div class="win-msg" style="font-size:0.95em;margin-bottom:10px;" data-i18n="pickPhoto">Pick your favourite journal photo — we'll turn it into a custom puzzle just for you!</div>
 
     <div id="prizePhotoGrid" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:10px;max-height:150px;overflow-y:auto;width:100%;"></div>
 
     <div id="selectedPhotoPreview" style="display:none;margin-bottom:10px;">
-      <div style="color:#F9A825;font-size:0.8em;margin-bottom:4px;">Selected:</div>
+      <div style="color:#F9A825;font-size:0.8em;margin-bottom:4px;" data-i18n="selected">Selected:</div>
       <img id="selectedPhotoImg" style="width:80px;height:80px;object-fit:cover;border-radius:10px;border:3px solid #F9A825;" alt="">
     </div>
 
-    <input id="prizeParentName"  class="prize-input" type="text"  placeholder="Parent's name (optional)">
-    <input id="prizeParentEmail" class="prize-input" type="email" placeholder="Parent's email (for the prize) *">
-    <button class="btn ylw pop" style="max-width:260px;margin-bottom:8px;" onclick="submitPrizeRequest()">📬 Send Prize Request!</button>
-    <button class="btn sec pop" style="max-width:260px;" onclick="showCelebStep1()">← Back</button>
+    <input id="prizeParentName"  class="prize-input" type="text"  data-i18n-ph="parentNamePh" placeholder="Parent's name (optional)">
+    <input id="prizeParentEmail" class="prize-input" type="email" data-i18n-ph="parentEmailPh" placeholder="Parent's email (for the prize) *">
+    <button class="btn ylw pop" style="max-width:260px;margin-bottom:8px;" onclick="submitPrizeRequest()" data-i18n="sendPrize">📬 Send Prize Request!</button>
+    <button class="btn sec pop" style="max-width:260px;" onclick="showCelebStep1()" data-i18n="back">← Back</button>
     <div id="prizeStatus" class="prize-status"></div>
   </div>
 
@@ -3316,7 +3492,7 @@ initApp();
     <div id="celebStep3Icon" style="font-size:3em;margin-bottom:8px;">📬</div>
     <div class="win-title" id="celebStep3Title" style="font-size:2em;">Request Sent!</div>
     <div class="win-msg" id="celebStep3Msg">We've got it! Your custom puzzle is being prepared.<br>Check your inbox soon.</div>
-    <button class="btn ylw pop" style="max-width:240px;" onclick="dismissCelebration()">Keep Exploring! 🗺️</button>
+    <button class="btn ylw pop" style="max-width:240px;" onclick="dismissCelebration()" data-i18n="keepExploring">Keep Exploring! 🗺️</button>
   </div>
 </div>
 <div id="cardReveal" role="dialog" aria-modal="true" aria-labelledby="crTitle">
